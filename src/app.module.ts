@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { configuration } from './global/config/configuration.js';
 import { dataSource } from './global/config/data-source.js';
 import { UserModule } from './domain/user/user.module.js';
-
+import { AuthModule } from './domain/auth/auth.module.js';
 @Module({
 
   imports: [
@@ -23,7 +23,8 @@ import { UserModule } from './domain/user/user.module.js';
         return config.getOrThrow('data-source');
       },
     }),
-    UserModule
+    UserModule,
+    AuthModule
 
   ],
   controllers: [],

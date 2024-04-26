@@ -1,6 +1,6 @@
 
 import { InternalServerErrorException } from "@nestjs/common";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js"
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js"
 import {
     Entity,
     PrimaryGeneratedColumn,

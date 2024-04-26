@@ -1,9 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { TestRequestDto } from '../../dto/TestRequest.dto.js';
-import { User } from '../entity/user.entitiy.js';
+import { User } from '../entity/User.Entitiy.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TestErrorCode } from '../../exception/TestErrorCode.js';
-import { UserRepository } from '../repository/UserRepository.js';
+import { UserRepository } from '../repository/User.Repository.js';
 import { CustomException } from '../../exception/UserException.js';
 
 @Injectable()

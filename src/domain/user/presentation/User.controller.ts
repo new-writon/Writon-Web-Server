@@ -1,7 +1,11 @@
-import { Body, Controller, Get, HttpCode, Req, UseFilters } from '@nestjs/common';
-import {  UserService } from '../domain/service/User.service.js';
+import { Body, Controller, Get, HttpCode, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import {  UserService } from '../domain/service/User.Service.js';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { TestRequestDto } from '../dto/TestRequest.dto.js';
+import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
+import { CurrentUserInterceptor } from '../../auth/interceptors/CurrentUser.Interceptor.js';
+import { User } from '../domain/entity/User.Entitiy.js';
+import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 
 @Controller("/api/test")
 export class UserController {
@@ -9,14 +13,17 @@ export class UserController {
 
   @Get()
   @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  //@UseInterceptors(CurrentUserInterceptor)
   public async getHello(
     @Body() testReqeustDto :TestRequestDto,
-    @Req() req:Request
+    @Req() req:Request,
+    @CurrentUser() user: User
   ): Promise<SuccessResponseDto<string>>  {
+
+    console.log(user)
     
-    // const userId : number = req.decoded.id;
-    // console.log(userId)
-    // console.log(2)
+
 
     const result :string = await this.userService.test(
       testReqeustDto

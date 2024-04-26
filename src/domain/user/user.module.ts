@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 
-import { UserController } from './presentation/User.controller.js';
-import { User } from '../user/domain/entity/user.entitiy.js';
-import { UserService  } from './domain/service/User.service.js';
+import { UserController } from './presentation/User.Controller.js';
+import { User } from './domain/entity/User.Entitiy.js';
+import { UserService  } from './domain/service/User.Service.js';
 import { HttpExceptionFilter } from '../../global/exception/HttpExceptionFilter.js';
 import { APP_FILTER } from '@nestjs/core';
 
