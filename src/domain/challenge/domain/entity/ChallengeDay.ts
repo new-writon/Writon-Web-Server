@@ -21,6 +21,7 @@ export class ChallengeDay {
   @Column("date", { name: "day" })
   day: string;
 
+  
   @Column("timestamp", {
     name: "created_at",
     default: () => "'CURRENT_TIMESTAMP(6)'",
@@ -37,8 +38,6 @@ export class ChallengeDay {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-
-
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
   challenge: Challenge;
 

@@ -59,6 +59,10 @@ export class Challenge {
   @Column("tinyint", { name: "restart", nullable: true })
   restart: number | null;
 
+  @OneToMany(() => ChallengeDay, (challengeDay) => challengeDay.challenge)
+  challengeDays: ChallengeDay[];
+
+
   @OneToMany(() => Agora, (agora) => agora.challenge)
   agoras: Agora[];
 
@@ -70,9 +74,6 @@ export class Challenge {
     { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
   affiliation: Affiliation;
-
-  @OneToMany(() => ChallengeDay, (challengeDay) => challengeDay.challenge)
-  challengeDays: ChallengeDay[];
 
   @OneToMany(
     () => ChallengeDepositDeduction,
