@@ -23,9 +23,6 @@ export class UserController {
 
     console.log(user)
     console.log(req.body)
-    
-
-
     const result :string = await this.userService.test(
       testReqeustDto
       );

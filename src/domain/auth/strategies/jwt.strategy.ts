@@ -5,12 +5,7 @@ import { User } from '../../user/domain/entity/User.Entitiy.js';
 
 
 
-declare module 'express' {
-  interface Request {
-    cookies: Record<string, string | null>;
-    signedCookies: Record<string, string | null>;
-  }
-}
+
 
 
 @Injectable()
