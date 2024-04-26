@@ -4,14 +4,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 
 import { UserController } from './presentation/User.Controller.js';
-import { User } from './domain/entity/User.Entitiy.js';
+import { User } from './domain/entity/User.js';
 import { UserService  } from './domain/service/User.Service.js';
-import { HttpExceptionFilter } from '../../global/exception/HttpExceptionFilter.js';
-import { APP_FILTER } from '@nestjs/core';
+import { Affiliation } from './domain/entity/Affiliation.js';
+import { Organization } from './domain/entity/Organization.js';
+import { UserChallenge } from './domain/entity/UserChallenge.js';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge]),
 
   
   ],

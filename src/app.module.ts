@@ -7,6 +7,11 @@ import { configuration } from './global/config/configuration.js';
 import { dataSource } from './global/config/data-source.js';
 import { UserModule } from './domain/user/user.module.js';
 import { AuthModule } from './domain/auth/auth.module.js';
+import { AgoraModule } from './domain/agora/agora.module.js';
+import { ErrorModule } from './domain/errorr/error.module.js';
+import { SatisfactionModule } from './domain/satisfaction/satisfaction.module.js';
+import { ChallengeModule } from './domain/challenge/challenge.module.js';
+import { TemplateModule } from './domain/template/template.module.js';
 @Module({
 
   imports: [
@@ -24,7 +29,13 @@ import { AuthModule } from './domain/auth/auth.module.js';
       },
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    AgoraModule,
+    ErrorModule,
+    SatisfactionModule,
+    ChallengeModule,
+    TemplateModule
+    
 
   ],
   controllers: [],

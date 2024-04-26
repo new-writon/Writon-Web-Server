@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { JWTAuthGuard } from './guards/JwtAuth.Guard.js';
 
-import { User } from '../user/domain/entity/User.Entitiy.js';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/Jwt.Strategy.js';

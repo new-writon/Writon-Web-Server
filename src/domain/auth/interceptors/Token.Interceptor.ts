@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 
 //import type { AuthConfig } from '~auth/config/auth';
 
-import type { User } from '../../user/domain/entity/User.Entitiy.js';
+import type { User } from '../../user/domain/entity/User.js';
 
 @Injectable()
 export class TokenInterceptor implements NestInterceptor {
