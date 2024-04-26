@@ -14,7 +14,7 @@ export class UserController {
   @Get()
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  //@UseInterceptors(CurrentUserInterceptor)
+  @UseInterceptors(CurrentUserInterceptor)
   public async getHello(
     @Body() testReqeustDto :TestRequestDto,
     @Req() req:Request,
@@ -22,6 +22,7 @@ export class UserController {
   ): Promise<SuccessResponseDto<string>>  {
 
     console.log(user)
+    console.log(req.body)
     
 
 

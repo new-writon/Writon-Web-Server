@@ -15,9 +15,7 @@ export class CurrentUserInterceptor implements NestInterceptor {
       .getRequest<
         Request<unknown, unknown, Record<string, unknown> | undefined>
       >();
-      console.log(request.user)
-      console.log(request.body)
-
+ 
     if (this.isObject(request.body) && request.user) {
       Object.assign(request.body, { id: request.user.id });
     }
