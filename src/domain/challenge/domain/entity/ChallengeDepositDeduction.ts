@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
 
@@ -47,5 +48,5 @@ export class ChallengeDepositDeduction {
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
-  challenge: Challenge;
+  challenge: Relation<Challenge>;
 }

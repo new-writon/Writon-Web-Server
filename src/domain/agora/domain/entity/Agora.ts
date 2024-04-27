@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 
@@ -45,7 +46,7 @@ export class Agora {
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
-  challenge: Challenge;
+  challenge: Relation<Challenge>;
 
   @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.agoras, {
     onDelete: "CASCADE",
@@ -54,8 +55,8 @@ export class Agora {
   @JoinColumn([
     { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
-  userChallenge: UserChallenge;
+  userChallenge: Relation<UserChallenge>;
 
   @OneToMany(() => AgoraComment, (agoraComment) => agoraComment.agora)
-  agoraComments: AgoraComment[];
+  agoraComments: Relation<AgoraComment>[];
 }

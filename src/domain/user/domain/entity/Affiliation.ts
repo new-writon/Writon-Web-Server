@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Organization } from "./Organization.js";
 import { User } from "./User.js";
@@ -14,6 +15,7 @@ import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 import { Comment } from "../../../template/domain/entity/Comment.js";
 import { Likes } from "../../../template/domain/entity/Likes.js";
 import { UserChallenge } from "./UserChallenge.js";
+
 
 
 @Index("Affiliation_affiliation_id_key", ["affiliationId"], { unique: true })
@@ -67,7 +69,7 @@ export class Affiliation {
   @JoinColumn([
     { name: "organization_id", referencedColumnName: "organizationId" },
   ])
-  organization: Organization;
+  organization: Relation<Organization>;
 
   @ManyToOne(() => User, (user) => user.affiliations, {
     onDelete: "CASCADE",
@@ -77,17 +79,17 @@ export class Affiliation {
   user: User;
 
   @OneToMany(() => AgoraComment, (agoraComment) => agoraComment.affiliation)
-  agoraComments: AgoraComment[];
+  agoraComments: Relation<AgoraComment>[];
 
   @OneToMany(() => Challenge, (challenge) => challenge.affiliation)
-  challenges: Challenge[];
+  challenges: Relation<Challenge>[];
 
   @OneToMany(() => Comment, (comment) => comment.affiliation)
-  comments: Comment[];
+  comments: Relation<Comment>[];
 
   @OneToMany(() => Likes, (likes) => likes.affiliation)
-  likes: Likes[];
+  likes: Relation<Likes>[];
 
   @OneToMany(() => UserChallenge, (userChallenge) => userChallenge.affiliation)
-  userChallenges: UserChallenge[];
+  userChallenges: Relation<UserChallenge>[];
 }

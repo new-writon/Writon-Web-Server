@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { Affiliation } from "./Affiliation.js";
 
 @Entity("Organization", { schema: "nest" })
@@ -22,5 +22,5 @@ export class Organization {
   updateAt: Date;
 
   @OneToMany(() => Affiliation, (affiliation) => affiliation.organization)
-  affiliations: Affiliation[];
+  affiliations: Relation<Affiliation>[];
 }

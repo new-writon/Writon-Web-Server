@@ -5,8 +5,10 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
+
 
 
 @Index("ChallengeDay_challenge_id_fkey", ["challengeId"], {})
@@ -21,6 +23,7 @@ export class ChallengeDay {
   @Column("date", { name: "day" })
   day: string;
 
+  
   
   @Column("timestamp", {
     name: "created_at",
@@ -39,7 +42,7 @@ export class ChallengeDay {
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
-  challenge: Challenge;
+  challenge: Relation<Challenge>;
 
 
   

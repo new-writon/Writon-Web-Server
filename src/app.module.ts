@@ -26,8 +26,9 @@ import { TemplateModule } from './domain/template/template.module.js';
       inject: [ConfigService],
       useFactory(config: ConfigService) {
         return config.getOrThrow('data-source');
-      },
+      },     
     }),
+  
     UserModule,
     AuthModule,
     AgoraModule,

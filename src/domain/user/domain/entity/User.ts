@@ -4,6 +4,7 @@ import {
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Affiliation } from "./Affiliation.js";
 
@@ -49,5 +50,5 @@ export class User {
   bank: string | null;
 
   @OneToMany(() => Affiliation, (affiliation) => affiliation.user)
-  affiliations: Affiliation[];
+  affiliations: Relation<Affiliation>[];
 }

@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Satisfaction } from "./Satisfaction.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
@@ -56,7 +57,7 @@ export class SatisfactionObjectiveResult {
   @JoinColumn([
     { name: "satisfaction_id", referencedColumnName: "satisfactionId" },
   ])
-  satisfaction: Satisfaction;
+  satisfaction: Relation<Satisfaction>;
 
   @ManyToOne(
     () => UserChallenge,
@@ -66,5 +67,5 @@ export class SatisfactionObjectiveResult {
   @JoinColumn([
     { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
-  userChallenge: UserChallenge;
+  userChallenge: Relation<UserChallenge>;
 }

@@ -11,23 +11,21 @@ import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // @Get()
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // @UseInterceptors(CurrentUserInterceptor)
-  // public async getHello(
-  //   @Body() testReqeustDto :TestRequestDto,
-  //   @Req() req:Request,
-  //   @CurrentUser() user: User
-  // ): Promise<SuccessResponseDto<string>>  {
+  @Get()
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  @UseInterceptors(CurrentUserInterceptor)
+  public async getHello(
+    @Body() testReqeustDto :TestRequestDto,
+    @Req() req:Request,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<string>>  {
 
-  //   console.log(user)
-  //   console.log(req.body)
-  //   // const result :string = await this.userService.test(
-  //   //   testReqeustDto
-  //   //   );
+    console.log(user.userId)
+    console.log(req.body)
+    const result :string = await this.userService.test(user.userId);
 
 
-  //  return SuccessResponseDto.of(result);
-  // }
+   return SuccessResponseDto.of(result);
+  }
 }

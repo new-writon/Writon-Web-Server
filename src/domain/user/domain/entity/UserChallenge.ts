@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Affiliation } from "./Affiliation.js";
 import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
@@ -63,19 +64,19 @@ export class UserChallenge {
   reEngagement: number | null;
 
   @OneToMany(() => Agora, (agora) => agora.userChallenge)
-  agoras: Agora[];
+  agoras: Relation<Agora>[];
 
   @OneToMany(
     () => SatisfactionObjectiveResult,
     (satisfactionObjectiveResult) => satisfactionObjectiveResult.userChallenge
   )
-  satisfactionObjectiveResults: SatisfactionObjectiveResult[];
+  satisfactionObjectiveResults: Relation<SatisfactionObjectiveResult>[];
 
   @OneToMany(
     () => SatisfactionSubjectiveResult,
     (satisfactionSubjectiveResult) => satisfactionSubjectiveResult.userChallenge
   )
-  satisfactionSubjectiveResults: SatisfactionSubjectiveResult[];
+  satisfactionSubjectiveResults: Relation<SatisfactionSubjectiveResult>[];
 
   @ManyToOne(() => Affiliation, (affiliation) => affiliation.userChallenges, {
     onDelete: "CASCADE",
@@ -84,15 +85,15 @@ export class UserChallenge {
   @JoinColumn([
     { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
-  affiliation: Affiliation;
+  affiliation: Relation<Affiliation>;
 
   @ManyToOne(() => Challenge, (challenge) => challenge.userChallenges, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
-  challenge: Challenge;
+  challenge: Relation<Challenge>;
 
   @OneToMany(() => UserTemplete, (userTemplete) => userTemplete.userChallenge)
-  userTempletes: UserTemplete[];
+  userTempletes: Relation<UserTemplete>[];
 }

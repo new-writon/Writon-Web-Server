@@ -5,37 +5,32 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TestErrorCode } from '../../exception/TestErrorCode.js';
 import { UserRepository } from '../repository/User.Repository.js';
 import { CustomException } from '../../exception/UserException.js';
+import type { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
     constructor(
-        @InjectRepository(User) private readonly userRepository: UserRepository
+   //     @InjectRepository(User) private readonly userRepository: Repository<User>
+   private userRepository: UserRepository
     ) { }
 
 
-    // public async test(
-    //     testReqeustDto: TestRequestDto 
-    // ): Promise<string> {
+    public async test(userId: number): Promise<string> {
+ 
+        const results : User = await this.userRepository.selectUserById(userId);
+        console.log(results)
 
-    //     const value = true;
-    //     this.verify(value)
+     
+        return 'Good'
+    }
 
-    //     const user = User.createUser(
-    //         testReqeustDto.getNickname(),
-    //         testReqeustDto.getGender(),
-    //         testReqeustDto.getPhone()
-    //     )
-
-    //     await this.userRepository.save(user);
-    //     return 'Good'
+    // public async selectUserById(userId: number): Promise<User> {
+    //     return await this.userRepository.findOne({
+    //         where: {
+    //             userId: userId
+    //         }
+    //     })
     // }
-
-
-    // private verify(value: boolean) {
-    //     if (value === false) {
-    //         throw new CustomException(TestErrorCode.ERROR);
-        
-    //     }
-    // }
+  
 
 }

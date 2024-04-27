@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { UserTemplete } from "./UserTemplete.js";
@@ -52,7 +53,7 @@ export class Comment {
   @JoinColumn([
     { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
-  affiliation: Affiliation;
+  affiliation: Relation<Affiliation>;
 
   @ManyToOne(() => UserTemplete, (userTemplete) => userTemplete.comments, {
     onDelete: "CASCADE",
@@ -61,5 +62,5 @@ export class Comment {
   @JoinColumn([
     { name: "user_templete_id", referencedColumnName: "userTempleteId" },
   ])
-  userTemplete: UserTemplete;
+  userTemplete: Relation<UserTemplete>;
 }

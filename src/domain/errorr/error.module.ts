@@ -5,6 +5,7 @@ import { ErrorLog } from './domain/entity/ErrorLog.js';
 
 @Module({
   imports: [
+  
     TypeOrmModule.forFeature([ErrorLog]),
 
   

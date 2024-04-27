@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Question } from "./Question.js";
 
@@ -25,5 +26,5 @@ export class QuestionTag {
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "question_id", referencedColumnName: "questionId" }])
-  question: Question;
+  question: Relation<Question>;
 }

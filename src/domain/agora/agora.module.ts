@@ -8,7 +8,9 @@ import { AgoraComment } from './domain/entity/AgoraComment.js';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Agora, AgoraComment]),
+    TypeOrmModule.forFeature(
+      [Agora, AgoraComment],
+    ),
 
   
   ],

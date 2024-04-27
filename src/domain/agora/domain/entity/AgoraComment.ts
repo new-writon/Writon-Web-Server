@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { Agora } from "./Agora.js";
@@ -44,12 +45,12 @@ export class AgoraComment {
   @JoinColumn([
     { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
-  affiliation: Affiliation;
+  affiliation: Relation<Affiliation>;
 
   @ManyToOne(() => Agora, (agora) => agora.agoraComments, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "agora_id", referencedColumnName: "agoraId" }])
-  agora: Agora;
+  agora: Relation<Agora>;
 }

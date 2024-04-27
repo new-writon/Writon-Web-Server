@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
 import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
@@ -43,14 +44,14 @@ export class Question {
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
-  challenge: Challenge;
+  challenge: Relation<Challenge>;
 
   @OneToMany(
     () => QuestionContent,
     (questionContent) => questionContent.question
   )
-  questionContents: QuestionContent[];
+  questionContents: Relation<QuestionContent>[];
 
   @OneToMany(() => QuestionTag, (questionTag) => questionTag.question)
-  questionTags: QuestionTag[];
+  questionTags: Relation<QuestionTag>[];
 }

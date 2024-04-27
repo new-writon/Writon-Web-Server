@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 import { SatisfactionObjectiveResult } from "./SatisfactionObjectiveResult.js";
@@ -43,17 +44,17 @@ export class Satisfaction {
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
-  challenge: Challenge;
+  challenge: Relation<Challenge>;
 
   @OneToMany(
     () => SatisfactionObjectiveResult,
     (satisfactionObjectiveResult) => satisfactionObjectiveResult.satisfaction
   )
-  satisfactionObjectiveResults: SatisfactionObjectiveResult[];
+  satisfactionObjectiveResults: Relation<SatisfactionObjectiveResult>[];
 
   @OneToMany(
     () => SatisfactionSubjectiveResult,
     (satisfactionSubjectiveResult) => satisfactionSubjectiveResult.satisfaction
   )
-  satisfactionSubjectiveResults: SatisfactionSubjectiveResult[];
+  satisfactionSubjectiveResults: Relation<SatisfactionSubjectiveResult>[];
 }

@@ -11,6 +11,7 @@ import { UserTemplete } from './domain/entity/UserTemplete.js';
 
 @Module({
   imports: [
+ 
     TypeOrmModule.forFeature([Comment, Likes, QuestionContent, UserTemplete]),
 
   

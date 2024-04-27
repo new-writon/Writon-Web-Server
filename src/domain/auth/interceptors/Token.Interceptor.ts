@@ -41,7 +41,7 @@ export class TokenInterceptor implements NestInterceptor {
 
   public generateToken(userId: number, userRole: string): string {
     const payload = {
-        id: userId,
+        userId: userId,
         role: userRole,
       };
     return "Bearer " +this.jwtService.sign(payload);

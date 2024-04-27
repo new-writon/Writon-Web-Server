@@ -1,12 +1,21 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { DataSource, EntityRepository, Repository } from 'typeorm';
 import { User } from '../entity/User.js';
 import { Injectable } from '@nestjs/common';
-
 
 /**
  * User DAO Class
  */
-
-@EntityRepository(User)
 @Injectable()
-export class UserRepository extends Repository<User> {}
+export class UserRepository extends Repository<User> {
+    constructor(private dataSource: DataSource)
+    {
+        super(User, dataSource.createEntityManager());
+    }
+    public async selectUserById(userId: number): Promise<User> {
+        return await this.findOne({
+            where: {
+                userId: userId
+            }
+        })
+    }
+}

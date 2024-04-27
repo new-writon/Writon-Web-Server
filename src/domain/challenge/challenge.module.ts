@@ -11,6 +11,7 @@ import { QuestionTag } from './domain/entity/QuestionTag.js';
 
 @Module({
   imports: [
+
     TypeOrmModule.forFeature([Challenge, ChallengeDay, ChallengeDepositDeduction, Question, QuestionTag]),
 
   

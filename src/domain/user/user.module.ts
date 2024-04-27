@@ -9,6 +9,7 @@ import { UserService  } from './domain/service/User.Service.js';
 import { Affiliation } from './domain/entity/Affiliation.js';
 import { Organization } from './domain/entity/Organization.js';
 import { UserChallenge } from './domain/entity/UserChallenge.js';
+import { UserRepository } from './domain/repository/User.Repository.js';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { UserChallenge } from './domain/entity/UserChallenge.js';
   
   ],
   providers: [
-    UserService
+    UserService,UserRepository
   ],
   controllers: [UserController],
 })

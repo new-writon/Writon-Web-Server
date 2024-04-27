@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Agora } from "../../../agora/domain/entity/Agora.js";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
@@ -14,6 +15,7 @@ import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction.js";
 import { Question } from "./Question.js";
 import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
+import { Injectable } from "@nestjs/common";
 
 
 @Index("Challenge_challenge_id_key", ["challengeId"], { unique: true })
@@ -60,11 +62,11 @@ export class Challenge {
   restart: number | null;
 
   @OneToMany(() => ChallengeDay, (challengeDay) => challengeDay.challenge)
-  challengeDays: ChallengeDay[];
+  challengeDays: Relation<ChallengeDay>[];
 
 
   @OneToMany(() => Agora, (agora) => agora.challenge)
-  agoras: Agora[];
+  agoras: Relation<Agora>[];
 
   @ManyToOne(() => Affiliation, (affiliation) => affiliation.challenges, {
     onDelete: "CASCADE",
@@ -73,20 +75,20 @@ export class Challenge {
   @JoinColumn([
     { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
-  affiliation: Affiliation;
+  affiliation: Relation<Affiliation>;
 
   @OneToMany(
     () => ChallengeDepositDeduction,
     (challengeDepositDeduction) => challengeDepositDeduction.challenge
   )
-  challengeDepositDeductions: ChallengeDepositDeduction[];
+  challengeDepositDeductions: Relation<ChallengeDepositDeduction>[];
 
   @OneToMany(() => Question, (question) => question.challenge)
-  questions: Question[];
+  questions: Relation<Question>[];
 
   @OneToMany(() => Satisfaction, (satisfaction) => satisfaction.challenge)
-  satisfactions: Satisfaction[];
+  satisfactions: Relation<Satisfaction>[];
 
   @OneToMany(() => UserChallenge, (userChallenge) => userChallenge.challenge)
-  userChallenges: UserChallenge[];
+  userChallenges: Relation<UserChallenge>[];
 }

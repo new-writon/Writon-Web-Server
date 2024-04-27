@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Relation
 } from "typeorm";
 import { Comment } from "./Comment.js";
 import { Likes } from "./Likes.js";
@@ -40,16 +41,16 @@ export class UserTemplete {
   complete: boolean | null;
 
   @OneToMany(() => Comment, (comment) => comment.userTemplete)
-  comments: Comment[];
+  comments: Relation<Comment>[];
 
   @OneToMany(() => Likes, (likes) => likes.userTemplete)
-  likes: Likes[];
+  likes: Relation<Likes>[];
 
   @OneToMany(
     () => QuestionContent,
     (questionContent) => questionContent.userTemplete
   )
-  questionContents: QuestionContent[];
+  questionContents: Relation<QuestionContent>[];
 
   @ManyToOne(
     () => UserChallenge,
@@ -59,5 +60,5 @@ export class UserTemplete {
   @JoinColumn([
     { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
-  userChallenge: UserChallenge;
+  userChallenge: Relation<UserChallenge>;
 }
