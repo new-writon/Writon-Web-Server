@@ -12,11 +12,12 @@ import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 
 import { AgoraComment } from "./AgoraComment.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 @Index("Agora_user_challenge_id_fkey_idx", ["userChallengeId"], {})
 @Index("Agora_challenge_id_fkey_idx", ["challengeId"], {})
 @Entity("Agora", { schema: "nest" })
-export class Agora {
+export class Agora extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "agora_id" })
   agoraId: number;
 
@@ -25,18 +26,6 @@ export class Agora {
 
   @Column("int", { primary: true, name: "user_challenge_id" })
   userChallengeId: number;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @Column("int", { primary: true, name: "challenge_id" })
   challengeId: number;

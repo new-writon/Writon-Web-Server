@@ -7,12 +7,12 @@ import {
   Relation
 } from "typeorm";
 import { Affiliation } from "./Affiliation.js";
-
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 @Index("User_identifier_key", ["identifier"], { unique: true })
 @Index("User_email_key", ["email"], { unique: true })
 @Entity("User", { schema: "nest" })
-export class User {
+export class User extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "user_id" })
   userId: number;
 
@@ -30,18 +30,6 @@ export class User {
 
   @Column("varchar", { name: "profile", nullable: true, length: 500 })
   profile: string | null;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @Column("varchar", { name: "account_number", nullable: true, length: 40 })
   accountNumber: string | null;

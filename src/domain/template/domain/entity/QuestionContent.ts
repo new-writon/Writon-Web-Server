@@ -9,6 +9,8 @@ import {
 } from "typeorm";
 import { Question } from "../../../challenge/domain/entity/Question.js";
 import { UserTemplete } from "./UserTemplete.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+
 
 @Index("QuestionContent_question_content_id_key", ["questionContentId"], {
   unique: true,
@@ -16,7 +18,7 @@ import { UserTemplete } from "./UserTemplete.js";
 @Index("QuestionContent_question_id_fkey", ["questionId"], {})
 @Index("QuestionContent_user_templete_id_fkey", ["userTempleteId"], {})
 @Entity("QuestionContent", { schema: "nest" })
-export class QuestionContent {
+export class QuestionContent extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "question_content_id" })
   questionContentId: number;
 
@@ -31,18 +33,6 @@ export class QuestionContent {
 
   @Column("tinyint", { name: "visibility", width: 1 })
   visibility: boolean;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @ManyToOne(() => Question, (question) => question.questionContents, {
     onDelete: "CASCADE",

@@ -8,6 +8,8 @@ import {
   Relation
 } from "typeorm";
 import { Question } from "./Question.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+
 
 @Index("QuestionTag_question_id_fkey", ["questionId"], {})
 @Entity("QuestionTag", { schema: "nest" })

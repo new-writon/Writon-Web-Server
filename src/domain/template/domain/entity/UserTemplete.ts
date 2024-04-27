@@ -12,27 +12,17 @@ import { Comment } from "./Comment.js";
 import { Likes } from "./Likes.js";
 import { QuestionContent } from "./QuestionContent.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+
 
 @Index("UserTemplete_user_challenge_id_fkey", ["userChallengeId"], {})
 @Entity("UserTemplete", { schema: "nest" })
-export class UserTemplete {
+export class UserTemplete extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "user_templete_id" })
   userTempleteId: number;
 
   @Column("int", { name: "user_challenge_id" })
   userChallengeId: number;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @Column("date", { name: "finished_at", nullable: true })
   finishedAt: string | null;

@@ -54,7 +54,7 @@ export const dataSource = registerAs('data-source', () => {
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_SCHEMA,
-    synchronize: false,
+    synchronize: true,
     autoLoadEntities: true,
     entities: [
     //  `${join(__dirname, '../../')}/domain/**/*.{js,ts}`

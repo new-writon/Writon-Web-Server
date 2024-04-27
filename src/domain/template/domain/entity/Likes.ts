@@ -9,13 +9,13 @@ import {
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { UserTemplete } from "./UserTemplete.js";
-
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 @Index("Like_like_id_key", ["likeId"], { unique: true })
 @Index("Like_user_templete_id_fkey", ["userTempleteId"], {})
 @Index("Like_affiliation_id_fkey_idx", ["affiliationId"], {})
 @Entity("Likes", { schema: "nest" })
-export class Likes {
+export class Likes extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "like_id" })
   likeId: number;
 
@@ -24,18 +24,6 @@ export class Likes {
 
   @Column("int", { primary: true, name: "user_templete_id" })
   userTempleteId: number;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @Column("tinyint", { name: "check", nullable: true })
   check: number | null;

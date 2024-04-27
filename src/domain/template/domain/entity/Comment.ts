@@ -9,13 +9,15 @@ import {
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { UserTemplete } from "./UserTemplete.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+
 
 @Index("Comment_comment_id_key", ["commentId"], { unique: true })
 @Index("Comment_user_templete_id_fkey", ["userTempleteId"], {})
 @Index("Comment_comment_group_fkey", ["commentGroup"], {})
 @Index("Comment_affiliation_id_fkey_idx", ["affiliationId"], {})
 @Entity("Comment", { schema: "nest" })
-export class Comment {
+export class Comment extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "comment_id" })
   commentId: number;
 
@@ -30,18 +32,6 @@ export class Comment {
 
   @Column("text", { name: "content" })
   content: string;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @Column("tinyint", { name: "check", nullable: true })
   check: number | null;

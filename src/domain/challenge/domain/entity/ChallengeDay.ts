@@ -8,12 +8,12 @@ import {
   Relation
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
-
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
 @Index("ChallengeDay_challenge_id_fkey", ["challengeId"], {})
 @Entity("ChallengeDay", { schema: "nest" })
-export class ChallengeDay {
+export class ChallengeDay extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_day_id" })
   challengeDayId: number;
 
@@ -22,20 +22,6 @@ export class ChallengeDay {
 
   @Column("date", { name: "day" })
   day: string;
-
-  
-  
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @ManyToOne(() => Challenge, (challenge) => challenge.challengeDays, {
     onDelete: "CASCADE",

@@ -8,10 +8,12 @@ import {
   Relation
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+
 
 @Index("ChallengeDepositDeduction_challenge_id_fkey", ["challengeId"], {})
 @Entity("ChallengeDepositDeduction", { schema: "nest" })
-export class ChallengeDepositDeduction {
+export class ChallengeDepositDeduction extends BaseEntity{
   @PrimaryGeneratedColumn({
     type: "int",
     name: "challenge_deposit_deduction_id",
@@ -23,19 +25,7 @@ export class ChallengeDepositDeduction {
 
   @Column("int", { name: "start_count" })
   startCount: number;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
-
+  
   @Column("int", { name: "deduction_amount" })
   deductionAmount: number;
 

@@ -15,14 +15,14 @@ import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 import { Comment } from "../../../template/domain/entity/Comment.js";
 import { Likes } from "../../../template/domain/entity/Likes.js";
 import { UserChallenge } from "./UserChallenge.js";
-
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
 @Index("Affiliation_affiliation_id_key", ["affiliationId"], { unique: true })
 @Index("Affiliation_user_id_fkey", ["userId"], {})
 @Index("Affiliation_organization_id_fkey", ["organizationId"], {})
 @Entity("Affiliation", { schema: "nest" })
-export class Affiliation {
+export class Affiliation extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "affiliation_id" })
   affiliationId: number;
 
@@ -49,18 +49,6 @@ export class Affiliation {
 
   @Column("tinyint", { name: "company_public", nullable: true, width: 1 })
   companyPublic: boolean | null;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @ManyToOne(() => Organization, (organization) => organization.affiliations, {
     onDelete: "CASCADE",

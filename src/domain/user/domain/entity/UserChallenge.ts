@@ -15,7 +15,7 @@ import { UserTemplete } from "../../../template/domain/entity/UserTemplete.js";
 import { Agora } from "../../../agora/domain/entity/Agora.js";
 import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionObjectiveResult.js";
 import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
-
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 @Index("UserChallenge_user_challenge_id_key", ["userChallengeId"], {
   unique: true,
@@ -23,7 +23,7 @@ import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entit
 @Index("UserChallenge_affiliation_id_fkey", ["affiliationId"], {})
 @Index("UserChallenge_challenge_id_fkey", ["challengeId"], {})
 @Entity("UserChallenge", { schema: "nest" })
-export class UserChallenge {
+export class UserChallenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "user_challenge_id" })
   userChallengeId: number;
 
@@ -35,18 +35,6 @@ export class UserChallenge {
 
   @Column("int", { name: "user_deposit" })
   userDeposit: number;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @Column("varchar", { name: "cheering_phrase", nullable: true, length: 255 })
   cheeringPhrase: string | null;

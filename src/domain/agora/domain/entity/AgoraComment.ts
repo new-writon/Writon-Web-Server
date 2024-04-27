@@ -9,11 +9,12 @@ import {
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { Agora } from "./Agora.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 @Index("AgoraComment_agora_id_fkey_idx", ["agoraId"], {})
 @Index("AgoraComment_affiliation_id_fkey_idx", ["affiliationId"], {})
 @Entity("AgoraComment", { schema: "nest" })
-export class AgoraComment {
+export class AgoraComment extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "agora_comment_id" })
   agoraCommentId: number;
 
@@ -26,17 +27,6 @@ export class AgoraComment {
   @Column("int", { primary: true, name: "affiliation_id" })
   affiliationId: number;
 
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @ManyToOne(() => Affiliation, (affiliation) => affiliation.agoraComments, {
     onDelete: "CASCADE",

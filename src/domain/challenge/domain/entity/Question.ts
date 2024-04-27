@@ -11,10 +11,12 @@ import {
 import { Challenge } from "./Challenge.js";
 import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
 import { QuestionTag } from "./QuestionTag.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+
 
 @Index("Question_challenge_id_fkey", ["challengeId"], {})
 @Entity("Question", { schema: "nest" })
-export class Question {
+export class Question extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "question_id" })
   questionId: number;
 
@@ -26,18 +28,6 @@ export class Question {
 
   @Column("varchar", { name: "category", length: 10 })
   category: string;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @ManyToOne(() => Challenge, (challenge) => challenge.questions, {
     onDelete: "CASCADE",

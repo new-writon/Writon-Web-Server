@@ -15,13 +15,13 @@ import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction.js";
 import { Question } from "./Question.js";
 import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { Injectable } from "@nestjs/common";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
 @Index("Challenge_challenge_id_key", ["challengeId"], { unique: true })
 @Index("Challenge_affiliation_id_fkey", ["affiliationId"], {})
 @Entity("Challenge", { schema: "nest" })
-export class Challenge {
+export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })
   challengeId: number;
 
@@ -30,18 +30,6 @@ export class Challenge {
 
   @Column("varchar", { name: "name", length: 40 })
   name: string;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @Column("date", { name: "start_at" })
   startAt: string;

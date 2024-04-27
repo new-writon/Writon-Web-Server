@@ -9,6 +9,10 @@ import {
 } from "typeorm";
 import { Satisfaction } from "./Satisfaction.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
+import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+
+
+
 @Index(
   "SatisfactionSubjectiveResult_satisfaction_id_fkey_idx",
   ["satisfactionId"],
@@ -20,7 +24,7 @@ import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
   {}
 )
 @Entity("SatisfactionSubjectiveResult", { schema: "nest" })
-export class SatisfactionSubjectiveResult {
+export class SatisfactionSubjectiveResult extends BaseEntity{
   @PrimaryGeneratedColumn({
     type: "int",
     name: "satisfaction_subjective_result_id",
@@ -35,18 +39,6 @@ export class SatisfactionSubjectiveResult {
 
   @Column("int", { name: "user_challenge_id" })
   userChallengeId: number;
-
-  @Column("timestamp", {
-    name: "created_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  createdAt: Date;
-
-  @Column("timestamp", {
-    name: "update_at",
-    default: () => "'CURRENT_TIMESTAMP(6)'",
-  })
-  updateAt: Date;
 
   @ManyToOne(
     () => Satisfaction,
