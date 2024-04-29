@@ -3,8 +3,9 @@ import { UserRepository } from "../../../user/domain/repository/User.Repository.
 import { KakaoLoginResponse } from "../../dto/KakaoLogin.Response.js";
 import { KakaoLoginRequest } from "../../dto/KakaoLogin.Request.js";
 import { SocialLogin } from "../../util/SocialLogin.js";
-import { User } from "src/domain/user/domain/entity/User.js";
+import { User } from "../../../user/domain/entity/User.js";
 import { AxiosResponse } from "axios";
+import { UserDao } from "../../../user/domain/repository/User.Dao.js";
 
 
 
@@ -33,7 +34,7 @@ export class AuthService {
     private async signInDependingOnRegistrationStatus(userData: User, kakaoData: AxiosResponse<any, any>){
 
         if (!userData) {
-            await this.userRepository.kakaoSignUp(kakaoData.data.kakao_account.email, kakaoData.data.id, kakaoData.data.properties.profile_image);
+            this.userRepository.kakaoSignUp(kakaoData.data.kakao_account.email, kakaoData.data.id, kakaoData.data.properties.profile_image);
           }
     }
 
