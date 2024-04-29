@@ -90,4 +90,29 @@ export class User extends BaseEntity{
   }
 
 
+  public getEmail(): string{
+
+    return this.email;
+  }
+
+  public getKakaoIdentifier(): string{
+
+    return this.identifier;
+  }
+
+  public getRole(): string{
+  
+    return this.role;
+  }
+
+  public getKakaoProfileImage(): string{
+    return this.profile;
+  }
+
+  public getUserId(): number{
+    return this.userId;
+  }
+
+
+
 }

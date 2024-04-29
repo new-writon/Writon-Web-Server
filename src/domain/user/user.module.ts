@@ -10,6 +10,7 @@ import { Affiliation } from './domain/entity/Affiliation.js';
 import { Organization } from './domain/entity/Organization.js';
 import { UserChallenge } from './domain/entity/UserChallenge.js';
 import { UserDao } from './domain/repository/User.Dao.js';
+import { SocialLogin } from '../auth/util/SocialLogin.js';
 
 @Module({
   imports: [
@@ -18,7 +19,9 @@ import { UserDao } from './domain/repository/User.Dao.js';
   
   ],
   providers: [
-    UserService, UserDao
+    UserService, {
+      provide: 'impl',  useClass: UserDao, // provide에 문자열 토큰 지정
+    }
   ],
   controllers: [UserController],
 })

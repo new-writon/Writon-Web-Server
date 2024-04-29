@@ -1,7 +1,7 @@
 import { DataSource, Repository } from 'typeorm';
 import { User } from '../entity/User.js';
 import { Injectable } from '@nestjs/common';
-import {  UserRepository } from './User.Repository.js';
+//import {  UserRepository } from './User.Repository.js';
 
 /**
  * User DAO Class

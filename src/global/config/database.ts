@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource, type DataSourceOptions } from 'typeorm';
-import { dirname, join } from 'path';
+import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { Challenge } from '../../domain/challenge/domain/entity/Challenge.js';
 import { ChallengeDay } from '../../domain/challenge/domain/entity/ChallengeDay.js';
@@ -54,7 +54,7 @@ export const dataSource = registerAs('data-source', () => {
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_SCHEMA,
-    synchronize: true,
+    synchronize: false,
     autoLoadEntities: true,
     entities: [
     //  `${join(__dirname, '../../')}/domain/**/*.{js,ts}`

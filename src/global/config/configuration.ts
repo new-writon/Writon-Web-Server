@@ -4,7 +4,6 @@ export type ConfigObject = ReturnType<typeof configuration>;
 
 export function configuration() {
 
-
   return {
     port: Number.parseInt(process.env.PORT, 10) || 3000,
     secret: process.env.SECRET,

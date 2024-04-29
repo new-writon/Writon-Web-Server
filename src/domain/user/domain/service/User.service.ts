@@ -1,17 +1,19 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { TestRequestDto } from '../../dto/TestRequest.dto.js';
 import { User } from '../entity/User.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TestErrorCode } from '../../exception/TestErrorCode.js';
-import { UserRepository } from '../repository/User.Repository.js';
+//import { UserRepository } from '../repository/User.Repository.js';
 import { CustomException } from '../../exception/UserException.js';
 import type { Repository } from 'typeorm';
+import { UserDao } from '../repository/User.Dao.js';
+import { UserRepository } from '../repository/User.Repository.js';
 
 @Injectable()
 export class UserService {
     constructor(
-   
-   private readonly userRepository: UserRepository
+        @Inject('impl')
+        private readonly userRepository: UserRepository
     ) { }
 
 

@@ -7,6 +7,10 @@ import { JwtStrategy } from './strategies/Jwt.Strategy.js';
 import { AuthConfig, auth } from './util/auth.js';
 import { AuthController } from './presentation/Auth.Controller.js';
 import { AuthService } from './domain/service/Auth.Service.js';
+import { UserDao } from '../user/domain/repository/User.Dao.js';
+import { SocialLogin } from './util/SocialLogin.js';
+import { JwtManager } from './util/JwtManager.js';
+import { TokenManager } from '../../global/util/TokenManager.js';
 
 @Module({
   imports: [
@@ -20,7 +24,9 @@ import { AuthService } from './domain/service/Auth.Service.js';
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
   ],
   providers: [
-    JwtStrategy, AuthService
+    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager, {
+      provide: 'impl',  useClass: UserDao
+    }
   ],
   controllers: [AuthController],
 })

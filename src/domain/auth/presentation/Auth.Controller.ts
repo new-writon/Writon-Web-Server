@@ -12,18 +12,15 @@ export class AuthController{
     constructor(private readonly authService: AuthService) {}
 
     
-    @Post()
+    @Post("/login/kakao")
     @HttpCode(200)
     public async kakaoLogin(
         @Body() kakaoLogin: KakaoLoginRequest,
         @Req() req: Request,
     ): Promise<SuccessResponseDto<KakaoLoginResponse>>  {
   
- 
-      const result : KakaoLoginResponse = await this.authService.kakaoLogin(kakaoLogin, req.headers["Authentication"]);
-  
-  
-     return SuccessResponseDto.of(result);
+      const result : KakaoLoginResponse = await this.authService.kakaoLogin(kakaoLogin, req.headers["authorization"]);
+      return SuccessResponseDto.of(result);
     }
 
 }

@@ -24,9 +24,6 @@ export class KakaoLoginResponse {
  
     }
 
-
-
-
     private setAccessToken(accessToken:string): void{
         if(accessToken === null) throw new InternalServerErrorException (`${__dirname} : AccessToken 값이 존재하지 않습니다.`);
         this.accessToken=accessToken;
