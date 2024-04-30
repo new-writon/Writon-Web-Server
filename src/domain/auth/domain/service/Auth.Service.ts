@@ -24,7 +24,7 @@ export class AuthService {
     ) {}
 
 
-    public async kakaoLogin(kakaoLoginRequest : KakaoLoginRequest, kakaoToken: string): Promise<KakaoLoginResponse>{
+    public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<KakaoLoginResponse>{
 
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
         const userData: User = await this.userRepository.selectUserDataBySocialNumber(kakaoData.data.id);
@@ -34,10 +34,10 @@ export class AuthService {
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(checkedUserData.getUserId()), refreshToken);
         let [ affiliatedConfirmation, challengedConfirmation] = await Promise.all([
-            this.checkAffiliationStatus(kakaoLoginRequest.getOrganization(), checkedUserData.getUserId()),
-            this.checkOngoingChallenge(kakaoLoginRequest.getOrganization(), checkedUserData.getUserId(), kakaoLoginRequest.getChallengeId())
+            this.checkAffiliationStatus(organization, checkedUserData.getUserId()),
+            this.checkOngoingChallenge(organization, checkedUserData.getUserId(), challengeId)
           ]);
-        affiliatedConfirmation = this.checkOrganization(kakaoLoginRequest.getOrganization(), affiliatedConfirmation);
+        affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
         return KakaoLoginResponse.of(accessToken, refreshToken, checkedUserData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
@@ -49,7 +49,6 @@ export class AuthService {
     }
 
     private async signInDependingOnRegistrationStatus(userData: User, kakaoData: AxiosResponse<any, any>){
-
         if (!userData) {
             this.userRepository.kakaoSignUp(kakaoData.data.kakao_account.email, kakaoData.data.id, kakaoData.data.properties.profile_image);
           }
