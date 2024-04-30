@@ -37,10 +37,7 @@ export class AuthService {
             this.checkAffiliationStatus(kakaoLoginRequest.getOrganization(), checkedUserData.getUserId()),
             this.checkOngoingChallenge(kakaoLoginRequest.getOrganization(), checkedUserData.getUserId(), kakaoLoginRequest.getChallengeId())
           ]);
-       
         affiliatedConfirmation = this.checkOrganization(kakaoLoginRequest.getOrganization(), affiliatedConfirmation);
-        console.log(affiliatedConfirmation)
-        console.log(challengedConfirmation)
         return KakaoLoginResponse.of(accessToken, refreshToken, checkedUserData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
