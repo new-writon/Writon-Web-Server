@@ -49,7 +49,7 @@ export class AuthService {
     }
 
     private async signInDependingOnRegistrationStatus(userData: User, kakaoData: AxiosResponse<any, any>){
-        if (!userData) {
+        if (!this.checkData(userData)) {
             this.userRepository.kakaoSignUp(kakaoData.data.kakao_account.email, kakaoData.data.id, kakaoData.data.properties.profile_image);
           }
     }
