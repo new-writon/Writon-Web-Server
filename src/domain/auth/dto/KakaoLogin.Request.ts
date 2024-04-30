@@ -4,11 +4,11 @@ import { IsNotEmpty } from "class-validator";
 export class KakaoLoginRequest{
 
     @IsNotEmpty()
-    public organization: string;
+    private organization: string;
 
 
     @IsNotEmpty()
-    public challengeId: number;
+    private challengeId: number;
 
     public getOrganization(): string {
         return this.organization;

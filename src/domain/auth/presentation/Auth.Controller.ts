@@ -19,7 +19,7 @@ export class AuthController{
         @Req() req: Request,
     ): Promise<SuccessResponseDto<KakaoLoginResponse>>  {
   
-      const result : KakaoLoginResponse = await this.authService.kakaoLogin(kakaoLogin.getOrganization(), kakaoLogin.getChallengeId() , req.headers["authorization"]);
+      const result : KakaoLoginResponse = await this.authService.kakaoLogin(kakaoLogin.getOrganization(), kakaoLogin.getChallengeId(), req.headers["authorization"]);
       return SuccessResponseDto.of(result);
     }
 
