@@ -7,7 +7,7 @@ import { JwtStrategy } from './strategies/Jwt.Strategy.js';
 import { AuthConfig, auth } from './util/auth.js';
 import { AuthController } from './presentation/Auth.Controller.js';
 import { AuthService } from './domain/service/Auth.Service.js';
-import { UserDao } from '../user/domain/repository/User.Dao.js';
+import { UserDao } from '../user/domain/repository/dao/User.Dao.js';
 import { SocialLogin } from './util/SocialLogin.js';
 import { JwtManager } from './util/JwtManager.js';
 import { TokenManager } from '../../global/util/TokenManager.js';

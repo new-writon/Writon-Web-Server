@@ -9,7 +9,7 @@ import { UserService  } from './domain/service/User.Service.js';
 import { Affiliation } from './domain/entity/Affiliation.js';
 import { Organization } from './domain/entity/Organization.js';
 import { UserChallenge } from './domain/entity/UserChallenge.js';
-import { UserDao } from './domain/repository/User.Dao.js';
+import { UserDao } from './domain/repository/dao/User.Dao.js';
 import { SocialLogin } from '../auth/util/SocialLogin.js';
 
 @Module({

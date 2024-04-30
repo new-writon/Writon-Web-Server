@@ -38,12 +38,10 @@ export class KakaoLoginResponse {
         this.role=role;
     }
 
-    private setAffiliatedConfirmation(affiliatedConfirmation:boolean): void {
-        if(affiliatedConfirmation === null) throw new InternalServerErrorException (`${__dirname} : AffiliatedConfirmation 값이 존재하지 않습니다.`);
+    private setAffiliatedConfirmation(affiliatedConfirmation:boolean): void { 
         this.affiliatedConfirmation=affiliatedConfirmation;
     }
     private setChallengedConfirmation(challengedConfirmation: boolean): void{
-        if(challengedConfirmation === null) throw new InternalServerErrorException (`${__dirname} : ChallengedConfirmation 값이 존재하지 않습니다.`);
         this.challengedConfirmation=challengedConfirmation
     }
 

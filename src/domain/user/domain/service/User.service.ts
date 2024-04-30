@@ -6,7 +6,7 @@ import { TestErrorCode } from '../../exception/TestErrorCode.js';
 //import { UserRepository } from '../repository/User.Repository.js';
 import { CustomException } from '../../exception/UserException.js';
 import type { Repository } from 'typeorm';
-import { UserDao } from '../repository/User.Dao.js';
+import { UserDao } from '../repository/dao/User.Dao.js';
 import { UserRepository } from '../repository/User.Repository.js';
 
 @Injectable()
