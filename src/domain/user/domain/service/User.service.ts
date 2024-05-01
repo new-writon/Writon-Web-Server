@@ -20,7 +20,6 @@ export class UserService {
     public async test(userId: number): Promise<string> {
  
         const results : User = await this.userRepository.selectUserById(userId);
-        console.log(results)
 
      
         return 'Good'

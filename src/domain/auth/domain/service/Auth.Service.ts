@@ -30,6 +30,7 @@ export class AuthService {
         const userData: User = await this.userRepository.selectUserDataBySocialNumber(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
         const checkedUserData: User = await this.userRepository.selectUserDataBySocialNumber(kakaoData.data.id);
+        console.log(checkedUserData.getUserId())
         const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getUserId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(checkedUserData.getUserId()), refreshToken);
@@ -40,6 +41,16 @@ export class AuthService {
         affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
         return KakaoLoginResponse.of(accessToken, refreshToken, checkedUserData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
+
+    public async logout(userId: string): Promise<void>{
+
+        await this.tokenManager.deleteToken(userId)
+
+    }
+
+
+
+
 
     private checkOrganization(organization: string, affiliatedConfirmation: boolean): null | boolean{
         if(organization === "null") {

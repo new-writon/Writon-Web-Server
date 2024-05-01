@@ -13,4 +13,9 @@ export class TokenManager {
         
         await this.cacheManager.set(key, value);
     }
+
+
+    public async deleteToken(key:string){
+        await this.cacheManager.del(key);
+    }
 }

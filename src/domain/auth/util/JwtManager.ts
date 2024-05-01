@@ -8,7 +8,7 @@ export class JwtManager {
 
     public makeAccessToken = (userId: number, userRole: string): string => {
         const payload = {
-            id: userId,
+            userId: userId,
             role: userRole,
         };
         return 'Bearer ' + jwt.sign(payload, process.env.SECRET, {

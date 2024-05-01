@@ -21,11 +21,10 @@ export class UserController {
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<string>>  {
 
-    console.log(user.userId)
+
+    console.log(user)
     console.log(req.body)
     const result :string = await this.userService.test(user.userId);
-
-
-   return SuccessResponseDto.of(result);
+    return SuccessResponseDto.of(result);
   }
 }
