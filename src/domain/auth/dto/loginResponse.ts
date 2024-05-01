@@ -1,7 +1,7 @@
 import { InternalServerErrorException } from "@nestjs/common";
 
 
-export class KakaoLoginResponse {
+export class LoginResponse {
 
     private accessToken: string;
     private refreshToken: string;
@@ -18,9 +18,9 @@ export class KakaoLoginResponse {
        this.setChallengedConfirmation(challengedConfirmation)
     }
 
-    public static of(accessToken: string, refreshToken: string, role: string, affiliatedConfirmation: boolean | null, challengedConfirmation: boolean | null): KakaoLoginResponse{
+    public static of(accessToken: string, refreshToken: string, role: string, affiliatedConfirmation: boolean | null, challengedConfirmation: boolean | null): LoginResponse{
 
-        return new KakaoLoginResponse(accessToken, refreshToken, role, affiliatedConfirmation, challengedConfirmation);
+        return new LoginResponse(accessToken, refreshToken, role, affiliatedConfirmation, challengedConfirmation);
  
     }
 
