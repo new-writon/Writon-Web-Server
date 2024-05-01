@@ -1,11 +1,12 @@
 import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards } from "@nestjs/common";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
 import { AuthService } from "../domain/service/Auth.Service.js";
-import { KakaoLoginRequest } from "../dto/KakaoLogin.Request.js";
-import { KakaoLoginResponse } from "../dto/KakaoLogin.Response.js";
+import { KakaoLogin } from "../dto/KakaoLogin.js";
+import { LoginResponse } from "../dto/loginResponse.js";
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
 import { User } from "../../user/domain/entity/User.js";
+import { LocalLogin } from "../dto/LocalLogin.js";
 
 @Controller("/api/auth")
 export class AuthController{
@@ -17,13 +18,25 @@ export class AuthController{
     @Post("/login/kakao")
     @HttpCode(200)
     public async kakaoLogin(
-        @Body() kakaoLogin: KakaoLoginRequest,
+        @Body() kakaoLogin: KakaoLogin,
         @Req() req: Request,
-    ): Promise<SuccessResponseDto<KakaoLoginResponse>>  {
+    ): Promise<SuccessResponseDto<LoginResponse>>  {
   
-      const result : KakaoLoginResponse = await this.authService.kakaoLogin(kakaoLogin.getOrganization(), kakaoLogin.getChallengeId(), req.headers["authorization"]);
+      const result : LoginResponse = await this.authService.kakaoLogin(kakaoLogin.getOrganization(), kakaoLogin.getChallengeId(), req.headers["authorization"]);
       return SuccessResponseDto.of(result);
     }
+
+    @Post("/login/local")
+    @HttpCode(200)
+    public async localLogin(
+        @Body() loginLocal: LocalLogin,
+        @Req() req: Request,
+    ): Promise<SuccessResponseDto<LoginResponse>>  {
+  
+    const result : LoginResponse = await this.authService.localLogin(loginLocal.getIdentifier(), loginLocal.getPassword(), loginLocal.getOrganization(), loginLocal.getChallengeId());
+     return SuccessResponseDto.of(result);
+    }
+
 
     @Delete("/logout")
     @HttpCode(200)
@@ -35,5 +48,9 @@ export class AuthController{
       await this.authService.logout(String(user.userId));
       return SuccessResponseDto.of();
     }
+
+
+
+
 
 }
