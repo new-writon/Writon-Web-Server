@@ -29,9 +29,9 @@ export class AuthService {
     public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<LoginResponse> {
 
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
-        const userData: User = await this.userRepository.selectUserDataBySocialNumber(kakaoData.data.id);
+        const userData: User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
-        const checkedUserData: User = await this.userRepository.selectUserDataBySocialNumber(kakaoData.data.id);
+        const checkedUserData: User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getUserId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(checkedUserData.getUserId()), refreshToken);
@@ -45,7 +45,7 @@ export class AuthService {
 
     public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
 
-        const userData: User = await this.userRepository.selectUserDataBySocialNumber(identifier);
+        const userData: User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(identifier);
         this.vefifyIdentifier(userData);
         await this.vefifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getUserId(), userData.getRole());
@@ -65,21 +65,9 @@ export class AuthService {
         await this.userRepository.localSignUp(identifier, encryptedPassword, email);
     }
 
-    
-
-
-
-
-
-
-
     public async logout(userId: string): Promise<void> {
         await this.tokenManager.deleteToken(userId)
     }
-
-
-
-
 
     private vefifyIdentifier(userData : User){
         if (!this.checkData(userData))   

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import {  UserService } from '../domain/service/User.Service.js';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { TestRequestDto } from '../dto/TestRequest.dto.js';
@@ -7,7 +7,7 @@ import { CurrentUserInterceptor } from '../../auth/interceptors/CurrentUser.Inte
 import { User } from '../domain/entity/User.js';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 
-@Controller("/api/test")
+@Controller("/api/user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -20,11 +20,22 @@ export class UserController {
     @Req() req:Request,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<string>>  {
-
-
     console.log(user)
     console.log(req.body)
     const result :string = await this.userService.test(user.userId);
     return SuccessResponseDto.of(result);
   }
+
+  @Get("/identifier/check")
+  @HttpCode(200)
+  public async checkDuplicateIdentifier(
+    @Query("identifier") identifier: string
+  ): Promise<SuccessResponseDto<void>>  {
+
+    await this.userService.checkDuplicateIdentifier(identifier);
+    return SuccessResponseDto.of();
+  }
+
+
+
 }
