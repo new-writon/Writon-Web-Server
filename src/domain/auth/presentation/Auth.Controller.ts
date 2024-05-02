@@ -7,6 +7,7 @@ import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
 import { User } from "../../user/domain/entity/User.js";
 import { LocalLogin } from "../dto/LocalLogin.js";
+import { SiginUp } from "../dto/SignUp.js";
 
 @Controller("/api/auth")
 export class AuthController{
@@ -29,12 +30,21 @@ export class AuthController{
     @Post("/login/local")
     @HttpCode(200)
     public async localLogin(
-        @Body() loginLocal: LocalLogin,
-        @Req() req: Request,
+        @Body() loginLocal: LocalLogin
     ): Promise<SuccessResponseDto<LoginResponse>>  {
 
      const result : LoginResponse = await this.authService.localLogin(loginLocal.getIdentifier(), loginLocal.getPassword() , loginLocal.getOrganization(), loginLocal.getChallengeId());
      return SuccessResponseDto.of(result);
+    }
+
+    @Post("/signup")
+    @HttpCode(200)
+    public async signUp(
+        @Body() signUp: SiginUp
+    ): Promise<SuccessResponseDto<void>>  {
+
+     await this.authService.signUp(signUp.geIdentifier(), signUp.getPassword(), signUp.getEmail());
+     return SuccessResponseDto.of();
     }
 
 
