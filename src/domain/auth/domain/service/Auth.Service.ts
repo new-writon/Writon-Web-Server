@@ -63,8 +63,9 @@ export class AuthService {
     public async localSignUp(identifier: string, password: string, email: string,): Promise<void> {
         const encryptedPassword = await bcrypt.hash(password, 10);
         await this.userRepository.localSignUp(identifier, encryptedPassword, email);
-
     }
+
+    
 
 
 
