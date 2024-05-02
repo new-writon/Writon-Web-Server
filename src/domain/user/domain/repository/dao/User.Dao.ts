@@ -23,7 +23,7 @@ export class UserDao extends Repository<User> {
         })
     }
 
-    private async selectUserDataBySocialNumber(socialNumber: string): Promise<User> {
+    private async selectUserDataBySocialNumberOrIdentifier(socialNumber: string): Promise<User> {
         return await this.findOne({
             where: {
                 identifier: socialNumber
