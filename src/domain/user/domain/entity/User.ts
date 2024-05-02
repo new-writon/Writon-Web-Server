@@ -17,18 +17,28 @@ export class User extends BaseEntity{
 
 
   constructor(   
+    kakaoNumberOrIdentifier: string,
     email: string,
-    kakaoNumber: string,
-    kakaoProfileImage: string,
-    role: string
+    role: string,
+    kakaoProfileImage: string | null,
+    password: string | null
+
   ){
-        super();
-        this.setEmail(email),
-        this.setKakaoIdentifier(kakaoNumber),
-        this.setKakaoProfileImage(kakaoNumber),
-        this.setRole(role)
+    super();
+    this.setIdentifier(kakaoNumberOrIdentifier);
+    this.setEmail(email);
+    this.setRole(role);
+    this.setKakaoProfileImage(kakaoProfileImage);
+    this.setPassword(password);
     }
 
+    
+  // private checkingCreateUser(kakaoProfileImage: string | null, password: string | null){
+  //   if(kakaoProfileImage != null && password == null){
+      
+  //   }
+
+  // }
 
   @PrimaryGeneratedColumn({ type: "int", name: "user_id" })
   userId: number;
@@ -65,16 +75,26 @@ export class User extends BaseEntity{
     kakaoProfileImage: string,
     role: string,
   ){
-    return new User(email, kakaoNumber, kakaoProfileImage, role)
-  } 
+    const password = null;
+    return new User(kakaoNumber, email, role, kakaoProfileImage, password);
+  }
 
+  public static createLocalUser(
+    identifier: string,
+    password: string,
+    email: string,
+    role: string
+  ){
+    const kakaoProfileImage = null;
+    return new User(identifier, email, role, kakaoProfileImage, password)
+  } 
 
   private setEmail(email: string){
     if(email === null) throw new InternalServerErrorException (`${__dirname} : Email 값이 존재하지 않습니다.`);
     this.email=email;
   }
 
-  private setKakaoIdentifier(kakaoNumber: string){
+  private setIdentifier(kakaoNumber: string){
     if(kakaoNumber === null) throw new InternalServerErrorException (`${__dirname} : KakaoNumber 값이 존재하지 않습니다.`);
     this.identifier=kakaoNumber;
   }
@@ -85,17 +105,19 @@ export class User extends BaseEntity{
   }
 
   private setKakaoProfileImage(profileImage: string){
-    if(profileImage === null) throw new InternalServerErrorException (`${__dirname} : ProfileImage 값이 존재하지 않습니다.`);
     this.profile=profileImage;
   }
 
+  private setPassword(password: string){
+    this.password=password;
+  }
 
   public getEmail(): string{
 
     return this.email;
   }
 
-  public getKakaoIdentifier(): string{
+  public getIdentifier(): string{
 
     return this.identifier;
   }

@@ -46,9 +46,8 @@ export class AuthService {
     public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
 
         const userData: User = await this.userRepository.selectUserDataBySocialNumber(identifier);
-
         this.vefifyIdentifier(userData);
-        this.vefifyPassword(password, userData.getPassword())
+        await this.vefifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getUserId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(userData.getUserId()), refreshToken);
@@ -61,10 +60,24 @@ export class AuthService {
     }
 
 
+    public async localSignUp(identifier: string, password: string, email: string,): Promise<void> {
+        const encryptedPassword = await bcrypt.hash(password, 10);
+        await this.userRepository.localSignUp(identifier, encryptedPassword, email);
+
+    }
+
+
+
+
+
+
 
     public async logout(userId: string): Promise<void> {
         await this.tokenManager.deleteToken(userId)
     }
+
+
+
 
 
     private vefifyIdentifier(userData : User){
@@ -78,9 +91,10 @@ export class AuthService {
      * @param comparedPassword  비교 당할 패스워드
      * @returns 
      */
-    private vefifyPassword(comparingPassword: string, comparedPassword: string){
-        if (bcrypt.compare(comparingPassword, comparedPassword))
+    private async vefifyPassword(comparingPassword: string, comparedPassword: string){
+        if (! await bcrypt.compare(comparingPassword, comparedPassword)){
             throw new AuthException(AuthErrorCode.PASSWORD_IS_INCOREECT);
+        }
     }
 
 

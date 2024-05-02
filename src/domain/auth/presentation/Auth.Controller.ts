@@ -39,11 +39,11 @@ export class AuthController{
 
     @Post("/signup")
     @HttpCode(200)
-    public async signUp(
+    public async localSignUp(
         @Body() signUp: SiginUp
     ): Promise<SuccessResponseDto<void>>  {
 
-     await this.authService.signUp(signUp.geIdentifier(), signUp.getPassword(), signUp.getEmail());
+     await this.authService.localSignUp(signUp.geIdentifier(), signUp.getPassword(), signUp.getEmail());
      return SuccessResponseDto.of();
     }
 
