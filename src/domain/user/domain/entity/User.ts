@@ -113,6 +113,10 @@ export class User extends BaseEntity{
     return this.userId;
   }
 
+  public getPassword(): string{
+    return this.password;
+  }
+
 
 
 }

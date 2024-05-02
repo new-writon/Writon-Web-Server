@@ -32,8 +32,8 @@ export class AuthController{
         @Body() loginLocal: LocalLogin,
         @Req() req: Request,
     ): Promise<SuccessResponseDto<LoginResponse>>  {
-  
-    const result : LoginResponse = await this.authService.localLogin(loginLocal.getIdentifier(), loginLocal.getPassword(), loginLocal.getOrganization(), loginLocal.getChallengeId());
+
+     const result : LoginResponse = await this.authService.localLogin(loginLocal.getIdentifier(), loginLocal.getPassword() , loginLocal.getOrganization(), loginLocal.getChallengeId());
      return SuccessResponseDto.of(result);
     }
 

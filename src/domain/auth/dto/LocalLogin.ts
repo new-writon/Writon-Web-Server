@@ -1,13 +1,16 @@
-import { IsNotEmpty, Length } from "class-validator";
+import { IsNotEmpty, Length,MaxLength,MinLength} from "class-validator";
+import { Login } from "./values/Login";
 
-export class LocalLogin {
+export class LocalLogin{
 
     @IsNotEmpty()
-    @Length(20)
+    @MinLength(6)
+    @MaxLength(20)
     private identifier: string;
 
     @IsNotEmpty()
-    @Length(20)
+    @MinLength(6)
+    @MaxLength(20)
     private password: string;
 
     @IsNotEmpty()
@@ -15,14 +18,6 @@ export class LocalLogin {
 
     @IsNotEmpty()
     private challengeId: number;
-
-    public getIdentifier(): string {
-        return this.identifier;
-    }
-
-    public getPassword(): string {
-        return this.password;
-    }
 
 
     public getOrganization(): string {
@@ -32,6 +27,16 @@ export class LocalLogin {
     public getChallengeId(): number {
         return this.challengeId;
     }
+
+    public getIdentifier(): string {
+        return this.identifier;
+    }
+
+    public getPassword(): string {
+        return this.password;
+    }
     
 
 }
+
+
