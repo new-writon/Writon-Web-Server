@@ -1,5 +1,5 @@
 import { IsNotEmpty, Length,MaxLength,MinLength} from "class-validator";
-import { Login } from "./values/Login";
+import { Login } from "../values/Login";
 
 export class LocalLogin{
 

@@ -18,4 +18,10 @@ export class TokenManager {
     public async deleteToken(key:string){
         await this.cacheManager.del(key);
     }
+
+    public async setTimeoutToken(key: string, value: string, time: number){
+        await this.cacheManager.set(key, value, time)
+    }
+
+
 }

@@ -13,7 +13,8 @@ import { ChallengeModule } from './domain/challenge/challenge.module.js';
 import { TemplateModule } from './domain/template/template.module.js';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisConfig } from './global/config/RedisConfig.js';
-import { TokenManager } from './global/util/TokenManager.js';
+import { MailerModule } from '@nestjs-modules/mailer';
+
 
 
 
@@ -33,7 +34,26 @@ import { TokenManager } from './global/util/TokenManager.js';
       },     
     }),
     CacheModule.registerAsync({ isGlobal: true, useClass: RedisConfig }),
-  
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com',
+        port: 587,
+        auth: {
+          user: process.env.NODEMAILER_USER,
+          pass: process.env.NODEMAILER_PASS,
+        },
+      },
+      // defaults: {
+      //   from: '"nest-modules" <modules@nestjs.com>',
+      // },
+      // template: {
+      //   dir: __dirname + '/templates',
+      //   adapter: new HandlebarsAdapter(),
+      //   options: {
+      //     strict: true,
+      //   },
+      // },
+    }),
     UserModule,
     AuthModule,
     AgoraModule,
@@ -41,6 +61,8 @@ import { TokenManager } from './global/util/TokenManager.js';
     SatisfactionModule,
     ChallengeModule,
     TemplateModule,
+ 
+
   
     
 

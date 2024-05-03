@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { LoginResponse } from "../dto/loginResponse.js";
+import { LoginResponse } from "../dto/response/loginResponse.js";
 import { SocialLogin } from "../util/SocialLogin.js";
 import { User } from "../../user/domain/entity/User.js";
 import { AxiosResponse } from "axios";
@@ -8,11 +8,12 @@ import { JwtManager } from "../util/JwtManager.js";
 import { TokenManager } from "../../../global/util/TokenManager.js";
 import { UserAffiliationOrganization } from "src/domain/interface/UserAffilatiionOrganization.interface.js";
 import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
-import { Login } from "../dto/values/Login.js";
 import bcrypt from 'bcrypt';
 import { AuthException } from "../exception/AuthException.js";
 import { AuthErrorCode } from "../exception/AuthErrorCode.js";
-
+import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
+import random from "../util/random.js";
+import { MailManager } from "../util/MailManager.js";
 
 
 @Injectable()
@@ -22,7 +23,8 @@ export class AuthService {
         @Inject('impl') private readonly userRepository: UserRepository,
         private readonly socialLogin: SocialLogin,
         private readonly jwtManager: JwtManager,
-        private readonly tokenManager: TokenManager
+        private readonly tokenManager: TokenManager,
+        private readonly mailManager: MailManager
     ) { }
 
 
@@ -68,6 +70,16 @@ export class AuthService {
     public async logout(userId: string): Promise<void> {
         await this.tokenManager.deleteToken(userId)
     }
+
+
+    public async issueAuthenticationCode(email: string): Promise<AuthenticationCodeResponse> {
+        const verificationCode = random.generateRandom(100000, 999999);
+        await this.tokenManager.setTimeoutToken(email, String(verificationCode), 180000)
+        await this.mailManager.sendCodeEmail(email, verificationCode);
+        return AuthenticationCodeResponse.of(verificationCode);
+    }
+
+
 
     private vefifyIdentifier(userData : User){
         if (!this.checkData(userData))   

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/Jwt.Strategy.js';
@@ -11,6 +10,7 @@ import { UserDao } from '../user/domain/repository/dao/User.Dao.js';
 import { SocialLogin } from './util/SocialLogin.js';
 import { JwtManager } from './util/JwtManager.js';
 import { TokenManager } from '../../global/util/TokenManager.js';
+import { MailManager } from './util/MailManager.js';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { TokenManager } from '../../global/util/TokenManager.js';
   providers: [
     JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager, {
       provide: 'impl',  useClass: UserDao
-    }
+    }, MailManager
   ],
   controllers: [AuthController],
 })

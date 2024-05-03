@@ -1,14 +1,15 @@
 import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards } from "@nestjs/common";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
 import { AuthService } from "../service/Auth.Service.js";
-import { KakaoLogin } from "../dto/KakaoLogin.js";
-import { LoginResponse } from "../dto/loginResponse.js";
+import { KakaoLogin } from "../dto/request/KakaoLogin.js";
+import { LoginResponse } from "../dto/response/loginResponse.js";
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
 import { User } from "../../user/domain/entity/User.js";
-import { LocalLogin } from "../dto/LocalLogin.js";
-import { SiginUp } from "../dto/SignUp.js";
-
+import { LocalLogin } from "../dto/request/LocalLogin.js";
+import { SiginUp } from "../dto/request/SignUp.js";
+import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
+import { AuthenticationCodeRequest } from "../dto/request/AuthenticationCodeRequest.js";
 @Controller("/api/auth")
 export class AuthController{
 
@@ -60,7 +61,15 @@ export class AuthController{
     }
 
 
+    @Post("/generate/email-code")
+    @HttpCode(200)
+    public async issueAuthenticationCode(
+        @Body() auththenticationCode: AuthenticationCodeRequest
 
+    ): Promise<SuccessResponseDto<AuthenticationCodeResponse>> {
+      const result = await this.authService.issueAuthenticationCode(auththenticationCode.getEmail());
+      return SuccessResponseDto.of(result);
+    }
 
 
 }
