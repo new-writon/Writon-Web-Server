@@ -1,9 +1,10 @@
-import { IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty } from "class-validator";
 
 
 export class AuthenticationCodeRequest{
 
     @IsNotEmpty()
+    @IsEmail()
     private email: string;
 
 

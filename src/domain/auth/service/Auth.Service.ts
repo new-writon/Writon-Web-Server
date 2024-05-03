@@ -79,7 +79,18 @@ export class AuthService {
         return AuthenticationCodeResponse.of(verificationCode);
     }
 
+    public async verifyAuthenticationCode(email: string, code: string): Promise<void> {
 
+        const authenticationCode: string = await this.tokenManager.getToken(email);
+        this.verifyCode(authenticationCode, code);
+    }
+
+
+    private verifyCode(authenticationCode: string, code: string){
+        if (authenticationCode !== code) {
+            throw new AuthException(AuthErrorCode.VERIFY_CODE_FAIL)
+          }
+    }
 
     private vefifyIdentifier(userData : User){
         if (!this.checkData(userData))   

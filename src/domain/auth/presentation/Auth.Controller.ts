@@ -10,6 +10,7 @@ import { LocalLogin } from "../dto/request/LocalLogin.js";
 import { SiginUp } from "../dto/request/SignUp.js";
 import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
 import { AuthenticationCodeRequest } from "../dto/request/AuthenticationCodeRequest.js";
+import { VerifyAuthenticationCode } from "../dto/request/VerifyAuthenticationCode.js";
 @Controller("/api/auth")
 export class AuthController{
 
@@ -71,5 +72,13 @@ export class AuthController{
       return SuccessResponseDto.of(result);
     }
 
+    @Post("/verify/email-code")
+    @HttpCode(200)
+    public async verifyAuthenticationCode(
+        @Body() auththenticationCode: VerifyAuthenticationCode
 
+    ): Promise<SuccessResponseDto<void>> {
+      await this.authService.verifyAuthenticationCode(auththenticationCode.getEmail(), auththenticationCode.getCode());
+      return SuccessResponseDto.of();
+    }
 }

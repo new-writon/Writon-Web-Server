@@ -9,9 +9,12 @@ export class TokenManager {
         @Inject(CACHE_MANAGER) private readonly cacheManager: Cache
     ) {}
 
-    public async setToken(key:string, value:string){
-        
+    public async setToken(key:string, value:string){   
         await this.cacheManager.set(key, value);
+    }
+
+    public async getToken(key:string): Promise<string>{   
+        return this.cacheManager.get(key);
     }
 
 
