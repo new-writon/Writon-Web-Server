@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
-import {  UserService } from '../domain/service/User.Service.js';
+import {  UserService } from '../service/User.Service.js';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { TestRequestDto } from '../dto/TestRequest.dto.js';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards } from "@nestjs/common";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { AuthService } from "../domain/service/Auth.Service.js";
+import { AuthService } from "../service/Auth.Service.js";
 import { KakaoLogin } from "../dto/KakaoLogin.js";
 import { LoginResponse } from "../dto/loginResponse.js";
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';

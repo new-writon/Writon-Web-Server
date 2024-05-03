@@ -1,17 +1,17 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { LoginResponse } from "../../dto/loginResponse.js";
-import { SocialLogin } from "../../util/SocialLogin.js";
-import { User } from "../../../user/domain/entity/User.js";
+import { LoginResponse } from "../dto/loginResponse.js";
+import { SocialLogin } from "../util/SocialLogin.js";
+import { User } from "../../user/domain/entity/User.js";
 import { AxiosResponse } from "axios";
 import { UserRepository } from "src/domain/user/domain/repository/User.Repository.js";
-import { JwtManager } from "../../util/JwtManager.js";
-import { TokenManager } from "../../../../global/util/TokenManager.js";
+import { JwtManager } from "../util/JwtManager.js";
+import { TokenManager } from "../../../global/util/TokenManager.js";
 import { UserAffiliationOrganization } from "src/domain/interface/UserAffilatiionOrganization.interface.js";
 import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
-import { Login } from "../../dto/values/Login.js";
+import { Login } from "../dto/values/Login.js";
 import bcrypt from 'bcrypt';
-import { AuthException } from "../../exception/AuthException.js";
-import { AuthErrorCode } from "../../exception/AuthErrorCode.js";
+import { AuthException } from "../exception/AuthException.js";
+import { AuthErrorCode } from "../exception/AuthErrorCode.js";
 
 
 

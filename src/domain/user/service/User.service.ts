@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '../entity/User.js';
-import { UserRepository } from '../repository/User.Repository.js';
-import { UserException } from '../../exception/UserException.js';
-import { UserErrorCode } from '../../exception/UserErrorCode.js';
+import { User } from '../domain/entity/User.js';
+import { UserRepository } from '../domain/repository/User.Repository.js';
+import { UserException } from '../exception/UserException.js';
+import { UserErrorCode } from '../exception/UserErrorCode.js';
 
 @Injectable()
 export class UserService {
