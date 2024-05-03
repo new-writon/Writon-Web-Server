@@ -38,4 +38,13 @@ export class UserController {
 
 
 
+  @Get("/email/check")
+  @HttpCode(200)
+  public async checkDuplicateEmail(
+    @Query("email") email: string
+  ): Promise<SuccessResponseDto<void>>  {
+
+    await this.userService.checkDuplicateEmail(email);
+    return SuccessResponseDto.of();
+  }
 }

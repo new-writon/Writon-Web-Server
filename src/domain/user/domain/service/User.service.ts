@@ -22,6 +22,11 @@ export class UserService {
         this.validateIdentifier(userData);   
     }
 
+    public async checkDuplicateEmail(email: string): Promise<void> {
+        const userData : User = await this.userRepository.selectUserDataByEmail(email);
+        this.validateEmail(userData);   
+    }
+
      /**
      * 
      * @param data 
@@ -40,4 +45,13 @@ export class UserService {
             throw new UserException(UserErrorCode.INVALIDATE_IDENTIFIER);
         }
     }
+
+    private validateEmail(userData: User){
+        if(this.checkData(userData)){
+            throw new UserException(UserErrorCode.INVALIDATE_EMAIL);
+        }
+    }
+
+
+
 }
