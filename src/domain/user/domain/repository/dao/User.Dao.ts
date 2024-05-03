@@ -31,6 +31,14 @@ export class UserDao extends Repository<User> {
         })
     }
 
+    private async selectUserDataByEmail(email: string): Promise<User> {
+        return await this.findOne({
+            where: {
+                email:email
+            }
+        })
+    }
+    
 
     private async kakaoSignUp(
         email: string,
@@ -74,9 +82,5 @@ export class UserDao extends Repository<User> {
             AND uc.challenge_id = ${challengeId};
         
         `);
-
-
-
-
     }
 }

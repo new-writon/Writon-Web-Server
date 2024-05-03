@@ -15,4 +15,5 @@ export interface UserRepository extends Repository<User> {
     localSignUp(identifier: string, password: string, email: string): void
     findUserChallenge(userId: number, organization: string, challengeId: number):UserChallenge[]
     findUserAffiliation(userId: number, organization: string): UserAffiliationOrganization[]
+    selectUserDataByEmail(email: string): Promise<User>
 }
