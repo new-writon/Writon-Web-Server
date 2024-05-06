@@ -17,4 +17,5 @@ export interface UserRepository extends Repository<User> {
     findUserChallenge(userId: number, organization: string, challengeId: number):UserChallenge[]
     findUserAffiliation(userId: number, organization: string): UserAffiliationOrganization[]
     selectUserDataByEmail(email: string): Promise<User>
+    updatePassword(idenfitier:string, email:string, password:string):void
 }

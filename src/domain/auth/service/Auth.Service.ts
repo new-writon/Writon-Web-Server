@@ -13,7 +13,7 @@ import { AuthException } from "../exception/AuthException.js";
 import { AuthErrorCode } from "../exception/AuthErrorCode.js";
 import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
 import random from "../util/random.js";
-import { MailManager } from "../util/MailManager.js";
+import { MailManager } from "../../../global/util/MailManager.js";
 
 
 @Injectable()

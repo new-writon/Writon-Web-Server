@@ -5,13 +5,17 @@ import { UserException } from '../exception/UserException.js';
 import { UserErrorCode } from '../exception/UserErrorCode.js';
 import { UserIdentifier } from '../dto/response/UserIdentifier.js';
 import { TokenManager } from '../../../global/util/TokenManager.js';
+import {generateRandomPassword} from '../util/temporaryPassword.js';
+import { MailManager } from '../../../global/util/MailManager.js';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
     constructor(
         @Inject('impl')
         private readonly userRepository: UserRepository,
-        private readonly tokenManager: TokenManager
+        private readonly tokenManager: TokenManager,
+        private readonly mailManager: MailManager
     ) { }
 
 
@@ -40,6 +44,17 @@ export class UserService {
   
     }
 
+    public async generateTemporaryPassword(idenfitier:string, email:string): Promise<void> {
+        const userData : User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(idenfitier);
+        this.validateIdentifier(userData);
+        this.verifyEmail(userData, email);
+        const newPassword = generateRandomPassword();
+        await this.userRepository.updatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
+        this.mailManager.randomPasswordsmtpSender(email, newPassword);
+    }
+
+
+ 
     private verifyCode(code: string, certifyCode: string){
         if(code != certifyCode)
             throw new UserException(UserErrorCode.NOT_VERIFY_CODE);
@@ -66,15 +81,20 @@ export class UserService {
     }
 
     private validateIdentifier(userData: User){
-        if(this.checkData(userData)){
+        if(!this.checkData(userData)){
             throw new UserException(UserErrorCode.INVALIDATE_IDENTIFIER);
         }
     }
 
     private validateEmail(userData: User){
-        if(this.checkData(userData)){
+        if(!this.checkData(userData)){
             throw new UserException(UserErrorCode.INVALIDATE_EMAIL);
         }
+    }
+
+    private verifyEmail(userData: User, email: string){
+        if(userData.getEmail() !== email)
+            throw new UserException(UserErrorCode.NOT_VERIFY_EMAIL);
     }
 
 

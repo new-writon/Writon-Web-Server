@@ -10,8 +10,8 @@ import { Affiliation } from './domain/entity/Affiliation.js';
 import { Organization } from './domain/entity/Organization.js';
 import { UserChallenge } from './domain/entity/UserChallenge.js';
 import { UserDao } from './domain/repository/dao/User.Dao.js';
-import { SocialLogin } from '../auth/util/SocialLogin.js';
 import { TokenManager } from '../../global/util/TokenManager.js';
+import { MailManager } from '../../global/util/MailManager.js';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { TokenManager } from '../../global/util/TokenManager.js';
   providers: [
     UserService, {
       provide: 'impl',  useClass: UserDao, // provide에 문자열 토큰 지정
-    }, TokenManager
+    }, TokenManager, MailManager
   ],
   controllers: [UserController],
 })

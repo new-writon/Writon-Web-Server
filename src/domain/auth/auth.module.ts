@@ -10,7 +10,7 @@ import { UserDao } from '../user/domain/repository/dao/User.Dao.js';
 import { SocialLogin } from './util/SocialLogin.js';
 import { JwtManager } from './util/JwtManager.js';
 import { TokenManager } from '../../global/util/TokenManager.js';
-import { MailManager } from './util/MailManager.js';
+import { MailManager } from '../../global/util/MailManager.js';
 
 @Module({
   imports: [

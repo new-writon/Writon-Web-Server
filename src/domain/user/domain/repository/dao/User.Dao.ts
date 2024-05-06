@@ -92,4 +92,10 @@ export class UserDao extends Repository<User> {
             }
         });
     }
+
+    private async updatePassword(idenfitier:string, email:string, password:string){
+        await this.update({identifier:idenfitier, email: email},{password:password});
+    }
+
+
 }
