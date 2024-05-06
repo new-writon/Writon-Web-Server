@@ -83,4 +83,13 @@ export class UserDao extends Repository<User> {
         
         `);
     }
+
+
+    private async findUserByEmail(email: string){
+        return this.findOne({
+            where:{
+                email: email
+            }
+        });
+    }
 }

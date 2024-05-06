@@ -6,6 +6,7 @@ import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
 import { CurrentUserInterceptor } from '../../auth/interceptors/CurrentUser.Interceptor.js';
 import { User } from '../domain/entity/User.js';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
+import { UserIdentifier } from '../dto/response/UserIdentifier.js';
 
 @Controller("/api/user")
 export class UserController {
@@ -47,4 +48,17 @@ export class UserController {
     await this.userService.checkDuplicateEmail(email);
     return SuccessResponseDto.of();
   }
+  
+
+  @Get("/idenfitier/find")
+  @HttpCode(200)
+  public async findIdentifier(
+    @Query("email") email: string,
+    @Query("code") code: string
+  ): Promise<SuccessResponseDto<UserIdentifier>>  {
+
+    const result : UserIdentifier = await this.userService.findIdentifier(email, code);
+    return SuccessResponseDto.of(result);
+  }
+
 }

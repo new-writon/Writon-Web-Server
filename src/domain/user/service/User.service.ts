@@ -3,12 +3,15 @@ import { User } from '../domain/entity/User.js';
 import { UserRepository } from '../domain/repository/User.Repository.js';
 import { UserException } from '../exception/UserException.js';
 import { UserErrorCode } from '../exception/UserErrorCode.js';
+import { UserIdentifier } from '../dto/response/UserIdentifier.js';
+import { TokenManager } from '../../../global/util/TokenManager.js';
 
 @Injectable()
 export class UserService {
     constructor(
         @Inject('impl')
-        private readonly userRepository: UserRepository
+        private readonly userRepository: UserRepository,
+        private readonly tokenManager: TokenManager
     ) { }
 
 
@@ -25,6 +28,28 @@ export class UserService {
     public async checkDuplicateEmail(email: string): Promise<void> {
         const userData : User = await this.userRepository.selectUserDataByEmail(email);
         this.validateEmail(userData);   
+    }
+
+
+    public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
+        const userData : User = await this.userRepository.findUserByEmail(email);
+        this.verifyUser(userData);
+        const certifyCode :string = await this.tokenManager.getToken(email);
+        this.verifyCode(code, certifyCode);
+        return UserIdentifier.of(userData.getIdentifier());
+  
+    }
+
+    private verifyCode(code: string, certifyCode: string){
+        if(code != certifyCode)
+            throw new UserException(UserErrorCode.NOT_VERIFY_CODE);
+
+    }
+
+
+    private verifyUser(user: User){
+        if(!this.checkData(user))
+            throw new UserException(UserErrorCode.NOT_VERIFY_EMAIL);
     }
 
      /**

@@ -11,6 +11,7 @@ import { Organization } from './domain/entity/Organization.js';
 import { UserChallenge } from './domain/entity/UserChallenge.js';
 import { UserDao } from './domain/repository/dao/User.Dao.js';
 import { SocialLogin } from '../auth/util/SocialLogin.js';
+import { TokenManager } from '../../global/util/TokenManager.js';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { SocialLogin } from '../auth/util/SocialLogin.js';
   providers: [
     UserService, {
       provide: 'impl',  useClass: UserDao, // provide에 문자열 토큰 지정
-    }
+    }, TokenManager
   ],
   controllers: [UserController],
 })
