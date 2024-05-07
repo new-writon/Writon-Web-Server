@@ -81,4 +81,12 @@ export class AuthController{
       await this.authService.verifyAuthenticationCode(auththenticationCode.getEmail(), auththenticationCode.getCode());
       return SuccessResponseDto.of();
     }
+
+
+    @Post("/token-reissue")
+    @HttpCode(200)
+    public async reissueToken(): Promise<SuccessResponseDto<void>> {
+    
+      return SuccessResponseDto.of();
+    }
 }

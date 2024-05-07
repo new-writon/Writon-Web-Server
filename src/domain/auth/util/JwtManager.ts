@@ -1,10 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import jwt from 'jsonwebtoken';
 import type { JwtPayload } from "jsonwebtoken"
+import { TokenManager } from "../../../global/util/TokenManager.js";
 
 
 @Injectable()
 export class JwtManager {
+
+    constructor(
+        private readonly tokenManager: TokenManager
+    ){}
 
     public makeAccessToken = (userId: number, userRole: string): string => {
         const payload = {
@@ -56,24 +61,27 @@ export class JwtManager {
         }
     };
 
-    // public refreshVerify = async (token: string, userId: number) => {
+    public refreshVerify = async (token: string, userId: number) => {
 
-    //     try {
+        try {
+            const refreshToken = await this.tokenManager.getToken(String(userId))
+            if (this.verifyToken(token, refreshToken)) {
+                jwt.verify(token, process.env.SECRET);
+                return { state: true, token: refreshToken };
+            }
+            return { state: false };
+        } catch (err) {
+            return { state: false };
+        }
+    };
 
-    //         const data = await redisDao.getRedis(String(userId));
+    private verifyToken(externalToken: string, internalToken: string): boolean{
+        if(externalToken.split('Bearer ')[1] !== internalToken.split('Bearer ')[1])
+            return false;
+        return true;
+    }
 
-    //         if (token === data.split('Bearer ')[1]) {
 
-    //             jwt.verify(token, process.env.SECRET);
-
-    //             return { state: true, token: data };
-    //         }
-    //         return { state: false };
-
-    //     } catch (err) {
-    //         return { state: false };
-    //     }
-    // };
 
 
 

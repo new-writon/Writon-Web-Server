@@ -14,6 +14,7 @@ import { AuthErrorCode } from "../exception/AuthErrorCode.js";
 import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
 import random from "../util/random.js";
 import { MailManager } from "../../../global/util/MailManager.js";
+import { Token } from "../dto/response/Token.js";
 
 
 @Injectable()
@@ -72,6 +73,19 @@ export class AuthService {
     }
 
 
+
+    public async reissueToken(accessToken: string, refreshToken: string): Promise<Token>{
+
+        const accessTokenVerifyResult = this.jwtManager.verify(accessToken.split('Bearer ')[1]);
+        const accessTokenDecodedData = this.jwtManager.decode(accessToken.split('Bearer ')[1]);
+        const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken.split('Bearer ')[1], accessTokenDecodedData.id);
+
+
+        return;
+
+    }
+
+
     public async issueAuthenticationCode(email: string): Promise<AuthenticationCodeResponse> {
         const verificationCode = random.generateRandom(100000, 999999);
         await this.tokenManager.setTimeoutToken(email, String(verificationCode), 180000)
@@ -96,6 +110,7 @@ export class AuthService {
         if (!this.checkData(userData))   
             throw new AuthException(AuthErrorCode.IDENTIFIER_IS_INCOREECT);
     }
+
 
     /**
      * 
