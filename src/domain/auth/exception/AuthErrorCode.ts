@@ -4,7 +4,9 @@ export enum AuthErrorCode  {
     
     IDENTIFIER_IS_INCOREECT=400,
     PASSWORD_IS_INCOREECT=401,
-    VERIFY_CODE_FAIL=402
+    VERIFY_CODE_FAIL=402,
+    LOGIN_AGAIN=403,
+    NOT_EXPIRED=404
     
     
 }
@@ -13,7 +15,9 @@ export enum AuthErrorCode  {
 const ErrorMessages: { [key: number]: string } = {
     400: "아이디가 옳바르지 않습니다.",
     401: "비밀번호가 옳바르지 않습니다.",
-    402: "검증 코드 인증 실패"
+    402: "검증 코드 인증 실패",
+    403: "재로그인 하세요",
+    404: "토큰이 만료되지 않았습니다."
 };
 
 export function errorMessage(code: AuthErrorCode): string {
