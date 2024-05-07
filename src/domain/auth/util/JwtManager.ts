@@ -18,14 +18,14 @@ export class JwtManager {
         };
         return 'Bearer ' + jwt.sign(payload, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '15m',
+            expiresIn: '2m',
         });
     }
 
     public makeRefreshToken = () => {
         return 'Bearer ' + jwt.sign({}, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '30d',
+            expiresIn: '4m',
         });
     }
 
@@ -35,7 +35,7 @@ export class JwtManager {
 
             return {
                 message: "Ok",
-                id: decoded.id,
+                userId: decoded.userId,
                 role: decoded.role,
             }
         }
@@ -46,12 +46,11 @@ export class JwtManager {
     }
 
     public verify = (token: string) => {
-
         try {
             const decoded = jwt.verify(token, process.env.SECRET) as JwtPayload
             return {
                 state: true,
-                id: decoded!.id,
+                userId: decoded!.userId,
                 role: decoded!.role,
             };
         } catch (err) {
@@ -61,13 +60,18 @@ export class JwtManager {
         }
     };
 
-    public refreshVerify = async (token: string, userId: number) => {
+    public refreshVerify = async (requestToken: string, userId: number) => {
 
         try {
-            const refreshToken = await this.tokenManager.getToken(String(userId))
-            if (this.verifyToken(token, refreshToken)) {
-                jwt.verify(token, process.env.SECRET);
-                return { state: true, token: refreshToken };
+            console.log(userId)
+            const responseToken = await this.tokenManager.getToken(String(userId))
+            console.log(requestToken)
+            console.log(responseToken)
+            if (this.verifyToken(requestToken, responseToken)) {
+                console.log(1)
+                this.verify(requestToken);
+                console.log(2)
+                return { state: true, token: responseToken };
             }
             return { state: false };
         } catch (err) {
@@ -76,9 +80,9 @@ export class JwtManager {
     };
 
     private verifyToken(externalToken: string, internalToken: string): boolean{
-        if(externalToken.split('Bearer ')[1] !== internalToken.split('Bearer ')[1])
-            return false;
-        return true;
+        if(externalToken.split('Bearer ')[1] === internalToken.split('Bearer ')[1])
+            return true;
+        return false;
     }
 
 
