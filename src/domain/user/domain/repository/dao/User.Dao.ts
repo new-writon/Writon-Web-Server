@@ -97,5 +97,11 @@ export class UserDao extends Repository<User> {
         await this.update({identifier:idenfitier, email: email},{password:password});
     }
 
+    private async updatePasswordByUserId(userId: number, newPassword: string){
+        await this.update({userId: userId},{password:newPassword});
+    }
+
+
+
 
 }

@@ -49,7 +49,7 @@ export class AuthService {
 
         const userData: User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(identifier);
         this.vefifyIdentifier(userData);
-        await this.vefifyPassword(password, userData.getPassword())
+        await this.verifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getUserId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(userData.getUserId()), refreshToken);
@@ -103,7 +103,7 @@ export class AuthService {
      * @param comparedPassword  비교 당할 패스워드
      * @returns 
      */
-    private async vefifyPassword(comparingPassword: string, comparedPassword: string){
+    public async verifyPassword(comparingPassword: string, comparedPassword: string){
         if (! await bcrypt.compare(comparingPassword, comparedPassword)){
             throw new AuthException(AuthErrorCode.PASSWORD_IS_INCOREECT);
         }

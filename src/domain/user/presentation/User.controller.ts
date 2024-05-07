@@ -8,6 +8,7 @@ import { User } from '../domain/entity/User.js';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 import { UserIdentifier } from '../dto/response/UserIdentifier.js';
 import { TemporaryPassword } from '../dto/request/TemporaryPassword.js';
+import { PasswordChange } from '../dto/request/PasswordChange.js';
 
 @Controller("/api/user")
 export class UserController {
@@ -70,6 +71,20 @@ export class UserController {
   ): Promise<SuccessResponseDto<void>>  {
 
     await this.userService.generateTemporaryPassword(temporaryPassword.getIdentifier(), temporaryPassword.getEmail());
+    return SuccessResponseDto.of();
+  }
+
+
+
+  @Patch("/password/change")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async changePassword(
+    @Body() passwordChange: PasswordChange,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<void>>  {
+
+    await this.userService.changePassword(user.userId, passwordChange.getOldPassword(), passwordChange.getNewPassword());
     return SuccessResponseDto.of();
   }
 

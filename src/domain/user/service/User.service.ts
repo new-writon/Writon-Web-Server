@@ -8,6 +8,7 @@ import { TokenManager } from '../../../global/util/TokenManager.js';
 import {generateRandomPassword} from '../util/temporaryPassword.js';
 import { MailManager } from '../../../global/util/MailManager.js';
 import bcrypt from 'bcrypt';
+import { AuthService } from '../../auth/service/Auth.Service.js';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,8 @@ export class UserService {
         @Inject('impl')
         private readonly userRepository: UserRepository,
         private readonly tokenManager: TokenManager,
-        private readonly mailManager: MailManager
+        private readonly mailManager: MailManager,
+        private readonly authService: AuthService
     ) { }
 
 
@@ -53,7 +55,11 @@ export class UserService {
         this.mailManager.randomPasswordsmtpSender(email, newPassword);
     }
 
-
+    public async changePassword(userId: number, oldPassword: string, newPassword:string): Promise<void> {
+        const userData : User = await this.userRepository.selectUserById(userId);
+        await this.authService.verifyPassword(oldPassword, userData.getPassword());
+        await this.userRepository.updatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))
+    }
  
     private verifyCode(code: string, certifyCode: string){
         if(code != certifyCode)
