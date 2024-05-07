@@ -78,13 +78,27 @@ export class AuthService {
 
         const accessTokenVerifyResult = this.jwtManager.verify(accessToken.split('Bearer ')[1]);
         const accessTokenDecodedData = this.jwtManager.decode(accessToken.split('Bearer ')[1]);
-        const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken.split('Bearer ')[1], accessTokenDecodedData.id);
-
-
-        return;
+        const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken, accessTokenDecodedData.userId);
+        this.signVerifyToken(accessTokenVerifyResult.state, refreshTokenVerifyesult.state);
+        const newAccessToken = this.jwtManager.makeAccessToken(accessTokenDecodedData.userId, accessTokenDecodedData.role);
+        return Token.of(newAccessToken, refreshTokenVerifyesult.token);
 
     }
 
+    private signVerifyToken(accessTokenVerifyResult: boolean, refreshTokenVerifyesult: boolean){
+        this.signVerifyAccessToken(accessTokenVerifyResult);
+        this.signVerifyRefreshToken(refreshTokenVerifyesult);
+    }
+
+    private signVerifyAccessToken(status: boolean){
+        if(status)
+            throw new AuthException(AuthErrorCode.NOT_EXPIRED);
+    }
+
+    private signVerifyRefreshToken(status: boolean){
+        if(!status)
+            throw new AuthException(AuthErrorCode.LOGIN_AGAIN);           
+    }
 
     public async issueAuthenticationCode(email: string): Promise<AuthenticationCodeResponse> {
         const verificationCode = random.generateRandom(100000, 999999);

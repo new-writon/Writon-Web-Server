@@ -11,6 +11,8 @@ import { SiginUp } from "../dto/request/SignUp.js";
 import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
 import { AuthenticationCodeRequest } from "../dto/request/AuthenticationCodeRequest.js";
 import { VerifyAuthenticationCode } from "../dto/request/VerifyAuthenticationCode.js";
+import { Token } from "../dto/response/Token.js";
+import { Request } from "express";
 @Controller("/api/auth")
 export class AuthController{
 
@@ -85,8 +87,12 @@ export class AuthController{
 
     @Post("/token-reissue")
     @HttpCode(200)
-    public async reissueToken(): Promise<SuccessResponseDto<void>> {
-    
-      return SuccessResponseDto.of();
+    public async reissueToken(
+      @Req() req: Request
+    ): Promise<SuccessResponseDto<Token>> {
+      const accessToken = req.headers.authorization;
+      const refreshToken = req.headers.refresh as string;
+      const result = await this.authService.reissueToken(accessToken, refreshToken);
+      return SuccessResponseDto.of(result);
     }
 }
