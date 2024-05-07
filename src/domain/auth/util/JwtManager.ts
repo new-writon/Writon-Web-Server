@@ -18,14 +18,14 @@ export class JwtManager {
         };
         return 'Bearer ' + jwt.sign(payload, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '2m',
+            expiresIn: '1m',
         });
     }
 
     public makeRefreshToken = () => {
         return 'Bearer ' + jwt.sign({}, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '4m',
+            expiresIn: '2m',
         });
     }
 
@@ -62,15 +62,11 @@ export class JwtManager {
 
     public refreshVerify = async (requestToken: string, userId: number) => {
 
-        try {
-            console.log(userId)
+        try {  
             const responseToken = await this.tokenManager.getToken(String(userId))
-            console.log(requestToken)
-            console.log(responseToken)
-            if (this.verifyToken(requestToken, responseToken)) {
-                console.log(1)
-                this.verify(requestToken);
-                console.log(2)
+            if (this.verifyToken(requestToken, responseToken.split('Bearer ')[1])) {
+          
+                jwt.verify(requestToken, process.env.SECRET) as JwtPayload
                 return { state: true, token: responseToken };
             }
             return { state: false };

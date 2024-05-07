@@ -11,7 +11,6 @@ export class RedisConfig implements CacheOptionsFactory{
           store: redisStore,
           host: process.env.AWS_REDIS_ENDPOINT,
           port: process.env.AWS_REDIS_PORT,
-          ttl: 60,
         };
         return config;
       }
