@@ -7,4 +7,14 @@ import { DataSource, Repository } from "typeorm";
 export class ChallengeDao extends Repository<Challenge> {
 
     constructor(private dataSource: DataSource) { super(Challenge, dataSource.createEntityManager()); }
+
+
+    private async findChallengeById(challengeId: number): Promise<Challenge>{
+        return this.query(`
+            SELECT *
+            FROM Challenge as c
+            WHERE c.challenge_id = ${challengeId}
+            AND curdate() <= c.finish_at ;
+        `)
+    };
 }
