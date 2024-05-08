@@ -4,6 +4,9 @@ import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Reposi
 import { ChallengeDay } from "../domain/entity/ChallengeDay.js";
 import { ChallengeException } from "../exception/ChallengeException.js";
 import { ChallengeErrorCode } from "../exception/ChallengeErrorCode.js";
+import { Challenge } from "../domain/entity/Challenge.js";
+import { checkData } from "../util/checker.js";
+import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
 
 
 
@@ -19,31 +22,34 @@ export class ChallengeInformationService{
     ){}
 
 
-    public async signChallengeDay( challengeId: number, date: Date){
-        
+    public async signChallengeDay( challengeId: number, date: Date){ 
         const challengeDayData = await this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
         this.verifyChallengeDay(challengeDayData)
     }
 
+    public async signChallengeFinish(challengeId: number): Promise<ChallengeStatus> { 
+        const challengeData : Challenge = await this.challengeRepository.findChallengeById(challengeId);
+        const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
+
+        
+        return ChallengeStatus.of(challengeStatus);
+       
+    }
+
+    private verifyChallengeStatus(challengeData: Challenge): boolean{
+        if(!checkData(challengeData))  // 데이터가 없을 떄
+            return true;
+        return false;
+    }
+
+
     private verifyChallengeDay(challengeDay : ChallengeDay){
-        if(!this.checkData(challengeDay))
+        if(!checkData(challengeDay))
             throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE_DAY);
         
     }
 
 
 
-     /**
-     * 
-     * @param data 
-     * @returns  데이터가 없을 경우 false 반환, 있을 경우 true 반환
-     */
-     private checkData(data: any): boolean {
-        let result = true
-        if (!data) {   // 데이터가 없을 경우
-            return result = false;
-        }
-        return result;
-    }
 
 }

@@ -80,4 +80,9 @@ export class Affiliation extends BaseEntity{
 
   @OneToMany(() => UserChallenge, (userChallenge) => userChallenge.affiliation)
   userChallenges: Relation<UserChallenge>[];
+
+
+  public getId(){
+    return this.affiliationId;
+  }
 }

@@ -9,6 +9,7 @@ import {generateRandomPassword} from '../util/temporaryPassword.js';
 import { MailManager } from '../../../global/util/MailManager.js';
 import bcrypt from 'bcrypt';
 import { AuthService } from '../../auth/service/Auth.Service.js';
+import { checkData } from '../util/checker.js';
 
 @Injectable()
 export class UserService {
@@ -69,31 +70,19 @@ export class UserService {
 
 
     private verifyUser(user: User){
-        if(!this.checkData(user))
+        if(!checkData(user))
             throw new UserException(UserErrorCode.NOT_VERIFY_EMAIL);
     }
 
-     /**
-     * 
-     * @param data 
-     * @returns  데이터가 없을 경우 false 반환, 있을 경우 true 반환
-     */
-     private checkData(data: any): boolean {
-        let result = true
-        if (!data) {   // 데이터가 없을 경우
-            return result = false;
-        }
-        return result;
-    }
 
     private validateIdentifier(userData: User){
-        if(!this.checkData(userData)){
+        if(!checkData(userData)){
             throw new UserException(UserErrorCode.INVALIDATE_IDENTIFIER);
         }
     }
 
     private validateEmail(userData: User){
-        if(!this.checkData(userData)){
+        if(!checkData(userData)){
             throw new UserException(UserErrorCode.INVALIDATE_EMAIL);
         }
     }

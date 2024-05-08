@@ -51,4 +51,10 @@ export class UserTemplete extends BaseEntity{
     { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
   userChallenge: Relation<UserChallenge>;
+
+
+
+  public getId(){
+    return this.userTempleteId
+  }
 }
