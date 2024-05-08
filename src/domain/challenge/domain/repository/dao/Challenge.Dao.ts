@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Challenge } from "../../entity/Challenge";
+import { Challenge } from "../../entity/Challenge.js";
 import { DataSource, Repository } from "typeorm";
 
 

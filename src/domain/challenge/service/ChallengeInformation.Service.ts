@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ChallengeRepository } from "../domain/repository/Challenge.Repository";
-import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Repository";
-import { ChallengeDay } from "../domain/entity/ChallengeDay";
-import { ChallengeException } from "../exception/ChallengeException";
-import { ChallengeErrorCode } from "../exception/ChallengeErrorCode";
+import { ChallengeRepository } from "../domain/repository/Challenge.Repository.js";
+import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Repository.js";
+import { ChallengeDay } from "../domain/entity/ChallengeDay.js";
+import { ChallengeException } from "../exception/ChallengeException.js";
+import { ChallengeErrorCode } from "../exception/ChallengeErrorCode.js";
 
 
 
@@ -21,10 +21,8 @@ export class ChallengeInformationService{
 
     public async signChallengeDay( challengeId: number, date: Date){
         
-        const challengeDayData = this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
-
-
-
+        const challengeDayData = await this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
+        this.verifyChallengeDay(challengeDayData)
     }
 
     private verifyChallengeDay(challengeDay : ChallengeDay){

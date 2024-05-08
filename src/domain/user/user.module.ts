@@ -16,6 +16,9 @@ import { AuthService } from '../auth/service/Auth.Service.js';
 import { SocialLogin } from '../auth/util/SocialLogin.js';
 import { JwtManager } from '../auth/util/JwtManager.js';
 import { AuthModule } from '../auth/auth.module.js';
+import { UserChallengeController } from './presentation/UserChallenge.Controller.js';
+import { UserChallengeService } from './service/UserChallenge.Service.js';
+import { AffiliationDao } from './domain/repository/dao/Affiliation.Dao.js';
 
 @Module({
   imports: [
@@ -27,9 +30,15 @@ import { AuthModule } from '../auth/auth.module.js';
   providers: [
     UserService, {
       provide: 'impl',  useClass: UserDao, // provide에 문자열 토큰 지정
-    }, TokenManager, MailManager, 
-    AuthService, SocialLogin, JwtManager
+    }, {
+    provide: 'impl',  useClass: AffiliationDao, // provide에 문자열 토큰 지정
+    }, 
+    {
+      provide: 'impl',  useClass: UserChallenge, // provide에 문자열 토큰 지정
+      }, 
+    TokenManager, MailManager, 
+    AuthService, SocialLogin, JwtManager, UserChallengeService
   ],
-  controllers: [UserController],
+  controllers: [UserController, UserChallengeController],
 })
 export class UserModule {}
