@@ -4,7 +4,7 @@ import { Challenge } from "../entity/Challenge";
 
 export interface ChallengeRepository extends Repository<Challenge>{
 
-    findChallengeById(challengeId: number): Promise<Challenge>;
+    findChallengeById(challengeId: number): Promise<Challenge[]>;
 
     
 

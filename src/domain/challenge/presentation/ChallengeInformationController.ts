@@ -5,14 +5,23 @@ import { ChallengeInformationService } from "../service/ChallengeInformation.Ser
 
 
 
-@Controller("/challenge/information")
+@Controller("/api/challenge/information")
 export class ChallengeInformationController{
 
     constructor(
         private readonly challengeInformationService: ChallengeInformationService
     ){}
 
+    @Get('/:challengeId/status')
+    @HttpCode(200)
+    public async signChallengeFinish(
+        @Param('challengeId') challengeId: number
+    ): Promise<SuccessResponseDto<ChallengeStatus>>{
+        const result = await this.challengeInformationService.signChallengeFinish(challengeId);
+        return SuccessResponseDto.of(result);
+    }
 
+    
     @Get('/:challengeId/:date')
     @HttpCode(200)
     public async signChallengeDay(
@@ -24,13 +33,6 @@ export class ChallengeInformationController{
 
     }
     
-    @Get(':challengeId/status')
-    @HttpCode(200)
-    public async signChallengeFinish(
-        @Param('challengeId') challengeId: number
-    ): Promise<SuccessResponseDto<ChallengeStatus>>{
-        const result = await this.challengeInformationService.signChallengeFinish(challengeId);
-        return SuccessResponseDto.of(result);
-    }
+
     
 }

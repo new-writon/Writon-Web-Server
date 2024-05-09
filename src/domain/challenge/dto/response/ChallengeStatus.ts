@@ -2,20 +2,20 @@ import { InternalServerErrorException } from "@nestjs/common";
 
 export class ChallengeStatus {
 
-    private status: boolean;
+    private challengeStatus: boolean;
 
-    constructor(status: boolean){
-        this.setStatus(status);
+    constructor(challengeStatus: boolean){
+        this.setStatus(challengeStatus);
     }
 
-    public static of(status: boolean){
-        return new ChallengeStatus(status);
+    public static of(challengeStatus: boolean){
+        return new ChallengeStatus(challengeStatus);
 
     }
 
-    setStatus(status: boolean){
-        if(status === null)throw new InternalServerErrorException (`${__dirname} : status 값이 존재하지 않습니다.`);
-        this.status=status
+    setStatus(challengeStatus: boolean){
+        if(challengeStatus === null)throw new InternalServerErrorException (`${__dirname} : status 값이 존재하지 않습니다.`);
+        this.challengeStatus=challengeStatus
     }
 
 

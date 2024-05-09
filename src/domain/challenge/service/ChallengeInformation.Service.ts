@@ -28,16 +28,14 @@ export class ChallengeInformationService{
     }
 
     public async signChallengeFinish(challengeId: number): Promise<ChallengeStatus> { 
-        const challengeData : Challenge = await this.challengeRepository.findChallengeById(challengeId);
+        const challengeData : Challenge[] = await this.challengeRepository.findChallengeById(challengeId);
         const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
-
-        
         return ChallengeStatus.of(challengeStatus);
        
     }
 
-    private verifyChallengeStatus(challengeData: Challenge): boolean{
-        if(!checkData(challengeData))  // 데이터가 없을 떄
+    private verifyChallengeStatus(challengeData: Challenge[]): boolean{
+        if(!checkData(challengeData[0]))  // 데이터가 없을 떄
             return true;
         return false;
     }
