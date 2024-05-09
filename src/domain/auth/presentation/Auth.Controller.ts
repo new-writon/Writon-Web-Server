@@ -13,6 +13,8 @@ import { AuthenticationCodeRequest } from "../dto/request/AuthenticationCodeRequ
 import { VerifyAuthenticationCode } from "../dto/request/VerifyAuthenticationCode.js";
 import { Token } from "../dto/response/Token.js";
 import { Request } from "express";
+
+
 @Controller("/api/auth")
 export class AuthController{
 
@@ -59,7 +61,7 @@ export class AuthController{
         @Req() req: Request,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.authService.logout(String(user.userId));
+      await this.authService.logout(String(user.getUserId()));
       return SuccessResponseDto.of();
     }
 

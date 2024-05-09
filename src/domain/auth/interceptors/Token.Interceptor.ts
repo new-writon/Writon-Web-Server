@@ -39,11 +39,11 @@ export class TokenInterceptor implements NestInterceptor {
     );
   }
 
-  public generateToken(userId: number, userRole: string): string {
-    const payload = {
-        userId: userId,
-        role: userRole,
-      };
-    return "Bearer " +this.jwtService.sign(payload);
-  }
+  // public generateToken(user_id: number, userRole: string): string {
+  //   const payload = {
+  //       user_id: user_id,
+  //       role: userRole,
+  //     };
+  //   return "Bearer " +this.jwtService.sign(payload);
+  // }
 }

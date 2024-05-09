@@ -21,7 +21,7 @@ import { Token } from "../dto/response/Token.js";
 export class AuthService {
 
     constructor(
-        @Inject('impl') private readonly userRepository: UserRepository,
+        @Inject('impluser') private readonly userRepository: UserRepository,
         private readonly socialLogin: SocialLogin,
         private readonly jwtManager: JwtManager,
         private readonly tokenManager: TokenManager,

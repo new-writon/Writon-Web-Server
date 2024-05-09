@@ -1,13 +1,36 @@
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Param } from "@nestjs/common";
+import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
+import { ChallengeInformationService } from "../service/ChallengeInformation.Service.js";
+
 
 
 @Controller("/challenge/information")
 export class ChallengeInformationController{
 
+    constructor(
+        private readonly challengeInformationService: ChallengeInformationService
+    ){}
 
-    // @Get()
-    // public 
+
+    @Get('/:challengeId/:date')
+    @HttpCode(200)
+    public async signChallengeDay(
+         @Param('challengeId') challengeId: number,
+         @Param('date') date: Date
+    ): Promise<SuccessResponseDto<void>>{
+        await this.challengeInformationService.signChallengeDay(challengeId, date);
+        return SuccessResponseDto.of();
+
+    }
     
-
-
+    @Get(':challengeId/status')
+    @HttpCode(200)
+    public async signChallengeFinish(
+        @Param('challengeId') challengeId: number
+    ): Promise<SuccessResponseDto<ChallengeStatus>>{
+        const result = await this.challengeInformationService.signChallengeFinish(challengeId);
+        return SuccessResponseDto.of(result);
+    }
+    
 }

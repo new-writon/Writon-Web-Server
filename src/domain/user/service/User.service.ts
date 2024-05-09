@@ -14,7 +14,7 @@ import { checkData } from '../util/checker.js';
 @Injectable()
 export class UserService {
     constructor(
-        @Inject('impl')
+        @Inject('impluser')
         private readonly userRepository: UserRepository,
         private readonly tokenManager: TokenManager,
         private readonly mailManager: MailManager,

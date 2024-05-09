@@ -2,6 +2,7 @@ import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { UserTemplete } from '../../entity/UserTemplete.js';
+import { UserChallenge } from '../../../../user/domain/entity/UserChallenge.js';
 
 /**
  * User DAO Class
@@ -11,7 +12,7 @@ export class UserTemplateDao extends Repository<UserTemplete> {
     constructor(private dataSource: DataSource) { super(UserTemplete, dataSource.createEntityManager()); }
 
 
-    private async findUserChallengeByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplete[]> {
+    private async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplete[]> {
         return this.query(`
         select ut.* from UserTemplete as ut
         where date(ut.finished_at) = curdate() 

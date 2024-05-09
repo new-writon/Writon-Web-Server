@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UserController } from './presentation/User.Controller.js';
 import { User } from './domain/entity/User.js';
-import { UserService  } from './service/User.Service.js';
+import { UserService } from './service/User.Service.js';
 import { Affiliation } from './domain/entity/Affiliation.js';
 import { Organization } from './domain/entity/Organization.js';
 import { UserChallenge } from './domain/entity/UserChallenge.js';
@@ -19,26 +19,31 @@ import { UserChallengeController } from './presentation/UserChallenge.Controller
 import { UserChallengeService } from './service/UserChallenge.Service.js';
 import { AffiliationDao } from './domain/repository/dao/Affiliation.Dao.js';
 import { UserTemplateHelper } from '../template/helper/UserTemplate.Helper.js';
+import { UserChallengeDao } from './domain/repository/dao/UserChallenge.Dao.js';
+import { UserTemplateDao } from '../template/domain/repository/dao/UserTemplate.Dao.js';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge]),
-  
 
-  
+
+
   ],
   providers: [
     UserService, {
-      provide: 'impl',  useClass: UserDao, // provide에 문자열 토큰 지정
+      provide: 'impluser', useClass: UserDao, // provide에 문자열 토큰 지정
     }, {
-    provide: 'impl',  useClass: AffiliationDao, // provide에 문자열 토큰 지정
-    }, 
+      provide: 'implaffiliation', useClass: AffiliationDao, // provide에 문자열 토큰 지정
+    },
     {
-      provide: 'impl',  useClass: UserChallenge, // provide에 문자열 토큰 지정
-      }, 
-    TokenManager, MailManager, 
+      provide: 'impluserchallenge', useClass: UserChallengeDao, // provide에 문자열 토큰 지정
+    },
+    {
+      provide: 'implusertemplate', useClass: UserTemplateDao, // provide에 문자열 토큰 지정
+    },
+    TokenManager, MailManager,
     AuthService, SocialLogin, JwtManager, UserChallengeService, UserTemplateHelper
   ],
   controllers: [UserController, UserChallengeController],
 })
-export class UserModule {}
+export class UserModule { }

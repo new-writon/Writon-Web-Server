@@ -25,9 +25,12 @@ import { MailManager } from '../../global/util/MailManager.js';
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
   ],
   providers: [
-    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager, {
-      provide: 'impl',  useClass: UserDao
-    }, MailManager
+    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager,
+     {
+      provide: 'impluser',  useClass: UserDao
+    },
+    
+    MailManager
   ],
   controllers: [AuthController],
 })

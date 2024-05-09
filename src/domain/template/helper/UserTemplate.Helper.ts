@@ -7,7 +7,7 @@ export class UserTemplateHelper{
 
 
     constructor(
-        @Inject('impl')
+        @Inject('implusertemplate')
         private readonly userTemplateRepository: UserTemplateRepository,
     ){}
 

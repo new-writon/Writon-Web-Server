@@ -25,7 +25,7 @@ export class UserController {
   ): Promise<SuccessResponseDto<string>>  {
     console.log(user)
     console.log(req.body)
-    const result :string = await this.userService.test(user.userId);
+    const result :string = await this.userService.test(user.user_id);
     return SuccessResponseDto.of(result);
   }
 
@@ -84,7 +84,8 @@ export class UserController {
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
 
-    await this.userService.changePassword(user.userId, passwordChange.getOldPassword(), passwordChange.getNewPassword());
+
+    await this.userService.changePassword(user.getUserId(), passwordChange.getOldPassword(), passwordChange.getNewPassword());
     return SuccessResponseDto.of();
   }
 

@@ -11,21 +11,21 @@ export class JwtManager {
         private readonly tokenManager: TokenManager
     ){}
 
-    public makeAccessToken = (userId: number, userRole: string): string => {
+    public makeAccessToken = (user_id: number, userRole: string): string => {
         const payload = {
-            userId: userId,
+            user_id: user_id,
             role: userRole,
         };
         return 'Bearer ' + jwt.sign(payload, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '1m',
+            expiresIn: '30d',
         });
     }
 
     public makeRefreshToken = () => {
         return 'Bearer ' + jwt.sign({}, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '2m',
+            expiresIn: '40d',
         });
     }
 
@@ -35,7 +35,7 @@ export class JwtManager {
 
             return {
                 message: "Ok",
-                userId: decoded.userId,
+                userId: decoded.user_id,
                 role: decoded.role,
             }
         }
@@ -50,7 +50,7 @@ export class JwtManager {
             const decoded = jwt.verify(token, process.env.SECRET) as JwtPayload
             return {
                 state: true,
-                userId: decoded!.userId,
+                userId: decoded!.user_id,
                 role: decoded!.role,
             };
         } catch (err) {

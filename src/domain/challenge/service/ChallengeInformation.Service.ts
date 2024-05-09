@@ -15,14 +15,14 @@ import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
 export class ChallengeInformationService{
 
     constructor(
-        @Inject('impl')
+        @Inject('implchallenge')
         private readonly challengeRepository: ChallengeRepository,
-        @Inject('impl')
+        @Inject('implchallengeday')
         private readonly challengeDayRepository: ChallengeDayRepository,
     ){}
 
 
-    public async signChallengeDay( challengeId: number, date: Date){ 
+    public async signChallengeDay(challengeId: number, date: Date){ 
         const challengeDayData = await this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
         this.verifyChallengeDay(challengeDayData)
     }

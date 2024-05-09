@@ -6,6 +6,7 @@ import { Likes } from './domain/entity/Likes.js';
 import { QuestionContent } from './domain/entity/QuestionContent.js';
 import { UserTemplete } from './domain/entity/UserTemplete.js';
 import { UserTemplateHelper } from './helper/UserTemplate.Helper.js';
+import { UserTemplateDao } from './domain/repository/dao/UserTemplate.Dao.js';
 
 
 
@@ -19,7 +20,7 @@ import { UserTemplateHelper } from './helper/UserTemplate.Helper.js';
   ],
   providers: [
     {
-      provide: 'impl',  useClass: UserTemplete, // provide에 문자열 토큰 지정
+      provide: 'implusertemplate',  useClass: UserTemplateDao, // provide에 문자열 토큰 지정
       }, UserTemplateHelper
   ],
   controllers: [],
