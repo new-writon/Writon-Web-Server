@@ -11,14 +11,14 @@ import { Challenge } from "./Challenge.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("ChallengeDay_challenge_id_fkey", ["challengeId"], {})
+@Index("ChallengeDay_challenge_id_fkey", ["challenge_id"], {})
 @Entity("ChallengeDay", { schema: "nest" })
 export class ChallengeDay extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_day_id" })
-  challengeDayId: number;
+  challenge_day_id: number;
 
   @Column("int", { name: "challenge_id" })
-  challengeId: number;
+  challenge_id: number;
 
   @Column("date", { name: "day" })
   day: Date;
@@ -27,7 +27,7 @@ export class ChallengeDay extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 
 

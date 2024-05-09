@@ -14,14 +14,14 @@ import { QuestionTag } from "./QuestionTag.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("Question_challenge_id_fkey", ["challengeId"], {})
+@Index("Question_challenge_id_fkey", ["challenge_id"], {})
 @Entity("Question", { schema: "nest" })
 export class Question extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "question_id" })
-  questionId: number;
+  question_id: number;
 
   @Column("int", { name: "challenge_id" })
-  challengeId: number;
+  challenge_id: number;
 
   @Column("varchar", { name: "question", length: 255 })
   question: string;
@@ -33,7 +33,7 @@ export class Question extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 
   @OneToMany(

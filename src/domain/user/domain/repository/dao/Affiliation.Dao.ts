@@ -11,24 +11,23 @@ import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiio
  */
 @Injectable()
 export class AffiliationDao extends Repository<Affiliation> {
-    constructor(private dataSource: DataSource) { super(User, dataSource.createEntityManager()); }
+    constructor(private dataSource: DataSource) { super(Affiliation, dataSource.createEntityManager()); }
 
 
     private async findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-        return this.query(`
-        SELECT 
-        a.* 
-        FROM Affiliation as a
-        WHERE a.user_id = ${userId} 
-        AND a.organization_id = (
-          SELECT o.organization_id FROM Organization as o
-          WHERE o.name = ${organization}
-        );
-        `)
+      return this.findOne({
+        relations:{
+          organization: true
+
+        },
+        where:{
+          organization: {
+            name: organization
+          },
+          user_id: userId
+        }
+      })
     }
-
-
-
 
 
 }

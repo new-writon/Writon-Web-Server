@@ -18,33 +18,33 @@ import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("Challenge_challenge_id_key", ["challengeId"], { unique: true })
-@Index("Challenge_affiliation_id_fkey", ["affiliationId"], {})
+@Index("Challenge_challenge_id_key", ["challenge_id"], { unique: true })
+@Index("Challenge_affiliation_id_fkey", ["affiliation_id"], {})
 @Entity("Challenge", { schema: "nest" })
 export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })
-  challengeId: number;
+  challenge_id: number;
 
   @Column("int", { primary: true, name: "affiliation_id" })
-  affiliationId: number;
+  affiliation_id: number;
 
   @Column("varchar", { name: "name", length: 40 })
   name: string;
 
   @Column("date", { name: "start_at" })
-  startAt: string;
+  start_at: string;
 
   @Column("date", { name: "finish_at" })
-  finishAt: string;
+  finish_at: string;
 
   @Column("int", { name: "deposit" })
   deposit: number;
 
   @Column("longtext", { name: "refund_conditions", nullable: true })
-  refundConditions: string | null;
+  refund_conditions: string | null;
 
   @Column("longtext", { name: "review_url", nullable: true })
-  reviewUrl: string | null;
+  review_url: string | null;
 
   @Column("tinyint", { name: "restart", nullable: true })
   restart: number | null;
@@ -61,7 +61,7 @@ export class Challenge extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliationId" },
+    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
   ])
   affiliation: Relation<Affiliation>;
 

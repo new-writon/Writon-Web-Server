@@ -17,39 +17,39 @@ import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity
 import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
-@Index("UserChallenge_user_challenge_id_key", ["userChallengeId"], {
+@Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
   unique: true,
 })
-@Index("UserChallenge_affiliation_id_fkey", ["affiliationId"], {})
-@Index("UserChallenge_challenge_id_fkey", ["challengeId"], {})
+@Index("UserChallenge_affiliation_id_fkey", ["affiliation_id"], {})
+@Index("UserChallenge_challenge_id_fkey", ["challenge_id"], {})
 @Entity("UserChallenge", { schema: "nest" })
 export class UserChallenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "user_challenge_id" })
-  userChallengeId: number;
+  user_challenge_id: number;
 
   @Column("int", { primary: true, name: "affiliation_id" })
-  affiliationId: number;
+  affiliation_id: number;
 
   @Column("int", { primary: true, name: "challenge_id" })
-  challengeId: number;
+  challenge_id: number;
 
   @Column("int", { name: "user_deposit" })
-  userDeposit: number;
+  user_deposit: number;
 
   @Column("varchar", { name: "cheering_phrase", nullable: true, length: 255 })
-  cheeringPhrase: string | null;
+  cheering_phrase: string | null;
 
   @Column("date", { name: "cheering_phrase_date", nullable: true })
-  cheeringPhraseDate: string | null;
+  cheering_phrase_date: string | null;
 
   @Column("tinyint", { name: "review" })
   review: number;
 
   @Column("int", { name: "check_count", nullable: true })
-  checkCount: number | null;
+  check_count: number | null;
 
   @Column("tinyint", { name: "re_engagement", nullable: true })
-  reEngagement: number | null;
+  re_engagement: number | null;
 
   @OneToMany(() => Agora, (agora) => agora.userChallenge)
   agoras: Relation<Agora>[];
@@ -71,7 +71,7 @@ export class UserChallenge extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliationId" },
+    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
   ])
   affiliation: Relation<Affiliation>;
 
@@ -79,7 +79,7 @@ export class UserChallenge extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 
   @OneToMany(() => UserTemplete, (userTemplete) => userTemplete.userChallenge)

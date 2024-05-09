@@ -12,7 +12,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> {
 
     private async findChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
         return this.findOneBy({
-             challengeId: challengeId,
+             challenge_id: challengeId,
              day: date
         })
     }

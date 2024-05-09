@@ -4,7 +4,7 @@ import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 @Entity("ErrorLog", { schema: "nest" })
 export class ErrorLog {
   @PrimaryGeneratedColumn({ type: "int", name: "error_log_id" })
-  errorLogId: number;
+  error_log_id: number;
 
   @Column("varchar", { name: "level", length: 10 })
   level: string;

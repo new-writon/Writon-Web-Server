@@ -14,17 +14,17 @@ import { SatisfactionSubjectiveResult } from "./SatisfactionSubjectiveResult.js"
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("Satiscation_challenge_id_fkey_idx", ["challengeId"], {})
+@Index("Satiscation_challenge_id_fkey_idx", ["challenge_id"], {})
 @Entity("Satisfaction", { schema: "nest" })
 export class Satisfaction extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "satisfaction_id" })
-  satisfactionId: number;
+  satisfaction_id: number;
 
   @Column("varchar", { name: "question", length: 70 })
   question: string;
 
   @Column("int", { name: "challenge_id" })
-  challengeId: number;
+  challenge_id: number;
 
   @Column("varchar", { name: "type", length: 6 })
   type: string;
@@ -33,7 +33,7 @@ export class Satisfaction extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 
   @OneToMany(

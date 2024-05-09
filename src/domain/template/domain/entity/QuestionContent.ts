@@ -12,21 +12,21 @@ import { UserTemplete } from "./UserTemplete.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("QuestionContent_question_content_id_key", ["questionContentId"], {
+@Index("QuestionContent_question_content_id_key", ["question_content_id"], {
   unique: true,
 })
-@Index("QuestionContent_question_id_fkey", ["questionId"], {})
-@Index("QuestionContent_user_templete_id_fkey", ["userTempleteId"], {})
+@Index("QuestionContent_question_id_fkey", ["question_id"], {})
+@Index("QuestionContent_user_templete_id_fkey", ["user_templete_id"], {})
 @Entity("QuestionContent", { schema: "nest" })
 export class QuestionContent extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "question_content_id" })
-  questionContentId: number;
+  question_content_id: number;
 
   @Column("int", { primary: true, name: "question_id" })
-  questionId: number;
+  question_id: number;
 
   @Column("int", { primary: true, name: "user_templete_id" })
-  userTempleteId: number;
+  user_templete_id: number;
 
   @Column("text", { name: "content" })
   content: string;
@@ -38,7 +38,7 @@ export class QuestionContent extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "question_id", referencedColumnName: "questionId" }])
+  @JoinColumn([{ name: "question_id", referencedColumnName: "question_id" }])
   question: Relation<Question>;
 
   @ManyToOne(
@@ -47,7 +47,7 @@ export class QuestionContent extends BaseEntity{
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
-    { name: "user_templete_id", referencedColumnName: "userTempleteId" },
+    { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
   userTemplete: Relation<UserTemplete>;
 }

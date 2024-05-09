@@ -11,19 +11,19 @@ import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { UserTemplete } from "./UserTemplete.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
-@Index("Like_like_id_key", ["likeId"], { unique: true })
-@Index("Like_user_templete_id_fkey", ["userTempleteId"], {})
-@Index("Like_affiliation_id_fkey_idx", ["affiliationId"], {})
+@Index("Like_like_id_key", ["like_id"], { unique: true })
+@Index("Like_user_templete_id_fkey", ["user_templete_id"], {})
+@Index("Like_affiliation_id_fkey_idx", ["affiliation_id"], {})
 @Entity("Likes", { schema: "nest" })
 export class Likes extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "like_id" })
-  likeId: number;
+  like_id: number;
 
   @Column("int", { primary: true, name: "affiliation_id" })
-  affiliationId: number;
+  affiliation_id: number;
 
   @Column("int", { primary: true, name: "user_templete_id" })
-  userTempleteId: number;
+  user_templete_id: number;
 
   @Column("tinyint", { name: "check", nullable: true })
   check: number | null;
@@ -33,7 +33,7 @@ export class Likes extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliationId" },
+    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
   ])
   affiliation: Relation<Affiliation>;
 
@@ -42,7 +42,7 @@ export class Likes extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "user_templete_id", referencedColumnName: "userTempleteId" },
+    { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
   userTemplete: Relation<UserTemplete>;
 }

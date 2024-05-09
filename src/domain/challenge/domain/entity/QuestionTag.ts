@@ -11,14 +11,14 @@ import { Question } from "./Question.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("QuestionTag_question_id_fkey", ["questionId"], {})
+@Index("QuestionTag_question_id_fkey", ["question_id"], {})
 @Entity("QuestionTag", { schema: "nest" })
 export class QuestionTag {
   @PrimaryGeneratedColumn({ type: "int", name: "question_tag_id" })
-  questionTagId: number;
+  question_tag_id: number;
 
   @Column("int", { name: "question_id" })
-  questionId: number;
+  question_id: number;
 
   @Column("varchar", { name: "category", length: 10 })
   category: string;
@@ -27,6 +27,6 @@ export class QuestionTag {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "question_id", referencedColumnName: "questionId" }])
+  @JoinColumn([{ name: "question_id", referencedColumnName: "question_id" }])
   question: Relation<Question>;
 }

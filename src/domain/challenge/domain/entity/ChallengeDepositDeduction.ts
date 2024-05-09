@@ -11,32 +11,32 @@ import { Challenge } from "./Challenge.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("ChallengeDepositDeduction_challenge_id_fkey", ["challengeId"], {})
+@Index("ChallengeDepositDeduction_challenge_id_fkey", ["challenge_id"], {})
 @Entity("ChallengeDepositDeduction", { schema: "nest" })
 export class ChallengeDepositDeduction extends BaseEntity{
   @PrimaryGeneratedColumn({
     type: "int",
     name: "challenge_deposit_deduction_id",
   })
-  challengeDepositDeductionId: number;
+  challenge_deposit_deduction_id: number;
 
   @Column("int", { name: "challenge_id" })
-  challengeId: number;
+  challenge_id: number;
 
   @Column("int", { name: "start_count" })
-  startCount: number;
+  start_count: number;
   
   @Column("int", { name: "deduction_amount" })
-  deductionAmount: number;
+  deduction_amount: number;
 
   @Column("int", { name: "end_count" })
-  endCount: number;
+  end_count: number;
 
   @ManyToOne(
     () => Challenge,
     (challenge) => challenge.challengeDepositDeductions,
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 }

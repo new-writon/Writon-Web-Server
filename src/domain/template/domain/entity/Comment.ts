@@ -12,23 +12,23 @@ import { UserTemplete } from "./UserTemplete.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("Comment_comment_id_key", ["commentId"], { unique: true })
-@Index("Comment_user_templete_id_fkey", ["userTempleteId"], {})
-@Index("Comment_comment_group_fkey", ["commentGroup"], {})
-@Index("Comment_affiliation_id_fkey_idx", ["affiliationId"], {})
+@Index("Comment_comment_id_key", ["comment_id"], { unique: true })
+@Index("Comment_user_templete_id_fkey", ["user_templete_id"], {})
+@Index("Comment_comment_group_fkey", ["comment_group"], {})
+@Index("Comment_affiliation_id_fkey_idx", ["affiliation_id"], {})
 @Entity("Comment", { schema: "nest" })
 export class Comment extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "comment_id" })
-  commentId: number;
+  comment_id: number;
 
   @Column("int", { name: "comment_group", nullable: true })
-  commentGroup: number | null;
+  comment_group: number | null;
 
   @Column("int", { primary: true, name: "user_templete_id" })
-  userTempleteId: number;
+  user_templete_id: number;
 
   @Column("int", { primary: true, name: "affiliation_id" })
-  affiliationId: number;
+  affiliation_id: number;
 
   @Column("text", { name: "content" })
   content: string;
@@ -41,7 +41,7 @@ export class Comment extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliationId" },
+    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
   ])
   affiliation: Relation<Affiliation>;
 
@@ -50,7 +50,7 @@ export class Comment extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "user_templete_id", referencedColumnName: "userTempleteId" },
+    { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
   userTemplete: Relation<UserTemplete>;
 }

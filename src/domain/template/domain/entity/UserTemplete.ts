@@ -15,17 +15,17 @@ import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("UserTemplete_user_challenge_id_fkey", ["userChallengeId"], {})
+@Index("UserTemplete_user_challenge_id_fkey", ["user_challenge_id"], {})
 @Entity("UserTemplete", { schema: "nest" })
 export class UserTemplete extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "user_templete_id" })
-  userTempleteId: number;
+  user_templete_id: number;
 
   @Column("int", { name: "user_challenge_id" })
-  userChallengeId: number;
+  user_challenge_id: number;
 
   @Column("date", { name: "finished_at", nullable: true })
-  finishedAt: string | null;
+  finished_at: string | null;
 
   @Column("tinyint", { name: "complete", nullable: true, width: 1 })
   complete: boolean | null;
@@ -48,13 +48,13 @@ export class UserTemplete extends BaseEntity{
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
-    { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
+    { name: "user_challenge_id", referencedColumnName: "user_challenge_id" },
   ])
   userChallenge: Relation<UserChallenge>;
 
 
 
   public getId(){
-    return this.userTempleteId
+    return this.user_templete_id
   }
 }

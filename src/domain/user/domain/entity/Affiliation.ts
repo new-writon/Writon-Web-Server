@@ -18,28 +18,28 @@ import { UserChallenge } from "./UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 
 
-@Index("Affiliation_affiliation_id_key", ["affiliationId"], { unique: true })
-@Index("Affiliation_user_id_fkey", ["userId"], {})
-@Index("Affiliation_organization_id_fkey", ["organizationId"], {})
+@Index("Affiliation_affiliation_id_key", ["affiliation_id"], { unique: true })
+@Index("Affiliation_user_id_fkey", ["user_id"], {})
+@Index("Affiliation_organization_id_fkey", ["organization_id"], {})
 @Entity("Affiliation", { schema: "nest" })
 export class Affiliation extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "affiliation_id" })
-  affiliationId: number;
+  affiliation_id: number;
 
   @Column("int", { primary: true, name: "organization_id" })
-  organizationId: number;
+  organization_id: number;
 
   @Column("int", { primary: true, name: "user_id" })
-  userId: number;
+  user_id: number;
 
   @Column("date", { name: "hire_date", nullable: true })
-  hireDate: string | null;
+  hire_date: string | null;
 
   @Column("varchar", { name: "job", nullable: true, length: 20 })
   job: string | null;
 
   @Column("varchar", { name: "job_introduce", nullable: true, length: 300 })
-  jobIntroduce: string | null;
+  job_introduce: string | null;
 
   @Column("varchar", { name: "nickname", length: 191 })
   nickname: string;
@@ -48,14 +48,14 @@ export class Affiliation extends BaseEntity{
   company: string | null;
 
   @Column("tinyint", { name: "company_public", nullable: true, width: 1 })
-  companyPublic: boolean | null;
+  company_public: boolean | null;
 
   @ManyToOne(() => Organization, (organization) => organization.affiliations, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "organization_id", referencedColumnName: "organizationId" },
+    { name: "organization_id", referencedColumnName: "organization_id" },
   ])
   organization: Relation<Organization>;
 
@@ -63,7 +63,7 @@ export class Affiliation extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "user_id", referencedColumnName: "userId" }])
+  @JoinColumn([{ name: "user_id", referencedColumnName: "user_id" }])
   user: User;
 
   @OneToMany(() => AgoraComment, (agoraComment) => agoraComment.affiliation)
@@ -82,7 +82,7 @@ export class Affiliation extends BaseEntity{
   userChallenges: Relation<UserChallenge>[];
 
 
-  public getId(){
-    return this.affiliationId;
+  public getAffiliationId(): number{
+    return this.affiliation_id
   }
 }
