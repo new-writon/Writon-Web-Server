@@ -5,12 +5,13 @@ import type { User } from '../../user/domain/entity/User.js';
 
 declare module 'express' {
   interface Request {
-    user: User | undefined;
+    user: User;
   }
 }
 
 export const CurrentUser = createParamDecorator(
   (_: never, context: ExecutionContext) => {
-    return context.switchToHttp().getRequest<Request>().user;
+  
+    return context.switchToHttp().getRequest<Request>().user as User;
   },
 );

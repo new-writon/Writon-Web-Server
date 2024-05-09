@@ -4,13 +4,11 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import type { CookieOptions, Response } from 'express';
+import type { Response } from 'express';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-//import type { AuthConfig } from '~auth/config/auth';
 
 import type { User } from '../../user/domain/entity/User.js';
 

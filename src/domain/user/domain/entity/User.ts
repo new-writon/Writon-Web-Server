@@ -132,7 +132,7 @@ export class User extends BaseEntity{
   }
 
   public getUserId(): number{
-    return this.user_id;
+    return this.user_id
   }
 
   public getPassword(): string{

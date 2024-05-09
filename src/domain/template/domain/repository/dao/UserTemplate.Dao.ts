@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 
 import { UserTemplete } from '../../entity/UserTemplete.js';
 import { UserChallenge } from '../../../../user/domain/entity/UserChallenge.js';
+import { Affiliation } from 'src/domain/user/domain/entity/Affiliation.js';
 
 /**
  * User DAO Class

@@ -13,21 +13,15 @@ import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiio
 export class AffiliationDao extends Repository<Affiliation> {
     constructor(private dataSource: DataSource) { super(Affiliation, dataSource.createEntityManager()); }
 
-
     private async findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-      return this.findOne({
-        relations:{
-          organization: true
 
-        },
-        where:{
-          organization: {
-            name: organization
-          },
-          user_id: userId
-        }
-      })
+      return this.dataSource
+        .createQueryBuilder()
+        .select('a')
+        .from(Affiliation,'a')
+        .innerJoin('a.organization', 'o')
+        .where("a.user_id = :userId", {userId:userId})
+        .andWhere('o.name = :organization', { organization: organization })
+        .getOne();
     }
-
-
 }
