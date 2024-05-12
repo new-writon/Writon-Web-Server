@@ -6,6 +6,8 @@ import { User } from '../domain/entity/User.js';
 import { CurrentUser } from '../../../domain/auth/decorators/Auth.Decorator.js';
 import { TemplateStatus } from '../dto/response/TemplateStatus.js';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
+import { Calendar } from '../dto/response/Calendar.js';
+import { CalendarData } from '../dto/response/CalendarData.js';
 
 @Controller("/api/user/challenge")
 export class UserChallengeController {
@@ -35,5 +37,20 @@ export class UserChallengeController {
         const result = await this.userChallengeService.presentSituation(user.user_id, organization, challengeId)
         return SuccessResponseDto.of(result);
     }
+
+
+    @Get('/calendar/:organization/:challengeId')
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringCalendarData(
+        @Param('organization') organization: string,
+        @Param('challengeId') challengeId: number,
+        @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<CalendarData[]>>{
+        const result : CalendarData[] = await this.userChallengeService.bringCalendarData(user.user_id, organization, challengeId)
+        console.log(result)
+        return SuccessResponseDto.of(result);
+    }
+
 
 }

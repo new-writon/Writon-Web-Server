@@ -8,4 +8,7 @@ export interface UserTemplateRepository extends Repository<UserTemplete> {
    findUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplete[]>;
 
    findSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>;
+
+   findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>;
+
 }

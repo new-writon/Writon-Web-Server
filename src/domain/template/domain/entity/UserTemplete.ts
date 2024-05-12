@@ -25,7 +25,7 @@ export class UserTemplete extends BaseEntity{
   user_challenge_id: number;
 
   @Column("date", { name: "finished_at", nullable: true })
-  finished_at: string | null;
+  finished_at: Date | null;
 
   @Column("tinyint", { name: "complete", nullable: true, width: 1 })
   complete: boolean | null;
@@ -56,5 +56,13 @@ export class UserTemplete extends BaseEntity{
 
   public getId(){
     return this.user_templete_id
+  }
+
+  public getFinishedAt(): Date{
+    return this.finished_at;
+  }
+
+  public getComplete(): boolean{
+    return this.complete;
   }
 }

@@ -9,6 +9,6 @@ export interface ChallengeDayRepository extends Repository<ChallengeDay>{
 
     findOverlapCount(challengeId: number): Promise<number>;
 
-    
+    findChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>;
 
 }

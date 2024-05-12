@@ -26,4 +26,14 @@ export class ChallengeDayDao extends Repository<ChallengeDay> {
             .where('cd.challenge_id = :challengeId', {challengeId:challengeId})
             .getCount()
     };
+
+    private async findChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
+        return this.dataSource
+            .createQueryBuilder()
+            .select('cd')
+            .from(ChallengeDay, 'cd')
+            .where('cd.challenge_id= :challengeId', {challengeId:challengeId})
+            .andWhere('cd.day BETWEEN (SELECT c.start_at FROM Challenge as c WHERE c.challenge_id = :challengeId) AND CURDATE()')
+            .getMany()
+    }
 }

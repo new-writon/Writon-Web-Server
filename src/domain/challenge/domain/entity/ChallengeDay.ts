@@ -31,5 +31,8 @@ export class ChallengeDay extends BaseEntity{
   challenge: Relation<Challenge>;
 
 
+  public getDay(): Date{
+    return this.day;
+  }
   
 }

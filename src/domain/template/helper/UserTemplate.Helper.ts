@@ -21,4 +21,8 @@ export class UserTemplateHelper{
         return this.userTemplateRepository.findSuccessChallengeCount(affiliationId, challengeId);
     };
 
+    public async giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
+        return this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
+    }
+
 }
