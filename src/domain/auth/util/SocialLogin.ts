@@ -14,9 +14,6 @@ export class SocialLogin {
               Authorization: `Bearer ${token}`
             }
           });
-
-
-
     }
 
 }

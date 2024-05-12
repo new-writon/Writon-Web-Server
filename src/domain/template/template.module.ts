@@ -20,9 +20,14 @@ import { UserTemplateDao } from './domain/repository/dao/UserTemplate.Dao.js';
   ],
   providers: [
     {
-      provide: 'implusertemplate',  useClass: UserTemplateDao, // provide에 문자열 토큰 지정
-      }, UserTemplateHelper
+    provide: 'implusertemplate',  useClass: UserTemplateDao, // provide에 문자열 토큰 지정
+    }, 
+    UserTemplateHelper
   ],
   controllers: [],
+  exports:[
+    UserTemplateHelper,
+
+  ]
 })
 export class TemplateModule {}

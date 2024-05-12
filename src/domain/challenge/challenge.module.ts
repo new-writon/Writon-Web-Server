@@ -18,7 +18,8 @@ import { ChallengeDayDao } from './domain/repository/dao/ChallengeDay.Dao.js';
     TypeOrmModule.forFeature([Challenge, ChallengeDay, ChallengeDepositDeduction, Question, QuestionTag]),
   ],
   providers: [
-    ChallengeInformationService, {
+    ChallengeInformationService, 
+    {
       provide: 'implchallenge',  useClass: ChallengeDao, // provide에 문자열 토큰 지정
     }, {
       provide: 'implchallengeday',  useClass: ChallengeDayDao, // provide에 문자열 토큰 지정

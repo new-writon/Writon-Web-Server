@@ -13,36 +13,39 @@ import { UserDao } from './domain/repository/dao/User.Dao.js';
 import { TokenManager } from '../../global/util/TokenManager.js';
 import { MailManager } from '../../global/util/MailManager.js';
 import { AuthService } from '../auth/service/Auth.Service.js';
-import { SocialLogin } from '../auth/util/SocialLogin.js';
-import { JwtManager } from '../auth/util/JwtManager.js';
 import { UserChallengeController } from './presentation/UserChallenge.Controller.js';
 import { UserChallengeService } from './service/UserChallenge.Service.js';
 import { AffiliationDao } from './domain/repository/dao/Affiliation.Dao.js';
 import { UserTemplateHelper } from '../template/helper/UserTemplate.Helper.js';
 import { UserChallengeDao } from './domain/repository/dao/UserChallenge.Dao.js';
 import { UserTemplateDao } from '../template/domain/repository/dao/UserTemplate.Dao.js';
+import { AuthModule } from '../auth/auth.module.js';
+import { TemplateModule } from '../template/template.module.js';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge]),
+    AuthModule,
+    TemplateModule
 
 
 
   ],
   providers: [
-    UserService, {
+    UserService, 
+    {
       provide: 'impluser', useClass: UserDao, // provide에 문자열 토큰 지정
-    }, {
+    }, 
+    {
       provide: 'implaffiliation', useClass: AffiliationDao, // provide에 문자열 토큰 지정
     },
     {
       provide: 'impluserchallenge', useClass: UserChallengeDao, // provide에 문자열 토큰 지정
     },
-    {
-      provide: 'implusertemplate', useClass: UserTemplateDao, // provide에 문자열 토큰 지정
-    },
-    TokenManager, MailManager,
-    AuthService, SocialLogin, JwtManager, UserChallengeService, UserTemplateHelper
+    TokenManager, 
+    MailManager,
+    AuthService, 
+    UserChallengeService, 
   ],
   controllers: [UserController, UserChallengeController],
 })
