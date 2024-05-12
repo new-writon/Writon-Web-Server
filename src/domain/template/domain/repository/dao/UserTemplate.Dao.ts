@@ -27,4 +27,21 @@ export class UserTemplateDao extends Repository<UserTemplete> {
 
 
 
+   private async findSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
+
+    const data = await this.query(`
+        select count(*) as count from UserTemplete as ut
+        where ut.complete = 1
+        and
+        ut.user_challenge_id = (select uc.user_challenge_id
+        from UserChallenge as uc 
+            where uc.affiliation_id = ${affiliationId}
+                and uc.challenge_id = ${challengeId});
+    `)
+    return data[0].count
+
+   }
+
+
+
 }

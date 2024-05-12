@@ -10,5 +10,12 @@ import { UserChallenge } from '../../entity/UserChallenge.js';
 export class UserChallengeDao extends Repository<UserChallenge> {
     constructor(private dataSource: DataSource) { super(UserChallenge, dataSource.createEntityManager()); }
 
-
+    private async findUserChallengeByAffiliationIdAndId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
+        return this.findOne({
+            where:{
+                affiliation_id: affiliationId,
+                challenge_id: challengeId
+            }
+        })
+    }
 }

@@ -15,5 +15,15 @@ export class ChallengeDayDao extends Repository<ChallengeDay> {
              challenge_id: challengeId,
              day: date
         })
-    }
+    };
+
+
+    private async findOverlapCount(challengeId: number): Promise<number>{
+        return this.dataSource
+            .createQueryBuilder()
+            .select()
+            .from(ChallengeDay, 'cd')
+            .where('cd.challenge_id = :challengeId', {challengeId:challengeId})
+            .getCount()
+    };
 }

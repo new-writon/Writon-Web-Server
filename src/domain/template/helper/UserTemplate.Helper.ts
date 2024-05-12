@@ -14,7 +14,11 @@ export class UserTemplateHelper{
     public async giveUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplete[]>{
 
         return this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
+    };
 
-    }
+    public async giveSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
+
+        return this.userTemplateRepository.findSuccessChallengeCount(affiliationId, challengeId);
+    };
 
 }

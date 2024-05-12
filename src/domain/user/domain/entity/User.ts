@@ -127,7 +127,7 @@ export class User extends BaseEntity{
     return this.role;
   }
 
-  public getKakaoProfileImage(): string{
+  public getProfileImage(): string{
     return this.profile;
   }
 

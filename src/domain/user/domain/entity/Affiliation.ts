@@ -85,4 +85,8 @@ export class Affiliation extends BaseEntity{
   public getAffiliationId(): number{
     return this.affiliation_id
   }
+
+  public getNickname(): string{
+    return this.nickname
+  }
 }

@@ -28,7 +28,7 @@ export class ChallengeInformationService{
     }
 
     public async signChallengeFinish(challengeId: number): Promise<ChallengeStatus> { 
-        const challengeData : Challenge[] = await this.challengeRepository.findChallengeById(challengeId);
+        const challengeData : Challenge[] = await this.challengeRepository.findChallengeByIdAndOngoing(challengeId);
         const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
         return ChallengeStatus.of(challengeStatus);
        

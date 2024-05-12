@@ -84,4 +84,9 @@ export class UserChallenge extends BaseEntity{
 
   @OneToMany(() => UserTemplete, (userTemplete) => userTemplete.userChallenge)
   userTempletes: Relation<UserTemplete>[];
+
+
+  public getUserDeposit(){
+    return this.user_deposit;
+  }
 }

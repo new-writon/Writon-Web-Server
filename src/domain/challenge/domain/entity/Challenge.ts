@@ -79,4 +79,17 @@ export class Challenge extends BaseEntity{
 
   @OneToMany(() => UserChallenge, (userChallenge) => userChallenge.challenge)
   userChallenges: Relation<UserChallenge>[];
+
+
+  public getName(){
+    return this.name;
+  }
+
+  public getRefundCondition(){
+    return this.refund_conditions;
+  }
+
+  public getDeposit(){
+    return this.deposit;
+  }
 }

@@ -19,10 +19,7 @@ async function bootstrap() {
 
   const jwtService = app.get(JwtService);
   const tokenInterceptor = new TokenInterceptor(jwtService);
-
   //console.log(tokenInterceptor.generateToken(1, "USER"))
   await app.listen(config.get('port'));
 }
-
-
 void bootstrap();
