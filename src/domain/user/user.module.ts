@@ -21,12 +21,14 @@ import { UserChallengeDao } from './domain/repository/dao/UserChallenge.Dao.js';
 import { UserTemplateDao } from '../template/domain/repository/dao/UserTemplate.Dao.js';
 import { AuthModule } from '../auth/auth.module.js';
 import { TemplateModule } from '../template/template.module.js';
+import { ChallengeModule } from '../challenge/challenge.module.js';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge]),
     AuthModule,
-    TemplateModule
+    TemplateModule,
+    ChallengeModule
 
 
 

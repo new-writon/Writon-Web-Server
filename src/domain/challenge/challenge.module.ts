@@ -10,6 +10,8 @@ import { ChallengeInformationController } from './presentation/ChallengeInformat
 import { ChallengeInformationService } from './service/ChallengeInformation.Service.js';
 import { ChallengeDao } from './domain/repository/dao/Challenge.Dao.js';
 import { ChallengeDayDao } from './domain/repository/dao/ChallengeDay.Dao.js';
+import { ChallengeHelper } from './helper/Challenge.Helper.js';
+import { ChallengeDayHelper } from './helper/ChallengeDay.Helper.js';
 
 
 
@@ -19,6 +21,8 @@ import { ChallengeDayDao } from './domain/repository/dao/ChallengeDay.Dao.js';
   ],
   providers: [
     ChallengeInformationService, 
+    ChallengeHelper,
+    ChallengeDayHelper,
     {
       provide: 'implchallenge',  useClass: ChallengeDao, // provide에 문자열 토큰 지정
     }, {
@@ -27,5 +31,9 @@ import { ChallengeDayDao } from './domain/repository/dao/ChallengeDay.Dao.js';
   
   ],
   controllers: [ChallengeInformationController],
+  exports:[
+    ChallengeHelper,
+    ChallengeDayHelper
+  ]
 })
 export class ChallengeModule {}
