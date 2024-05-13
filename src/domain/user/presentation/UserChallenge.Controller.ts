@@ -47,8 +47,7 @@ export class UserChallengeController {
         @Param('challengeId') challengeId: number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CalendarData[]>>{
-        const result : CalendarData[] = await this.userChallengeService.bringCalendarData(user.user_id, organization, challengeId)
-        console.log(result)
+        const result : CalendarData[] = await this.userChallengeService.bringCalendarData(user.user_id, organization, challengeId);
         return SuccessResponseDto.of(result);
     }
 

@@ -65,14 +65,14 @@ export class UserChallengeService {
     };
 
 
-   public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData[]>{
+   public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData[] >{
       
         const [affiliationData, challengeDayData] = await Promise.all([
             this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization),
             this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId) 
         ]);
         const userTemplateData = await this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
-        const calendarData : CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
+        const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
         return calendarData;
     };
 

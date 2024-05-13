@@ -2,19 +2,19 @@ import { InternalServerErrorException } from "@nestjs/common";
 import { CalendarData } from "./CalendarData";
 
 export class Calendar{
-    private data: CalendarData[];
+    private datas: CalendarData[];
 
 
-    constructor(data: CalendarData[]){
-        this.setCalendarData(data); 
+    constructor(datas: CalendarData[]){
+        this.setCalendarData(datas); 
     }
 
-    public static of(data: CalendarData[]){
-        return new Calendar(data);
+    public static of(datas: CalendarData[]){
+        return new Calendar(datas);
     }
 
     setCalendarData(data: CalendarData[]){
-        this.data=data
+        this.datas=data
     }
 
  
