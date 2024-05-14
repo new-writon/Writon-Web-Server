@@ -65,4 +65,6 @@ export class UserTemplete extends BaseEntity{
   public getComplete(): boolean{
     return this.complete;
   }
+
+  
 }

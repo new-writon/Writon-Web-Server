@@ -22,6 +22,8 @@ import { UserTemplateDao } from '../template/domain/repository/dao/UserTemplate.
 import { AuthModule } from '../auth/auth.module.js';
 import { TemplateModule } from '../template/template.module.js';
 import { ChallengeModule } from '../challenge/challenge.module.js';
+import { UserChallengeHelper } from './helper/UserChallenge.Helper.js';
+import { AffiliationHelper } from './helper/Affiliation.Helper.js';
 
 @Module({
   imports: [
@@ -48,7 +50,10 @@ import { ChallengeModule } from '../challenge/challenge.module.js';
     MailManager,
     AuthService, 
     UserChallengeService, 
+    UserChallengeHelper,
+    AffiliationHelper
   ],
   controllers: [UserController, UserChallengeController],
+  exports:[UserChallengeHelper, AffiliationHelper]
 })
 export class UserModule { }

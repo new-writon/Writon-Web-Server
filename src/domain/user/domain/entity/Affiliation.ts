@@ -87,6 +87,19 @@ export class Affiliation extends BaseEntity{
   }
 
   public getNickname(): string{
-    return this.nickname
+    return this.nickname;
+  }
+
+  public getCompany(): string{
+    return this.company;
+  }
+
+  public getCompanyPublic(): boolean{
+    return this.company_public;
+  }
+
+
+  public getJob(): string{
+    return this.job;
   }
 }

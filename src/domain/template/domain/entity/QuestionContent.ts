@@ -50,4 +50,8 @@ export class QuestionContent extends BaseEntity{
     { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
   userTemplete: Relation<UserTemplete>;
+
+  public getId (){
+    return this.question_content_id;
+  }
 }
