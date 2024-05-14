@@ -3,16 +3,17 @@ import { Injectable } from '@nestjs/common';
 import { UserTemplete } from '../../entity/UserTemplete.js';
 import { UserChallenge } from '../../../../user/domain/entity/UserChallenge.js';
 import { TemplateContent } from '../../../dto/response/TemplateContent.js';
+import { UserTemplateRepository } from '../UserTemplate.Repository.js';
 
 /**
  * User DAO Class
  */
 @Injectable()
-export class UserTemplateDao extends Repository<UserTemplete> {
+export class UserTemplateDao extends Repository<UserTemplete> implements UserTemplateRepository {
     constructor(private dataSource: DataSource) { super(UserTemplete, dataSource.createEntityManager()); }
 
 
-    private async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplete[]> {
+    public async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplete[]> {
         return this.query(`
         select ut.* from UserTemplete as ut
         where date(ut.finished_at) = curdate() 
@@ -26,7 +27,7 @@ export class UserTemplateDao extends Repository<UserTemplete> {
 
 
 
-   private async findSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
+    public async findSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
 
     const data = await this.query(`
         select count(*) as count from UserTemplete as ut
@@ -41,7 +42,7 @@ export class UserTemplateDao extends Repository<UserTemplete> {
    }
 
 
-   private async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
+  public async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
     return this.createQueryBuilder('ut')
         .select('ut.*')
         .from(UserTemplete, 'ut')
