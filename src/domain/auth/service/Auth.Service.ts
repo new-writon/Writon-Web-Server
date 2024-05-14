@@ -15,6 +15,9 @@ import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeRe
 import random from "../util/random.js";
 import { MailManager } from "../../../global/util/MailManager.js";
 import { Token } from "../dto/response/Token.js";
+import { checkData } from "../util/checker.js";
+import { UserIdentifier } from "../dto/response/UserIdentifier.js";
+import { generateRandomPassword } from "../util/temporaryPassword.js";
 
 
 @Injectable()
@@ -111,18 +114,77 @@ export class AuthService {
     public async verifyAuthenticationCode(email: string, code: string): Promise<void> {
 
         const authenticationCode: string = await this.tokenManager.getToken(email);
-        this.verifyCode(authenticationCode, code);
+        this.verifyCode(code, authenticationCode);
+    }
+
+    public async checkDuplicateIdentifier(identifier: string): Promise<void> {
+        const userData : User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(identifier);
+        console.log(userData)
+        this.validateIdentifier(userData);   
+    }
+
+    public async checkDuplicateEmail(email: string): Promise<void> {
+        const userData : User = await this.userRepository.selectUserDataByEmail(email);
+        this.validateEmail(userData);   
     }
 
 
-    private verifyCode(authenticationCode: string, code: string){
-        if (authenticationCode !== code) {
-            throw new AuthException(AuthErrorCode.VERIFY_CODE_FAIL)
-          }
+    public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
+        const userData : User = await this.userRepository.findUserByEmail(email);
+        this.verifyUser(userData);
+        const certifyCode :string = await this.tokenManager.getToken(email);
+        this.verifyCode(code, certifyCode);
+        return UserIdentifier.of(userData.getIdentifier());
+  
     }
+
+    public async generateTemporaryPassword(idenfitier:string, email:string): Promise<void> {
+        const userData : User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(idenfitier);
+        this.vefifyIdentifier(userData);
+        this.verifyEmail(userData, email);
+        const newPassword = generateRandomPassword();
+        await this.userRepository.updatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
+        this.mailManager.randomPasswordsmtpSender(email, newPassword);
+    }
+
+    public async changePassword(userId: number, oldPassword: string, newPassword:string): Promise<void> {
+        const userData : User = await this.userRepository.selectUserById(userId);
+        await this.verifyPassword(oldPassword, userData.getPassword());
+        await this.userRepository.updatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))
+    }
+ 
+    private verifyCode(code: string, certifyCode: string){
+        if(code !== certifyCode)
+            throw new AuthException(AuthErrorCode.NOT_VERIFY_CODE);
+    }
+
+    private verifyUser(user: User){
+        if(!checkData(user))
+            throw new AuthException(AuthErrorCode.NOT_VERIFY_EMAIL);
+    }
+
+
+    private validateIdentifier(userData: User){
+        if(checkData(userData)){
+            throw new AuthException(AuthErrorCode.INVALIDATE_IDENTIFIER);
+        }
+    }
+
+    private validateEmail(userData: User){
+        if(checkData(userData)){
+            throw new AuthException(AuthErrorCode.INVALIDATE_EMAIL);
+        }
+    }
+
+    private verifyEmail(userData: User, email: string){
+        if(userData.getEmail() !== email)
+            throw new AuthException(AuthErrorCode.NOT_VERIFY_EMAIL);
+    }
+
+
 
     private vefifyIdentifier(userData : User){
-        if (!this.checkData(userData))   
+        if (!checkData(userData))   
             throw new AuthException(AuthErrorCode.IDENTIFIER_IS_INCOREECT);
     }
 
@@ -148,7 +210,7 @@ export class AuthService {
     }
 
     private async signInDependingOnRegistrationStatus(userData: User, kakaoData: AxiosResponse<any, any>) {
-        if (!this.checkData(userData)) {
+        if (!checkData(userData)) {
             this.userRepository.kakaoSignUp(kakaoData.data.kakao_account.email, kakaoData.data.id, kakaoData.data.properties.profile_image);
         }
     }
@@ -159,22 +221,22 @@ export class AuthService {
     ): Promise<boolean | null> {
 
         const checkAffiliation: UserAffiliationOrganization[] = await this.userRepository.findUserAffiliation(userId, organization);
-        const affiliatedConfirmation: boolean = this.checkData(checkAffiliation[0]);
+        const affiliatedConfirmation: boolean = checkData(checkAffiliation[0]);
         return affiliatedConfirmation;
     }
 
-    /**
-     * 
-     * @param data 
-     * @returns  데이터가 없을 경우 false 반환, 있을 경우 true 반환
-     */
-    private checkData(data: any): boolean {
-        let result = true
-        if (!data) {   // 데이터가 없을 경우
-            return result = false;
-        }
-        return result;
-    }
+    // /**
+    //  * 
+    //  * @param data 
+    //  * @returns  데이터가 없을 경우 false 반환, 있을 경우 true 반환
+    //  */
+    // private checkData(data: any): boolean {
+    //     let result = true
+    //     if (!data) {   // 데이터가 없을 경우
+    //         return result = false;
+    //     }
+    //     return result;
+    // }
 
     private async checkOngoingChallenge(
         organization: string,
@@ -183,7 +245,7 @@ export class AuthService {
     ): Promise<boolean | null> {
 
         const checkChallenge: UserChallenge[] = await this.userRepository.findUserChallenge(userId, organization, challengeId);
-        const challengedConfirmation: boolean = this.checkData(checkChallenge[0]);
+        const challengedConfirmation: boolean = checkData(checkChallenge[0]);
         return challengedConfirmation;
     }
 

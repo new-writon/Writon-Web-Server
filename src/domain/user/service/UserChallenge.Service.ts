@@ -3,7 +3,7 @@ import { AffiliationRepository } from '../domain/repository/Affiliation.Reposito
 import { UserTemplateHelper } from '../../../domain/template/helper/UserTemplate.Helper.js';
 import { UserTemplete } from '../../../domain/template/domain/entity/UserTemplete.js';
 import { Affiliation } from '../domain/entity/Affiliation.js';
-import { checkData } from '../util/checker.js';
+import { checkData } from '../../auth/util/checker.js';
 import { TemplateStatus } from '../dto/response/TemplateStatus.js';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
 import { UserRepository } from '../domain/repository/User.Repository.js';

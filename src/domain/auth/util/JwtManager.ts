@@ -18,14 +18,14 @@ export class JwtManager {
         };
         return 'Bearer ' + jwt.sign(payload, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '30d',
+            expiresIn: '1m',
         });
     }
 
     public makeRefreshToken = () => {
         return 'Bearer ' + jwt.sign({}, process.env.SECRET, {
             algorithm: 'HS256',
-            expiresIn: '40d',
+            expiresIn: '2m',
         });
     }
 

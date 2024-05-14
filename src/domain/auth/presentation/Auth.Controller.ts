@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
 import { AuthService } from "../service/Auth.Service.js";
 import { KakaoLogin } from "../dto/request/KakaoLogin.js";
@@ -13,6 +13,9 @@ import { AuthenticationCodeRequest } from "../dto/request/AuthenticationCodeRequ
 import { VerifyAuthenticationCode } from "../dto/request/VerifyAuthenticationCode.js";
 import { Token } from "../dto/response/Token.js";
 import { Request } from "express";
+import { TemporaryPassword } from "../dto/request/TemporaryPassword.js";
+import { PasswordChange } from "../dto/request/PasswordChange.js";
+import { UserIdentifier } from "../dto/response/UserIdentifier.js";
 
 
 @Controller("/api/auth")
@@ -61,7 +64,7 @@ export class AuthController{
         @Req() req: Request,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.authService.logout(String(user.getUserId()));
+      await this.authService.logout(String(user.user_id));
       return SuccessResponseDto.of();
     }
 
@@ -97,4 +100,66 @@ export class AuthController{
       const result = await this.authService.reissueToken(accessToken, refreshToken);
       return SuccessResponseDto.of(result);
     }
+
+    @Get("/identifier/check")
+    @HttpCode(200)
+    public async checkDuplicateIdentifier(
+      @Query("identifier") identifier: string
+    ): Promise<SuccessResponseDto<void>>  {
+  
+      await this.authService.checkDuplicateIdentifier(identifier);
+      return SuccessResponseDto.of();
+    }
+  
+  
+  
+    @Get("/email/check")
+    @HttpCode(200)
+    public async checkDuplicateEmail(
+      @Query("email") email: string
+    ): Promise<SuccessResponseDto<void>>  {
+  
+      await this.authService.checkDuplicateEmail(email);
+      return SuccessResponseDto.of();
+    }
+    
+  
+    @Get("/idenfitier/find")
+    @HttpCode(200)
+    public async findIdentifier(
+      @Query("email") email: string,
+      @Query("code") code: string
+    ): Promise<SuccessResponseDto<UserIdentifier>>  {
+  
+      const result : UserIdentifier = await this.authService.findIdentifier(email, code);
+      return SuccessResponseDto.of(result);
+    }
+  
+  
+    @Patch("/temporary-password/generate")
+    @HttpCode(200)
+    public async generateTemporaryPassword(
+      @Body() temporaryPassword: TemporaryPassword
+    ): Promise<SuccessResponseDto<void>>  {
+  
+      await this.authService.generateTemporaryPassword(temporaryPassword.getIdentifier(), temporaryPassword.getEmail());
+      return SuccessResponseDto.of();
+    }
+  
+  
+  
+    @Patch("/password/change")
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async changePassword(
+      @Body() passwordChange: PasswordChange,
+      @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<void>>  {
+  
+      await this.authService.changePassword(user.user_id, passwordChange.getOldPassword(), passwordChange.getNewPassword());
+      return SuccessResponseDto.of();
+    }
+
+
+
 }
