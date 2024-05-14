@@ -13,7 +13,7 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
     constructor(private dataSource: DataSource) { super(UserTemplete, dataSource.createEntityManager()); }
 
 
-    public async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplete[]> {
+    async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplete[]> {
         return this.query(`
         select ut.* from UserTemplete as ut
         where date(ut.finished_at) = curdate() 
@@ -27,7 +27,7 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
 
 
 
-    public async findSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
+  async findSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
 
     const data = await this.query(`
         select count(*) as count from UserTemplete as ut
@@ -42,7 +42,7 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
    }
 
 
-  public async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
+   async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
     return this.createQueryBuilder('ut')
         .select('ut.*')
         .from(UserTemplete, 'ut')
