@@ -14,8 +14,8 @@ export interface UserRepository extends Repository<User> {
     findUserByEmail(email: string): Promise<User>
     kakaoSignUp(email: string,kakaoNumber: string,kakaoProfile: string): void
     localSignUp(identifier: string, password: string, email: string): void
-    findUserChallenge(userId: number, organization: string, challengeId: number):UserChallenge[]
-    findUserAffiliation(userId: number, organization: string): UserAffiliationOrganization[]
+    findUserChallenge(userId: number, organization: string, challengeId: number):Promise<UserChallenge[]> 
+    findUserAffiliation(userId: number, organization: string): Promise<UserAffiliationOrganization[]>
     selectUserDataByEmail(email: string): Promise<User>
     updatePassword(idenfitier:string, email:string, password:string):void
     updatePasswordByUserId(userId: number, newPassword: string):void

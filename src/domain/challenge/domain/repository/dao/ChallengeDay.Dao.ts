@@ -2,15 +2,16 @@ import { Injectable } from "@nestjs/common";
 
 import { DataSource, Repository } from "typeorm";
 import { ChallengeDay } from "../../entity/ChallengeDay.js";
+import { ChallengeDayRepository } from "../ChallengeDay.Repository.js";
 
 
 @Injectable()
-export class ChallengeDayDao extends Repository<ChallengeDay> {
+export class ChallengeDayDao extends Repository<ChallengeDay> implements ChallengeDayRepository{
 
     constructor(private dataSource: DataSource) { super(ChallengeDay, dataSource.createEntityManager());}
 
 
-    private async findChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
+    async findChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
         return this.findOneBy({
              challenge_id: challengeId,
              day: date
@@ -18,7 +19,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> {
     };
 
 
-    private async findOverlapCount(challengeId: number): Promise<number>{
+    async findOverlapCount(challengeId: number): Promise<number>{
         return this.dataSource
             .createQueryBuilder()
             .select()
@@ -27,7 +28,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> {
             .getCount()
     };
 
-    private async findChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
+    async findChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
         return this.dataSource
             .createQueryBuilder()
             .select('cd')

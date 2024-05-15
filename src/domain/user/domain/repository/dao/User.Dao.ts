@@ -4,18 +4,19 @@ import { Injectable } from '@nestjs/common';
 import { UserChallenge } from '../../entity/UserChallenge.js';
 import { Affiliation } from '../../entity/Affiliation.js';
 import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiionOrganization.interface.js';
+import { UserRepository } from '../User.Repository.js';
 
 
 /**
  * User DAO Class
  */
 @Injectable()
-export class UserDao extends Repository<User> {
+export class UserDao extends Repository<User> implements UserRepository{
     constructor(private dataSource: DataSource) { super(User, dataSource.createEntityManager()); }
 
 
 
-    private async selectUserById(userId: number): Promise<User> {
+    async selectUserById(userId: number): Promise<User> {
         return await this.findOne({
             where: {
                 user_id: userId
@@ -23,7 +24,7 @@ export class UserDao extends Repository<User> {
         })
     }
 
-    private async selectUserDataBySocialNumberOrIdentifier(socialNumber: string): Promise<User> {
+    async selectUserDataBySocialNumberOrIdentifier(socialNumber: string): Promise<User> {
         return await this.findOne({
             where: {
                 identifier: socialNumber
@@ -31,7 +32,7 @@ export class UserDao extends Repository<User> {
         })
     }
 
-    private async selectUserDataByEmail(email: string): Promise<User> {
+    async selectUserDataByEmail(email: string): Promise<User> {
         return await this.findOne({
             where: {
                 email:email
@@ -40,7 +41,7 @@ export class UserDao extends Repository<User> {
     }
     
 
-    private async kakaoSignUp(
+    async kakaoSignUp(
         email: string,
         kakaoNumber: string,
         kakaoProfile: string
@@ -49,7 +50,7 @@ export class UserDao extends Repository<User> {
         return await this.save(newUser);
     }
 
-    private async localSignUp(
+    async localSignUp(
         identifier: string,
         password: string,
         email: string
@@ -59,7 +60,7 @@ export class UserDao extends Repository<User> {
     }
 
 
-    private async findUserAffiliation(userId: number, organization: string): Promise<UserAffiliationOrganization[]> {
+    async findUserAffiliation(userId: number, organization: string): Promise<UserAffiliationOrganization[]> {
 
         return await this.dataSource.query(`
             SELECT *
@@ -71,7 +72,7 @@ export class UserDao extends Repository<User> {
     }
 
 
-    private async findUserChallenge(userId: number, organization: string, challengeId: number): Promise<UserChallenge[]> {
+    async findUserChallenge(userId: number, organization: string, challengeId: number): Promise<UserChallenge[]> {
         return await this.dataSource.query(`
             SELECT uc.*  FROM UserChallenge as uc
             WHERE uc.affiliation_id = ( SELECT a.affiliation_id FROM Affiliation as a
@@ -85,7 +86,7 @@ export class UserDao extends Repository<User> {
     }
 
 
-    private async findUserByEmail(email: string){
+    async findUserByEmail(email: string){
         return this.findOne({
             where:{
                 email: email
@@ -93,11 +94,11 @@ export class UserDao extends Repository<User> {
         });
     }
 
-    private async updatePassword(idenfitier:string, email:string, password:string){
+    async updatePassword(idenfitier:string, email:string, password:string){
         await this.update({identifier:idenfitier, email: email},{password:password});
     }
 
-    private async updatePasswordByUserId(userId: number, newPassword: string){
+    async updatePasswordByUserId(userId: number, newPassword: string){
         await this.update({user_id: userId},{password:newPassword});
     }
 
