@@ -15,9 +15,9 @@ import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
 export class ChallengeInformationService{
 
     constructor(
-        @Inject('implchallenge')
+        @Inject('challengeImpl')
         private readonly challengeRepository: ChallengeRepository,
-        @Inject('implchallengeday')
+        @Inject('challengedayImpl')
         private readonly challengeDayRepository: ChallengeDayRepository,
     ){}
 

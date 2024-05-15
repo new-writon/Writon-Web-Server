@@ -8,7 +8,7 @@ import { TemplateContent, TemplateContentArray } from '../dto/response/TemplateC
 export class TemplateService {
     constructor(
         private readonly affiliationHelper: AffiliationHelper,
-        @Inject('implusertemplate')
+        @Inject('usertemplateImpl')
         private readonly userTemplateRepository: UserTemplateRepository,
       ) {}
 

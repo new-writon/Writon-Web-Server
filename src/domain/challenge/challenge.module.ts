@@ -24,9 +24,9 @@ import { ChallengeDayHelper } from './helper/ChallengeDay.Helper.js';
     ChallengeHelper,
     ChallengeDayHelper,
     {
-      provide: 'implchallenge',  useClass: ChallengeDao, // provide에 문자열 토큰 지정
+      provide: 'challengeImpl',  useClass: ChallengeDao, // provide에 문자열 토큰 지정
     }, {
-      provide: 'implchallengeday',  useClass: ChallengeDayDao, // provide에 문자열 토큰 지정
+      provide: 'challengedayImpl',  useClass: ChallengeDayDao, // provide에 문자열 토큰 지정
     }
   
   ],

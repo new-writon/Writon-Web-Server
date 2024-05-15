@@ -27,7 +27,7 @@ import { MailManager } from '../../global/util/MailManager.js';
   providers: [
     JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager,
     {
-      provide: 'impluser',  useClass: UserDao
+      provide: 'userImpl',  useClass: UserDao
     },
     
     MailManager

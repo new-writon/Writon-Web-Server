@@ -18,14 +18,14 @@ import { Calendar } from '../dto/response/Calendar.js';
 @Injectable()
 export class UserChallengeService {
     constructor(
-        @Inject('implaffiliation')
+        @Inject('affiliationImpl')
         private readonly affiliationRepository: AffiliationRepository,
-        @Inject('impluser')
+        @Inject('userImpl')
         private readonly userRepository: UserRepository,
         private readonly userTemplateHelper: UserTemplateHelper,
         private readonly challengeHelper: ChallengeHelper,
         private readonly challengeDayHelper: ChallengeDayHelper,
-        @Inject('impluserchallenge')
+        @Inject('userchallengeImpl')
         private readonly userChallengeRepository: UserChallengeRepository
 
       

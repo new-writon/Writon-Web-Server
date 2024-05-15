@@ -6,7 +6,7 @@ import { Affiliation } from "../domain/entity/Affiliation";
 export class AffiliationHelper {
 
     constructor(
-        @Inject('implaffiliation')
+        @Inject('affiliationImpl')
         private readonly affiliationRepository: AffiliationRepository,
     ){}
 

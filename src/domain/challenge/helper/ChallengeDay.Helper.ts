@@ -9,7 +9,7 @@ export class ChallengeDayHelper{
 
 
     constructor(
-        @Inject('implchallengeday')
+        @Inject('challengedayImpl')
         private readonly challengeDayRepository: ChallengeDayRepository,
     ){}
 

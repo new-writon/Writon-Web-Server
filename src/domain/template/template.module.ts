@@ -23,7 +23,7 @@ import { TemplateContent } from './dto/response/TemplateContent.js';
   ],
   providers: [
     {
-    provide: 'implusertemplate',  useClass: UserTemplateDao, // provide에 문자열 토큰 지정
+    provide: 'usertemplateImpl',  useClass: UserTemplateDao, // provide에 문자열 토큰 지정
     }, 
     UserTemplateHelper,
     TemplateService,

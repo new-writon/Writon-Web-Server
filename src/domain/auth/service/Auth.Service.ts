@@ -24,7 +24,7 @@ import { generateRandomPassword } from "../util/temporaryPassword.js";
 export class AuthService {
 
     constructor(
-        @Inject('impluser') private readonly userRepository: UserRepository,
+        @Inject('userImpl') private readonly userRepository: UserRepository,
         private readonly socialLogin: SocialLogin,
         private readonly jwtManager: JwtManager,
         private readonly tokenManager: TokenManager,

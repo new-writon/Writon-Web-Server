@@ -38,13 +38,13 @@ import { AffiliationHelper } from './helper/Affiliation.Helper.js';
   providers: [
     UserService, 
     {
-      provide: 'impluser', useClass: UserDao, // provide에 문자열 토큰 지정
+      provide: 'userImpl', useClass: UserDao, // provide에 문자열 토큰 지정
     }, 
     {
-      provide: 'implaffiliation', useClass: AffiliationDao, // provide에 문자열 토큰 지정
+      provide: 'affiliationImpl', useClass: AffiliationDao, // provide에 문자열 토큰 지정
     },
     {
-      provide: 'impluserchallenge', useClass: UserChallengeDao, // provide에 문자열 토큰 지정
+      provide: 'userchallengeImpl', useClass: UserChallengeDao, // provide에 문자열 토큰 지정
     },
     TokenManager, 
     MailManager,

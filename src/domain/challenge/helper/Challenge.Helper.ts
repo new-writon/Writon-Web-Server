@@ -8,7 +8,7 @@ export class ChallengeHelper{
 
 
     constructor(
-        @Inject('implchallenge')
+        @Inject('challengeImpl')
         private readonly challengeRepository: ChallengeRepository,
     ){}
 
