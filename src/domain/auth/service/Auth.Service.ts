@@ -1,12 +1,10 @@
-import { Inject, Injectable } from "@nestjs/common";
+import {  Injectable } from "@nestjs/common";
 import { LoginResponse } from "../dto/response/loginResponse.js";
 import { SocialLogin } from "../util/SocialLogin.js";
 import { User } from "../../user/domain/entity/User.js";
 import { AxiosResponse } from "axios";
-import { UserRepository } from "src/domain/user/domain/repository/User.Repository.js";
 import { JwtManager } from "../util/JwtManager.js";
 import { TokenManager } from "../../../global/util/TokenManager.js";
-import { UserAffiliationOrganization } from "src/domain/interface/UserAffilatiionOrganization.interface.js";
 import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
 import bcrypt from 'bcrypt';
 import { AuthException } from "../exception/AuthException.js";
@@ -18,26 +16,32 @@ import { Token } from "../dto/response/Token.js";
 import { checkData } from "../util/checker.js";
 import { UserIdentifier } from "../dto/response/UserIdentifier.js";
 import { generateRandomPassword } from "../util/temporaryPassword.js";
+import { UserHelper } from "../../user/helper/User.Helper.js";
+import { AffiliationHelper } from "../../user/helper/Affiliation.Helper.js";
+import { Affiliation } from "../../user/domain/entity/Affiliation.js";
+import { UserChallengeHelper } from "../../user/helper/UserChallenge.Helper.js";
 
 
 @Injectable()
 export class AuthService {
 
     constructor(
-        @Inject('userImpl') private readonly userRepository: UserRepository,
         private readonly socialLogin: SocialLogin,
         private readonly jwtManager: JwtManager,
         private readonly tokenManager: TokenManager,
-        private readonly mailManager: MailManager
+        private readonly mailManager: MailManager,
+        private readonly userHelper: UserHelper,
+        private readonly affiliationHelper: AffiliationHelper,
+        private readonly userChallengeHelper: UserChallengeHelper
     ) { }
 
 
     public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<LoginResponse> {
 
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
-        const userData: User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
+        const userData: User = await this.userHelper.giveUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
-        const checkedUserData: User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
+        const checkedUserData: User = await this.userHelper.giveUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getUserId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(checkedUserData.getUserId()), refreshToken);
@@ -51,7 +55,7 @@ export class AuthService {
 
     public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
 
-        const userData: User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(identifier);
+        const userData: User = await this.userHelper.giveUserDataBySocialNumberOrIdentifier(identifier);
         this.vefifyIdentifier(userData);
         await this.verifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getUserId(), userData.getRole());
@@ -68,7 +72,7 @@ export class AuthService {
 
     public async localSignUp(identifier: string, password: string, email: string,): Promise<void> {
         const encryptedPassword = await bcrypt.hash(password, 10);
-        await this.userRepository.localSignUp(identifier, encryptedPassword, email);
+        await this.userHelper.executeLocalSignUp(identifier, encryptedPassword, email);
     }
 
     public async logout(userId: string): Promise<void> {
@@ -118,19 +122,18 @@ export class AuthService {
     }
 
     public async checkDuplicateIdentifier(identifier: string): Promise<void> {
-        const userData : User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(identifier);
-        console.log(userData)
+        const userData : User = await this.userHelper.giveUserDataBySocialNumberOrIdentifier(identifier);
         this.validateIdentifier(userData);   
     }
 
     public async checkDuplicateEmail(email: string): Promise<void> {
-        const userData : User = await this.userRepository.selectUserDataByEmail(email);
+        const userData : User = await this.userHelper.giveUserByEmail(email);
         this.validateEmail(userData);   
     }
 
 
     public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
-        const userData : User = await this.userRepository.findUserByEmail(email);
+        const userData : User = await this.userHelper.giveUserByEmail(email);
         this.verifyUser(userData);
         const certifyCode :string = await this.tokenManager.getToken(email);
         this.verifyCode(code, certifyCode);
@@ -139,18 +142,18 @@ export class AuthService {
     }
 
     public async generateTemporaryPassword(idenfitier:string, email:string): Promise<void> {
-        const userData : User = await this.userRepository.selectUserDataBySocialNumberOrIdentifier(idenfitier);
+        const userData : User = await this.userHelper.giveUserDataBySocialNumberOrIdentifier(idenfitier);
         this.vefifyIdentifier(userData);
         this.verifyEmail(userData, email);
         const newPassword = generateRandomPassword();
-        await this.userRepository.updatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
+        await this.userHelper.executeUpdatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
         this.mailManager.randomPasswordsmtpSender(email, newPassword);
     }
 
     public async changePassword(userId: number, oldPassword: string, newPassword:string): Promise<void> {
-        const userData : User = await this.userRepository.selectUserById(userId);
+        const userData : User = await this.userHelper.giveUserById(userId);
         await this.verifyPassword(oldPassword, userData.getPassword());
-        await this.userRepository.updatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))
+        await this.userHelper.executeUpdatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))
     }
  
     private verifyCode(code: string, certifyCode: string){
@@ -211,7 +214,7 @@ export class AuthService {
 
     private async signInDependingOnRegistrationStatus(userData: User, kakaoData: AxiosResponse<any, any>) {
         if (!checkData(userData)) {
-            this.userRepository.kakaoSignUp(kakaoData.data.kakao_account.email, kakaoData.data.id, kakaoData.data.properties.profile_image);
+            this.userHelper.executeKakaoSignUp(kakaoData.data.kakao_account.email, kakaoData.data.id, kakaoData.data.properties.profile_image);
         }
     }
 
@@ -220,23 +223,10 @@ export class AuthService {
         userId: number
     ): Promise<boolean | null> {
 
-        const checkAffiliation: UserAffiliationOrganization[] = await this.userRepository.findUserAffiliation(userId, organization);
-        const affiliatedConfirmation: boolean = checkData(checkAffiliation[0]);
+        const checkAffiliation: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliatedConfirmation: boolean = checkData(checkAffiliation);
         return affiliatedConfirmation;
     }
-
-    // /**
-    //  * 
-    //  * @param data 
-    //  * @returns  데이터가 없을 경우 false 반환, 있을 경우 true 반환
-    //  */
-    // private checkData(data: any): boolean {
-    //     let result = true
-    //     if (!data) {   // 데이터가 없을 경우
-    //         return result = false;
-    //     }
-    //     return result;
-    // }
 
     private async checkOngoingChallenge(
         organization: string,
@@ -244,7 +234,7 @@ export class AuthService {
         challengeId: number
     ): Promise<boolean | null> {
 
-        const checkChallenge: UserChallenge[] = await this.userRepository.findUserChallenge(userId, organization, challengeId);
+        const checkChallenge: UserChallenge[] = await this.userChallengeHelper.giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
         const challengedConfirmation: boolean = checkData(checkChallenge[0]);
         return challengedConfirmation;
     }

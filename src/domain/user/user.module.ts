@@ -24,6 +24,7 @@ import { TemplateModule } from '../template/template.module.js';
 import { ChallengeModule } from '../challenge/challenge.module.js';
 import { UserChallengeHelper } from './helper/UserChallenge.Helper.js';
 import { AffiliationHelper } from './helper/Affiliation.Helper.js';
+import { UserHelper } from './helper/User.Helper.js';
 
 @Module({
   imports: [
@@ -51,9 +52,10 @@ import { AffiliationHelper } from './helper/Affiliation.Helper.js';
     AuthService, 
     UserChallengeService, 
     UserChallengeHelper,
-    AffiliationHelper
+    AffiliationHelper,
+    UserHelper
   ],
   controllers: [UserController, UserChallengeController],
-  exports:[UserChallengeHelper, AffiliationHelper]
+  exports:[UserChallengeHelper, AffiliationHelper, UserHelper]
 })
 export class UserModule { }

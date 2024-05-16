@@ -13,5 +13,9 @@ export class AffiliationHelper {
     public async giveAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
         return this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
     }
+
+
+
+
     
 }
