@@ -39,7 +39,6 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
                   .getQuery();
               return `a.organization_id = (${subQuery})`;
           })
-          .setParameter('organization', organization)
           .getOne();
         }
 }
