@@ -1,8 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-
 import { UserController } from './presentation/User.Controller.js';
 import { User } from './domain/entity/User.js';
 import { UserService } from './service/User.Service.js';
@@ -16,9 +13,7 @@ import { AuthService } from '../auth/service/Auth.Service.js';
 import { UserChallengeController } from './presentation/UserChallenge.Controller.js';
 import { UserChallengeService } from './service/UserChallenge.Service.js';
 import { AffiliationDao } from './domain/repository/dao/Affiliation.Dao.js';
-import { UserTemplateHelper } from '../template/helper/UserTemplate.Helper.js';
 import { UserChallengeDao } from './domain/repository/dao/UserChallenge.Dao.js';
-import { UserTemplateDao } from '../template/domain/repository/dao/UserTemplate.Dao.js';
 import { AuthModule } from '../auth/auth.module.js';
 import { TemplateModule } from '../template/template.module.js';
 import { ChallengeModule } from '../challenge/challenge.module.js';
@@ -55,6 +50,7 @@ import { UserHelper } from './helper/User.Helper.js';
     AffiliationHelper,
     UserHelper
   ],
+
   controllers: [UserController, UserChallengeController],
   exports:[UserChallengeHelper, AffiliationHelper, UserHelper]
 })

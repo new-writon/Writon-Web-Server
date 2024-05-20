@@ -6,15 +6,17 @@ import { JwtStrategy } from './strategies/Jwt.Strategy.js';
 import { AuthConfig, auth } from './util/auth.js';
 import { AuthController } from './presentation/Auth.Controller.js';
 import { AuthService } from './service/Auth.Service.js';
-import { UserDao } from '../user/domain/repository/dao/User.Dao.js';
 import { SocialLogin } from './util/SocialLogin.js';
 import { JwtManager } from './util/JwtManager.js';
 import { TokenManager } from '../../global/util/TokenManager.js';
 import { MailManager } from '../../global/util/MailManager.js';
-import { UserHelper } from '../user/helper/User.Helper.js';
-import { AffiliationHelper } from '../user/helper/Affiliation.Helper.js';
-import { UserChallengeHelper } from '../user/helper/UserChallenge.Helper.js';
 import { UserModule } from '../user/user.module.js';
+import { AccountController } from './presentation/Account.Controller.js';
+import { VerificationController } from './presentation/Verification.Controller.js';
+import { DuplicationCheckController } from './presentation/DuplicationCheck.Controller.js';
+import { AccountService } from './service/Account.Service.js';
+import { DuplicationCheckService } from './service/DuplicationCheck.Service.js';
+import { VerificationService } from './service/Verifiaction.Service.js';
 
 
 @Module({
@@ -31,9 +33,9 @@ import { UserModule } from '../user/user.module.js';
   ],
   providers: [
     JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager,
-    MailManager
+    MailManager, AccountService, DuplicationCheckService, VerificationService
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
   exports:[
     SocialLogin,
     JwtManager
