@@ -11,6 +11,7 @@ export enum AuthErrorCode  {
     INVALIDATE_EMAIL=406,
     NOT_VERIFY_CODE=407,
     NOT_VERIFY_EMAIL=408,
+    INVALIDATE_NICKNAME=409
     
     
     
@@ -27,6 +28,7 @@ const ErrorMessages: { [key: number]: string } = {
     406: "이메일이 중복됩니다.",
     407: "인증 코드가 옳바르지 않습니다.",
     408: "이메일이 옳바르지 않습니다.",
+    409: "닉네임이 중복됩니다"
 
 };
 

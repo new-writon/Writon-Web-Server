@@ -17,6 +17,7 @@ import { DuplicationCheckController } from './presentation/DuplicationCheck.Cont
 import { AccountService } from './service/Account.Service.js';
 import { DuplicationCheckService } from './service/DuplicationCheck.Service.js';
 import { VerificationService } from './service/Verifiaction.Service.js';
+import { AffiliationApi } from './intrastructure/Affiliation.Api.js';
 
 
 @Module({
@@ -33,7 +34,7 @@ import { VerificationService } from './service/Verifiaction.Service.js';
   ],
   providers: [
     JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager,
-    MailManager, AccountService, DuplicationCheckService, VerificationService
+    MailManager, AccountService, DuplicationCheckService, VerificationService, AffiliationApi
   ],
   controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
   exports:[

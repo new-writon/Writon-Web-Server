@@ -5,6 +5,7 @@ import { UserChallenge } from '../../entity/UserChallenge.js';
 import { Affiliation } from '../../entity/Affiliation.js';
 import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiionOrganization.interface.js';
 import { AffiliationRepository } from '../Affiliation.Repository.js';
+import { Organization } from '../../entity/Organization.js';
 
 
 /**
@@ -25,4 +26,26 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
         .andWhere('o.name = :organization', { organization: organization })
         .getOne();
     }
+
+    async findAffiliationByNicknameAndOrganization(nickname: string, organization: string): Promise<Affiliation | null> {
+      return this.dataSource
+          .createQueryBuilder(Affiliation, 'a')
+          .where('a.nickname = :nickname', { nickname })
+          .andWhere(qb => {
+              const subQuery = qb.subQuery()
+                  .select('o.organization_id')
+                  .from(Organization, 'o')
+                  .where('o.name = :organization', { organization })
+                  .getQuery();
+              return `a.organization_id = (${subQuery})`;
+          })
+          .setParameter('organization', organization)
+          .getOne();
+        }
 }
+
+
+  
+
+    
+

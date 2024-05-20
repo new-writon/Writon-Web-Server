@@ -6,6 +6,7 @@ import { Affiliation } from '../entity/Affiliation.js';
 export interface AffiliationRepository extends Repository<Affiliation> {
 
     findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>;
+    findAffiliationByNicknameAndOrganization(nickname:string, organization:string):Promise<Affiliation>;
     
 
 
