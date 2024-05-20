@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { Challenge } from "../entity/Challenge";
-import { Period } from "../../dto/response/Period";
+import { ChallengeInformation } from "../../dto/ChallengeInformation";
 
 
 export interface ChallengeRepository extends Repository<Challenge>{
@@ -10,5 +10,7 @@ export interface ChallengeRepository extends Repository<Challenge>{
     findOverlapPeriod(challengeId: number): Promise<number>;
 
     findChallengeById(challengeId: number): Promise<Challenge>;
+
+    findChallengeWithCondition(challengeId: number): Promise<ChallengeInformation[]>;
 
 }

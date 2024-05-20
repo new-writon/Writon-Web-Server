@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { UserChallengeService } from '../service/UserChallenge.Service.js';
 import { JWTAuthGuard } from '../../../domain/auth/guards/JwtAuth.Guard.js';
@@ -8,6 +8,7 @@ import { TemplateStatus } from '../dto/response/TemplateStatus.js';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
 import { Calendar } from '../dto/response/Calendar.js';
 import { CalendarData } from '../dto/response/CalendarData.js';
+import { ChallengeStart } from '../dto/request/ChallegeStart.js';
 
 @Controller("/api/user/challenge")
 export class UserChallengeController {
@@ -51,5 +52,16 @@ export class UserChallengeController {
         return SuccessResponseDto.of(result);
     }
 
+
+    @Post('/start')
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async startChallenge(
+        @Body() challengeStart: ChallengeStart,
+        @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<void>>{
+        await this.userChallengeService.startChallenge(user.user_id, challengeStart.getOrganization(), challengeStart.getChallengeId())
+        return SuccessResponseDto.of();
+    }
 
 }

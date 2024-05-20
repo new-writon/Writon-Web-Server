@@ -20,6 +20,7 @@ import { ChallengeModule } from '../challenge/challenge.module.js';
 import { UserChallengeHelper } from './helper/UserChallenge.Helper.js';
 import { AffiliationHelper } from './helper/Affiliation.Helper.js';
 import { UserHelper } from './helper/User.Helper.js';
+import { ChallengeApi } from './infrastruture/Challenge.Api.js';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { UserHelper } from './helper/User.Helper.js';
     UserChallengeService, 
     UserChallengeHelper,
     AffiliationHelper,
-    UserHelper
+    UserHelper,
+    ChallengeApi
   ],
 
   controllers: [UserController, UserChallengeController],

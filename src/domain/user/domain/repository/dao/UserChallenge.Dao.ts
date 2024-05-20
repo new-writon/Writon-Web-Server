@@ -35,4 +35,10 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         `);
     }
 
+
+    async insertUserChallenge(affiliationId:number, challengeId: number, deposit:number, review: number): Promise<void>{
+        const newUserChallenge = UserChallenge.createChallengeUser(affiliationId, challengeId, deposit, review);
+        this.save(newUserChallenge);
+    }
+
 }

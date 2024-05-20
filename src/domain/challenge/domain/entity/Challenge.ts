@@ -92,4 +92,8 @@ export class Challenge extends BaseEntity{
   public getDeposit(){
     return this.deposit;
   }
+
+  public getId(){
+    return this.challenge_id;
+  }
 }

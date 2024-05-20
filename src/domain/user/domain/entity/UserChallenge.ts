@@ -16,6 +16,7 @@ import { Agora } from "../../../agora/domain/entity/Agora.js";
 import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionObjectiveResult.js";
 import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { InternalServerErrorException } from "@nestjs/common";
 
 @Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
   unique: true,
@@ -24,6 +25,22 @@ import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 @Index("UserChallenge_challenge_id_fkey", ["challenge_id"], {})
 @Entity("UserChallenge", { schema: "nest" })
 export class UserChallenge extends BaseEntity{
+
+  constructor(   
+    affiliationId:number,
+    challengeId:number,
+    deposit:number,
+    review: number
+  ){
+    super();
+    this.setAffiliationId(affiliationId);
+    this.setChallengeId(challengeId);
+    this.setDeposit(deposit);
+    this.setReview(review)
+
+    }
+
+
   @PrimaryGeneratedColumn({ type: "int", name: "user_challenge_id" })
   user_challenge_id: number;
 
@@ -86,7 +103,39 @@ export class UserChallenge extends BaseEntity{
   userTempletes: Relation<UserTemplete>[];
 
 
+  private setAffiliationId(affiliationId: number){
+    if(affiliationId === null) throw new InternalServerErrorException (`${__dirname} : affiliationId 값이 존재하지 않습니다.`);
+    this.affiliation_id=affiliationId;
+  }
+
+  private setChallengeId(challengeId: number){
+    if(challengeId === null) throw new InternalServerErrorException (`${__dirname} : challengeId 값이 존재하지 않습니다.`);
+    this.challenge_id=challengeId;
+  }
+
+  private setDeposit(deposit: number){
+    if(deposit === null) throw new InternalServerErrorException (`${__dirname} : deposit 값이 존재하지 않습니다.`);
+    this.user_deposit=deposit;
+  }
+
+  private setReview(review: number){
+    if(review === null) throw new InternalServerErrorException (`${__dirname} : review 값이 존재하지 않습니다.`);
+    this.review=review;
+  }
+
   public getUserDeposit(){
     return this.user_deposit;
   }
+  
+
+  public static createChallengeUser(
+    affiliationId:number,
+    challengeId:number,
+    deposit:number,
+    review:number
+  ){
+    return new UserChallenge(affiliationId, challengeId, deposit, review);
+  }
+
+
 }
