@@ -16,6 +16,7 @@ import { Comment } from "../../../template/domain/entity/Comment.js";
 import { Likes } from "../../../template/domain/entity/Likes.js";
 import { UserChallenge } from "./UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { InternalServerErrorException } from "@nestjs/common";
 
 
 @Index("Affiliation_affiliation_id_key", ["affiliation_id"], { unique: true })
@@ -23,6 +24,31 @@ import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 @Index("Affiliation_organization_id_fkey", ["organization_id"], {})
 @Entity("Affiliation", { schema: "nest" })
 export class Affiliation extends BaseEntity{
+
+
+  constructor(
+    userId: number,
+    organizationId:number,
+    nickname: string,
+    job: string,
+    jobIntroduce: string,
+    hireDate: string,
+    company: string,
+    companyPublic: boolean,
+
+  ){
+    super(),
+    this.setUserId(userId)
+    this.setOrganizationId(organizationId)
+    this.setNickname(nickname)
+    this.setJob(job)
+    this.setJobIntroduce(jobIntroduce)
+    this.setHireDate(hireDate)
+    this.setCompany(company)
+    this.setCompanyPublic(companyPublic)
+  }
+
+
   @PrimaryGeneratedColumn({ type: "int", name: "affiliation_id" })
   affiliation_id: number;
 
@@ -82,6 +108,71 @@ export class Affiliation extends BaseEntity{
   userChallenges: Relation<UserChallenge>[];
 
 
+  private setUserId(userId:number){
+    if(userId === null) throw new InternalServerErrorException (`${__dirname} : userId 값이 존재하지 않습니다.`);
+    this.user_id=userId;
+  }
+
+  private setOrganizationId(organizationId:number){
+    if(organizationId === null) throw new InternalServerErrorException (`${__dirname} : organizationId 값이 존재하지 않습니다.`);
+    this.organization_id=organizationId;
+  }
+
+  private setNickname(nickname:string){
+    if(nickname === null) throw new InternalServerErrorException (`${__dirname} : nickname 값이 존재하지 않습니다.`);
+    this.nickname=nickname;
+  }
+
+  private setJob(job:string){
+    if(job === null) throw new InternalServerErrorException (`${__dirname} : job 값이 존재하지 않습니다.`);
+    this.job=job;
+  }
+
+  private setJobIntroduce(jobIntroduce:string){
+    if(jobIntroduce === null) throw new InternalServerErrorException (`${__dirname} : jobIntroduce 값이 존재하지 않습니다.`);
+    this.job_introduce=jobIntroduce;
+  }
+
+  private setHireDate(hireDate:string){
+    if(hireDate === null) throw new InternalServerErrorException (`${__dirname} : hireDate 값이 존재하지 않습니다.`);
+    this.hire_date=hireDate;
+  }
+
+  private setCompany(company:string){
+    if(company=== null) throw new InternalServerErrorException (`${__dirname} : company 값이 존재하지 않습니다.`);
+    this.company=company
+  }
+
+  private setCompanyPublic(companyPublic:boolean){
+    if(companyPublic === null) throw new InternalServerErrorException (`${__dirname} : companyPublic 값이 존재하지 않습니다.`);
+    this.company_public=companyPublic;
+  }
+
+
+  public static createAffiliation(    
+    userId: number,
+    organizationId:number,
+    nickname: string,
+    job: string,
+    jobIntroduce: string,
+    hireDate: string,
+    company: string,
+    companyPublic: boolean
+  ){
+    return new Affiliation(
+      userId,
+      organizationId,
+      nickname,
+      job,
+      jobIntroduce,
+      hireDate,
+      company,
+      companyPublic
+    )
+  }
+
+
+
   public getAffiliationId(): number{
     return this.affiliation_id
   }
@@ -98,8 +189,16 @@ export class Affiliation extends BaseEntity{
     return this.company_public;
   }
 
-
   public getJob(): string{
     return this.job;
   }
+
+  public getJobIntroduce(): string{
+    return this.job_introduce;
+  }
+
+  public getHireDate(): string{
+    return this.hire_date;
+  }
+
 }

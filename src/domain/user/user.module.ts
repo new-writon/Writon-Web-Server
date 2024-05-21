@@ -23,6 +23,9 @@ import { UserHelper } from './helper/User.Helper.js';
 import { ChallengeApi } from './infrastruture/Challenge.Api.js';
 import { TemplateApi } from './infrastruture/Template.Api.js';
 import { UserApi } from '../auth/intrastructure/User.Api.js';
+import { OrganizationDao } from './domain/repository/dao/Organization.Dao.js';
+import { AffiliationService } from './service/Affiliation.Service.js';
+import { AffiliationController } from './presentation/Affiliation.Controller.js';
 
 @Module({
   imports: [
@@ -36,19 +39,15 @@ import { UserApi } from '../auth/intrastructure/User.Api.js';
   ],
   providers: [
     UserService, 
-    {
-      provide: 'userImpl', useClass: UserDao, // provide에 문자열 토큰 지정
-    }, 
-    {
-      provide: 'affiliationImpl', useClass: AffiliationDao, // provide에 문자열 토큰 지정
-    },
-    {
-      provide: 'userchallengeImpl', useClass: UserChallengeDao, // provide에 문자열 토큰 지정
-    },
+    {provide: 'userImpl', useClass: UserDao}, 
+    {provide: 'affiliationImpl', useClass: AffiliationDao},
+    {provide: 'userchallengeImpl', useClass: UserChallengeDao},
+    {provide: 'organizationImpl', useClass: OrganizationDao},
     TokenManager, 
     MailManager,
     AuthService, 
     UserChallengeService, 
+    AffiliationService,
     UserChallengeHelper,
     AffiliationHelper,
     UserHelper,
@@ -57,7 +56,7 @@ import { UserApi } from '../auth/intrastructure/User.Api.js';
     UserApi
   ],
 
-  controllers:[UserController, UserChallengeController],
+  controllers:[UserController, UserChallengeController, AffiliationController],
   exports:[UserChallengeHelper, AffiliationHelper, UserHelper]
 })
 export class UserModule {}

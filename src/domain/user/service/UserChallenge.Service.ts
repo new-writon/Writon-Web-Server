@@ -27,8 +27,6 @@ export class UserChallengeService {
         @Inject('userImpl')
         private readonly userRepository: UserRepository,
         private readonly templateApi: TemplateApi,
-        // private readonly challengeHelper: ChallengeHelper,
-        // private readonly challengeDayHelper: ChallengeDayHelper,
         @Inject('userchallengeImpl')
         private readonly userChallengeRepository: UserChallengeRepository,
         private readonly challengeApi: ChallengeApi

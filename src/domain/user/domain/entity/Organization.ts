@@ -13,4 +13,9 @@ export class Organization extends BaseEntity{
 
   @OneToMany(() => Affiliation, (affiliation) => affiliation.organization)
   affiliations: Relation<Affiliation>[];
+
+
+  public getId(){
+    return this.organization_id;
+  }
 }
