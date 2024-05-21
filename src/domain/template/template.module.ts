@@ -11,6 +11,7 @@ import { TemplateController } from './presentation/Template.Controller.js';
 import { TemplateService } from './service/Template.Service.js';
 import { UserModule } from '../user/user.module.js';
 import { TemplateContent } from './dto/response/TemplateContent.js';
+import { UserApi } from './infrastructure/User.Api.js';
 
 
 
@@ -25,8 +26,7 @@ import { TemplateContent } from './dto/response/TemplateContent.js';
     {
     provide: 'usertemplateImpl',  useClass: UserTemplateDao, // provide에 문자열 토큰 지정
     }, 
-    UserTemplateHelper,
-    TemplateService,
+    UserTemplateHelper, UserApi, TemplateService,
   
   
 

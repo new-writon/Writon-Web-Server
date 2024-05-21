@@ -32,7 +32,7 @@ export class UserHelper {
     }
 
     public async executeUpdatePasswordByUserId(userId: number, password: string){
-        return this. userRepository.updatePasswordByUserId(userId, password);
+        return this.userRepository.updatePasswordByUserId(userId, password);
     }
 
     public async executeKakaoSignUp(email: string, kakaoId: string, profileImage: string){

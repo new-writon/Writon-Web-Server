@@ -11,6 +11,7 @@ import { checkData } from "../util/checker.js";
 import { AuthException } from "../exception/AuthException.js";
 import { verifyCode, verifyPassword, vefifyIdentifier } from "../util/checker.js";
 import { Injectable } from "@nestjs/common";
+import { UserApi } from "../intrastructure/User.Api.js";
 
 @Injectable()
 export class AccountService {
@@ -19,19 +20,20 @@ export class AccountService {
 
         private readonly tokenManager: TokenManager,
         private readonly mailManager: MailManager,
-        private readonly userHelper: UserHelper,
+    //    private readonly userHelper: UserHelper,
+        private readonly userApi: UserApi
     ) {}
 
 
 
     public async localSignUp(identifier: string, password: string, email: string,): Promise<void> {
         const encryptedPassword = await bcrypt.hash(password, 10);
-        await this.userHelper.executeLocalSignUp(identifier, encryptedPassword, email);
+        await this.userApi.requestLocalSignUp(identifier, encryptedPassword, email);
     }
 
 
     public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
-        const userData : User = await this.userHelper.giveUserByEmail(email);
+        const userData : User = await this.userApi.requestUserByEmail(email);
         this.verifyUser(userData);
         const certifyCode :string = await this.tokenManager.getToken(email);
         verifyCode(code, certifyCode);
@@ -42,18 +44,18 @@ export class AccountService {
 
 
     public async generateTemporaryPassword(idenfitier:string, email:string): Promise<void> {
-        const userData : User = await this.userHelper.giveUserDataBySocialNumberOrIdentifier(idenfitier);
+        const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(idenfitier);
         vefifyIdentifier(userData);
         this.verifyEmail(userData, email);
         const newPassword = generateRandomPassword();
-        await this.userHelper.executeUpdatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
+        await this.userApi.requestUpdatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
         this.mailManager.randomPasswordsmtpSender(email, newPassword);
     }
 
     public async changePassword(userId: number, oldPassword: string, newPassword:string): Promise<void> {
-        const userData : User = await this.userHelper.giveUserById(userId);
+        const userData : User = await this.userApi.giveUserById(userId);
         await verifyPassword(oldPassword, userData.getPassword());
-        await this.userHelper.executeUpdatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))
+        await this.userApi.executeUpdatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))
     }
 
     private verifyUser(user: User){

@@ -16,6 +16,7 @@ import { ChallengeApi } from '../infrastruture/Challenge.Api.js';
 import { ChallengeInformation } from '../../challenge/dto/ChallengeInformation.js';
 import { UserChallenge } from '../domain/entity/UserChallenge.js';
 import { Challenge } from '../../../domain/challenge/domain/entity/Challenge.js';
+import { TemplateApi } from '../infrastruture/Template.Api.js';
 
 
 @Injectable()
@@ -25,9 +26,9 @@ export class UserChallengeService {
         private readonly affiliationRepository: AffiliationRepository,
         @Inject('userImpl')
         private readonly userRepository: UserRepository,
-        private readonly userTemplateHelper: UserTemplateHelper,
-        private readonly challengeHelper: ChallengeHelper,
-        private readonly challengeDayHelper: ChallengeDayHelper,
+        private readonly templateApi: TemplateApi,
+        // private readonly challengeHelper: ChallengeHelper,
+        // private readonly challengeDayHelper: ChallengeDayHelper,
         @Inject('userchallengeImpl')
         private readonly userChallengeRepository: UserChallengeRepository,
         private readonly challengeApi: ChallengeApi
@@ -38,7 +39,7 @@ export class UserChallengeService {
     public async signTodayTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
 
         const affiliationData: Affiliation = await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
-        const userTemplateData : UserTemplete[] = await this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
+        const userTemplateData : UserTemplete[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
         const todayTemplateStatus : boolean = this.verifyTodayTemplateStatus(userTemplateData);
         return TemplateStatus.of(todayTemplateStatus);
     }
@@ -48,11 +49,11 @@ export class UserChallengeService {
         const affiliationData: Affiliation = await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
         const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
             this.userRepository.selectUserById(userId),    
-            this.challengeHelper.giveOverlapPeriod(challengeId),
-            this.challengeDayHelper.giveOverlapCount(challengeId),
-            this.userTemplateHelper.giveSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
+            this.challengeApi.requestOverlapPeriod(challengeId),
+            this.challengeApi.requestOverlapCount(challengeId),
+            this.templateApi.requestSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
             this.userChallengeRepository.findUserChallengeByAffiliationIdAndId(affiliationData.getAffiliationId(), challengeId),
-            this.challengeHelper.giveChallengeById(challengeId)  
+            this.challengeApi.requestChallengeById(challengeId)  
           ]);
         return UserChallengeSituation.of(
             affiliationData.getNickname(),
@@ -92,9 +93,9 @@ export class UserChallengeService {
       
         const [affiliationData, challengeDayData] = await Promise.all([
             this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization),
-            this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId) 
+            this.challengeApi.requestChallengeDayByChallengeId(challengeId) 
         ]);
-        const userTemplateData = await this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
+        const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
         const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
         return calendarData;
     };

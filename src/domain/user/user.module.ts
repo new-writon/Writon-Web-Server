@@ -21,6 +21,8 @@ import { UserChallengeHelper } from './helper/UserChallenge.Helper.js';
 import { AffiliationHelper } from './helper/Affiliation.Helper.js';
 import { UserHelper } from './helper/User.Helper.js';
 import { ChallengeApi } from './infrastruture/Challenge.Api.js';
+import { TemplateApi } from './infrastruture/Template.Api.js';
+import { UserApi } from '../auth/intrastructure/User.Api.js';
 
 @Module({
   imports: [
@@ -50,10 +52,12 @@ import { ChallengeApi } from './infrastruture/Challenge.Api.js';
     UserChallengeHelper,
     AffiliationHelper,
     UserHelper,
-    ChallengeApi
+    ChallengeApi,
+    TemplateApi,
+    UserApi
   ],
 
-  controllers: [UserController, UserChallengeController],
+  controllers:[UserController, UserChallengeController],
   exports:[UserChallengeHelper, AffiliationHelper, UserHelper]
 })
-export class UserModule { }
+export class UserModule {}

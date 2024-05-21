@@ -17,8 +17,7 @@ import { DuplicationCheckController } from './presentation/DuplicationCheck.Cont
 import { AccountService } from './service/Account.Service.js';
 import { DuplicationCheckService } from './service/DuplicationCheck.Service.js';
 import { VerificationService } from './service/Verifiaction.Service.js';
-import { AffiliationApi } from './intrastructure/Affiliation.Api.js';
-
+import { UserApi } from './intrastructure/User.Api.js';
 
 @Module({
   imports: [
@@ -31,10 +30,11 @@ import { AffiliationApi } from './intrastructure/Affiliation.Api.js';
     }),
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     forwardRef(() => UserModule),
+    
   ],
   providers: [
     JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager,
-    MailManager, AccountService, DuplicationCheckService, VerificationService, AffiliationApi
+    MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi
   ],
   controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
   exports:[

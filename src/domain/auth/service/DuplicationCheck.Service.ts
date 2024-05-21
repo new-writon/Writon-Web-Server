@@ -5,30 +5,31 @@ import { AuthErrorCode } from "../exception/AuthErrorCode.js";
 import { checkData } from "../util/checker.js";
 import { Injectable } from "@nestjs/common";
 import { UserHelper } from "../../../domain/user/helper/User.Helper.js";
-import { AffiliationApi } from "../intrastructure/Affiliation.Api.js";
 import { Affiliation } from "../../user/domain/entity/Affiliation.js";
+import { UserApi } from "../intrastructure/User.Api.js";
 
 
 @Injectable()
 export class DuplicationCheckService {
     constructor(
 
-        private readonly userHelper: UserHelper,
-        private readonly affiliatinApi: AffiliationApi
+     //   private readonly userHelper: UserHelper,
+        private readonly userApi: UserApi
+     //   private readonly affiliatinApi: AffiliationApi
     ) {}
 
     public async checkDuplicateIdentifier(identifier: string): Promise<void> {
-        const userData : User = await this.userHelper.giveUserDataBySocialNumberOrIdentifier(identifier);
+        const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
         this.validateIdentifier(userData);   
     }
 
     public async checkDuplicateEmail(email: string): Promise<void> {
-        const userData : User = await this.userHelper.giveUserByEmail(email);
+        const userData : User = await this.userApi.requestUserByEmail(email);
         this.validateEmail(userData);   
     }
 
     public async checkDuplicateNickname(nickname: string, organization:string): Promise<void> {
-        const affiliationData : Affiliation = await this.affiliatinApi.requestAffiliationByNicknameAndOrganization(nickname, organization);
+        const affiliationData : Affiliation = await this.userApi.requestAffiliationByNicknameAndOrganization(nickname, organization);
         this.validateNickname(affiliationData);   
     }
 
