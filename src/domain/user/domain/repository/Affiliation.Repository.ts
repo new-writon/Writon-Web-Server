@@ -1,6 +1,7 @@
 import { DataSource, EntityRepository, Repository } from 'typeorm';
 import { User } from '../entity/User.js';
 import { Affiliation } from '../entity/Affiliation.js';
+import { ChallengesPerOrganization } from '../../dto/ChallengesPerOrganization.js';
 
 
 export interface AffiliationRepository extends Repository<Affiliation> {
@@ -9,6 +10,7 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     findAffiliationByNicknameAndOrganization(nickname:string, organization:string):Promise<Affiliation>;
     insertAffiliation(userId:number, organizationId:number, nickname: string, job: string,
         jobIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>;
+    findChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>;
     
 
 

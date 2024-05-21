@@ -9,6 +9,7 @@ import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.j
 import { Calendar } from '../dto/response/Calendar.js';
 import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeStart } from '../dto/request/ChallegeStart.js';
+import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
 
 @Controller("/api/user/challenge")
 export class UserChallengeController {
@@ -22,6 +23,7 @@ export class UserChallengeController {
         @Param('challengeId') challengeId: number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<TemplateStatus>>{
+
         const result = await this.userChallengeService.signTodayTemplateStatus(user.user_id, organization, challengeId);
         return SuccessResponseDto.of(result);
     }
@@ -62,6 +64,17 @@ export class UserChallengeController {
     ): Promise<SuccessResponseDto<void>>{
         await this.userChallengeService.startChallenge(user.user_id, challengeStart.getOrganization(), challengeStart.getChallengeId())
         return SuccessResponseDto.of();
+    }
+
+
+    @Get()
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringChallengesPerOrganization(
+      @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<ChallengesPerOrganization[]>> {
+        const result:ChallengesPerOrganization[] = await this.userChallengeService.bringChallengesPerOrganization(user.user_id);
+        return SuccessResponseDto.of(result);
     }
 
 }

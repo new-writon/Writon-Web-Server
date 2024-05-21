@@ -17,6 +17,7 @@ import { ChallengeInformation } from '../../challenge/dto/ChallengeInformation.j
 import { UserChallenge } from '../domain/entity/UserChallenge.js';
 import { Challenge } from '../../../domain/challenge/domain/entity/Challenge.js';
 import { TemplateApi } from '../infrastruture/Template.Api.js';
+import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
 
 
 @Injectable()
@@ -97,6 +98,10 @@ export class UserChallengeService {
         const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
         return calendarData;
     };
+
+    public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization[]>{
+        return this.affiliationRepository.findChallengesPerOrganizationByUserId(userId);
+    }
 
 
 

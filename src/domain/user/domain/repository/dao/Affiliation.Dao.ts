@@ -1,11 +1,11 @@
 import { DataSource, Repository } from 'typeorm';
-import { User } from '../../entity/User.js';
 import { Injectable } from '@nestjs/common';
 import { UserChallenge } from '../../entity/UserChallenge.js';
 import { Affiliation } from '../../entity/Affiliation.js';
-import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiionOrganization.interface.js';
 import { AffiliationRepository } from '../Affiliation.Repository.js';
 import { Organization } from '../../entity/Organization.js';
+import { Challenge } from '../../../../challenge/domain/entity/Challenge.js';
+import { ChallengesPerOrganization } from '../../../../user/dto/ChallengesPerOrganization.js';
 
 
 /**
@@ -50,6 +50,23 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
     const newAffiliation = Affiliation.createAffiliation(userId, organizationId, nickname, job, jobIntroduce, hireDate, company, companyPublic);
     this.save(newAffiliation);
 
+  }
+
+  async findChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>{
+    return this.dataSource.createQueryBuilder()
+            .select([
+              'o.name AS organization',
+              'uc.challenge_id AS challenge_id',
+              'c.name AS challenge',
+              "CASE WHEN c.finish_at < CURDATE() THEN '1' ELSE '0' END AS challengeFinishSign"
+            ])
+            .from(Affiliation, 'a')
+            .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
+            .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
+            .innerJoin(Challenge, 'c', 'c.challenge_id = uc.challenge_id')
+            .where('a.user_id = :userId',{userId})
+            .orderBy('uc.createdAt', 'DESC')
+            .getRawMany();
   }
 }
 

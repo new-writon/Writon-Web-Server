@@ -3,6 +3,7 @@ import { Affiliation } from "../domain/entity/Affiliation";
 import { Organization } from "../domain/entity/Organization";
 import { OrganizationRepository } from "../domain/repository/Organization.Repository";
 import { AffiliationRepository } from "../domain/repository/Affiliation.Repository";
+import { ChallengesPerOrganization } from "../dto/ChallengesPerOrganization";
 
 @Injectable()
 export class AffiliationService{
@@ -27,6 +28,9 @@ export class AffiliationService{
 
 
     }
+
+
+
 
 
 
