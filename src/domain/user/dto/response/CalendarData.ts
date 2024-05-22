@@ -1,26 +1,22 @@
 import { InternalServerErrorException } from "@nestjs/common";
 
 export class CalendarData{
-    private date: Date;
-    private badge: string;
+    
+    private calendarData: CalendarData[]
 
-    constructor(date: Date, badge: string){
-        this.setDate(date);
-        this.setBadge(badge)
+    constructor(calendarData: CalendarData[]){
+        this.setCalendarData(calendarData)
     }
 
-    setDate(date: Date){
-        if(date === null)throw new InternalServerErrorException (`${__dirname} : date값이 존재하지 않습니다.`);
-        this.date=date
+    setCalendarData(calendarData: CalendarData[]){
+        if(calendarData === null)throw new InternalServerErrorException (`${__dirname} : calendarData값이 존재하지 않습니다.`);
+        this.calendarData=calendarData
     }
 
 
-    public static of(date: Date, badge: string){
-        return new CalendarData(date, badge);
+    public static of(calendarData: CalendarData[]){
+        return new CalendarData(calendarData);
     }
 
-    setBadge(badge: string){
-        if(badge=== null)throw new InternalServerErrorException (`${__dirname} : badge 값이 존재하지 않습니다.`);
-        this.badge=badge
-    }
+
 }

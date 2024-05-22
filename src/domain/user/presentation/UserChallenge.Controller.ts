@@ -10,6 +10,7 @@ import { Calendar } from '../dto/response/Calendar.js';
 import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeStart } from '../dto/request/ChallegeStart.js';
 import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
+import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';
 
 @Controller("/api/user/challenge")
 export class UserChallengeController {
@@ -49,8 +50,8 @@ export class UserChallengeController {
         @Param('organization') organization: string,
         @Param('challengeId') challengeId: number,
         @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<CalendarData[]>>{
-        const result : CalendarData[] = await this.userChallengeService.bringCalendarData(user.user_id, organization, challengeId);
+    ): Promise<SuccessResponseDto<CalendarData>>{
+        const result : CalendarData = await this.userChallengeService.bringCalendarData(user.user_id, organization, challengeId);
         return SuccessResponseDto.of(result);
     }
 
@@ -72,8 +73,22 @@ export class UserChallengeController {
     @UseGuards(JWTAuthGuard)
     public async bringChallengesPerOrganization(
       @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<ChallengesPerOrganization[]>> {
-        const result:ChallengesPerOrganization[] = await this.userChallengeService.bringChallengesPerOrganization(user.user_id);
+    ): Promise<SuccessResponseDto<ChallengesPerOrganization>> {
+        const result:ChallengesPerOrganization = await this.userChallengeService.bringChallengesPerOrganization(user.user_id);
+        return SuccessResponseDto.of(result);
+    }
+
+
+    @Get("/:organization/:challengeId/participation")
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringParticipationInChallengePerAffiliation(
+        @Param("organization") organization:string,
+        @Param("challengeId") challengeId:number,
+        @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<ParticipationInChallengePerAffiliation>> {
+
+        const result:ParticipationInChallengePerAffiliation = await this.userChallengeService.bringParticipationInChallengePerAffiliation(user.user_id, organization, challengeId);
         return SuccessResponseDto.of(result);
     }
 

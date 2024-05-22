@@ -1,23 +1,20 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AffiliationRepository } from '../domain/repository/Affiliation.Repository.js';
-import { UserTemplateHelper } from '../../../domain/template/helper/UserTemplate.Helper.js';
 import { UserTemplete } from '../../../domain/template/domain/entity/UserTemplete.js';
 import { Affiliation } from '../domain/entity/Affiliation.js';
 import { checkData } from '../../auth/util/checker.js';
 import { TemplateStatus } from '../dto/response/TemplateStatus.js';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
 import { UserRepository } from '../domain/repository/User.Repository.js';
-import { ChallengeHelper } from '../../../domain/challenge/helper/Challenge.Helper.js';
-import { ChallengeDayHelper } from '../../../domain/challenge/helper/ChallengeDay.Helper.js';
 import { UserChallengeRepository } from '../domain/repository/UserChallenge.Repository.js';
 import { sortCallendarDateBadge } from '../util/badge.js'
 import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeApi } from '../infrastruture/Challenge.Api.js';
 import { ChallengeInformation } from '../../challenge/dto/ChallengeInformation.js';
-import { UserChallenge } from '../domain/entity/UserChallenge.js';
-import { Challenge } from '../../../domain/challenge/domain/entity/Challenge.js';
 import { TemplateApi } from '../infrastruture/Template.Api.js';
 import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
+import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';
+import { UserChallenge } from '../domain/entity/UserChallenge.js';
 
 
 @Injectable()
@@ -88,7 +85,7 @@ export class UserChallengeService {
     }
 
 
-   public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData[] >{
+   public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
       
         const [affiliationData, challengeDayData] = await Promise.all([
             this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization),
@@ -96,14 +93,23 @@ export class UserChallengeService {
         ]);
         const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
         const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
-        return calendarData;
+        return CalendarData.of(calendarData);
     };
 
-    public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization[]>{
-        return this.affiliationRepository.findChallengesPerOrganizationByUserId(userId);
+    public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization>{
+        const challengesPerOrganization:ChallengesPerOrganization[] = await this.affiliationRepository.findChallengesPerOrganizationByUserId(userId);
+        return ChallengesPerOrganization.of(challengesPerOrganization);
     }
 
-
+    public async bringParticipationInChallengePerAffiliation(userId:number,organization:string,challengeId:number):Promise<ParticipationInChallengePerAffiliation>{
+        let [affiliationData, userChallengeData] = await Promise.all([
+            this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization), 
+            this.userChallengeRepository.findUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId)
+        ]);
+        const affiliatedConfirmation = this.checkAffiliation(affiliationData)
+        const challengedConfirmation = this.checkUserChallenge(userChallengeData) 
+        return ParticipationInChallengePerAffiliation.of(affiliatedConfirmation, challengedConfirmation);   
+    }
 
     private verifyTodayTemplateStatus(userTemplete: UserTemplete[]): boolean{
         if(!checkData(userTemplete[0]))
@@ -148,5 +154,19 @@ export class UserChallengeService {
         } else {
           return Math.floor(sortedChallengeData[key].deposit)
         }
+    }
+
+    private checkAffiliation(affiliationData:Affiliation): boolean | null{
+        let affiliatedConfirmation = true;
+        if (!checkData(affiliationData)){ // 데이터가 없을 경우
+            affiliatedConfirmation = false;}
+        return affiliatedConfirmation;
+    }
+
+    private checkUserChallenge(userChallengeData: UserChallenge): boolean | null{
+        let challengedConfirmation=true;
+        if (!checkData(userChallengeData)) {
+            challengedConfirmation = false;} 
+        return challengedConfirmation;
     }
 }

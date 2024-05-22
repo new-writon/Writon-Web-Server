@@ -68,6 +68,18 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
             .orderBy('uc.createdAt', 'DESC')
             .getRawMany();
   }
+
+
+  async findAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>{
+    return this.dataSource.createQueryBuilder()
+        .select('a.*')
+        .from(Affiliation, 'a')
+        .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
+        .where('a.user_id = :userId',{userId:userId})
+        .andWhere('o.name = :organization',{organization})
+        .getRawOne()
+
+  }
 }
 
 

@@ -57,15 +57,13 @@ export const dataSource = registerAs('data-source', () => {
     synchronize: false,
     autoLoadEntities: true,
     entities: [
-    //  `${join(__dirname, '../../')}/domain/**/*.{js,ts}`
-    User, Organization, Affiliation,  UserChallenge,
-    Challenge, ChallengeDay, ChallengeDepositDeduction,
-    ErrorLog, Agora, AgoraComment,  Likes,
-    Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
-    QuestionTag, UserTemplete, Comment, UserChallenge, Question, QuestionContent,
-
-    
-    ]
+      User, Organization, Affiliation,  UserChallenge,
+      Challenge, ChallengeDay, ChallengeDepositDeduction,
+      ErrorLog, Agora, AgoraComment,  Likes,
+      Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
+      QuestionTag, UserTemplete, Comment, UserChallenge, Question, QuestionContent,
+    ],
+    logging: ['query', 'error']
   } as TypeOrmModuleOptions;
 });
 
