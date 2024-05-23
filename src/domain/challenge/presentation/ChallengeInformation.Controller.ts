@@ -30,7 +30,25 @@ export class ChallengeInformationController{
     ): Promise<SuccessResponseDto<void>>{
         await this.challengeInformationService.signChallengeDay(challengeId, date);
         return SuccessResponseDto.of();
+    }
 
+    @Get('/:challengeId/basic-question')
+    @HttpCode(200)
+    public async bringBasicQuestion(
+         @Param('challengeId') challengeId: number
+    ): Promise<SuccessResponseDto<void>>{
+     
+        return SuccessResponseDto.of();
+    }
+
+
+    @Get('/:challengeId/special-question')
+    @HttpCode(200)
+    public async bringSpecialQuestion(
+         @Param('challengeId') challengeId: number
+    ): Promise<SuccessResponseDto<void>>{
+      
+        return SuccessResponseDto.of();
     }
     
 
