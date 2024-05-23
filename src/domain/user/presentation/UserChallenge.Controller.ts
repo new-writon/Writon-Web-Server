@@ -73,8 +73,8 @@ export class UserChallengeController {
     @UseGuards(JWTAuthGuard)
     public async bringChallengesPerOrganization(
       @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<ChallengesPerOrganization>> {
-        const result:ChallengesPerOrganization = await this.userChallengeService.bringChallengesPerOrganization(user.user_id);
+    ): Promise<SuccessResponseDto<ChallengesPerOrganization[]>> {
+        const result = await this.userChallengeService.bringChallengesPerOrganization(user.user_id);
         return SuccessResponseDto.of(result);
     }
 

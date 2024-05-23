@@ -96,7 +96,7 @@ export class UserChallengeService {
         return CalendarData.of(calendarData);
     };
 
-    public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization>{
+    public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization[]>{
         const challengesPerOrganization:ChallengesPerOrganization[] = await this.affiliationRepository.findChallengesPerOrganizationByUserId(userId);
         return ChallengesPerOrganization.of(challengesPerOrganization);
     }
