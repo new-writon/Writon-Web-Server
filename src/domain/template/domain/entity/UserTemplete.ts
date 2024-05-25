@@ -13,11 +13,24 @@ import { Likes } from "./Likes.js";
 import { QuestionContent } from "./QuestionContent.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { InternalServerErrorException } from "@nestjs/common";
 
 
 @Index("UserTemplete_user_challenge_id_fkey", ["user_challenge_id"], {})
 @Entity("UserTemplete", { schema: "nest" })
 export class UserTemplete extends BaseEntity{
+
+  constructor(   
+    userChallengeId:number,
+    finished_at:Date,
+    complete:boolean
+  ){
+    super();
+    this.setUserChallengeId(userChallengeId);
+    this.setFinishedAt(finished_at);
+    this.setComplete(complete);
+  }
+
   @PrimaryGeneratedColumn({ type: "int", name: "user_templete_id" })
   user_templete_id: number;
 
@@ -52,7 +65,29 @@ export class UserTemplete extends BaseEntity{
   ])
   userChallenge: Relation<UserChallenge>;
 
+  public static createUserTemplate(
+    userChallengeId:number,
+    finished_at:Date,
+    complete:boolean
+  ){
+    return new UserTemplete(userChallengeId,finished_at,complete);
+  }
 
+  private setUserChallengeId(userChallengeId:number){
+    if(userChallengeId === null) throw new InternalServerErrorException (`${__dirname} : userChallengeId 값이 존재하지 않습니다.`);
+    this.user_challenge_id=userChallengeId
+  }
+
+
+  private setFinishedAt(finishedAt:Date){
+    if(finishedAt === null) throw new InternalServerErrorException (`${__dirname} : finishedAt 값이 존재하지 않습니다.`);
+    this.finished_at=finishedAt
+  }
+
+  private setComplete(complete:boolean){
+    if(complete === null) throw new InternalServerErrorException (`${__dirname} : complete값이 존재하지 않습니다.`);
+    this.complete=complete
+  }
 
   public getId(){
     return this.user_templete_id

@@ -126,6 +126,10 @@ export class UserChallenge extends BaseEntity{
   public getUserDeposit(){
     return this.user_deposit;
   }
+
+  public getId(){
+    return this.user_challenge_id;
+  }
   
 
   public static createChallengeUser(

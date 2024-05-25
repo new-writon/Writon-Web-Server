@@ -1,5 +1,4 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Comment } from './domain/entity/Comment.js';
 import { Likes } from './domain/entity/Likes.js';
@@ -10,8 +9,11 @@ import { UserTemplateDao } from './domain/repository/dao/UserTemplate.Dao.js';
 import { TemplateController } from './presentation/Template.Controller.js';
 import { TemplateService } from './service/Template.Service.js';
 import { UserModule } from '../user/user.module.js';
-import { TemplateContent } from './dto/response/TemplateContent.js';
 import { UserApi } from './infrastructure/User.Api.js';
+import { ChallengeApi } from './infrastructure/Challenge.Api.js';
+import { ChallengeModule } from '../challenge/challenge.module.js';
+import { QuestionContentDao } from './domain/repository/dao/QuestionContent.Dao.js';
+import { UserTemplateTransaction } from './domain/repository/transaction/UserTemplate.Transaction.js';
 
 
 
@@ -21,12 +23,13 @@ import { UserApi } from './infrastructure/User.Api.js';
  
     TypeOrmModule.forFeature([Comment, Likes, QuestionContent, UserTemplete]),
     forwardRef(() => UserModule),
+    ChallengeModule
   ],
   providers: [
-    {
-    provide: 'usertemplateImpl',  useClass: UserTemplateDao, // provide에 문자열 토큰 지정
-    }, 
-    UserTemplateHelper, UserApi, TemplateService,
+    {provide: 'usertemplateImpl',  useClass: UserTemplateDao}, 
+    {provide: 'questionContentImpl',  useClass: QuestionContentDao}, 
+    UserTemplateHelper, UserApi, ChallengeApi, TemplateService,
+    UserTemplateTransaction
   
   
 

@@ -1,6 +1,7 @@
 import { DataSource, EntityRepository, Repository } from 'typeorm';
 import { UserTemplete } from '../entity/UserTemplete';
 import { TemplateContent } from '../../dto/response/TemplateContent';
+import { WriteTemplateContent } from '../../dto/TemplateContent';
 
 
 
@@ -14,4 +15,8 @@ export interface UserTemplateRepository extends Repository<UserTemplete> {
 
    findUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]>;
 
+   insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplete> 
+
+
+  
 }

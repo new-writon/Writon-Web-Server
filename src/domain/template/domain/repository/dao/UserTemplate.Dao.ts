@@ -4,6 +4,7 @@ import { UserTemplete } from '../../entity/UserTemplete.js';
 import { UserChallenge } from '../../../../user/domain/entity/UserChallenge.js';
 import { TemplateContent } from '../../../dto/response/TemplateContent.js';
 import { UserTemplateRepository } from '../UserTemplate.Repository.js';
+import { WriteTemplateContent } from '../../../dto/TemplateContent.js';
 
 /**
  * User DAO Class
@@ -111,6 +112,11 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
       .getRawMany()
   }
 
+
+  async insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplete> {
+    const newUserTemplate = UserTemplete.createUserTemplate(userChallnegeId, date, complete);
+    return this.save(newUserTemplate);
+  }
 
 
 }

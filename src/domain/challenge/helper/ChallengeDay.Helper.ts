@@ -1,6 +1,4 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ChallengeRepository } from "../domain/repository/Challenge.Repository";
-import { Period } from "../dto/response/Period";
 import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Repository";
 import { ChallengeDay } from "../domain/entity/ChallengeDay";
 
@@ -20,6 +18,10 @@ export class ChallengeDayHelper{
 
     public async giveChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
         return this.challengeDayRepository.findChallengeDayByChallengeId(challengeId);
+    }
+
+    public async giveChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
+        return this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
     }
 
 
