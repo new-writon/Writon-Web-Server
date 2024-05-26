@@ -14,24 +14,30 @@ import { ChallengeDayHelper } from './helper/ChallengeDay.Helper.js';
 import { ChallengeQuestionService } from './service/ChallengeQuestion.Service.js';
 import { ChallengeQuestionController } from './presentation/ChallengeQuestion.Controller.js';
 import { QuestionDao } from './domain/repository/dao/Question.Dao.js';
+import { ChallengeInviteController } from './presentation/ChallengeInvite.Controller.js';
+import { ChallengeInviteService } from './service/ChallengeInvite.Service.js';
+import { MailManager } from '../../global/util/MailManager.js';
 
 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Challenge, ChallengeDay, ChallengeDepositDeduction, Question, QuestionTag]),
+
   ],
   providers: [
     ChallengeInformationService, 
     ChallengeQuestionService,
+    ChallengeInviteService,
     ChallengeHelper,
     ChallengeDayHelper,
+    MailManager,
     {provide: 'challengeImpl',  useClass: ChallengeDao},
     {provide: 'challengedayImpl',  useClass: ChallengeDayDao},
     {provide: 'questionImpl', useClass:QuestionDao}
   
   ],
-  controllers: [ChallengeInformationController, ChallengeQuestionController],
+  controllers: [ChallengeInformationController, ChallengeQuestionController, ChallengeInviteController],
   exports:[
     ChallengeHelper,
     ChallengeDayHelper

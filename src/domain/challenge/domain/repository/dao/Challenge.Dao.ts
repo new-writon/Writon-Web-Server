@@ -64,5 +64,13 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
 
     }
 
+    async findChallengeByChallengeName(challenge:string):Promise<Challenge>{
+        return this.findOne({
+            where:{
+                name:challenge
+            }
+        })
+    }
+
 
 }

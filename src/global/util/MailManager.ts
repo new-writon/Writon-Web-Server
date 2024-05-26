@@ -11,48 +11,49 @@ export class MailManager{
   constructor(private readonly mailerService: MailerService) {}
 
 
-    // public async sendInvitationEmail(  
-    //     organization: string,
-    //     challengeId: number,
-    //     email: string,
-    //     challenge: string){
-    //         try {
-    //             const mailOptions = {
-    //               from: process.env.NODEEMAIL_FROM,
-    //               to: email,
-    //               subject: `[Writon] ${organization}의 챌린지에 참여해보세요`,
-    //               html: `
-    //                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-    //                   <tr>
-    //                     <td style="text-align: center;">
-    //                       <img src="https://writon-data.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+2.0.png" alt="Your Image" style="display: block; margin: 0 auto; margin-bottom: 20px; width: 500px; height: 500px;">
-    //                     </td>
-    //                   </tr>
-    //                   <tr>
-    //                     <td style="text-align: center;">
-    //                       <p style="font-size: 18px; color: #333; white-space: pre-line; line-height: 0.7;">
-    //                         <strong style="font-weight: bold;">${organization}</strong>에서 ${email}님을 <br>
-    //                         <strong style="font-weight: bold;">${challenge}</strong> 챌린지로 초대하였습니다<br>
-    //                       </p> 
-    //                     </td>
-    //                   </tr>
-    //                   <tr>
-    //                     <td style="text-align: center;">
-    //                       <a href="${generateInvitationLink(organization, challengeId)}" style="display: block; text-align: center;"
-    //                       target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.writon.co.kr/login?organization=${organization}&challengeId=${challengeId}">
-    //                         <img src="https://writon-data.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+%EB%B2%84%ED%8A%BC+2.0.png" alt="Your Button Image" style="display: block; margin: 0 auto; width: 347px; height: 105px;">
-    //                       </a>
-    //                     </td>
-    //                   </tr>
-    //                 </table>
-    //               `,
-    //             };
+    public async sendInvitationEmail(  
+        organization: string,
+        challengeId: number,
+        email: string,
+        challenge: string){
+            try {
+                const mailOptions = {
+                  from: process.env.NODEEMAIL_FROM,
+                  to: email,
+                  subject: `[Writon] ${organization}의 챌린지에 참여해보세요`,
+                  html: `
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="text-align: center;">
+                          <img src="https://writon-data.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+2.0.png" alt="Your Image" style="display: block; margin: 0 auto; margin-bottom: 20px; width: 500px; height: 500px;">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center;">
+                          <p style="font-size: 18px; color: #333; white-space: pre-line; line-height: 0.7;">
+                            <strong style="font-weight: bold;">${organization}</strong>에서 ${email}님을 <br>
+                            <strong style="font-weight: bold;">${challenge}</strong> 챌린지로 초대하였습니다<br>
+                          </p> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: center;">
+                          <a href="${generateInvitationLink(organization, challengeId)}" style="display: block; text-align: center;"
+                          target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.writon.co.kr/login?organization=${organization}&challengeId=${challengeId}">
+                            <img src="https://writon-data.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+%EB%B2%84%ED%8A%BC+2.0.png" alt="Your Button Image" style="display: block; margin: 0 auto; width: 347px; height: 105px;">
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  `,
+                };
             
-    //             await this.mailConfig.transporter.sendMail(mailOptions);
-    //           } catch (err) {
-    //             console.error(err);
-    //           }        
-    // }
+               
+                this.mailerService.sendMail(mailOptions);
+              } catch (err) {
+                console.error(err);
+              }        
+    }
 
     public async sendCodeEmail (
         email: string,

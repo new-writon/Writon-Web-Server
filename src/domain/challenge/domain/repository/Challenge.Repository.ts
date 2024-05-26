@@ -13,4 +13,6 @@ export interface ChallengeRepository extends Repository<Challenge>{
 
     findChallengeWithCondition(challengeId: number): Promise<ChallengeInformation[]>;
 
+    findChallengeByChallengeName(challenge:string):Promise<Challenge>;
+
 }
