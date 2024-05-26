@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpCode, Param } from "@nestjs/common";
 import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
 import { ChallengeInformationService } from "../service/ChallengeInformation.Service.js";
+import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization.js";
 
 
 
@@ -12,6 +13,13 @@ export class ChallengeInformationController{
         private readonly challengeInformationService: ChallengeInformationService
     ){}
 
+    @Get('/all-organization/all-challenge')
+    @HttpCode(200)
+    public async bringAllOragnizationAndAllChallenge(): Promise<SuccessResponseDto<ChallengeAccordingToOrganization[]>>{
+        const result = await this.challengeInformationService.bringAllOragnizationAndAllChallenge();
+        return SuccessResponseDto.of(result);
+    }
+    
     @Get('/:challengeId/status')
     @HttpCode(200)
     public async signChallengeFinish(
@@ -32,24 +40,6 @@ export class ChallengeInformationController{
         return SuccessResponseDto.of();
     }
 
-    @Get('/:challengeId/basic-question')
-    @HttpCode(200)
-    public async bringBasicQuestion(
-         @Param('challengeId') challengeId: number
-    ): Promise<SuccessResponseDto<void>>{
-     
-        return SuccessResponseDto.of();
-    }
-
-
-    @Get('/:challengeId/special-question')
-    @HttpCode(200)
-    public async bringSpecialQuestion(
-         @Param('challengeId') challengeId: number
-    ): Promise<SuccessResponseDto<void>>{
-      
-        return SuccessResponseDto.of();
-    }
     
 
     

@@ -7,6 +7,8 @@ import { ChallengeErrorCode } from "../exception/ChallengeErrorCode.js";
 import { Challenge } from "../domain/entity/Challenge.js";
 import { checkData } from "../util/checker.js";
 import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
+import { ChallengeAndOrganization } from "../dto/ChallengeAndOrganization.js";
+import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization.js";
 
 
 
@@ -34,6 +36,15 @@ export class ChallengeInformationService{
        
     }
 
+    public async bringAllOragnizationAndAllChallenge(): Promise<ChallengeAccordingToOrganization[]> { 
+        const allChallengeAccordingToOrganizationData = await this.challengeRepository.findAllChallengeAccordingToOrganization();
+        const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(allChallengeAccordingToOrganizationData);
+        return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData);
+
+       
+    }
+
+
     private verifyChallengeStatus(challengeData: Challenge[]): boolean{
         if(!checkData(challengeData[0]))  // 데이터가 없을 떄
             return true;
@@ -47,7 +58,22 @@ export class ChallengeInformationService{
         
     }
 
-
-
+    private sortChallengePerOrganization(array : ChallengeAndOrganization[]):ChallengeAccordingToOrganization[]{
+        
+        const groupOrganization : {
+            [organization: string]: string[];
+            } = {};
+        array.forEach(item => {
+        if (!groupOrganization[item.getOrganization()]) {
+            groupOrganization[item.getOrganization()] = [];
+        }
+        groupOrganization[item.getOrganization()].push(item.getChallenge());
+        });
+        
+        const sortData : ChallengeAccordingToOrganization[] = Object.entries(groupOrganization).map(([organization, challenges]) => {   
+            return new ChallengeAccordingToOrganization(organization, challenges);
+        });
+        return sortData
+    }
 
 }

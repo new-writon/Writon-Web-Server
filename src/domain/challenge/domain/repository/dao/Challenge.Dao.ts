@@ -5,6 +5,9 @@ import { ChallengeRepository } from "../Challenge.Repository.js";
 import { ChallengeInformation } from "../../../dto/ChallengeInformation.js";
 import { ChallengeDay } from "../../entity/ChallengeDay.js";
 import { ChallengeDepositDeduction } from "../../entity/ChallengeDepositDeduction.js";
+import { Affiliation } from "../../../../user/domain/entity/Affiliation.js";
+import { Organization } from "../../../../user/domain/entity/Organization.js";
+import { ChallengeAndOrganization } from "../../../dto/ChallengeAndOrganization.js";
 
 
 @Injectable()
@@ -70,6 +73,19 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
                 name:challenge
             }
         })
+    }
+
+    async findAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>{
+    
+        const rawResults : ChallengeAndOrganization[] = await this.dataSource.createQueryBuilder()
+            .select(['o.name AS organization', 'c.name AS challenge'])
+            .from(Challenge, 'c')
+            .innerJoin(Affiliation,'a', 'a.affiliation_id = c.affiliation_id')
+            .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
+            .getRawMany();
+        return ChallengeAndOrganization.of(rawResults);
+
+        
     }
 
 

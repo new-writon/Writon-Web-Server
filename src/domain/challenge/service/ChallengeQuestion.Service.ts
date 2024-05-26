@@ -20,6 +20,7 @@ export class ChallengeQuestionService{
 
     public async bringBasicQuestion(challengeId: number):Promise<BasicQuestion[]>{ 
         const basicQuestionData = await this.questionRepository.findBasicQuestionByChallengeId(challengeId);
+        console.log(basicQuestionData)
         return BasicQuestion.of(basicQuestionData);
     }
 
