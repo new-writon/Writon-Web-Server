@@ -1,6 +1,7 @@
 import { Repository } from 'typeorm';
 import { Affiliation } from '../entity/Affiliation.js';
 import { ChallengesPerOrganization } from '../../dto/ChallengesPerOrganization.js';
+import { UserProfile } from '../../dto/response/UserProfile.js';
 
 
 export interface AffiliationRepository extends Repository<Affiliation> {
@@ -11,6 +12,6 @@ export interface AffiliationRepository extends Repository<Affiliation> {
         jobIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>;
     findChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>;
     findAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>;
-
+    findUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>;
 
 }

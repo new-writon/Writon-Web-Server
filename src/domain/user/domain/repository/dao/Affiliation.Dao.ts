@@ -6,6 +6,8 @@ import { AffiliationRepository } from '../Affiliation.Repository.js';
 import { Organization } from '../../entity/Organization.js';
 import { Challenge } from '../../../../challenge/domain/entity/Challenge.js';
 import { ChallengesPerOrganization } from '../../../../user/dto/ChallengesPerOrganization.js';
+import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
+import { User } from '../../entity/User.js';
 
 
 /**
@@ -80,6 +82,29 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
         .getRawOne()
 
   }
+
+  async findUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>{
+    return this.dataSource.createQueryBuilder()
+        .select([
+          'u.email AS email',
+          'u.profile AS userProfile',
+          'u.account_number AS accountNumber',
+          'u.bank AS bank',
+          'a.nickname AS nickname',
+          'a.hire_date AS hiredate',
+          'a.company AS company',
+          'a.job AS job',
+          'a.job_introduce AS jobIntroduce',
+          'a.company_public AS companyPublic'
+        ])
+        .from(Affiliation,'a')
+        .leftJoin(User, 'u', 'u.user_id = a.user_id')
+        .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
+        .where('u.user_id = :userId',{userId})
+        .andWhere('o.name = :name',{name:organization})
+        .getRawOne()
+    
+}
 }
 
 

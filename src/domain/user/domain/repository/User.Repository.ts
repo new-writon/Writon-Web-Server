@@ -1,9 +1,7 @@
 import { DataSource, EntityRepository, Repository } from 'typeorm';
 import { User } from '../entity/User.js';
-import { Injectable } from '@nestjs/common';
-import { UserChallenge } from '../entity/UserChallenge.js';
-import { Affiliation } from '../entity/Affiliation.js';
 import { UserAffiliationOrganization } from '../../../interface/UserAffilatiionOrganization.interface.js';
+import { UserProfile } from '../../dto/response/UserProfile.js';
 
 
 export interface UserRepository extends Repository<User> {
@@ -18,4 +16,5 @@ export interface UserRepository extends Repository<User> {
     selectUserDataByEmail(email: string): Promise<User>
     updatePassword(idenfitier:string, email:string, password:string):void
     updatePasswordByUserId(userId: number, newPassword: string):void
+   
 }

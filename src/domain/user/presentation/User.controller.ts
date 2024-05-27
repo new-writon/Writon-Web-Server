@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Patch, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Patch, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import {  UserService } from '../service/User.Service.js';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { TestRequestDto } from '../dto/TestRequest.dto.js';
@@ -29,6 +29,6 @@ export class UserController {
     return SuccessResponseDto.of(result);
   }
 
-  
+
 
 }

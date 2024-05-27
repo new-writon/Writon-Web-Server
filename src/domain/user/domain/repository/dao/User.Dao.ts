@@ -1,10 +1,9 @@
 import { DataSource, Repository } from 'typeorm';
 import { User } from '../../entity/User.js';
 import { Injectable } from '@nestjs/common';
-import { UserChallenge } from '../../entity/UserChallenge.js';
-import { Affiliation } from '../../entity/Affiliation.js';
 import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiionOrganization.interface.js';
 import { UserRepository } from '../User.Repository.js';
+import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
 
 
 /**
@@ -88,6 +87,7 @@ export class UserDao extends Repository<User> implements UserRepository{
     async updatePasswordByUserId(userId: number, newPassword: string){
         await this.update({user_id: userId},{password:newPassword});
     }
+
 
 
 
