@@ -88,7 +88,16 @@ export class UserDao extends Repository<User> implements UserRepository{
         await this.update({user_id: userId},{password:newPassword});
     }
 
-
+    async updateAccount(accountNumber:string, bank:string, userId: number):Promise<void>{
+        await this.dataSource.createQueryBuilder()
+            .update(User)
+            .set({
+                account_number: accountNumber,
+                bank
+            })
+            .where("user_id = :userId",{userId})
+            .execute();
+    }
 
 
 

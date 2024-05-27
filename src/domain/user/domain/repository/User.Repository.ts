@@ -16,5 +16,6 @@ export interface UserRepository extends Repository<User> {
     selectUserDataByEmail(email: string): Promise<User>
     updatePassword(idenfitier:string, email:string, password:string):void
     updatePasswordByUserId(userId: number, newPassword: string):void
+    updateAccount(accountNumber:string, bank:string, userId:number):Promise<void>;
    
 }

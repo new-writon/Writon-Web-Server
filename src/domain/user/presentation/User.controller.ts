@@ -9,6 +9,7 @@ import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 import { UserIdentifier } from '../../auth/dto/response/UserIdentifier.js';
 import { TemporaryPassword } from '../../auth/dto/request/TemporaryPassword.js';
 import { PasswordChange } from '../../auth/dto/request/PasswordChange.js';
+import { AccountUpdate } from '../dto/request/AccountUpdate.js';
 
 @Controller("/api/user")
 export class UserController {
@@ -29,6 +30,15 @@ export class UserController {
     return SuccessResponseDto.of(result);
   }
 
-
+  @Patch("/account")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async updateAccount(
+    @Body() accountUpdate:AccountUpdate,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<string>>  {
+    await this.userService.updateAccount(accountUpdate.getAccountNumber(), accountUpdate.getBank(), user.user_id);
+    return SuccessResponseDto.of();
+  }
 
 }

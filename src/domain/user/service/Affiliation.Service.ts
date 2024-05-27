@@ -32,9 +32,4 @@ export class AffiliationService{
         return UserProfile.of(userProfileData);
     }
 
-
-
-
-
-
 }
