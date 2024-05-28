@@ -4,7 +4,6 @@ import { AuthException } from "../exception/AuthException.js";
 import { AuthErrorCode } from "../exception/AuthErrorCode.js";
 import { checkData } from "../util/checker.js";
 import { Injectable } from "@nestjs/common";
-import { UserHelper } from "../../../domain/user/helper/User.Helper.js";
 import { Affiliation } from "../../user/domain/entity/Affiliation.js";
 import { UserApi } from "../intrastructure/User.Api.js";
 

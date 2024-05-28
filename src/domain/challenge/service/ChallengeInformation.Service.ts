@@ -9,6 +9,8 @@ import { checkData } from "../util/checker.js";
 import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
 import { ChallengeAndOrganization } from "../dto/ChallengeAndOrganization.js";
 import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization.js";
+import { ChallengeHelper } from "../helper/Challenge.Helper.js";
+import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper.js";
 
 
 
@@ -17,27 +19,29 @@ import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccor
 export class ChallengeInformationService{
 
     constructor(
-        @Inject('challengeImpl')
-        private readonly challengeRepository: ChallengeRepository,
-        @Inject('challengedayImpl')
-        private readonly challengeDayRepository: ChallengeDayRepository,
+        // @Inject('challengeImpl')
+        // private readonly challengeRepository: ChallengeRepository,
+        // @Inject('challengedayImpl')
+        // private readonly challengeDayRepository: ChallengeDayRepository,
+        private readonly challengeHelper: ChallengeHelper,
+        private readonly challengeDayHelper: ChallengeDayHelper
     ){}
 
 
     public async signChallengeDay(challengeId: number, date: Date){ 
-        const challengeDayData = await this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
+        const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date);
         this.verifyChallengeDay(challengeDayData)
     }
 
     public async signChallengeFinish(challengeId: number): Promise<ChallengeStatus> { 
-        const challengeData : Challenge[] = await this.challengeRepository.findChallengeByIdAndOngoing(challengeId);
+        const challengeData : Challenge[] = await this.challengeHelper.giveChallengeByIdAndOngoing(challengeId);
         const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
         return ChallengeStatus.of(challengeStatus);
        
     }
 
     public async bringAllOragnizationAndAllChallenge(): Promise<ChallengeAccordingToOrganization[]> { 
-        const allChallengeAccordingToOrganizationData = await this.challengeRepository.findAllChallengeAccordingToOrganization();
+        const allChallengeAccordingToOrganizationData = await this.challengeHelper.giveAllChallengeAccordingToOrganization();
         const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(allChallengeAccordingToOrganizationData);
         return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData);
 

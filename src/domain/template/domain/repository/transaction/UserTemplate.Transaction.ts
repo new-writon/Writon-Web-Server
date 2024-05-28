@@ -1,10 +1,8 @@
 import { DataSource, Repository } from "typeorm";
 import { UserTemplete } from "../../entity/UserTemplete.js";
 import { WriteTemplateContent } from "../../../../template/dto/TemplateContent.js";
-import { Inject, Injectable } from "@nestjs/common";
-import { UserTemplateRepository } from "../UserTemplate.Repository.js";
+import {Injectable } from "@nestjs/common";
 import { InsertUserTemplateContent } from "../../../dto/InsertUserTemplateContent.js";
-import { QuestionContentRepository } from "../QuestionContent.Repository.js";
 import { QuestionContent } from "../../entity/QuestionContent.js";
 
 @Injectable()

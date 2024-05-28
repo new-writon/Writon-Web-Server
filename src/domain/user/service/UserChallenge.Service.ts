@@ -15,18 +15,24 @@ import { TemplateApi } from '../infrastruture/Template.Api.js';
 import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
 import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';
 import { UserChallenge } from '../domain/entity/UserChallenge.js';
+import { AffiliationHelper } from '../helper/Affiliation.Helper.js';
+import { UserHelper } from '../helper/User.Helper.js';
+import { UserChallengeHelper } from '../helper/UserChallenge.Helper.js';
 
 
 @Injectable()
 export class UserChallengeService {
     constructor(
-        @Inject('affiliationImpl')
-        private readonly affiliationRepository: AffiliationRepository,
-        @Inject('userImpl')
-        private readonly userRepository: UserRepository,
+        // @Inject('affiliationImpl')
+        // private readonly affiliationRepository: AffiliationRepository,
+        // @Inject('userImpl')
+        // private readonly userRepository: UserRepository,
+        private readonly affiliationHelper: AffiliationHelper,
+        private readonly userHelper: UserHelper,
         private readonly templateApi: TemplateApi,
-        @Inject('userchallengeImpl')
-        private readonly userChallengeRepository: UserChallengeRepository,
+        // @Inject('userchallengeImpl')
+        // private readonly userChallengeRepository: UserChallengeRepository,
+        private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi
 
       
@@ -34,7 +40,7 @@ export class UserChallengeService {
 
     public async signTodayTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
 
-        const affiliationData: Affiliation = await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
         const userTemplateData : UserTemplete[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
         const todayTemplateStatus : boolean = this.verifyTodayTemplateStatus(userTemplateData);
         return TemplateStatus.of(todayTemplateStatus);
@@ -42,13 +48,13 @@ export class UserChallengeService {
 
     public async presentSituation(userId: number, organization: string, challengeId: number): Promise<UserChallengeSituation>{
       
-        const affiliationData: Affiliation = await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
         const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
-            this.userRepository.selectUserById(userId),    
+            this.userHelper.giveUserById(userId),    
             this.challengeApi.requestOverlapPeriod(challengeId),
             this.challengeApi.requestOverlapCount(challengeId),
             this.templateApi.requestSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
-            this.userChallengeRepository.findUserChallengeByAffiliationIdAndId(affiliationData.getAffiliationId(), challengeId),
+            this.userChallengeHelper.giveUserChallengeByAffiliationIdAndId(affiliationData.getAffiliationId(), challengeId),
             this.challengeApi.requestChallengeById(challengeId)  
           ]);
         return UserChallengeSituation.of(
@@ -75,20 +81,20 @@ export class UserChallengeService {
         
         const [challengeAllData, userAffiliation, challengeData] = await Promise.all([
             this.challengeApi.requestChallengeWithCondition(challengeId),
-            this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization),
+            this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
             this.challengeApi.requestChallengeById(challengeId)
         ]);
         if(checkData(challengeAllData))
-            return this.userChallengeRepository.insertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(),challengeData.getDeposit(), 0); // 미리 챌린지에 참여 시
+            return this.userChallengeHelper.executeInsertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(),challengeData.getDeposit(), 0); // 미리 챌린지에 참여 시
         const caculateDepositResult = await this.makeChallengeUserDeposit(challengeAllData);
-        await this.userChallengeRepository.insertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(), caculateDepositResult, 0);
+        await this.userChallengeHelper.executeInsertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(), caculateDepositResult, 0);
     }
 
 
    public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
       
         const [affiliationData, challengeDayData] = await Promise.all([
-            this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization),
+            this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
             this.challengeApi.requestChallengeDayByChallengeId(challengeId) 
         ]);
         const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
@@ -97,14 +103,14 @@ export class UserChallengeService {
     };
 
     public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization[]>{
-        const challengesPerOrganization:ChallengesPerOrganization[] = await this.affiliationRepository.findChallengesPerOrganizationByUserId(userId);
+        const challengesPerOrganization:ChallengesPerOrganization[] = await this.affiliationHelper.giveChallengesPerOrganizationByUserId(userId);
         return ChallengesPerOrganization.of(challengesPerOrganization);
     }
 
     public async bringParticipationInChallengePerAffiliation(userId:number,organization:string,challengeId:number):Promise<ParticipationInChallengePerAffiliation>{
         let [affiliationData, userChallengeData] = await Promise.all([
-            this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization), 
-            this.userChallengeRepository.findUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId)
+            this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization), 
+            this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId)
         ]);
         const affiliatedConfirmation = this.checkAffiliation(affiliationData)
         const challengedConfirmation = this.checkUserChallenge(userChallengeData) 
