@@ -20,7 +20,7 @@ export class UserService {
     }
 
     public async updateAccount(accountNumber:string, bank:string, userId:number):Promise<void>{
-        const userData:User = await this.userRepository.selectUserById(1000);
+        const userData:User = await this.userRepository.selectUserById(userId);
         this.verifyUser(userData);
         await this.userRepository.updateAccount(accountNumber, bank, userId);
     }

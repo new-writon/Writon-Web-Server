@@ -21,7 +21,6 @@ export class AffiliationService{
         hireDate: string,
         company: string,
         companyPublic: boolean): Promise<void>{
-
         const organizationData: Organization = await this.organizationRepository.findOrganizationByName(organization);
         await this.affiliationRepository.insertAffiliation(userId, organizationData.getId(), nickname, job, jobIntroduce, hireDate, company, companyPublic)
     }

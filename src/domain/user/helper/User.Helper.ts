@@ -1,5 +1,7 @@
 import { Inject } from "@nestjs/common";
-import { UserRepository } from "../domain/repository/User.Repository";
+import { UserRepository } from "../domain/repository/User.Repository.js";
+import { UserAffiliationOrganization } from "../../interface/UserAffilatiionOrganization.interface.js";
+import { User } from "../domain/entity/User.js";
 
 
 export class UserHelper {
@@ -10,7 +12,6 @@ export class UserHelper {
 
 
     public async giveUserDataBySocialNumberOrIdentifier(idenfitier: string){
-
         return this.userRepository.selectUserDataBySocialNumberOrIdentifier(idenfitier);
     }
 
@@ -24,7 +25,6 @@ export class UserHelper {
 
     public async executeUpdatePassword(idenfitier: string, email:string, password:string){
         return  this.userRepository.updatePassword(idenfitier, email, password);
-
     }
 
     public async giveUserById(userId: number){
@@ -38,6 +38,20 @@ export class UserHelper {
     public async executeKakaoSignUp(email: string, kakaoId: string, profileImage: string){
         return this.userRepository.kakaoSignUp(email, kakaoId, profileImage);
     }
+
+    public async giveUserAffiliation(userId: number, organization: string): Promise<UserAffiliationOrganization[]>{
+        return this.userRepository.findUserAffiliation(userId, organization);
+    }
+
+    public async giveUserDataByEmail(email: string): Promise<User>{
+        return this.userRepository.selectUserDataByEmail(email);
+    }
+
+    public async executeUpdateAccount(accountNumber:string, bank:string, userId:number):Promise<void>{
+        return this.userRepository.updateAccount(accountNumber, bank, userId);
+    }
+
+
 
 
 }

@@ -14,6 +14,7 @@ import { ChallengeApi } from './infrastructure/Challenge.Api.js';
 import { ChallengeModule } from '../challenge/challenge.module.js';
 import { QuestionContentDao } from './domain/repository/dao/QuestionContent.Dao.js';
 import { UserTemplateTransaction } from './domain/repository/transaction/UserTemplate.Transaction.js';
+import { QuestionContentHelper } from './helper/QuestionContent.Helper.js';
 
 
 
@@ -29,7 +30,8 @@ import { UserTemplateTransaction } from './domain/repository/transaction/UserTem
     {provide: 'usertemplateImpl',  useClass: UserTemplateDao}, 
     {provide: 'questionContentImpl',  useClass: QuestionContentDao}, 
     UserTemplateHelper, UserApi, ChallengeApi, TemplateService,
-    UserTemplateTransaction
+    UserTemplateTransaction,
+    QuestionContentHelper
   
   
 

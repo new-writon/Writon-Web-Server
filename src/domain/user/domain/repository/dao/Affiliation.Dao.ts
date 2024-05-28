@@ -65,7 +65,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
             .from(Affiliation, 'a')
             .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
             .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
-            .innerJoin(Challenge, 'c', 'c.challenge_id = uc.challenge_id')
+            .innerJoin(Challenge, 'c', 'c.challenge_id = uc.challenge_id') // 수정
             .where('a.user_id = :userId',{userId})
             .orderBy('uc.createdAt', 'DESC')
             .getRawMany();

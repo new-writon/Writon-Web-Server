@@ -26,6 +26,7 @@ import { UserApi } from '../auth/intrastructure/User.Api.js';
 import { OrganizationDao } from './domain/repository/dao/Organization.Dao.js';
 import { AffiliationService } from './service/Affiliation.Service.js';
 import { AffiliationController } from './presentation/Affiliation.Controller.js';
+import { OrganizationHelper } from './helper/Organization.Helper.js';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { AffiliationController } from './presentation/Affiliation.Controller.js'
     AffiliationService,
     UserChallengeHelper,
     AffiliationHelper,
+    OrganizationHelper,
     UserHelper,
     ChallengeApi,
     TemplateApi,

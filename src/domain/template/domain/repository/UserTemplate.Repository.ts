@@ -15,7 +15,7 @@ export interface UserTemplateRepository extends Repository<UserTemplete> {
 
    findUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]>;
 
-   insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplete> 
+   insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplete>;
 
 
   
