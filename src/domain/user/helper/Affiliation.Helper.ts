@@ -38,5 +38,10 @@ export class AffiliationHelper {
     public async giveUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>{
         return this.affiliationRepository.findUserProfileByUserIdAndOrganization(userId, organization);
     }
+
+    public async executeUpdateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
+        hireDate:Date, job:string, jobIntroduce:string, companyPublic:boolean):Promise<void>{
+            await this.affiliationRepository.updateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,job,jobIntroduce,companyPublic);
+        }
     
 }

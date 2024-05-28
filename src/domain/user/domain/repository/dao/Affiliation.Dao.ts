@@ -102,9 +102,33 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
         .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
         .where('u.user_id = :userId',{userId})
         .andWhere('o.name = :name',{name:organization})
-        .getRawOne()
-    
+        .getRawOne() 
 }
+
+
+async updateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
+  hireDate:Date, job:string, jobIntroduce:string, companyPublic:boolean):Promise<void>{
+
+    const subQuery = this.dataSource.createQueryBuilder()
+    .select('o.organization_id')
+    .from(Organization, 'o')
+    .where('o.name = :organization', { organization })
+    .getQuery();
+  await this.dataSource.createQueryBuilder()
+    .update(Affiliation)
+    .set({
+      nickname: nickname,
+      hire_date: hireDate,
+      job: job,
+      job_introduce: jobIntroduce,
+      company_public: companyPublic,
+      company: company
+    })
+    .where(`organization_id = (${subQuery})`)
+    .andWhere('user_id = :userId', { userId })
+    .setParameter('organization', organization)  
+    .execute();
+  }
 }
 
 

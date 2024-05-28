@@ -33,4 +33,19 @@ export class AffiliationService{
         return UserProfile.of(userProfileData);
     }
 
+
+    public async updateUserProfileAccordingToOrganization(
+        userId:number,
+        organization:string,
+        nickname:string,
+        company:string,
+        hireDate:Date,
+        job:string,
+        jobIntroduce:string,
+        companyPublic:boolean
+    ){
+        
+        await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,job,jobIntroduce,companyPublic);
+    }
+
 }
