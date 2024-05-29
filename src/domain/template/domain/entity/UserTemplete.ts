@@ -101,5 +101,9 @@ export class UserTemplete extends BaseEntity{
     return this.complete;
   }
 
+  public getUserChallengeId(){
+    return this.user_challenge_id
+  }
+
   
 }

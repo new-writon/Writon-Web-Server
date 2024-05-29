@@ -83,4 +83,13 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             .getRawOne();
     }
 
+    async findUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('uc')
+            .from(UserChallenge, 'uc')
+            .where('uc.challenge_id = :challengeId',{challengeId})
+            .andWhere('uc.user_challenge_id IN (:...userChallengeIds)', { userChallengeIds: userChallengeId })
+            .getMany();
+    }
+
 }

@@ -15,4 +15,6 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     findUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>;
     updateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
         hireDate:Date, job:string, jobIntroduce:string, companyPublic:boolean):Promise<void>;
+    
+    findAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>;
 }

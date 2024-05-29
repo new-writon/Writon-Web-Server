@@ -53,4 +53,11 @@ export class Comment extends BaseEntity{
     { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
   userTemplete: Relation<UserTemplete>;
+
+
+  public getUserTemplateId(){
+    return this.user_templete_id;
+  }
+
+  
 }

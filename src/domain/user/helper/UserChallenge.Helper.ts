@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { UserChallenge } from "../domain/entity/UserChallenge.js";
 import { UserChallengeRepository } from "../domain/repository/UserChallenge.Repository.js";
+import { DataMapperService } from "../domain/service/DataMapper.Service.js";
 
 @Injectable()
 export class UserChallengeHelper{
@@ -8,6 +9,7 @@ export class UserChallengeHelper{
     constructor(
         @Inject('userchallengeImpl')
         private readonly userChallengeRepository: UserChallengeRepository,
+        private readonly dataMapperService:DataMapperService
 
     ){}
 
@@ -25,6 +27,11 @@ export class UserChallengeHelper{
 
     public async giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId:number, organization:string, challengeId:number):Promise<UserChallenge>{
         return this.userChallengeRepository.findUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
+    }
+
+    public async giveUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
+        return this.userChallengeRepository.findUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId, challengeId);
+    
     }
 
 

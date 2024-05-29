@@ -15,6 +15,11 @@ import { ChallengeModule } from '../challenge/challenge.module.js';
 import { QuestionContentDao } from './domain/repository/dao/QuestionContent.Dao.js';
 import { UserTemplateTransaction } from './domain/repository/transaction/UserTemplate.Transaction.js';
 import { QuestionContentHelper } from './helper/QuestionContent.Helper.js';
+import { CommentService } from './service/Comment.Service.js';
+import { CommentController } from './presentation/Comment.Controller.js';
+import { CommentDao } from './domain/repository/dao/Comment.Dao.js';
+import { CommentHelper } from './helper/Comment.Helper.js';
+import { DataMapperService } from './domain/service/DataMappper.Service.js';
 
 
 
@@ -29,14 +34,16 @@ import { QuestionContentHelper } from './helper/QuestionContent.Helper.js';
   providers: [
     {provide: 'usertemplateImpl',  useClass: UserTemplateDao}, 
     {provide: 'questionContentImpl',  useClass: QuestionContentDao}, 
-    UserTemplateHelper, UserApi, ChallengeApi, TemplateService,
+    {provide: 'commentImpl',  useClass: CommentDao}, 
+    UserTemplateHelper, UserApi, ChallengeApi, TemplateService, CommentService,
     UserTemplateTransaction,
-    QuestionContentHelper
+    QuestionContentHelper,
+    CommentHelper, DataMapperService
   
   
 
   ],
-  controllers: [TemplateController],
+  controllers: [TemplateController, CommentController],
   exports:[
     UserTemplateHelper,
   

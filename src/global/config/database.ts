@@ -11,7 +11,7 @@ import { User } from '../../domain/user/domain/entity/User.js';
 import { Organization } from '../../domain/user/domain/entity/Organization.js';
 import { ChallengeDepositDeduction } from '../../domain/challenge/domain/entity/ChallengeDepositDeduction.js';
 import { UserChallenge } from '../../domain/user/domain/entity/UserChallenge.js';
-import { ErrorLog } from '../../domain/errorr/domain/entity/ErrorLog.js';
+import { ErrorLog } from '../../domain/error/domain/entity/ErrorLog.js';
 import { Agora } from '../../domain/agora/domain/entity/Agora.js';
 import { AgoraComment } from '../../domain/agora/domain/entity/AgoraComment.js';
 import { Satisfaction } from '../../domain/satisfaction/domain/entity/Satisfaction.js';
