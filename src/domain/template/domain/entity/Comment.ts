@@ -59,5 +59,16 @@ export class Comment extends BaseEntity{
     return this.user_templete_id;
   }
 
+  public getId(){
+    return this.comment_id;
+  }
+
+  public getCreatedAt(){
+    return this.createdAt;
+  }
+
+  public getContent(){
+    return this.content;
+  }
   
 }

@@ -4,6 +4,7 @@ import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
 import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
 import { User } from "../../user/domain/entity/User.js";
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
+import { MyComment } from "../dto/response/MyComment.js";
 
 @Controller("/api/template/comment")
 export class CommentController{
@@ -20,11 +21,10 @@ export class CommentController{
       @Param('organization') organization: string,
       @Param('challengeId') challengeId: number,
       @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<void>>  {
+    ): Promise<SuccessResponseDto<MyComment[]>>  {
 
       const result = await this.commentService.bringCommentAccordingToOrganizationAndChallengeId(user.user_id, organization, challengeId);
-
-      return SuccessResponseDto.of(null);
+      return SuccessResponseDto.of(result);
     }
 
 

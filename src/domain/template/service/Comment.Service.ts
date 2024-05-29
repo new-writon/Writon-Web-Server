@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { CommentHelper } from "../helper/Comment.Helper.js";
 import { UserApi } from "../infrastructure/User.Api.js";
 import { DataMapperService } from "../domain/service/DataMappper.Service.js";
+import { MyComment } from "../dto/response/MyComment.js";
 
 @Injectable()
 export class CommentService{
@@ -14,7 +15,7 @@ export class CommentService{
     ){}
 
 
-    public async bringCommentAccordingToOrganizationAndChallengeId(userId:number, organization:string, challengeId: number){
+    public async bringCommentAccordingToOrganizationAndChallengeId(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
         // 댓글 작성자 정보 조회
         const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         console.log(commentWriteAffiliationData)
@@ -26,12 +27,10 @@ export class CommentService{
         console.log(userChallengeIdArray)
         // 유저 챌린지 id를 통해 글 작성자 정보 조회
         const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
-        console.log(templateWriteAffiliationData[0].userChallenges[0])
-
-
-
-
-
+        console.log(templateWriteAffiliationData)
+        // 함수 매핑
+        const myComment = this.dataMapperService.makeMyCommentMapper(templateWriteAffiliationData, commentData);
+        return MyComment.of(myComment);
     }
 
 
