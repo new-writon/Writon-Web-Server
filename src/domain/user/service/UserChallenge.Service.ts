@@ -1,12 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { AffiliationRepository } from '../domain/repository/Affiliation.Repository.js';
 import { UserTemplete } from '../../../domain/template/domain/entity/UserTemplete.js';
 import { Affiliation } from '../domain/entity/Affiliation.js';
 import { checkData } from '../../auth/util/checker.js';
 import { TemplateStatus } from '../dto/response/TemplateStatus.js';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
-import { UserRepository } from '../domain/repository/User.Repository.js';
-import { UserChallengeRepository } from '../domain/repository/UserChallenge.Repository.js';
 import { sortCallendarDateBadge } from '../util/badge.js'
 import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeApi } from '../infrastruture/Challenge.Api.js';
@@ -19,6 +16,7 @@ import { AffiliationHelper } from '../helper/Affiliation.Helper.js';
 import { UserHelper } from '../helper/User.Helper.js';
 import { UserChallengeHelper } from '../helper/UserChallenge.Helper.js';
 import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
+import { UserChallengeVerifyService } from '../domain/service/UserChallengeVerify.Service.js';
 
 
 @Injectable()
@@ -34,7 +32,8 @@ export class UserChallengeService {
         // @Inject('userchallengeImpl')
         // private readonly userChallengeRepository: UserChallengeRepository,
         private readonly userChallengeHelper: UserChallengeHelper,
-        private readonly challengeApi: ChallengeApi
+        private readonly challengeApi: ChallengeApi,
+        private readonly userChallengeVerifyService: UserChallengeVerifyService
 
       
     ) {}
@@ -123,7 +122,11 @@ export class UserChallengeService {
         return UserChallengeCheckCount.of(userChallengeData.getCheckCount())
     }
 
-
+    public async updateUserChallengeCheckCount(userId:number,organization:string,challengeId:number, checkCount:number):Promise<void>{
+        const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId);
+        this.userChallengeVerifyService.verifyUserChallenge(userChallengeData);
+        await this.userChallengeHelper.executeUpdateUserChallengeCheckCount(userChallengeData.getId(), checkCount);
+    }
 
     private verifyTodayTemplateStatus(userTemplete: UserTemplete[]): boolean{
         if(!checkData(userTemplete[0]))

@@ -92,4 +92,15 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             .getMany();
     }
 
+
+    async updateUserChallengeCheckCount(userChallengeId:number, checkCount:number):Promise<void>{
+        await this.dataSource.createQueryBuilder()
+            .update(UserChallenge)
+            .set({
+                check_count: checkCount
+            })
+            .where('user_challenge_id = :userChallengeId',{userChallengeId})
+            .execute();
+    }
+
 }

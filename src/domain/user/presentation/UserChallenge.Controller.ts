@@ -6,12 +6,12 @@ import { User } from '../domain/entity/User.js';
 import { CurrentUser } from '../../../domain/auth/decorators/Auth.Decorator.js';
 import { TemplateStatus } from '../dto/response/TemplateStatus.js';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
-import { Calendar } from '../dto/response/Calendar.js';
 import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeStart } from '../dto/request/ChallegeStart.js';
 import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
 import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';
 import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
+import { UserChallengeCheckCountUpdate } from '../dto/request/UserChallengeCheckCountUpdate.js';
 
 @Controller("/api/user/challenge")
 export class UserChallengeController {
@@ -110,12 +110,13 @@ export class UserChallengeController {
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async updateUserChallengeCheckCount(
+        @Body() userChallengeCheckCountUpdate: UserChallengeCheckCountUpdate,
         @Param("organization") organization:string,
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<UserChallengeCheckCount>> {
-        const result = await this.userChallengeService.bringUserChallengeCheckCount(user.user_id, organization, challengeId);
-        return SuccessResponseDto.of(result);
+    ): Promise<SuccessResponseDto<null>> {
+        await this.userChallengeService.updateUserChallengeCheckCount(user.user_id, organization, challengeId, userChallengeCheckCountUpdate.getCheckCount())
+        return SuccessResponseDto.of();
     }
 
 }

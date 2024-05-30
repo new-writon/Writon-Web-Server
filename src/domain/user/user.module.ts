@@ -28,6 +28,7 @@ import { AffiliationService } from './service/Affiliation.Service.js';
 import { AffiliationController } from './presentation/Affiliation.Controller.js';
 import { OrganizationHelper } from './helper/Organization.Helper.js';
 import { DataMapperService } from './domain/service/DataMapper.Service.js';
+import { UserChallengeVerifyService } from './domain/service/UserChallengeVerify.Service.js';
 
 @Module({
   imports: [
@@ -57,7 +58,8 @@ import { DataMapperService } from './domain/service/DataMapper.Service.js';
     ChallengeApi,
     TemplateApi,
     UserApi,
-    DataMapperService
+    DataMapperService,
+    UserChallengeVerifyService
   ],
 
   controllers:[UserController, UserChallengeController, AffiliationController],

@@ -31,7 +31,10 @@ export class UserChallengeHelper{
 
     public async giveUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
         return this.userChallengeRepository.findUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId, challengeId);
-    
+    }
+
+    public async executeUpdateUserChallengeCheckCount(userChallengeId:number, checkCount:number):Promise<void>{
+        await this.userChallengeRepository.updateUserChallengeCheckCount(userChallengeId, checkCount);
     }
 
 
