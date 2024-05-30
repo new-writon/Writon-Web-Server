@@ -11,6 +11,7 @@ import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeStart } from '../dto/request/ChallegeStart.js';
 import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
 import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';
+import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
 
 @Controller("/api/user/challenge")
 export class UserChallengeController {
@@ -87,8 +88,33 @@ export class UserChallengeController {
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<ParticipationInChallengePerAffiliation>> {
-
         const result:ParticipationInChallengePerAffiliation = await this.userChallengeService.bringParticipationInChallengePerAffiliation(user.user_id, organization, challengeId);
+        return SuccessResponseDto.of(result);
+    }
+
+
+    @Get("/:organization/:challengeId/check-count")
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringUserChallengeCheckCount(
+        @Param("organization") organization:string,
+        @Param("challengeId") challengeId:number,
+        @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<UserChallengeCheckCount>> {
+        const result = await this.userChallengeService.bringUserChallengeCheckCount(user.user_id, organization, challengeId);
+        return SuccessResponseDto.of(result);
+    }
+
+
+    @Patch("/:organization/:challengeId/check-count")
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async updateUserChallengeCheckCount(
+        @Param("organization") organization:string,
+        @Param("challengeId") challengeId:number,
+        @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<UserChallengeCheckCount>> {
+        const result = await this.userChallengeService.bringUserChallengeCheckCount(user.user_id, organization, challengeId);
         return SuccessResponseDto.of(result);
     }
 

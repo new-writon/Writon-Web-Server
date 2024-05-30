@@ -73,14 +73,14 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         challengeId: number
     ): Promise<UserChallenge> {
         return this.dataSource.createQueryBuilder()
-            .select('uc.*')
+            .select('uc')
             .from(UserChallenge, 'uc')
             .innerJoin(Affiliation, 'a', 'uc.affiliation_id = a.affiliation_id')
             .innerJoin(Organization, 'o', 'a.organization_id = o.organization_id')
             .where('a.user_id = :userId', { userId })
             .andWhere('o.name = :organization', { organization })
             .andWhere('uc.challenge_id = :challengeId', { challengeId })
-            .getRawOne();
+            .getOne();
     }
 
     async findUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{

@@ -18,6 +18,7 @@ import { UserChallenge } from '../domain/entity/UserChallenge.js';
 import { AffiliationHelper } from '../helper/Affiliation.Helper.js';
 import { UserHelper } from '../helper/User.Helper.js';
 import { UserChallengeHelper } from '../helper/UserChallenge.Helper.js';
+import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
 
 
 @Injectable()
@@ -116,6 +117,13 @@ export class UserChallengeService {
         const challengedConfirmation = this.checkUserChallenge(userChallengeData) 
         return ParticipationInChallengePerAffiliation.of(affiliatedConfirmation, challengedConfirmation);   
     }
+
+    public async bringUserChallengeCheckCount(userId:number,organization:string,challengeId:number):Promise<UserChallengeCheckCount>{
+        const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId);
+        return UserChallengeCheckCount.of(userChallengeData.getCheckCount())
+    }
+
+
 
     private verifyTodayTemplateStatus(userTemplete: UserTemplete[]): boolean{
         if(!checkData(userTemplete[0]))

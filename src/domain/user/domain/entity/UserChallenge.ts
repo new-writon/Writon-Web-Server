@@ -130,6 +130,10 @@ export class UserChallenge extends BaseEntity{
   public getId(){
     return this.user_challenge_id;
   }
+
+  public getCheckCount(){
+    return this.check_count;
+  }
   
 
   public static createChallengeUser(
