@@ -20,6 +20,10 @@ import { CommentController } from './presentation/Comment.Controller.js';
 import { CommentDao } from './domain/repository/dao/Comment.Dao.js';
 import { CommentHelper } from './helper/Comment.Helper.js';
 import { DataMapperService } from './domain/service/DataMappper.Service.js';
+import { LikeController } from './presentation/Like.Controller.js';
+import { LikeServie } from './service/Like.Service.js';
+import { LikeHelper } from './helper/Like.Helper.js';
+import { LikeDao } from './domain/repository/dao/Like.Dao.js';
 
 
 
@@ -35,15 +39,13 @@ import { DataMapperService } from './domain/service/DataMappper.Service.js';
     {provide: 'usertemplateImpl',  useClass: UserTemplateDao}, 
     {provide: 'questionContentImpl',  useClass: QuestionContentDao}, 
     {provide: 'commentImpl',  useClass: CommentDao}, 
-    UserTemplateHelper, UserApi, ChallengeApi, TemplateService, CommentService,
+    {provide: 'likeImpl',  useClass: LikeDao}, 
+    UserTemplateHelper, LikeHelper, QuestionContentHelper, CommentHelper, 
+    UserApi, ChallengeApi, 
+    TemplateService, CommentService, LikeServie, DataMapperService,
     UserTemplateTransaction,
-    QuestionContentHelper,
-    CommentHelper, DataMapperService
-  
-  
-
   ],
-  controllers: [TemplateController, CommentController],
+  controllers: [TemplateController, CommentController, LikeController],
   exports:[
     UserTemplateHelper,
   
