@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Comment } from "../entity/Comment.js";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { MyComment } from "../../dto/response/MyComment.js";
+import { checkData } from "../../util/checker.js";
 
 
 
