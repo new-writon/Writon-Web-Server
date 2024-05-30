@@ -11,7 +11,6 @@ export class CommentService{
         private readonly commentHelper: CommentHelper,
         private readonly userApi: UserApi,
         private readonly dataMapperService: DataMapperService,
-
     ){}
 
 
@@ -31,6 +30,11 @@ export class CommentService{
         // 함수 매핑
         const myComment = this.dataMapperService.makeMyCommentMapper(templateWriteAffiliationData, commentData);
         return MyComment.of(myComment);
+    }
+
+
+    public async checkComment(commentId:number){
+        await this.commentHelper.executeUpdateCommentCheck(commentId);
     }
 
 

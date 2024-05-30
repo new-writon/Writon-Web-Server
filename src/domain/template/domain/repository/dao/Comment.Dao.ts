@@ -19,6 +19,16 @@ export class CommentDao extends Repository<Comment> implements CommentRepository
             .orderBy('c.createdAt', "DESC")
             .getMany();
     }
+
+    async updateCommentCheck(commentId: number):Promise<void>{
+        await this.dataSource.createQueryBuilder()
+            .update(Comment)
+            .set({
+                check: true
+            })
+            .where('comment_id = :commentId',{commentId})
+            .execute();
+    }
     
     
 

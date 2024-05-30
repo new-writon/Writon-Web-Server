@@ -15,6 +15,9 @@ export class CommentHelper{
 
     public async giveCommentByAffiliationIdWithChallengeId(affilationId:number,challengeId:number):Promise<Comment[]>{
         return this.commentRepository.findCommentByAffiliationIdWithChallengeId(affilationId, challengeId);
+    }
 
+    public async executeUpdateCommentCheck(commentId: number):Promise<void>{
+        return this.commentRepository.updateCommentCheck(commentId);
     }
 }
