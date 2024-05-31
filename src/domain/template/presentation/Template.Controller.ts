@@ -39,5 +39,18 @@ export class TemplateController {
     return SuccessResponseDto.of();
   }
 
+  @Get("/:organization/:challengeId/notify")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringNotify(
+    @Param('organization') organization: string,
+    @Param('challengeId') challengeId: number,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<any>>  {
+
+    const result = await this.templateService.bringNotify(user.user_id, organization, challengeId);
+    return SuccessResponseDto.of();
+  }
+
 
 }

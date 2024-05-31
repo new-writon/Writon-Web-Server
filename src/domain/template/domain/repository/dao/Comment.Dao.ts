@@ -3,6 +3,7 @@ import { DataSource, Repository } from "typeorm";
 import { CommentRepository } from "../Comment.Repository.js";
 import { Comment } from "../../entity/Comment.js";
 import { UserChallenge } from "../../../../user/domain/entity/UserChallenge.js";
+import { UserTemplete } from "../../entity/UserTemplete.js";
 
 
 @Injectable()
@@ -28,6 +29,14 @@ export class CommentDao extends Repository<Comment> implements CommentRepository
             })
             .where('comment_id = :commentId',{commentId})
             .execute();
+    }
+
+    async findCommentWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Comment[]>{
+        return this.dataSource.createQueryBuilder(Comment, 'c')
+            .innerJoinAndSelect('c.userTemplete', 'ut','ut.user_templete_id = c.user_templete_id')
+            .innerJoinAndSelect('c.affiliation', 'a', 'c.affiliation_id = a.affiliation_id')
+            .getMany();
+           
     }
     
     

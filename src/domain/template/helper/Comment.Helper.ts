@@ -20,4 +20,8 @@ export class CommentHelper{
     public async executeUpdateCommentCheck(commentId: number):Promise<void>{
         return this.commentRepository.updateCommentCheck(commentId);
     }
+
+    public async giveCommentWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Comment[]>{
+        return this.commentRepository.findCommentWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
+    }
 }
