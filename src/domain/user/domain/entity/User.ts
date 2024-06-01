@@ -131,7 +131,7 @@ export class User extends BaseEntity{
     return this.profile;
   }
 
-  public getUserId(): number{
+  public getId(): number{
     return this.user_id
   }
 

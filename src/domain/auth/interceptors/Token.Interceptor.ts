@@ -32,7 +32,7 @@ export class TokenInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((user) => {
      //   const token = this.generateToken(user);
-        return user;
+        return user as User;
       }),
     );
   }

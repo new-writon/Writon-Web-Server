@@ -31,12 +31,12 @@ export class AuthService {
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
         const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
-        const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getUserId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
+        const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
-        await this.tokenManager.setToken(String(checkedUserData.getUserId()), refreshToken);
+        await this.tokenManager.setToken(String(checkedUserData.getId()), refreshToken);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
-            this.checkAffiliationStatus(organization, checkedUserData.getUserId()),
-            this.checkOngoingChallenge(organization, checkedUserData.getUserId(), challengeId)
+            this.checkAffiliationStatus(organization, checkedUserData.getId()),
+            this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId)
         ]);
         affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
         return LoginResponse.of(accessToken, refreshToken, checkedUserData.getRole(), affiliatedConfirmation, challengedConfirmation);
@@ -47,12 +47,12 @@ export class AuthService {
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
         vefifyIdentifier(userData);
         await verifyPassword(password, userData.getPassword())
-        const accessToken = this.jwtManager.makeAccessToken(userData.getUserId(), userData.getRole());
+        const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
-        await this.tokenManager.setToken(String(userData.getUserId()), refreshToken);
+        await this.tokenManager.setToken(String(userData.getId()), refreshToken);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
-            this.checkAffiliationStatus(organization, userData.getUserId()),
-            this.checkOngoingChallenge(organization, userData.getUserId(), challengeId)
+            this.checkAffiliationStatus(organization, userData.getId()),
+            this.checkOngoingChallenge(organization, userData.getId(), challengeId)
         ]);
         affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
         return LoginResponse.of(accessToken, refreshToken, userData.getRole(), affiliatedConfirmation, challengedConfirmation);
