@@ -73,18 +73,22 @@ export class TemplateService {
             const userChallengeIdOfComment = this.sortUserChallengeIdOfComment(commentData);
             const userChallengeIdOfLike = this.sortUserChallengeIdOfLike(likeData);
 
-            // 3. 각 commentData와 likeData의 userTemplate의 userChallengeId를 통해서 userChallenge 데이터를 가져온다.
-            // (단 조건은, 유저 챌린지와 userId와 Organizaiton을 통해 조회한 2번 Affiliation데이터와 challengeId를 활용한다.)
-            // let [commentUserChallengeData, likeUserChallengeData] = await Promise.all([
+            // 3. 각 commentData와 likeData의 userTemplate의 userChallengeId를 통해서 affiliation 데이터를 가져온다.
+            // (단 조건은, challengeId를 활용한다.)
+            let [commentAffiliationData, likeAffiliationData] = await Promise.all([
+                this.userApi.requestAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeIdOfComment),
+                this.userApi.requestAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeIdOfLike)
 
-            // ]);
+            ]);
+            console.log(commentAffiliationData.length)
+            console.log(likeAffiliationData.length)
 
-            
+            // 4. 3번의 affiliation_id 와 2번의 affiliation_id가 같은 값을 거른다.
 
 
-            // 4. comment와 like 데이터를 1번에서 조회한 affiliation_id와 2번에서 조회한 affiliation_id와 같지 않는 값들을 가져온다.
+            // 5. comment와 like 데이터를 3번에서 조회한 affiliation_id와 2번에서 조회한 affiliation_id와 같지 않는 값들을 거른다.
 
-            // 5. 4번에서 나온 데이터를 기존 쿼리 형식에 맞게 매핑한다.      
+            // 6. 4번에서 나온 데이터를 기존 쿼리 형식에 맞게 매핑한다.      
     } 
 
     private sortUserChallengeIdOfComment(data: Comment[]){

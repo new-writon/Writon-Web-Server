@@ -47,5 +47,9 @@ export class AffiliationHelper {
     public async giveAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>{
         return this.affiliationRepository.findAffilaitonWithChallengeIdArray(userChallengeId)
     }
+
+    public async giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>{
+        return this.affiliationRepository.findAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId)
+    }
     
 }

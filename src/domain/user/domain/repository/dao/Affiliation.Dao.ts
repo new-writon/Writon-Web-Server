@@ -136,7 +136,15 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
         .innerJoinAndSelect('a.userChallenges', 'uc', 'uc.affiliation_id = a.affiliation_id')
         .where('uc.user_challenge_id IN (:...userChallengeId)', { userChallengeId })
         .getMany();
-}
+  }
+
+  async findAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>{
+    return this.dataSource.createQueryBuilder(Affiliation, 'a')
+      .innerJoinAndSelect('a.userChallenges', 'uc','uc.affiliation_id = a.affiliation_id')
+      .where('uc.challenge_id = :challengeId',{challengeId})
+      .andWhere('uc.user_challenge_id IN (:...userChallengeIds)',{userChallengeIds:userChallengeId})
+      .getMany();
+  }
 }
 
 
