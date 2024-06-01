@@ -16,10 +16,8 @@ export class TemplateController {
 
   @Put("/update")
   @HttpCode(200)
-  @UseGuards(JWTAuthGuard)
   public async updateMyTemplate(
     @Body() templateUpdate: TemplateUpdate,
-    @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
     await this.templateService.updateMyTemplate(templateUpdate.getUserTemplateId(), templateUpdate.getTemplateContent())
     return SuccessResponseDto.of();
