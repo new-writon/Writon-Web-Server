@@ -14,7 +14,7 @@ export class UserTemplateTransaction {
     ){}
 
 
-    async insertTemplateTransaction(userChallnegeId: number, date: Date, complete: boolean, templateContent: Array<WriteTemplateContent>):Promise<void>{
+    public async insertTemplateTransaction(userChallnegeId: number, date: Date, complete: boolean, templateContent: Array<WriteTemplateContent>):Promise<void>{
       
         const newUserTemplate = UserTemplete.createUserTemplate(userChallnegeId, date, complete);
         await this.dataSource.transaction(async (transactionalEntityManager) => {
@@ -22,9 +22,17 @@ export class UserTemplateTransaction {
            const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.user_templete_id);
            const questionContents = changedTemplate.map(this.createQuestionContentObject);
            await transactionalEntityManager.save(questionContents)
-       }) 
-        
+       });   
       }
+
+    public async updateTemplateTransaction(userTemplateId:number,templateContent:Array<WriteTemplateContent>){
+        await this.dataSource.transaction(async (transactionalEntityManager) => {
+            await transactionalEntityManager.delete(QuestionContent, {user_templete_id: userTemplateId });
+            const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateId);
+            const questionContents = changedTemplate.map(this.createQuestionContentObject);
+            await transactionalEntityManager.save(questionContents)
+        });   
+    }
 
     private createQuestionContentObject(templateContent: InsertUserTemplateContent){
         return QuestionContent.createQuestionContent(templateContent.getQuestionId(), templateContent.getContent(), templateContent.getVisibility(), templateContent.getUserTempleteId());

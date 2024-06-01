@@ -37,13 +37,20 @@ export class TemplateService {
         organization: string,
         date: string,
         templateContent: Array<WriteTemplateContent>): Promise<void>{
-
             const [userChallengeData, userTemplateComplete] = await Promise.all([
                 this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId),
                 this.signUserChallengeComplete(challengeId, date)
             ]);
             await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData[0].user_challenge_id, new Date(date), userTemplateComplete, templateContent)
     } 
+
+
+    public async updateMyTemplate(
+        userTemplateId:number,
+        templateContent:Array<WriteTemplateContent>):Promise<void>{
+            console.log(userTemplateId)
+            await this.userTemplateTransaction.updateTemplateTransaction(userTemplateId, templateContent);
+    }
 
     public async bringNotify(  
         userId: number,

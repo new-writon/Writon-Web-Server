@@ -23,7 +23,6 @@ export class LikeDao extends Repository<Likes> implements LikeRepository{
     async findLikeWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Likes[]>{
         return this.dataSource.createQueryBuilder(Likes, 'l')
         .innerJoinAndSelect('l.userTemplete', 'ut','ut.user_templete_id = l.user_templete_id')
-        .innerJoinAndSelect('l.affiliation', 'a', 'l.affiliation_id = a.affiliation_id')
         .getMany();
 
     }

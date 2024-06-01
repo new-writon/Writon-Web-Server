@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put,  UseGuards } from '@nestjs/common';
 import { TemplateService } from '../service/Template.Service.js';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 import { User } from '../../user/domain/entity/User.js';
@@ -6,13 +6,24 @@ import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.
 import { JWTAuthGuard } from '../../../domain/auth/guards/JwtAuth.Guard.js';
 import { TemplateContent } from '../dto/response/TemplateContent.js';
 import { TemplateWrite } from '../dto/request/TemplateWrite.js';
+import { TemplateUpdate } from '../dto/request/TemplateUpdate.js';
 
 
 @Controller("/api/template")
 export class TemplateController {
   constructor(private readonly templateService: TemplateService) {}
 
- 
+
+  @Put("/update")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async updateMyTemplate(
+    @Body() templateUpdate: TemplateUpdate,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<void>>  {
+    await this.templateService.updateMyTemplate(templateUpdate.getUserTemplateId(), templateUpdate.getTemplateContent())
+    return SuccessResponseDto.of();
+  }
 
 
   @Get("/reminiscence/:organization/:challengeId")
