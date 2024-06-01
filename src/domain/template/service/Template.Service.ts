@@ -9,6 +9,7 @@ import { CommentHelper } from '../helper/Comment.Helper.js';
 import { LikeHelper } from '../helper/Like.Helper.js';
 import { Comment } from '../domain/entity/Comment.js';
 import { Likes } from '../domain/entity/Likes.js';
+import { Affiliation } from 'src/domain/user/domain/entity/Affiliation.js';
 
 
 @Injectable()
@@ -64,9 +65,6 @@ export class TemplateService {
                 this.commentHelper.giveCommentWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId),
                 this.likeHelper.giveLikeWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId)
             ]);
-            console.log(commentData)
-            console.log(likeData)
-
             // 2. userId와 organization을 통한 affiliation 데이터를 조회
             const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
 
@@ -80,16 +78,27 @@ export class TemplateService {
                 this.userApi.requestAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeIdOfLike)
 
             ]);
-            console.log(commentAffiliationData.length)
-            console.log(likeAffiliationData.length)
+            // console.log(commentAffiliationData.length)
+            // console.log(likeAffiliationData.length)
 
-            // 4. 3번의 affiliation_id 와 2번의 affiliation_id가 같은 값을 거른다.
+            // 4. 3번의 affiliation_id 와 2번의 affiliation_id가 같은 값을 가져온다.
+            const sortedCommentAffiliationSameValue = this.sortMyAffiliationAndCommentOrLikeAffiliation(affiliationData, commentAffiliationData);
+            const sortedLikeAffiliationSameValue = this.sortMyAffiliationAndCommentOrLikeAffiliation(affiliationData, likeAffiliationData);
+            console.log(sortedCommentAffiliationSameValue)
+            console.log(sortedLikeAffiliationSameValue)
+            // 5. comment와 like 데이터를 3번에서 조회한 affiliation_id와 2번에서 조회한 affiliation_id와 같지 않는 값들을 가져온다.
 
 
-            // 5. comment와 like 데이터를 3번에서 조회한 affiliation_id와 2번에서 조회한 affiliation_id와 같지 않는 값들을 거른다.
-
+            
             // 6. 4번에서 나온 데이터를 기존 쿼리 형식에 맞게 매핑한다.      
     } 
+
+    private sortMyAffiliationAndCommentOrLikeAffiliation(myAffiliation: Affiliation, commentOrLikeAffiliation: Affiliation[]): Affiliation[] {
+        // console.log(myAffiliation.getId())
+        // commentOrLikeAffiliation.map((data)=> { console.log(data.getId())})
+        return commentOrLikeAffiliation.filter((affiliation) => affiliation.getId() === myAffiliation.getId());
+    }
+    
 
     private sortUserChallengeIdOfComment(data: Comment[]){
         return data.map((data) =>{

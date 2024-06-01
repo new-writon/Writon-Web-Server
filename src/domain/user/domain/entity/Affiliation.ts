@@ -201,4 +201,8 @@ export class Affiliation extends BaseEntity{
     return this.hire_date;
   }
 
+  public getId(): number{
+    return this.affiliation_id;
+  }
+
 }
