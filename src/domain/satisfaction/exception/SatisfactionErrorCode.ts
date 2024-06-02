@@ -1,6 +1,6 @@
 
 
-export enum TestErrorCode  {
+export enum SatisfationrrorCode  {
     
     ERROR = 501,
     NO_VALUE=502,
@@ -15,6 +15,6 @@ const ErrorMessages: { [key: number]: string } = {
 
 };
 
-export function errorMessage(code: TestErrorCode): string {
+export function errorMessage(code: SatisfationrrorCode): string {
     return ErrorMessages[code] || "알 수 없는 오류가 발생하였습니다.";
 }

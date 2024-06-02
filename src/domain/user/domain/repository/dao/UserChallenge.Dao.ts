@@ -113,4 +113,14 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             .getOne();
     }
 
+    async updateUserChallengeReview(userChallengeId:number): Promise<void>{
+        await this.dataSource.createQueryBuilder()
+            .update(UserChallenge)
+            .set({
+                review:1
+            })
+            .where('user_challenge_id = :userChallengeId',{userChallengeId})
+            .execute();
+    }
+
 }

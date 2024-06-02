@@ -11,4 +11,5 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
     findUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>;
     updateUserChallengeCheckCount(userChallengeId:number, checkCount:number):Promise<void>;
     findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>;
+    updateUserChallengeReview(userChallengeId:number): Promise<void>;
 }   
