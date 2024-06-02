@@ -17,7 +17,7 @@ import { InternalServerErrorException } from "@nestjs/common";
 
 
 @Index("UserTemplete_user_challenge_id_fkey", ["user_challenge_id"], {})
-@Entity("UserTemplete", { schema: "nest" })
+@Entity("UserTemplete")
 export class UserTemplete extends BaseEntity{
 
   constructor(   
@@ -104,6 +104,8 @@ export class UserTemplete extends BaseEntity{
   public getUserChallengeId(){
     return this.user_challenge_id
   }
+
+
 
   
 }

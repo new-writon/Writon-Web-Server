@@ -119,4 +119,14 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
   }
 
 
+  async findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplete[]>{
+    return this.dataSource.createQueryBuilder(UserTemplete, 'ut')
+      .innerJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
+      .innerJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
+      .where('ut.user_challenge_id = :userChallengeId',{userChallengeId})
+      .getMany();
+
+  }
+
+
 }

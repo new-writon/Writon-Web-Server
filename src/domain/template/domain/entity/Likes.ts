@@ -45,4 +45,20 @@ export class Likes extends BaseEntity{
     { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
   userTemplete: Relation<UserTemplete>;
+
+  public getCreatedAt(){
+    return this.createdAt;
+  }
+
+  public getCheck(){
+    return this.check;
+  }
+
+  public getId(){
+    return this.like_id;
+  }
+
+  public getAffiliationId(){
+    return this.affiliation_id;
+  }
 }

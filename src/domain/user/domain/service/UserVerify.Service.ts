@@ -5,7 +5,7 @@ import { UserErrorCode } from "../../exception/UserErrorCode.js";
 import { checkData } from "../../util/checker.js";
 
 @Injectable()
-export class UserChallengeVerifyService{
+export class UserVerifyService{
 
     public verifyUserChallenge(userChallenge:UserChallenge){
         if(!checkData(userChallenge))

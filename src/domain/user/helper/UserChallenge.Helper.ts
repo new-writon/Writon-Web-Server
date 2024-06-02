@@ -2,6 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { UserChallenge } from "../domain/entity/UserChallenge.js";
 import { UserChallengeRepository } from "../domain/repository/UserChallenge.Repository.js";
 import { DataMapperService } from "../domain/service/DataMapper.Service.js";
+import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
 
 @Injectable()
 export class UserChallengeHelper{
@@ -9,7 +10,7 @@ export class UserChallengeHelper{
     constructor(
         @Inject('userchallengeImpl')
         private readonly userChallengeRepository: UserChallengeRepository,
-        private readonly dataMapperService:DataMapperService
+        private readonly userVerifyService: UserVerifyService
 
     ){}
 
@@ -35,6 +36,12 @@ export class UserChallengeHelper{
 
     public async executeUpdateUserChallengeCheckCount(userChallengeId:number, checkCount:number):Promise<void>{
         await this.userChallengeRepository.updateUserChallengeCheckCount(userChallengeId, checkCount);
+    }
+
+    public async giveUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>{
+        const userChallengeData = await this.userChallengeRepository.findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
+        this.userVerifyService.verifyUserChallenge(userChallengeData)
+        return userChallengeData
     }
 
 

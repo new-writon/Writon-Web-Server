@@ -18,5 +18,6 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     
     findAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>;
     findAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>;
+    findAffiliationById(affiliationId: number[]):Promise<Affiliation[]>;
 
 }

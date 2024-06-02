@@ -24,6 +24,7 @@ import { LikeController } from './presentation/Like.Controller.js';
 import { LikeServie } from './service/Like.Service.js';
 import { LikeHelper } from './helper/Like.Helper.js';
 import { LikeDao } from './domain/repository/dao/Like.Dao.js';
+import { TemplateVerifyService } from './domain/service/TemplateVerify.Service.js';
 
 
 
@@ -43,7 +44,7 @@ import { LikeDao } from './domain/repository/dao/Like.Dao.js';
     UserTemplateHelper, LikeHelper, QuestionContentHelper, CommentHelper, 
     UserApi, ChallengeApi, 
     TemplateService, CommentService, LikeServie, DataMapperService,
-    UserTemplateTransaction,
+    UserTemplateTransaction, TemplateVerifyService
   ],
   controllers: [TemplateController, CommentController, LikeController],
   exports:[

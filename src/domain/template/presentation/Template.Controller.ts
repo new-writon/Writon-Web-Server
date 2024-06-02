@@ -9,6 +9,7 @@ import { TemplateWrite } from '../dto/request/TemplateWrite.js';
 import { TemplateUpdate } from '../dto/request/TemplateUpdate.js';
 
 
+
 @Controller("/api/template")
 export class TemplateController {
   constructor(private readonly templateService: TemplateService) {}
@@ -55,10 +56,9 @@ export class TemplateController {
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<any>>  {
-
+  ): Promise<SuccessResponseDto<(GetCommentNotify | GetLikeNotify)[]>>  {
     const result = await this.templateService.bringNotify(user.user_id, organization, challengeId);
-    return SuccessResponseDto.of();
+    return SuccessResponseDto.of(result);
   }
 
 

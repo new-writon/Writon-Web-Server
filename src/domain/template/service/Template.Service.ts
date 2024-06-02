@@ -1,15 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {  Injectable } from '@nestjs/common';
 import { TemplateContent } from '../dto/response/TemplateContent.js';
 import { UserApi } from '../infrastructure/User.Api.js';
 import { WriteTemplateContent } from '../dto/TemplateContent.js';
 import { ChallengeApi } from '../infrastructure/Challenge.Api.js';
 import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction.js';
 import { UserTemplateHelper } from '../helper/UserTemplate.Helper.js';
-import { CommentHelper } from '../helper/Comment.Helper.js';
-import { LikeHelper } from '../helper/Like.Helper.js';
-import { Comment } from '../domain/entity/Comment.js';
-import { Likes } from '../domain/entity/Likes.js';
-import { Affiliation } from 'src/domain/user/domain/entity/Affiliation.js';
+import { UserTemplete } from '../domain/entity/UserTemplete.js';
+import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
+import { Affiliation } from '../../user/domain/entity/Affiliation.js';
+
 
 
 @Injectable()
@@ -19,8 +18,6 @@ export class TemplateService {
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,
         private readonly userTemplateTransaction: UserTemplateTransaction,
-        private readonly commentHelper: CommentHelper,
-        private readonly likeHelper: LikeHelper
       ) {}
 
 
@@ -58,61 +55,87 @@ export class TemplateService {
     public async bringNotify(  
         userId: number,
         organization: string,
-        challengeId: number): Promise<any>{
+        challengeId: number): Promise<(GetCommentNotify | GetLikeNotify)[]>{
 
-            // 1. 각 userTemplate와 affiliation를 조인하여 데이터를 가져온다.
-            let [commentData, likeData] = await Promise.all([
-                this.commentHelper.giveCommentWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId),
-                this.likeHelper.giveLikeWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId)
-            ]);
-            // 2. userId와 organization을 통한 affiliation 데이터를 조회
-            const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+            // 1. 챌린지 id, 조직, 유저id를 통해 userChallenge, affiliation을 가져온다.
+            const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
 
-            const userChallengeIdOfComment = this.sortUserChallengeIdOfComment(commentData);
-            const userChallengeIdOfLike = this.sortUserChallengeIdOfLike(likeData);
+            // 2. userChallengeId를 통해 userTemplate데이터, comment, like 를 모두 가져온다.
+            const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId());
 
-            // 3. 각 commentData와 likeData의 userTemplate의 userChallengeId를 통해서 affiliation 데이터를 가져온다.
-            // (단 조건은, challengeId를 활용한다.)
+            // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
+            const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
+            // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
             let [commentAffiliationData, likeAffiliationData] = await Promise.all([
-                this.userApi.requestAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeIdOfComment),
-                this.userApi.requestAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeIdOfLike)
-
+                this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
+                this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
             ]);
-            // console.log(commentAffiliationData.length)
-            // console.log(likeAffiliationData.length)
-
-            // 4. 3번의 affiliation_id 와 2번의 affiliation_id가 같은 값을 가져온다.
-            const sortedCommentAffiliationSameValue = this.sortMyAffiliationAndCommentOrLikeAffiliation(affiliationData, commentAffiliationData);
-            const sortedLikeAffiliationSameValue = this.sortMyAffiliationAndCommentOrLikeAffiliation(affiliationData, likeAffiliationData);
-            console.log(sortedCommentAffiliationSameValue)
-            console.log(sortedLikeAffiliationSameValue)
-            // 5. comment와 like 데이터를 3번에서 조회한 affiliation_id와 2번에서 조회한 affiliation_id와 같지 않는 값들을 가져온다.
-
-
-            
-            // 6. 4번에서 나온 데이터를 기존 쿼리 형식에 맞게 매핑한다.      
+            // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
+            const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
+            const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
+            // 6. comment, like의 데이터를 시간 순으로 나열한다.
+            const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
+            return mergedCommentAndLike;
     } 
 
-    private sortMyAffiliationAndCommentOrLikeAffiliation(myAffiliation: Affiliation, commentOrLikeAffiliation: Affiliation[]): Affiliation[] {
-        // console.log(myAffiliation.getId())
-        // commentOrLikeAffiliation.map((data)=> { console.log(data.getId())})
-        return commentOrLikeAffiliation.filter((affiliation) => affiliation.getId() === myAffiliation.getId());
+
+
+    private extractAffiliationIdAccordingToCommentAndLike(userTemplate:UserTemplete[]){
+        const commentAffiliationIds: number[] = userTemplate.flatMap(userTemplate => userTemplate.comments.map(comment => comment.getAffiliationId()));
+        const likeAffiliationIds: number[] = userTemplate.flatMap(userTemplate => userTemplate.likes.map(like => like.getAffiliationId()));
+        return { commentAffiliationIds, likeAffiliationIds };
+    }
+    
+    /**
+     * 
+     * @param userTemplate 유저 챌린지에서 작성한 템플릿 데이터
+     * @param userChallengeAndAffiliationData 유저 챌린지와 소속 데이터가 포함된 데이터
+     * @returns 유저가 자신의 템플릿에 단 댓글이 제거된 데이터
+     */
+    private makeCommentShapeAccordingToUserTemplate(userTemplate: UserTemplete[], userChallengeAndAffiliationData: UserChallenge, affiliation: Affiliation[]):GetCommentNotify[] {
+        return userTemplate.flatMap((userTemplate) => 
+            userTemplate.comments
+                .filter((comment) => comment.getAffiliationId() !== userChallengeAndAffiliationData.affiliation.getId())
+                .map((comment) => {
+                    const matchedAffiliation = affiliation.find(affiliation => affiliation.getId() === comment.getAffiliationId());
+                    return {
+                    commentId: comment.getId(),
+                    content: comment.getContent(),
+                    createdAt: comment.getCreatedAt(),
+                    sign: comment.getCheck(),
+                    userTempleteId: userTemplate.getId(),
+                    templateName: userTemplate.getFinishedAt(),
+                    nickname:matchedAffiliation.getNickname(),
+                    type: "comment"
+                    }
+                }));
     }
     
 
-    private sortUserChallengeIdOfComment(data: Comment[]){
-        return data.map((data) =>{
-            return data.userTemplete.getUserChallengeId()        
-        })
+    private makeLikeShapeAccordingToUserTemplate(userTemplate: UserTemplete[], userChallengeAndAffiliationData:UserChallenge, affiliation: Affiliation[]):GetLikeNotify[]{
+        return userTemplate.flatMap((userTemplate) => userTemplate.likes.filter((like)=> like.getAffiliationId() !== userChallengeAndAffiliationData.affiliation.getId())
+        .map((like) => {
+            const matchedAffiliation = affiliation.find(affiliation => affiliation.getId() === like.getAffiliationId());
+            return {
+            likeId: like.getId(),
+            createdAt: like.getCreatedAt(),
+            sign: like.getCheck(),
+            userTempleteId: userTemplate.getId(),
+            templateName: userTemplate.getFinishedAt(),
+            nickname: matchedAffiliation.getNickname(),
+            type: "like"
+            }
+        }));
     }
 
 
-    private sortUserChallengeIdOfLike(data: Likes[]){
-        return data.map((data) =>{
-            return data.userTemplete.getUserChallengeId()        
-        })
+    private mergeAndSortTimeCommentAndLike(comments: GetCommentNotify[], likes: GetLikeNotify[]){
+        const mergedArray: (GetCommentNotify | GetLikeNotify)[] = [...comments, ...likes];
+        mergedArray.sort((a, b) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();});
+        return mergedArray;
     }
-
+      
     private async signUserChallengeComplete (
         challengeId: number,
         date: string
@@ -127,9 +150,6 @@ export class TemplateService {
         return complete; 
     }
 
-
-
-
     private sortAccorgindToUserTemplateId(userTemplates: TemplateContent[]):  TemplateContent[][]{
         const sortedUserTemplate : TemplateContent[][]= [];
         const uniqueUserTemplateIds = Array.from(new Set(userTemplates.map((q) => q.user_templete_id)));
@@ -140,3 +160,8 @@ export class TemplateService {
         return sortedUserTemplate;
     }
 }
+
+
+
+
+

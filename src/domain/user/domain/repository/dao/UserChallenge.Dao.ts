@@ -103,4 +103,14 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             .execute();
     }
 
+    async findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>{
+        return this.dataSource.createQueryBuilder(UserChallenge, 'uc')
+            .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
+            .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
+            .where('o.name = :organization',{organization})
+            .andWhere('a.user_id = :userId',{userId})
+            .andWhere('uc.challenge_id = :challengeId',{challengeId})
+            .getOne();
+    }
+
 }

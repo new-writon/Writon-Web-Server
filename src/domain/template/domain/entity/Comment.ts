@@ -16,7 +16,7 @@ import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 @Index("Comment_user_templete_id_fkey", ["user_templete_id"], {})
 @Index("Comment_comment_group_fkey", ["comment_group"], {})
 @Index("Comment_affiliation_id_fkey_idx", ["affiliation_id"], {})
-@Entity("Comment", { schema: "nest" })
+@Entity("Comment")
 export class Comment extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "comment_id" })
   comment_id: number;
@@ -70,5 +70,12 @@ export class Comment extends BaseEntity{
   public getContent(){
     return this.content;
   }
-  
+
+  public getAffiliationId(){
+    return this.affiliation_id;
+  }
+
+  public getCheck(){
+    return this.check;
+  }
 }

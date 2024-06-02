@@ -145,6 +145,14 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
       .andWhere('uc.user_challenge_id IN (:...userChallengeIds)',{userChallengeIds:userChallengeId})
       .getMany();
   }
+
+  async findAffiliationById(affiliationId: number[]):Promise<Affiliation[]>{
+    return this.dataSource.createQueryBuilder()
+      .select('a')
+      .from(Affiliation, 'a')
+      .where('a.affiliation_id IN (:...affiliationIds)',{affiliationIds:affiliationId})
+      .getMany();
+  }
 }
 
 

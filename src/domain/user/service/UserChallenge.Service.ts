@@ -16,7 +16,7 @@ import { AffiliationHelper } from '../helper/Affiliation.Helper.js';
 import { UserHelper } from '../helper/User.Helper.js';
 import { UserChallengeHelper } from '../helper/UserChallenge.Helper.js';
 import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
-import { UserChallengeVerifyService } from '../domain/service/UserChallengeVerify.Service.js';
+import { UserVerifyService } from '../domain/service/UserVerify.Service.js';
 
 
 @Injectable()
@@ -33,7 +33,7 @@ export class UserChallengeService {
         // private readonly userChallengeRepository: UserChallengeRepository,
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
-        private readonly userChallengeVerifyService: UserChallengeVerifyService
+        private readonly userVerifyService: UserVerifyService
 
       
     ) {}
@@ -124,7 +124,7 @@ export class UserChallengeService {
 
     public async updateUserChallengeCheckCount(userId:number,organization:string,challengeId:number, checkCount:number):Promise<void>{
         const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId);
-        this.userChallengeVerifyService.verifyUserChallenge(userChallengeData);
+        this.userVerifyService.verifyUserChallenge(userChallengeData);
         await this.userChallengeHelper.executeUpdateUserChallengeCheckCount(userChallengeData.getId(), checkCount);
     }
 
