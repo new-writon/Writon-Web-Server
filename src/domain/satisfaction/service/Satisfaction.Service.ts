@@ -5,12 +5,15 @@ import { ChallengeApi } from "../infrastructure/Challenge.Api.js";
 import { Restart } from "../dto/response/Restart.js";
 import { TemplateApi } from "../infrastructure/Template.Api.js";
 import { UserChallengeResult } from "../dto/response/UserChallengeResult.js";
+import { SatisfactionHelper } from "../helper/Satisfaction.Helper.js";
+import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion.js";
 
 
 @Injectable()
 export class SatisfactionService{
 
     constructor(
+        private readonly satisfactionHelper:SatisfactionHelper,
         private readonly userApi: UserApi,
         private readonly challengeApi: ChallengeApi,
         private readonly templateApi: TemplateApi
@@ -45,6 +48,11 @@ export class SatisfactionService{
         ]);
         return UserChallengeResult.of(affiliationData.getNickname(), organization, challengeData.getName(), challengeOverlapCount,
             challengeSuccessCount, userChallengeData.getUserDeposit(), challengeData.getDeposit(), challengeData.getReviewUrl());
+    }
+
+    public async bringSatisfactionQuestion(challengeId:number):Promise<SatisfactionQuestion[]>{
+        const satisfactionData = await this.satisfactionHelper.giveSatisfactionByChallengeId(challengeId);
+        return SatisfactionQuestion.of(satisfactionData);
     }
 
 

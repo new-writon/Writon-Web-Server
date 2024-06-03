@@ -47,4 +47,17 @@ export class Satisfaction extends BaseEntity{
     (satisfactionSubjectiveResult) => satisfactionSubjectiveResult.satisfaction
   )
   satisfactionSubjectiveResults: Relation<SatisfactionSubjectiveResult>[];
+
+
+  public getId(){
+    return this.satisfaction_id;
+  }
+
+  public getType(){
+    return this.type;
+  }
+
+  public getQuestion(){
+    return this.question;
+  }
 }

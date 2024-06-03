@@ -1,20 +1,17 @@
 
 
-export enum SatisfationrrorCode  {
+export enum SatisfactionErrorCode  {
     
-    ERROR = 501,
-    NO_VALUE=502,
-    UNAUTHORIZED = 1001,
+    NOT_FOUND_SATISFACTION_QUESTION=900
     
 }
 
 // 각 에러 코드에 대한 메시지 정의
 const ErrorMessages: { [key: number]: string } = {
-    501: "강제 에러 발생",
-    502: "해당 값이 존재하지 않습니다."
+    900: "해당 챌린지의 만족도 질문 정보가 없습니다."
 
 };
 
-export function errorMessage(code: SatisfationrrorCode): string {
+export function errorMessage(code: SatisfactionErrorCode): string {
     return ErrorMessages[code] || "알 수 없는 오류가 발생하였습니다.";
 }

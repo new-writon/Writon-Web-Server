@@ -7,6 +7,7 @@ import { SatisfactionService } from "../service/Satisfaction.Service.js";
 import { SatisfactionStatus } from "../dto/response/SatisfactionSatus.js";
 import { Restart } from "../dto/response/Restart.js";
 import { UserChallengeResult } from "../dto/response/UserChallengeResult.js";
+import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion.js";
 
 @Controller('/api/satisfaction')
 export class SatisfactionController{
@@ -14,6 +15,17 @@ export class SatisfactionController{
   constructor(
       private readonly satisfactionService: SatisfactionService
   ){}
+
+  @Get("/question/:challengeId")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringSatisfactionQuestion(
+    @Param('challengeId') challengeId: number
+  ): Promise<SuccessResponseDto<SatisfactionQuestion[]>>  {
+    const result = await this.satisfactionService.bringSatisfactionQuestion(challengeId);
+    return SuccessResponseDto.of(result);
+  }
+
 
   @Get("/re-engagement/:challengeId")
   @HttpCode(200)

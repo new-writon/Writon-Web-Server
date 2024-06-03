@@ -13,6 +13,9 @@ import { ChallengeApi } from './infrastructure/Challenge.Api.js';
 import { ChallengeModule } from '../challenge/challenge.module.js';
 import { TemplateApi } from './infrastructure/Template.Api.js';
 import { TemplateModule } from '../template/template.module.js';
+import { SatisfactionDao } from './domain/repository/dao/Satisfaction.Dao.js';
+import { SatisfactionVerifyService } from './domain/service/SatisfactionVerify.Service.js';
+import { SatisfactionHelper } from './helper/Satisfaction.Helper.js';
 
 @Module({
   imports: [
@@ -24,12 +27,16 @@ import { TemplateModule } from '../template/template.module.js';
   
   ],
   providers: [
+    {provide: 'satisfactionImpl',  useClass: SatisfactionDao},
     SatisfactionService,
     ResponseService,
+    SatisfactionVerifyService,
     UserApi,
     ChallengeApi,
-    TemplateApi
+    TemplateApi,
+    SatisfactionHelper
   ],
   controllers: [ResponseController, SatisfactionController],
+  exports:[SatisfactionHelper]
 })
 export class SatisfactionModule {}

@@ -1,3 +1,4 @@
+import { InternalServerErrorException } from "@nestjs/common";
 
 
 export class SatisfactionStatus{
@@ -14,6 +15,7 @@ export class SatisfactionStatus{
 
 
     private setReview(review:number){
+        if(review === null)throw new InternalServerErrorException (`${__dirname} : review값이 존재하지 않습니다.`);
         this.review=review;
     }
 }
