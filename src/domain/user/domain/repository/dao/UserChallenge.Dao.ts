@@ -13,7 +13,7 @@ import { Organization } from '../../entity/Organization.js';
 export class UserChallengeDao extends Repository<UserChallenge> implements UserChallengeRepository{
     constructor(private dataSource: DataSource) { super(UserChallenge, dataSource.createEntityManager()); }
 
-    async findUserChallengeByAffiliationIdAndId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
+    async findUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
         return this.findOne({
             where:{
                 affiliation_id: affiliationId,
@@ -121,6 +121,18 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             })
             .where('user_challenge_id = :userChallengeId',{userChallengeId})
             .execute();
+    }
+
+    async updateUserChallengeReEngagement(userChallengeId:number, check:boolean): Promise<void>{
+        await this.dataSource.createQueryBuilder()
+                .update(UserChallenge)
+                .set({
+                    re_engagement: check
+                })
+                .where('user_challenge_id = :userChallengeId',{userChallengeId})
+                .execute();
+        
+
     }
 
 }

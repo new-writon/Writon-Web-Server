@@ -19,7 +19,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> implements Challen
     };
 
 
-    async findOverlapCount(challengeId: number): Promise<number>{
+    async findChallengeOverlapCount(challengeId: number): Promise<number>{
         return this.dataSource
             .createQueryBuilder()
             .select()

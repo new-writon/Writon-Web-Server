@@ -28,7 +28,7 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
 
 
 
-  async findSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
+  async findChallengeSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
 
     const data = await this.query(`
         select count(*) as count from UserTemplete as ut

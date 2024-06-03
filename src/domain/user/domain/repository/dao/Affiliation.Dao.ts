@@ -74,12 +74,12 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
 
   async findAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>{
     return this.dataSource.createQueryBuilder()
-        .select('a.*')
+        .select('a')
         .from(Affiliation, 'a')
         .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
         .where('a.user_id = :userId',{userId:userId})
         .andWhere('o.name = :organization',{organization})
-        .getRawOne()
+        .getOne()
 
   }
 

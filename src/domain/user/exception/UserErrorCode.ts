@@ -7,7 +7,8 @@ export enum UserErrorCode{
     NOT_VERIFY_CODE=452,
     NOT_VERIFY_EMAIL=453,
     NOT_FOUND_USER=455,
-    NOT_FOUND_USERCHALLENGE=456
+    NOT_FOUND_USERCHALLENGE=456,
+    NOT_FOUND_AFFILIATION=457
 
     
 }
@@ -21,7 +22,8 @@ const ErrorMessages: { [key: number]: string } = {
     453: "이메일이 옳바르지 않습니다.",
     454: "아이디가 옳바르지 않습니다.",
     455: "유저가 존재하지 않습니다",
-    456: "유저 챌린지가 존재하지 않습니다."
+    456: "유저 챌린지가 존재하지 않습니다.",
+    457: "소속 정보가 존재하지 않습니다."
 
 };
 

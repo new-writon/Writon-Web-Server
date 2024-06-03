@@ -3,6 +3,7 @@ import { ChallengeRepository } from "../domain/repository/Challenge.Repository.j
 import { Challenge } from "../domain/entity/Challenge.js";
 import { ChallengeInformation } from "../dto/ChallengeInformation.js";
 import { ChallengeAndOrganization } from "../dto/ChallengeAndOrganization.js";
+import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service.js";
 
 @Injectable()
 export class ChallengeHelper{
@@ -11,6 +12,7 @@ export class ChallengeHelper{
     constructor(
         @Inject('challengeImpl')
         private readonly challengeRepository: ChallengeRepository,
+        private readonly challengeVerifyService: ChallengeVerifyService
     ){}
 
     public async giveOverlapPeriod(challengeId: number): Promise<number>{
@@ -18,7 +20,9 @@ export class ChallengeHelper{
     }
 
     public async giveChallengeById(challengeId: number): Promise<Challenge>{
-        return this.challengeRepository.findChallengeById(challengeId);
+        const challengeData = await this.challengeRepository.findChallengeById(challengeId);
+        this.challengeVerifyService.verifyChallenge(challengeData);
+        return challengeData;
     }
 
     public async giveChallengeWithCondition(challengeId: number): Promise<ChallengeInformation[]>{

@@ -3,6 +3,7 @@ import { AffiliationRepository } from "../domain/repository/Affiliation.Reposito
 import { Affiliation } from "../domain/entity/Affiliation.js";
 import { ChallengesPerOrganization } from "../dto/ChallengesPerOrganization.js";
 import { UserProfile } from "../dto/response/UserProfile.js";
+import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
 
 @Injectable()
 export class AffiliationHelper {
@@ -10,6 +11,7 @@ export class AffiliationHelper {
     constructor(
         @Inject('affiliationImpl')
         private readonly affiliationRepository: AffiliationRepository,
+        private readonly userVerifyService: UserVerifyService
     ){}
 
     public async giveAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
@@ -32,7 +34,9 @@ export class AffiliationHelper {
     }
 
     public async giveAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>{
-        return this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
+        const affiliationData = await this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
+        this.userVerifyService.verifyAffiliation(affiliationData);
+        return affiliationData;
     }
 
     public async giveUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>{

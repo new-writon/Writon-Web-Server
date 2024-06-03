@@ -25,8 +25,8 @@ export class ChallengeApi{
     }
 
 
-    public async requestOverlapCount(challengeId: number): Promise<number>{
-        return this.challengeDayHelper.giveOverlapCount(challengeId);
+    public async requestChallengeOverlapCount(challengeId: number): Promise<number>{
+        return this.challengeDayHelper.giveChallengeOverlapCount(challengeId);
     }
 
     public async requestChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{

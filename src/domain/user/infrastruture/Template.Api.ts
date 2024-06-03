@@ -15,8 +15,8 @@ export class TemplateApi{
         return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
     }
 
-    public async requestSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
-        return this.userTemplateHelper.giveSuccessChallengeCount(affiliationId, challengeId);
+    public async requestChallengeSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
+        return this.userTemplateHelper.giveChallengeSuccessChallengeCount(affiliationId, challengeId);
         
     }
 

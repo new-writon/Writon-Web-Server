@@ -11,9 +11,9 @@ export class ChallengeDayHelper{
         private readonly challengeDayRepository: ChallengeDayRepository,
     ){}
 
-    public async giveOverlapCount(challengeId: number): Promise<number>{
+    public async giveChallengeOverlapCount(challengeId: number): Promise<number>{
 
-        return this.challengeDayRepository.findOverlapCount(challengeId);
+        return this.challengeDayRepository.findChallengeOverlapCount(challengeId);
     }
 
     public async giveChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{

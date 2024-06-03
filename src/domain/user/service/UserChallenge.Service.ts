@@ -52,9 +52,9 @@ export class UserChallengeService {
         const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
             this.userHelper.giveUserById(userId),    
             this.challengeApi.requestOverlapPeriod(challengeId),
-            this.challengeApi.requestOverlapCount(challengeId),
-            this.templateApi.requestSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
-            this.userChallengeHelper.giveUserChallengeByAffiliationIdAndId(affiliationData.getAffiliationId(), challengeId),
+            this.challengeApi.requestChallengeOverlapCount(challengeId),
+            this.templateApi.requestChallengeSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
+            this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId),
             this.challengeApi.requestChallengeById(challengeId)  
           ]);
         return UserChallengeSituation.of(

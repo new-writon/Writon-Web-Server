@@ -18,8 +18,8 @@ export class UserTemplateHelper{
         return this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
     };
 
-    public async giveSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
-        return this.userTemplateRepository.findSuccessChallengeCount(affiliationId, challengeId);
+    public async giveChallengeSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
+        return this.userTemplateRepository.findChallengeSuccessChallengeCount(affiliationId, challengeId);
     };
 
     public async giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{

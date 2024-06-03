@@ -96,4 +96,12 @@ export class Challenge extends BaseEntity{
   public getId(){
     return this.challenge_id;
   }
+
+  public getRestart(){
+    return this.restart;
+  }
+
+  public getReviewUrl(){
+    return this.review_url;
+  }
 }

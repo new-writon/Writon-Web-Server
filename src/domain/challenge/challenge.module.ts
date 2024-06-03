@@ -18,6 +18,7 @@ import { ChallengeInviteController } from './presentation/ChallengeInvite.Contro
 import { ChallengeInviteService } from './service/ChallengeInvite.Service.js';
 import { MailManager } from '../../global/util/MailManager.js';
 import { QuestionHelper } from './helper/Question.Helper.js';
+import { ChallengeVerifyService } from './domain/service/ChallengeVerify.Service.js';
 
 
 
@@ -30,6 +31,7 @@ import { QuestionHelper } from './helper/Question.Helper.js';
     ChallengeInformationService, 
     ChallengeQuestionService,
     ChallengeInviteService,
+    ChallengeVerifyService,
     ChallengeHelper,
     ChallengeDayHelper,
     QuestionHelper,
