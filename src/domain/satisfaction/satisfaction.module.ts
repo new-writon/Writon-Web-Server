@@ -18,6 +18,7 @@ import { SatisfactionVerifyService } from './domain/service/SatisfactionVerify.S
 import { SatisfactionHelper } from './helper/Satisfaction.Helper.js';
 import { SatisfactionObjectiveResultDao } from './domain/repository/dao/SatisfactionObjectiveResult.Dao.js';
 import { SatisfactionSubjectiveResultDao } from './domain/repository/dao/SatisfactionSubjectiveResult.Dao.js';
+import { SatisfactionObjectiveResultHelper } from './helper/SatisfactionObjectiveResult.Helper.js';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { SatisfactionSubjectiveResultDao } from './domain/repository/dao/Satisfa
     UserApi,
     ChallengeApi,
     TemplateApi,
-    SatisfactionHelper
+    SatisfactionHelper,
+    SatisfactionObjectiveResultHelper
   ],
   controllers: [ResponseController, SatisfactionController],
   exports:[SatisfactionHelper]
