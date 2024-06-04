@@ -38,10 +38,10 @@ export class TemplateService {
         date: string,
         templateContent: Array<WriteTemplateContent>): Promise<void>{
             const [userChallengeData, userTemplateComplete] = await Promise.all([
-                this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId),
+                this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization),
                 this.signUserChallengeComplete(challengeId, date)
             ]);
-            await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData[0].user_challenge_id, new Date(date), userTemplateComplete, templateContent)
+            await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData.getId(), new Date(date), userTemplateComplete, templateContent)
     } 
 
 

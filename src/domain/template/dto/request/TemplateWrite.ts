@@ -1,6 +1,6 @@
 import { IsNotEmpty } from "class-validator";
-import { TemplateContent } from "../response/TemplateContent";
-import { WriteTemplateContent } from "../TemplateContent";
+import { WriteTemplateContent } from "../TemplateContent.js";
+import { Type } from "class-transformer";
 
 
 export class TemplateWrite{
@@ -16,6 +16,7 @@ export class TemplateWrite{
     @IsNotEmpty()
     private date: string;
 
+    @Type(() => WriteTemplateContent)
     @IsNotEmpty()
     private templateContent:Array<WriteTemplateContent>;
 

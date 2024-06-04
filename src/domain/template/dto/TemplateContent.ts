@@ -4,9 +4,9 @@
 
 export class WriteTemplateContent{
 
-    public question_id: number
-    public content: string
-    public visibility: boolean
+    private question_id: number
+    private content: string
+    private visibility: boolean
 
     public getQuestionId(){
         return this.question_id;

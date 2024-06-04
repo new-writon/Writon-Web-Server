@@ -19,7 +19,7 @@ export class UserTemplateTransaction {
         const newUserTemplate = UserTemplete.createUserTemplate(userChallnegeId, date, complete);
         await this.dataSource.transaction(async (transactionalEntityManager) => {
            const userTemplateData = await transactionalEntityManager.save(newUserTemplate)
-           const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.user_templete_id);
+           const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.getId());
            const questionContents = changedTemplate.map(this.createQuestionContentObject);
            await transactionalEntityManager.save(questionContents)
        });   
@@ -42,9 +42,9 @@ export class UserTemplateTransaction {
 
     private changeUserTemplateType(writeTempletes: WriteTemplateContent[], userTempleteId: number):InsertUserTemplateContent[]{
         return writeTempletes.map(writeTemplete => new InsertUserTemplateContent(
-            writeTemplete.question_id,
-            writeTemplete.content,
-            writeTemplete.visibility,
+            writeTemplete.getQuestionId(),
+            writeTemplete.getContent(),
+            writeTemplete.getVisibility(),
             userTempleteId, 
         ));
     }
