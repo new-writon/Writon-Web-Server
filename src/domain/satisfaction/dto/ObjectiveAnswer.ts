@@ -1,8 +1,9 @@
 
 
 export class ObjectiveAnswer{
-    public satisfactionId: number;
-    public score: number;
+    
+    private satisfactionId: number;
+    private score: number;
 
 
     public getSatisfactionId(){

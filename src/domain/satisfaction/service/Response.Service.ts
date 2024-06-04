@@ -33,8 +33,8 @@ export class ResponseService{
     satisfationAnswer: Array<ObjectiveAnswer>,
     userChallengeId: number): ObjectiveAnswerType[]{
         return satisfationAnswer.map((answer) => new ObjectiveAnswerType(
-            answer.satisfactionId,
-            answer.score,
+            answer.getSatisfactionId(),
+            answer.getScore(),
             userChallengeId
         ));
   }

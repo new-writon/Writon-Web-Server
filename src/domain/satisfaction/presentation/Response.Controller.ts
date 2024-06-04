@@ -34,7 +34,7 @@ export class ResponseController{
   public async answerObjectiveQuestion(
     @Body() objectiveQuestionAnswer:ObjectiveQuestionAnswer,
     @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<void>>  {
+  ): Promise<SuccessResponseDto<void>>{
     await this.responseService.answerObjectiveQuestion(user.user_id, objectiveQuestionAnswer.getOrganization(), objectiveQuestionAnswer.getChallengeId(), objectiveQuestionAnswer.getSatisfactionAnswer())
     return SuccessResponseDto.of();
   }

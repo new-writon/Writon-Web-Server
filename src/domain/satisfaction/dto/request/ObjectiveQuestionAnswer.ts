@@ -1,6 +1,6 @@
 import { IsNotEmpty } from "class-validator";
 import { ObjectiveAnswer } from "../ObjectiveAnswer.js";
-
+import { Type } from 'class-transformer';
 
 export class ObjectiveQuestionAnswer{
 
@@ -10,7 +10,7 @@ export class ObjectiveQuestionAnswer{
     @IsNotEmpty()
     private challengeId:number;
 
-
+    @Type(() => ObjectiveAnswer)
     @IsNotEmpty()
     private satisfactionAnswer: Array<ObjectiveAnswer>;
 
