@@ -16,6 +16,8 @@ import { TemplateModule } from '../template/template.module.js';
 import { SatisfactionDao } from './domain/repository/dao/Satisfaction.Dao.js';
 import { SatisfactionVerifyService } from './domain/service/SatisfactionVerify.Service.js';
 import { SatisfactionHelper } from './helper/Satisfaction.Helper.js';
+import { SatisfactionObjectiveResultDao } from './domain/repository/dao/SatisfactionObjectiveResult.Dao.js';
+import { SatisfactionSubjectiveResultDao } from './domain/repository/dao/SatisfactionSubjectiveResult.Dao.js';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { SatisfactionHelper } from './helper/Satisfaction.Helper.js';
   ],
   providers: [
     {provide: 'satisfactionImpl',  useClass: SatisfactionDao},
+    {provide: 'satisfactionObjectiveResultImpl',  useClass: SatisfactionObjectiveResultDao},
+    {provide: 'satisfactionSubjectiveResultImpl',  useClass: SatisfactionSubjectiveResultDao},
     SatisfactionService,
     ResponseService,
     SatisfactionVerifyService,
