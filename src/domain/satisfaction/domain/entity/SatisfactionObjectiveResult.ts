@@ -25,6 +25,28 @@ import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 )
 @Entity("SatisfactionObjectiveResult", { schema: "nest" })
 export class SatisfactionObjectiveResult extends BaseEntity{
+
+
+  constructor(
+    score:number,
+    satisfactionId:number,
+    userChallengeId:number
+  ){
+    super();
+    this.setScore(score);
+    this.setSatisfactionId(satisfactionId);
+    this.setUserChallengeId(userChallengeId);
+  }
+
+  private static createSatisfactionObjectiveResult(
+    score:number,
+    satisfactionId:number,
+    userChallengeId:number
+  ){
+    return new SatisfactionObjectiveResult(score, satisfactionId, userChallengeId);
+  }
+
+
   @PrimaryGeneratedColumn({
     type: "int",
     name: "satisfaction_objective_result_id",
@@ -59,4 +81,19 @@ export class SatisfactionObjectiveResult extends BaseEntity{
     { name: "user_challenge_id", referencedColumnName: "user_challenge_id" },
   ])
   userChallenge: Relation<UserChallenge>;
+
+  private setScore(score:number){
+    this.score=score;
+  }
+
+  private setSatisfactionId(satisfactionId:number){
+    this.satisfaction_id=satisfactionId
+  }
+
+  private setUserChallengeId(userChallengeId:number){
+    this.user_challenge_id=userChallengeId;
+  }
+
+
+
 }
