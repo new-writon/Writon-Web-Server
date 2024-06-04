@@ -6,6 +6,7 @@ import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
 import { User } from "../../user/domain/entity/User.js";
 import { ReEngagementCheck } from "../dto/request/ReEngagementCheck.js";
 import { ObjectiveQuestionAnswer } from "../dto/request/ObjectiveQuestionAnswer.js";
+import { SubjectiveQuestionAnswer } from "../dto/request/SubjectiveQuestionAnswer.js";
 
 @Controller('/api/satisfaction/response')
 export class ResponseController{
@@ -43,10 +44,10 @@ export class ResponseController{
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async answerSubjectiveQuestion(
-    @Body() objectiveQuestionAnswer:ObjectiveQuestionAnswer,
+    @Body() subjectiveQuestionAnswer:SubjectiveQuestionAnswer,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-   
+    await this.responseService.answerSubjectiveQuestion(user.user_id, subjectiveQuestionAnswer.getOrganization(), subjectiveQuestionAnswer.getChallengeId(), subjectiveQuestionAnswer.getSatisfactionAnswer())
     return SuccessResponseDto.of();
   }
 }

@@ -37,7 +37,7 @@ export class SatisfactionSubjectiveResult extends BaseEntity{
     this.setUserChallengeId(userChallengeId);
   }
 
-  private static createSatisfactionSubjectiveResult(
+  public static createSatisfactionSubjectiveResult(
     answer:string,
     satisfactionId:number,
     userChallengeId:number
