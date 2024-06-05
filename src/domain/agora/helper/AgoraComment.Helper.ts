@@ -9,4 +9,8 @@ export class AgoraCommentHelper{
         private readonly agoraCommentRepository: AgoraCommentRepository
     ){}
 
+    public async executeInsertAgoraComment(agoraId:number, affiliationId:number, agoraComment:string):Promise<void>{
+        return this.agoraCommentRepository.insertAgoraComment(agoraId, affiliationId, agoraComment);
+    }
+
 }

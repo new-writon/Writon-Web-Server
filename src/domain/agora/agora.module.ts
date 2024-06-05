@@ -12,6 +12,7 @@ import { AgoraCommentHelper } from './helper/AgoraComment.Helper.js';
 import { UserModule } from '../user/user.module.js';
 import { AgoraDao } from './domain/repository/dao/Agora.Dao.js';
 import { AgoraCommentDao } from './domain/repository/dao/AgoraComment.Dao.js';
+import { UserApi } from './infrastructure/User.Api.js';
 
 
 
@@ -30,7 +31,8 @@ import { AgoraCommentDao } from './domain/repository/dao/AgoraComment.Dao.js';
     AgoraService,
     AgoraCommentService,
     AgoraHelper,
-    AgoraCommentHelper
+    AgoraCommentHelper,
+    UserApi
     
   ],
   controllers: [AgoraController, AgoraCommentController],
