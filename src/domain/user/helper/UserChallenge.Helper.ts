@@ -53,13 +53,20 @@ export class UserChallengeHelper{
         const userChallengeData = await this.userChallengeRepository.findUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
         this.userVerifyService.verifyUserChallenge(userChallengeData);
         await this.userChallengeRepository.updateUserChallengeReview(userChallengeData.getId());
-
     }
-
 
     public async executeUpdateUserChallengeReEngagement(userId:number, organization:string, challengeId:number, check:boolean): Promise<void>{
         const userChallengeData = await this.userChallengeRepository.findUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
         this.userVerifyService.verifyUserChallenge(userChallengeData);
         await this.userChallengeRepository.updateUserChallengeReEngagement(userChallengeData.getId(), check);
     }
+
+    public async giveUserChallengeAndAffiliationAndUserByUserChallengeIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
+       return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
+    }
+
+
+
+
+
 }

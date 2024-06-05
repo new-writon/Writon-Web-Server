@@ -131,8 +131,15 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
                 })
                 .where('user_challenge_id = :userChallengeId',{userChallengeId})
                 .execute();
-        
+    }
 
+    async findUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
+        return this.dataSource.createQueryBuilder(UserChallenge, 'uc')
+            .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
+            .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
+            .where('uc.user_challenge_id IN (:...userChallengeIds)', { userChallengeIds: userChallengeId })
+            .andWhere('uc.challenge_id = :challengeId',{challengeId})
+            .getMany();
     }
 
 }

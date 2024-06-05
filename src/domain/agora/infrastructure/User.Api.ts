@@ -45,5 +45,9 @@ export class UserApi {
         return this.affiliationHelper.giveAffiliationById(affiliationId)
     }
 
+    public async requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
+        return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserByUserChallengeIdArrayAndChallengeId(userChallengeId, challengeId);
+    }
+
 
 }
