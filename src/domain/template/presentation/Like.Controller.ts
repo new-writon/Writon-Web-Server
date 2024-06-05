@@ -1,12 +1,12 @@
 
 import { LikeServie } from "../service/Like.Service.js";
-import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Logger, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { LikeCheck } from "../dto/request/LikeCheck.js";
 
 @Controller('/api/template/like')
 export class LikeController{
-
+    private readonly logger = new Logger(LikeController.name);
     constructor(
         private readonly likeService:LikeServie
     ){}

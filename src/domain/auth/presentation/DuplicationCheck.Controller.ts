@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param, Query } from "@nestjs/common";
+import { Controller, Get, HttpCode, Logger, Param, Query } from "@nestjs/common";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
 import { DuplicationCheckService } from "../service/DuplicationCheck.Service.js";
 
@@ -6,6 +6,7 @@ import { DuplicationCheckService } from "../service/DuplicationCheck.Service.js"
 
 @Controller("/api/auth/check")
 export class DuplicationCheckController {
+    private readonly logger = new Logger(DuplicationCheckController.name);
     
     constructor(private readonly duplicationCheckService: DuplicationCheckService) {}
 
@@ -14,8 +15,8 @@ export class DuplicationCheckController {
     public async checkDuplicateIdentifier(
       @Query("identifier") identifier: string
     ): Promise<SuccessResponseDto<void>>  {
-
       await this.duplicationCheckService.checkDuplicateIdentifier(identifier);
+      this.logger.log("아이디 중복 체크 완료");
       return SuccessResponseDto.of();
     }
   
@@ -24,8 +25,8 @@ export class DuplicationCheckController {
     public async checkDuplicateEmail(
       @Query("email") email: string
     ): Promise<SuccessResponseDto<void>>  {
-  
       await this.duplicationCheckService.checkDuplicateEmail(email);
+      this.logger.log("이메일 중복 체크 완료");
       return SuccessResponseDto.of();
     }
 
@@ -35,8 +36,8 @@ export class DuplicationCheckController {
       @Query("nickname") nickname: string,
       @Param("organization") organization: string
     ): Promise<SuccessResponseDto<void>>  {
-  
       await this.duplicationCheckService.checkDuplicateNickname(nickname, organization);
+      this.logger.log("닉네임 중복 체크 완료");
       return SuccessResponseDto.of();
     }
 

@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpCode, Logger, Patch, Post, UseGuards } from "@nestjs/common";
 import { ResponseService } from "../service/Response.Service.js";
 import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
@@ -10,7 +10,7 @@ import { SubjectiveQuestionAnswer } from "../dto/request/SubjectiveQuestionAnswe
 
 @Controller('/api/satisfaction/response')
 export class ResponseController{
-    
+    private readonly logger = new Logger(ResponseController.name);
     constructor(
         private readonly responseService: ResponseService
     ){}

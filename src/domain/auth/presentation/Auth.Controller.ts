@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, HttpCode, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, HttpCode, Logger, Post, Req, UseGuards } from "@nestjs/common";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
 import { AuthService } from "../service/Auth.Service.js";
 import { KakaoLogin } from "../dto/request/KakaoLogin.js";
@@ -13,6 +13,7 @@ import { Request } from "express";
 
 @Controller("/api/auth")
 export class AuthController{
+    private readonly logger = new Logger(AuthController.name);
 
     constructor(private readonly authService: AuthService) {}
 
@@ -24,6 +25,7 @@ export class AuthController{
     ): Promise<SuccessResponseDto<LoginResponse>>  {
   
       const result : LoginResponse = await this.authService.kakaoLogin(kakaoLogin.getOrganization(), kakaoLogin.getChallengeId(), req.headers["authorization"]);
+      this.logger.log("카카오 로그인 완료");
       return SuccessResponseDto.of(result);
     }
 
@@ -34,6 +36,7 @@ export class AuthController{
     ): Promise<SuccessResponseDto<LoginResponse>>  {
 
      const result : LoginResponse = await this.authService.localLogin(loginLocal.getIdentifier(), loginLocal.getPassword() , loginLocal.getOrganization(), loginLocal.getChallengeId());
+     this.logger.log("로컬 로그인 완료");
      return SuccessResponseDto.of(result);
     }
 
@@ -46,6 +49,7 @@ export class AuthController{
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
       await this.authService.logout(String(user.user_id));
+      this.logger.log("로그아웃 완료");
       return SuccessResponseDto.of();
     }
 }

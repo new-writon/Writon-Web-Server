@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Logger, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { UserChallengeService } from '../service/UserChallenge.Service.js';
 import { JWTAuthGuard } from '../../../domain/auth/guards/JwtAuth.Guard.js';
@@ -15,6 +15,7 @@ import { UserChallengeCheckCountUpdate } from '../dto/request/UserChallengeCheck
 
 @Controller("/api/user/challenge")
 export class UserChallengeController {
+    private readonly logger = new Logger(UserChallengeController.name);
     constructor(private readonly userChallengeService: UserChallengeService) {}
 
     @Get('/:organization/:challengeId/daily-reflection')
@@ -25,8 +26,8 @@ export class UserChallengeController {
         @Param('challengeId') challengeId: number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<TemplateStatus>>{
-
         const result = await this.userChallengeService.signTodayTemplateStatus(user.user_id, organization, challengeId);
+        this.logger.log("챌린지 종료 여부 완료");
         return SuccessResponseDto.of(result);
     }
 
@@ -38,8 +39,8 @@ export class UserChallengeController {
         @Param('challengeId') challengeId: number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<UserChallengeSituation>>{
-
-        const result = await this.userChallengeService.presentSituation(user.user_id, organization, challengeId)
+        const result = await this.userChallengeService.presentSituation(user.user_id, organization, challengeId);
+        this.logger.log("챌린지 현재 상황 조회 완료");
         return SuccessResponseDto.of(result);
     }
 
@@ -53,6 +54,7 @@ export class UserChallengeController {
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CalendarData>>{
         const result : CalendarData = await this.userChallengeService.bringCalendarData(user.user_id, organization, challengeId);
+        this.logger.log("챌린지 캘린더 데이터 조회 완료");
         return SuccessResponseDto.of(result);
     }
 
@@ -64,7 +66,8 @@ export class UserChallengeController {
         @Body() challengeStart: ChallengeStart,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.userChallengeService.startChallenge(user.user_id, challengeStart.getOrganization(), challengeStart.getChallengeId())
+        await this.userChallengeService.startChallenge(user.user_id, challengeStart.getOrganization(), challengeStart.getChallengeId());
+        this.logger.log("챌린지 참여 완료");
         return SuccessResponseDto.of();
     }
 
@@ -76,6 +79,7 @@ export class UserChallengeController {
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<ChallengesPerOrganization[]>> {
         const result = await this.userChallengeService.bringChallengesPerOrganization(user.user_id);
+        this.logger.log("조직별 챌린지 조회 완료");
         return SuccessResponseDto.of(result);
     }
 
@@ -89,6 +93,7 @@ export class UserChallengeController {
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<ParticipationInChallengePerAffiliation>> {
         const result:ParticipationInChallengePerAffiliation = await this.userChallengeService.bringParticipationInChallengePerAffiliation(user.user_id, organization, challengeId);
+        this.logger.log("챌린지, 소속 참여 상태 조회 완료");
         return SuccessResponseDto.of(result);
     }
 
@@ -102,6 +107,7 @@ export class UserChallengeController {
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<UserChallengeCheckCount>> {
         const result = await this.userChallengeService.bringUserChallengeCheckCount(user.user_id, organization, challengeId);
+        this.logger.log("유저 챌린지 체크 개수 조회 완료");
         return SuccessResponseDto.of(result);
     }
 
@@ -115,7 +121,8 @@ export class UserChallengeController {
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<null>> {
-        await this.userChallengeService.updateUserChallengeCheckCount(user.user_id, organization, challengeId, userChallengeCheckCountUpdate.getCheckCount())
+        await this.userChallengeService.updateUserChallengeCheckCount(user.user_id, organization, challengeId, userChallengeCheckCountUpdate.getCheckCount());
+        this.logger.log("유저 챌린지 체킹 카운트 업데이트 완료");
         return SuccessResponseDto.of();
     }
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Logger, Param, Patch, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import {  UserService } from '../service/User.Service.js';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { TestRequestDto } from '../dto/TestRequest.dto.js';
@@ -6,13 +6,11 @@ import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
 import { CurrentUserInterceptor } from '../../auth/interceptors/CurrentUser.Interceptor.js';
 import { User } from '../domain/entity/User.js';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
-import { UserIdentifier } from '../../auth/dto/response/UserIdentifier.js';
-import { TemporaryPassword } from '../../auth/dto/request/TemporaryPassword.js';
-import { PasswordChange } from '../../auth/dto/request/PasswordChange.js';
 import { AccountUpdate } from '../dto/request/AccountUpdate.js';
 
 @Controller("/api/user")
 export class UserController {
+  private readonly logger = new Logger(UserController.name);
   constructor(private readonly userService: UserService) {}
 
   @Get()
@@ -38,6 +36,7 @@ export class UserController {
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<string>>  {
     await this.userService.updateAccount(accountUpdate.getAccountNumber(), accountUpdate.getBank(), user.user_id);
+    this.logger.log("계좌 정보 업데이트 완료");
     return SuccessResponseDto.of();
   }
 
