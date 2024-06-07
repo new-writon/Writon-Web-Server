@@ -1,11 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { AgoraHelper } from "../helper/Agora.Helper.js";
-import { Agora } from "../domain/entity/Agora.js";
 import { UserApi } from "../infrastructure/User.Api.js";
 import { ParticularAgoraData } from "../dto/ParticularAgoraData.js";
 import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
 import { AgoraAddResult } from "../dto/response/AgoraAddResult.js";
 import { AgoraDataResult } from "../dto/response/\bAgoraDataResult.js";
+import { AgoraException } from "../exception/AgoraException.js";
+import { AgoraErrorCode } from "../exception/AgoraErrorCode.js";
+import { getKoreanDateISOString, getTodayDateString } from "../util/date.js";
+import { Agora } from "../domain/entity/Agora.js";
 
 
 @Injectable()
@@ -18,9 +21,22 @@ export class AgoraService{
 
 
     public async checkAgoraAdd(challengeId:number, date:Date):Promise<AgoraAddResult>{
-        const particularAgoraData = await this.agoraHelper.giveAgoraByChallengeIdAndDate(challengeId, date);
+        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date);
         const agoraLimitResult = this.checkAgoraLimit(particularAgoraData);
         return AgoraAddResult.of(agoraLimitResult);
+    }
+
+    public async addAgora(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
+        await this.validateAgoraCount(challengeId,getTodayDateString() )
+        const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
+        await this.agoraHelper.executeInsertAgora(challengeId, userChallengeData.getId(), question);
+    }
+
+    private async validateAgoraCount(challengeId:number, date:string){
+        const agoraData = await this.agoraHelper.giveAgoraByChallengeIdAndDate(challengeId, date);
+        if(!this.checkAgoraLimit(agoraData)){
+            throw new AgoraException(AgoraErrorCode.CANT_ADD_AGORA);
+        }
     }
 
 
@@ -29,7 +45,7 @@ export class AgoraService{
     public async bringAgora(userId:number, challengeId:number, date:Date){
 
         // 1. 특정 아고라 정보 조회
-        const particularAgoraData = await this.agoraHelper.giveAgoraByChallengeIdAndDate(challengeId, date);
+        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date);
         // 2. 1번 데이터에서 userChallengeId를 추출
         const userChallengeId = this.sortUserChallengeId(particularAgoraData);
         // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
@@ -70,12 +86,14 @@ export class AgoraService{
         return '0'
     }
 
-    private checkAgoraLimit(agora:ParticularAgoraData[]){
+    private checkAgoraLimit(agora:ParticularAgoraData[] | Agora[]){
         if(agora.length >= 3){
             return false;
         }
         return true;
     }
+
+
 
 
 

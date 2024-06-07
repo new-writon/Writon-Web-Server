@@ -15,10 +15,20 @@ export class AgoraHelper{
     ){}
 
 
-    public async giveAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
-        const particularAgoraData = await this.agoraRepository.findAgoraByChallengeIdAndDate(challengeId, date);
+    public async giveParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
+        const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
         this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
         return particularAgoraData;
     }
+
+    public async executeInsertAgora(challengeId: number, userChallengeId: number, question:string):Promise<void>{
+        return this.agoraRepository.insertAgora(challengeId, userChallengeId, question);
+    }
     
+
+    public async giveAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<Agora[]>{
+        return this.agoraRepository.findAgoraByChallengeIdAndDate(challengeId, date);
+    }
+
+
 }

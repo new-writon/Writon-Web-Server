@@ -11,7 +11,7 @@ export class AgoraDao extends Repository<Agora> implements AgoraRepository{
 
     constructor(private dataSource: DataSource) { super(Agora, dataSource.createEntityManager()); }
 
-    async findAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
+    async findParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
         const particularAgoraData :ParticularAgoraData[] = await this.dataSource.createQueryBuilder()
             .select([
                 'ag.agora_id AS agoraId',
@@ -32,4 +32,19 @@ export class AgoraDao extends Repository<Agora> implements AgoraRepository{
         return particularAgoraData.map((data)=> new ParticularAgoraData(data.agoraId, data.question, data.participateCount, data.createdTime, data.createdDate, data.user_challenge_id))
         
         }
+
+    async insertAgora(challengeId: number, userChallengeId: number, question:string):Promise<void>{
+        const newAgora = Agora.createAgora(challengeId, userChallengeId, question);
+        await this.save(newAgora);
+    }
+    
+
+    async findAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<Agora[]>{
+        return this.dataSource.createQueryBuilder()
+        .select('ag')
+        .from(Agora, 'ag')
+        .where('DATE(ag.createdAt) = :date', { date })
+        .andWhere('ag.challenge_id = :challengeId', { challengeId })
+        .getMany()
+    }
 }
