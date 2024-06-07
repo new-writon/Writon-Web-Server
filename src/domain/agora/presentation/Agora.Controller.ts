@@ -30,7 +30,6 @@ export class AgoraController{
     ): Promise<SuccessResponseDto<any>>{
 
         const result = await this.agoraService.bringAgora(user.user_id, challengeId, date);
-        console.log(result)
         this.logger.log("아고라 조회 완료");
         return SuccessResponseDto.of(result);
     }
