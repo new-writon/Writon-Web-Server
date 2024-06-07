@@ -13,6 +13,7 @@ import { UserModule } from '../user/user.module.js';
 import { AgoraDao } from './domain/repository/dao/Agora.Dao.js';
 import { AgoraCommentDao } from './domain/repository/dao/AgoraComment.Dao.js';
 import { UserApi } from './infrastructure/User.Api.js';
+import { AgoraVerifyService } from './domain/service/AgoraVerify.Service.js';
 
 
 
@@ -32,7 +33,8 @@ import { UserApi } from './infrastructure/User.Api.js';
     AgoraCommentService,
     AgoraHelper,
     AgoraCommentHelper,
-    UserApi
+    UserApi,
+    AgoraVerifyService
     
   ],
   controllers: [AgoraController, AgoraCommentController],

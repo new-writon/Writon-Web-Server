@@ -3,37 +3,37 @@
 export class ParticularAgoraData{
 
 
-    public agora_id: number;
+    public agoraId: number;
     public question: string;
-    public participate_count: number;
-    public created_time: Date;
-    public created_date:Date;
+    public participateCount: number;
+    public createdTime: Date;
+    public createdDate:Date;
     public user_challenge_id:number;
 
 
     constructor(
-        agora_id: number,
+        agoraId: number,
         question: string,
-        participate_count: number,
-        created_time: Date,
-        created_date:Date,
+        participateCount: number,
+        createdTime: Date,
+        createdDate:Date,
         user_challenge_id:number
     ){
-        this.setAgoraId(agora_id);
+        this.setAgoraId(agoraId);
         this.setQuestion(question);
-        this.setParticipateCount(participate_count);
-        this.setCreatedTime(created_time);
-        this.setCreatedDate(created_date);
+        this.setParticipateCount(participateCount);
+        this.setCreatedTime(createdTime);
+        this.setCreatedDate(createdDate);
         this.setUserChallengeId(user_challenge_id);
     }
 
 
     private setAgoraId(agora_id: number): void {
-        this.agora_id = agora_id;
+        this.agoraId = agora_id;
     }
 
     public getAgoraId(): number {
-        return this.agora_id;
+        return this.agoraId;
     }
 
     private setQuestion(question: string): void {
@@ -45,27 +45,27 @@ export class ParticularAgoraData{
     }
 
     private setParticipateCount(participate_count: number): void {
-        this.participate_count = participate_count;
+        this.participateCount = participate_count;
     }
 
     public getParticipateCount(): number {
-        return this.participate_count;
+        return this.participateCount;
     }
 
     private setCreatedTime(created_time: Date): void {
-        this.created_time = created_time;
+        this.createdTime = created_time;
     }
 
     public getCreatedTime(): Date {
-        return this.created_time;
+        return this.createdTime;
     }
 
     private setCreatedDate(created_date: Date): void {
-        this.created_date = created_date;
+        this.createdDate = created_date;
     }
 
     public getCreatedDate(): Date {
-        return this.created_date;
+        return this.createdDate;
     }
 
     private setUserChallengeId(user_challenge_id: number): void {

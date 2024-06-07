@@ -5,6 +5,7 @@ import { UserApi } from "../infrastructure/User.Api.js";
 import { ParticularAgoraData } from "../dto/ParticularAgoraData.js";
 import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
 import { AgoraAddResult } from "../dto/response/AgoraAddResult.js";
+import { AgoraDataResult } from "../dto/response/\bAgoraDataResult.js";
 
 
 @Injectable()
@@ -25,38 +26,39 @@ export class AgoraService{
 
 
 
-    // public async checkAgoraAdd(userId:number, challengeId:number, date:Date){
+    public async bringAgora(userId:number, challengeId:number, date:Date){
 
-    //     // 1. 특정 아고라 정보 조회
-    //     const particularAgoraData = await this.agoraHelper.giveAgoraByChallengeIdAndDate(challengeId, date);
-    //     console.log(particularAgoraData)
-    //     // 2. 1번 데이터에서 userChallengeId를 추출
-    //     const userChallengeId = this.sortUserChallengeId(particularAgoraData);
-    //     // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
-    //     const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
-    //     const mergedAgoraData = this.mergeUserChallenge(particularAgoraData, userChallengeData, userId);
-    //     console.log(mergedAgoraData)
-    // }
+        // 1. 특정 아고라 정보 조회
+        const particularAgoraData = await this.agoraHelper.giveAgoraByChallengeIdAndDate(challengeId, date);
+        // 2. 1번 데이터에서 userChallengeId를 추출
+        const userChallengeId = this.sortUserChallengeId(particularAgoraData);
+        // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
+        const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
+        const mergedAgoraData = this.mergeUserChallenge(particularAgoraData, userChallengeData, userId);
+        return AgoraDataResult.of(mergedAgoraData);
+    }
+
+
 
     private sortUserChallengeId(agora: ParticularAgoraData[]){
         return agora.map((agoraData) => agoraData.getUserChallengeId())
     }
 
-    private mergeUserChallenge(particularAgoraData: ParticularAgoraData[], userChallenge: UserChallenge[], userId:number){
+    private mergeUserChallenge(particularAgoraData: ParticularAgoraData[], userChallenge: UserChallenge[], userId:number):AgoraDataResult[]{
         return userChallenge.flatMap((userChallenge) => {
             return particularAgoraData.filter((particularAgoraData) => userChallenge.getId() === particularAgoraData.getUserChallengeId())
             .map((particularAgoraData) => {
                 const distinguishedUser = this.distinguishUser(userChallenge.affiliation.user.getId(), userId);
-                return {
-                    agora_id: particularAgoraData.getAgoraId(),
-                    question: particularAgoraData.getQuestion(),
-                    participate_count: particularAgoraData.getParticipateCount(),
-                    nickname: userChallenge.affiliation.getNickname(),
-                    created_time: particularAgoraData.getCreatedTime(),
-                    created_date: particularAgoraData.getCreatedDate(),
-                    profile: userChallenge.affiliation.user.getProfileImage(),
-                    myAgoraSign: distinguishedUser,
-                }
+                return new AgoraDataResult(
+                    particularAgoraData.getAgoraId(),
+                    particularAgoraData.getQuestion(),
+                    particularAgoraData.getParticipateCount(),
+                    userChallenge.affiliation.getNickname(),
+                    particularAgoraData.getCreatedTime(),
+                    particularAgoraData.getCreatedDate(),
+                    userChallenge.affiliation.user.getProfileImage(),
+                    distinguishedUser,
+                )
             })    
         });
     }

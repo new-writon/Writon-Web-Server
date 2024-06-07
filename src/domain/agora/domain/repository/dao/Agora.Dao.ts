@@ -14,11 +14,11 @@ export class AgoraDao extends Repository<Agora> implements AgoraRepository{
     async findAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
         const particularAgoraData :ParticularAgoraData[] = await this.dataSource.createQueryBuilder()
             .select([
-                'ag.agora_id AS agora_id',
+                'ag.agora_id AS agoraId',
                 'ag.question AS question',
-                'COUNT(DISTINCT agc.affiliation_id) AS participate_count',
-                "DATE_FORMAT(ag.createdAt, '%H:%i') AS created_time",
-                "DATE(ag.createdAt) AS created_date",
+                'COUNT(DISTINCT agc.affiliation_id) AS participateCount',
+                "DATE_FORMAT(ag.createdAt, '%H:%i') AS createdTime",
+                "DATE(ag.createdAt) AS createdDate",
                 'ag.user_challenge_id AS user_challenge_id'
             ])
             .from(Agora, 'ag')
@@ -29,7 +29,7 @@ export class AgoraDao extends Repository<Agora> implements AgoraRepository{
             .orderBy('ag.createdAt', 'DESC')
             .getRawMany();
     
-        return particularAgoraData.map((data)=> new ParticularAgoraData(data.agora_id, data.question, data.participate_count, data.created_time, data.created_date, data.user_challenge_id))
+        return particularAgoraData.map((data)=> new ParticularAgoraData(data.agoraId, data.question, data.participateCount, data.createdTime, data.createdDate, data.user_challenge_id))
         
         }
 }

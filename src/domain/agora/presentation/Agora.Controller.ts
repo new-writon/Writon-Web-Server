@@ -6,6 +6,7 @@ import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
 import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
 import { AgoraService } from "../service/Agora.Service.js";
 import { AgoraAddResult } from "../dto/response/AgoraAddResult.js";
+import { Organization } from "src/domain/user/domain/entity/Organization.js";
 
 
 
@@ -17,6 +18,23 @@ export class AgoraController{
         private readonly agoraService:AgoraService
     ){}
 
+
+    @Get('/:organization/:challengeId/:date')
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringAgora(
+        @Param('challengeId') challengeId: number,
+        @Param('organization') organization:string,
+        @Param('date') date: Date,
+        @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<any>>{
+
+        const result = await this.agoraService.bringAgora(user.user_id, challengeId, date);
+        console.log(result)
+        this.logger.log("아고라 조회 완료");
+        return SuccessResponseDto.of(result);
+    }
+
     @Get('/check/:challengeId/:date')
     @HttpCode(200)
     public async checkAgoraAdd(
@@ -27,6 +45,9 @@ export class AgoraController{
         this.logger.log("아고라 추가 여부 조회 완료");
         return SuccessResponseDto.of(result);
     }
+
+
+
 
 
 }
