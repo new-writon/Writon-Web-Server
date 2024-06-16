@@ -20,16 +20,14 @@ export class AgoraController{
     ){}
 
 
-    @Get('/:organization/:challengeId/:date')
+    @Get('/:challengeId/:date')
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async bringAgora(
         @Param('challengeId') challengeId: number,
-        @Param('organization') organization:string,
         @Param('date') date: Date,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<any>>{
-
         const result = await this.agoraService.bringAgora(user.user_id, challengeId, date);
         this.logger.log("아고라 조회 완료");
         return SuccessResponseDto.of(result);

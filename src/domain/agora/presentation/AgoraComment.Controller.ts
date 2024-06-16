@@ -7,6 +7,7 @@ import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
 import { User } from "../../user/domain/entity/User.js";
 import { AgoraCommentInsert } from "../dto/request/AgoraCommentInsert.js";
 import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
+import { AgoraCommentRead } from "../dto/response/AgoraCommentRead.js";
 
 
 
@@ -17,6 +18,19 @@ export class AgoraCommentController{
     constructor(
         private readonly agoraCommentService: AgoraCommentService
     ){}
+
+    @Get('/read/:agoraId')
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringAgoraComment(
+        @Param('agoraId') agoraId:number,
+        @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<AgoraCommentRead[]>>{
+        console.log(agoraId)
+       const result = await this.agoraCommentService.bringAgoraComment(user.user_id, agoraId);
+        this.logger.log("아고라 댓글 읽기 완료");
+        return SuccessResponseDto.of(result);
+    }
 
     @Post('/write')
     @HttpCode(200)
@@ -29,6 +43,9 @@ export class AgoraCommentController{
         this.logger.log("아고라 댓글 쓰기 완료");
         return SuccessResponseDto.of();
     }
+
+
+
 
 
 
