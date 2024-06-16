@@ -9,7 +9,7 @@ import { UserTemplete } from '../domain/entity/UserTemplete.js';
 import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
 import { Affiliation } from '../../user/domain/entity/Affiliation.js';
 import { Transactional } from '../../../global/decorator/transaction.js';
-import { Connection, DataSource } from 'typeorm';
+import {  DataSource } from 'typeorm';
 
 
 
@@ -17,7 +17,7 @@ import { Connection, DataSource } from 'typeorm';
 export class TemplateService {
 
     constructor(
-        private readonly connection: Connection,
+        private readonly dataSource: DataSource,
         private readonly userApi: UserApi,
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,

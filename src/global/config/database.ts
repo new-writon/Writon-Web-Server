@@ -28,11 +28,11 @@ const __dirname = dirname(__filename);
 
 const dataSourceOptions: DataSourceOptions = {
   type: "mysql",
-  host: process.env.DATABASE_HOST,
+  host: "127.0.0.1",
   port: 3306,
-  username: process.env.DATABASE_USERNAME,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_SCHEMA,
+  username: "root",
+  password: "Cn37rqww@@!",
+  database: "Writon-Data",
   entities: [
   //  `${join(__dirname, '../../')}/domain/**/*.{js,ts}`,
     User, Organization, Affiliation,  UserChallenge,
@@ -44,6 +44,8 @@ const dataSourceOptions: DataSourceOptions = {
   ],
   synchronize: false,
 };
+
+
 
 
 export const dataSource = registerAs('data-source', () => {
@@ -67,4 +69,10 @@ export const dataSource = registerAs('data-source', () => {
   } as TypeOrmModuleOptions;
 });
 
-export default new DataSource(dataSourceOptions);
+// export const AppDataSource = new DataSource(dataSourceOptions);
+
+// export async function initializeDataSource() {
+//     await AppDataSource.initialize();  
+// }
+
+//export default new DataSource(dataSourceOptions);

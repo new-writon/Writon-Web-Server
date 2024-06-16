@@ -10,6 +10,7 @@ import { TokenInterceptor } from './domain/auth/interceptors/Token.Interceptor.j
 
 
 
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get<ConfigService<ConfigObject, true>>(ConfigService);
