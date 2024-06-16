@@ -8,12 +8,16 @@ import { UserTemplateHelper } from '../helper/UserTemplate.Helper.js';
 import { UserTemplete } from '../domain/entity/UserTemplete.js';
 import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
 import { Affiliation } from '../../user/domain/entity/Affiliation.js';
+import { Transactional } from '../../../global/decorator/transaction.js';
+import { Connection, DataSource } from 'typeorm';
 
 
 
 @Injectable()
 export class TemplateService {
+
     constructor(
+        private readonly connection: Connection,
         private readonly userApi: UserApi,
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,
@@ -30,7 +34,7 @@ export class TemplateService {
         return sortResult;
     }
 
-
+    @Transactional()
     public async writeTemplate(  
         userId: number,
         challengeId: number,
