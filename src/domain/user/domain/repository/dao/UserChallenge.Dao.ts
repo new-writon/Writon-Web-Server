@@ -142,4 +142,12 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             .getMany();
     }
 
+    async findUserChallengePaticipantCount(challengeId:number):Promise<number>{
+        return this.dataSource.createQueryBuilder()
+            .select('uc')
+            .from(UserChallenge, 'uc')
+            .where('uc.challenge_id = :challengeId', {challengeId})
+            .getCount();
+    }
+
 }

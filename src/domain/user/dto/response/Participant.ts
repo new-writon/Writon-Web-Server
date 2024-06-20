@@ -32,11 +32,21 @@ export class Participant{
         this.setCheeringPhraseDate(cheeringPhraseDate);
     }
 
-    public static of(myParticipant:Participant){
-            return new Participant(myParticipant.profile, myParticipant.job, myParticipant.job_introduce, myParticipant.nickname, myParticipant.company_public, myParticipant.company,
-                myParticipant.cheering_phrase, myParticipant.cheering_phrase_date
+    public static myInformationOf(myInformation:Participant){
+            return new Participant(myInformation.profile, myInformation.job, myInformation.job_introduce, myInformation.nickname, myInformation.company_public, myInformation.company,
+                myInformation.cheering_phrase, myInformation.cheering_phrase_date
             );
     }
+
+    public static participantOf(participants:Participant[]){
+
+        return participants.map((participant) => {
+            return new Participant(participant.profile, participant.job, participant.job_introduce, participant.nickname, participant.company_public, participant.company,
+                participant.cheering_phrase, participant.cheering_phrase_date
+            );
+        })
+       
+}
 
 
 
@@ -73,7 +83,6 @@ export class Participant{
     }
 
     private setCheeringPhraseDate(cheeringPhraseDate: string | Date) {
-        if (!cheeringPhraseDate) throw new InternalServerErrorException(`${__dirname} : cheeringPhraseDate 값이 존재하지 않습니다.`);
         this.cheering_phrase_date = new Date(cheeringPhraseDate);
     }
 

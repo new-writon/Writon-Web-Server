@@ -67,8 +67,12 @@ export class AffiliationHelper {
         return this.affiliationRepository.findAffiliationAndUserById(affiliationId);
     }
 
-    public async giveAffiliationAndUserWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>{
-        return this.affiliationRepository.findAffiliationAndUserWithUserIdAndChallengeId(userId, challengeId);
+    public async giveAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>{
+        return this.affiliationRepository.findAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId, challengeId);
+    }
+
+    public async giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant[]>{
+        return this.affiliationRepository.findAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId);
     }
     
 }

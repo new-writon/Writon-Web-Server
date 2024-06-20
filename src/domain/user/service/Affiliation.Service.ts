@@ -1,21 +1,22 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Organization } from "../domain/entity/Organization";
+import { Organization } from "../domain/entity/Organization.js";
 import { UserProfile } from "../dto/response/UserProfile.js";
 import { OrganizationHelper } from "../helper/Organization.Helper.js";
 import { AffiliationHelper } from "../helper/Affiliation.Helper.js";
 import { isSameDate } from "../util/checker.js";
 import { Participant } from "../dto/response/Participant.js";
+import { UserChallengeHelper } from "../helper/UserChallenge.Helper.js";
+import { ChallengeApi } from "../infrastruture/Challenge.Api.js";
+import { ParticipantComponent } from "../dto/response/ParticipantComponent.js";
 
 @Injectable()
 export class AffiliationService{
 
     constructor(
-        // @Inject("organizationImpl")
-        // private readonly organizationRepository: OrganizationRepository,
-        // @Inject('affiliationImpl')
-        // private readonly affiliationRepository: AffiliationRepository,
         private readonly organizationHelper: OrganizationHelper,
-        private readonly affiliationHelper: AffiliationHelper
+        private readonly affiliationHelper: AffiliationHelper,
+        private readonly userChallengeHelper: UserChallengeHelper,
+        private readonly challengeApi: ChallengeApi
     ){}
 
     public async enterAffiliation(userId:number, organization:string,     
@@ -50,10 +51,19 @@ export class AffiliationService{
         await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,job,jobIntroduce,companyPublic);
     }
 
-    public async bringMyChallengeInformation(userId:number, challengeId:number): Promise<Participant>{
-        const myParticipantData = await this.affiliationHelper.giveAffiliationAndUserWithUserIdAndChallengeId(userId, challengeId);
-        const sortedMyParticipantData = this.sortCheeringAndPublic(new Array(myParticipantData))
-        return sortedMyParticipantData[0]; 
+    public async bringMyInformation(userId:number, challengeId:number): Promise<Participant>{
+        const myInformationData = await this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId, challengeId);
+        const sortedMyInformationData = this.sortCheeringAndPublic(new Array(myInformationData))
+        return sortedMyInformationData[0]; 
+    }
+
+    public async bringParticipantInformation(userId:number, challengeId:number): Promise<ParticipantComponent>{
+        const [participantData, participantCount, challengePeriod] = await Promise.all([
+            this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId),
+            this.userChallengeHelper.giveUserChallengePaticipantCount(challengeId),
+            this.challengeApi.requestOverlapPeriod(challengeId)
+        ]);
+        return ParticipantComponent.of(challengePeriod, participantCount, participantData);
     }
 
 
@@ -62,11 +72,9 @@ export class AffiliationService{
         currentDate.setHours(0, 0, 0, 0);
         return data.map((user) => {
             if (!user.getCheeringPhraseDate() || !isSameDate(new Date(user.getCheeringPhraseDate()), currentDate)) {
-            //    user.cheering_phrase = null;
                 user.changeCheeringPhrase(null)
             } 
             if (user.getCompanyPublic() === 0) {
-            //    user.getCompany() = null;
                 user.changeCompany(null)
             }
             return user;

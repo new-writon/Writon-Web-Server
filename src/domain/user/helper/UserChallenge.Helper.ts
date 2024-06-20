@@ -65,6 +65,10 @@ export class UserChallengeHelper{
        return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
     }
 
+    async giveUserChallengePaticipantCount(challengeId:number):Promise<number>{
+        return this.userChallengeRepository.findUserChallengePaticipantCount(challengeId);
+    }
+
 
 
 

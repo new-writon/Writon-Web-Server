@@ -162,8 +162,8 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
       .getMany();
   }
 
-  async findAffiliationAndUserWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>{
-    const myParticipant:Participant = await this.dataSource.createQueryBuilder()
+  async findAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>{
+    const myInformation:Participant = await this.dataSource.createQueryBuilder()
           .select([
             'u.profile AS profile',
             'a.job AS job', 
@@ -177,12 +177,37 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
           ])
           .from(Affiliation, 'a')
           .leftJoin(User, 'u', 'u.user_id = a.user_id')
-          .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = uc.affiliation_id')
+          .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
           .where('u.user_id = :userId',{userId})
           .andWhere('uc.challenge_id = :challengeId', {challengeId})
           .getRawOne();
-    return Participant.of(myParticipant);   
+    return Participant.myInformationOf(myInformation);   
   }
+
+  async findAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant[]>{
+    const participants:Participant[] = await this.dataSource.createQueryBuilder()
+          .select([
+            'u.profile AS profile',
+            'a.job AS job', 
+            'a.job_introduce AS job_introduce',
+            'a.nickname AS nickname',
+            'a.company_public AS company_public',
+            'a.company AS company',
+            'u.email AS email',
+            'uc.cheering_phrase AS cheering_phrase',
+            'uc.cheering_phrase_date AS cheering_phrase_date ' 
+          ])
+          .from(Affiliation, 'a')
+          .leftJoin(User, 'u', 'u.user_id = a.user_id')
+          .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
+          .where('u.user_id != :userId',{userId})
+          .andWhere('uc.challenge_id = :challengeId', {challengeId})
+          .getRawMany();
+    return Participant.participantOf(participants);   
+  }
+
+
+  
 }
 
 

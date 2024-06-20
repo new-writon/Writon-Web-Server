@@ -8,6 +8,7 @@ import { AffiliationStart } from '../dto/request/AffiliationStart.js';
 import { UserProfile } from '../dto/response/UserProfile.js';
 import { ProfileUpdate } from '../dto/request/ProfileUpdate.js';
 import { Participant } from '../dto/response/Participant.js';
+import { ParticipantComponent } from '../dto/response/ParticipantComponent.js';
 
 
 @Controller("/api/user/affiliation")
@@ -63,15 +64,25 @@ export class AffiliationController {
   @Get("/:challengeId/my-information")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async bringMyChallengeInformation(
+  public async bringMyInformation(
       @Param("challengeId") challengeId:number,
       @CurrentUser() user: User
   ): Promise<SuccessResponseDto<Participant>> {
-      const result = await this.affiliationService.bringMyChallengeInformation(user.user_id, challengeId);
+      const result = await this.affiliationService.bringMyInformation(user.user_id, challengeId);
       this.logger.log("나의 정보 조회 완료");
       return SuccessResponseDto.of(result);
   }
   
-  
+  @Get("/:challengeId/participant-information")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringParticipantInformation(
+      @Param("challengeId") challengeId:number,
+      @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<ParticipantComponent>> {
+      const result = await this.affiliationService.bringParticipantInformation(user.user_id, challengeId);
+      this.logger.log("챌린지 참여자 정보 조회 완료");
+      return SuccessResponseDto.of(result);
+  }
 
 }
