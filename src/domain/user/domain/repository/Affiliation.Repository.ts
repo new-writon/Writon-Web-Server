@@ -2,6 +2,7 @@ import { Repository } from 'typeorm';
 import { Affiliation } from '../entity/Affiliation.js';
 import { ChallengesPerOrganization } from '../../dto/ChallengesPerOrganization.js';
 import { UserProfile } from '../../dto/response/UserProfile.js';
+import { Participant } from '../../dto/response/Participant.js';
 
 
 export interface AffiliationRepository extends Repository<Affiliation> {
@@ -20,5 +21,6 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     findAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>;
     findAffiliationById(affiliationId: number[]):Promise<Affiliation[]>;
     findAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>;
+    findAffiliationAndUserWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>;
 
 }

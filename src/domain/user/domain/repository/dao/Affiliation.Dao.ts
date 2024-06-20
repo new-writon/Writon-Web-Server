@@ -8,6 +8,7 @@ import { Challenge } from '../../../../challenge/domain/entity/Challenge.js';
 import { ChallengesPerOrganization } from '../../../../user/dto/ChallengesPerOrganization.js';
 import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
 import { User } from '../../entity/User.js';
+import { Participant } from '../../../dto/response/Participant.js';
 
 
 /**
@@ -159,6 +160,28 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
       .innerJoinAndSelect('a.user', 'u','u.user_id = a.user_id')
       .where('a.affiliation_id IN (:...affiliationIds)',{affiliationIds:affiliationId})
       .getMany();
+  }
+
+  async findAffiliationAndUserWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>{
+    const myParticipant:Participant = await this.dataSource.createQueryBuilder()
+          .select([
+            'u.profile AS profile',
+            'a.job AS job', 
+            'a.job_introduce AS job_introduce',
+            'a.nickname AS nickname',
+            'a.company_public AS company_public',
+            'a.company AS company',
+            'u.email AS email',
+            'uc.cheering_phrase AS cheering_phrase',
+            'uc.cheering_phrase_date AS cheering_phrase_date ' 
+          ])
+          .from(Affiliation, 'a')
+          .leftJoin(User, 'u', 'u.user_id = a.user_id')
+          .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = uc.affiliation_id')
+          .where('u.user_id = :userId',{userId})
+          .andWhere('uc.challenge_id = :challengeId', {challengeId})
+          .getRawOne();
+    return Participant.of(myParticipant);   
   }
 }
 

@@ -7,6 +7,7 @@ import { AffiliationService } from '../service/Affiliation.Service.js';
 import { AffiliationStart } from '../dto/request/AffiliationStart.js';
 import { UserProfile } from '../dto/response/UserProfile.js';
 import { ProfileUpdate } from '../dto/request/ProfileUpdate.js';
+import { Participant } from '../dto/response/Participant.js';
 
 
 @Controller("/api/user/affiliation")
@@ -57,6 +58,20 @@ export class AffiliationController {
     this.logger.log("소속 프로필 조회 완료");
     return SuccessResponseDto.of(result);
   }
+
+
+  @Get("/:challengeId/my-information")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringMyChallengeInformation(
+      @Param("challengeId") challengeId:number,
+      @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<Participant>> {
+      const result = await this.affiliationService.bringMyChallengeInformation(user.user_id, challengeId);
+      this.logger.log("나의 정보 조회 완료");
+      return SuccessResponseDto.of(result);
+  }
+  
   
 
 }

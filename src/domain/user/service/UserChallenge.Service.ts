@@ -128,6 +128,9 @@ export class UserChallengeService {
         await this.userChallengeHelper.executeUpdateUserChallengeCheckCount(userChallengeData.getId(), checkCount);
     }
 
+
+  
+
     private verifyTodayTemplateStatus(userTemplete: UserTemplete[]): boolean{
         if(!checkData(userTemplete[0]))
             return true;
@@ -186,4 +189,8 @@ export class UserChallengeService {
             challengedConfirmation = false;} 
         return challengedConfirmation;
     }
+
+
+
 }
+

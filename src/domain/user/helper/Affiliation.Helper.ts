@@ -4,6 +4,7 @@ import { Affiliation } from "../domain/entity/Affiliation.js";
 import { ChallengesPerOrganization } from "../dto/ChallengesPerOrganization.js";
 import { UserProfile } from "../dto/response/UserProfile.js";
 import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
+import { Participant } from "../dto/response/Participant.js";
 
 @Injectable()
 export class AffiliationHelper {
@@ -16,7 +17,7 @@ export class AffiliationHelper {
 
     public async giveAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
         const affiliationData =  await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
-        this.userVerifyService.verifyAffiliation(affiliationData);
+       // this.userVerifyService.verifyAffiliation(affiliationData);
         return affiliationData;
     }
 
@@ -64,6 +65,10 @@ export class AffiliationHelper {
 
     public async giveAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>{
         return this.affiliationRepository.findAffiliationAndUserById(affiliationId);
+    }
+
+    public async giveAffiliationAndUserWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>{
+        return this.affiliationRepository.findAffiliationAndUserWithUserIdAndChallengeId(userId, challengeId);
     }
     
 }

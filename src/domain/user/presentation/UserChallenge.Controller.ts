@@ -18,6 +18,8 @@ export class UserChallengeController {
     private readonly logger = new Logger(UserChallengeController.name);
     constructor(private readonly userChallengeService: UserChallengeService) {}
 
+
+
     @Get('/:organization/:challengeId/daily-reflection')
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)

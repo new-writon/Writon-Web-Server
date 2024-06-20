@@ -3,6 +3,8 @@ import { Organization } from "../domain/entity/Organization";
 import { UserProfile } from "../dto/response/UserProfile.js";
 import { OrganizationHelper } from "../helper/Organization.Helper.js";
 import { AffiliationHelper } from "../helper/Affiliation.Helper.js";
+import { isSameDate } from "../util/checker.js";
+import { Participant } from "../dto/response/Participant.js";
 
 @Injectable()
 export class AffiliationService{
@@ -46,6 +48,29 @@ export class AffiliationService{
     ){
         
         await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,job,jobIntroduce,companyPublic);
+    }
+
+    public async bringMyChallengeInformation(userId:number, challengeId:number): Promise<Participant>{
+        const myParticipantData = await this.affiliationHelper.giveAffiliationAndUserWithUserIdAndChallengeId(userId, challengeId);
+        const sortedMyParticipantData = this.sortCheeringAndPublic(new Array(myParticipantData))
+        return sortedMyParticipantData[0]; 
+    }
+
+
+    private sortCheeringAndPublic(data: Participant[]): Participant[]{
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        return data.map((user) => {
+            if (!user.getCheeringPhraseDate() || !isSameDate(new Date(user.getCheeringPhraseDate()), currentDate)) {
+            //    user.cheering_phrase = null;
+                user.changeCheeringPhrase(null)
+            } 
+            if (user.getCompanyPublic() === 0) {
+            //    user.getCompany() = null;
+                user.changeCompany(null)
+            }
+            return user;
+        });
     }
 
 }
