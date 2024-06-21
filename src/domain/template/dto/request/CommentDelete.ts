@@ -1,13 +1,10 @@
 import { IsNotEmpty } from "class-validator";
 
 
-export class CommentUpdate{
+export class CommentDelete{
 
     @IsNotEmpty()
     private organization:string;
-
-    @IsNotEmpty()
-    private content:string;
 
     @IsNotEmpty()
     private commentId:number;
@@ -17,11 +14,8 @@ export class CommentUpdate{
         return this.organization;
     }
 
-    public getContent(){
-        return this.content;
-    }
-
     public getCommentId(){
         return this.commentId;
     }
+
 }

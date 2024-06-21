@@ -41,6 +41,35 @@ export class CommentDao extends Repository<Comment> implements CommentRepository
         const newComment = Comment.createComment(affiliationId, content, userTemplateId, commentGroup);
         return this.save(newComment);
     }
+
+    async updateComment(affilationId:number, commentId: number, content: string):Promise<void>{
+        await this.dataSource.createQueryBuilder()
+            .update(Comment)
+            .set({
+                content:content
+            })
+            .where('affiliation_id = :affilationId',{affilationId})
+            .andWhere('comment_id = :commentId',{commentId})
+            .execute();
+    }
+
+    async deleteComment(affiliationId:number, commentId: number):Promise<void>{
+        await this.dataSource.createQueryBuilder()
+            .delete()
+            .from(Comment)
+            .where('comment_id = :commentId',{commentId})
+            .andWhere('affiliation_id = :affiliationId',{affiliationId})
+            .execute();
+    }
+
+    async findCommentById(commentId:number):Promise<Comment>{
+        return this.dataSource.createQueryBuilder()
+            .select('c')
+            .from(Comment, 'c')
+            .where('c.comment_id = :commentId',{commentId})
+            .getOne();
+
+    }
     
     
 

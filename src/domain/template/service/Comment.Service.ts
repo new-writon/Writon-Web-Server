@@ -39,10 +39,20 @@ export class CommentService{
     }
 
 
-    public async addComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number){
+    public async addComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number):Promise<CommentId>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), content, userTemplateId, commentGroup);
         return CommentId.of(commentData.getId());   
+    }
+
+    public async updateComment(userId: number, organization: string, commentId: number, content: string):Promise<void>{
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        await this.commentHelper.executeUpdateComment(affiliationData.getAffiliationId(), commentId, content);
+    }
+
+    public async deleteComment(userId: number, organization: string, commentId: number):Promise<void>{
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        await this.commentHelper.executeDeleteComment(affiliationData.getAffiliationId(), commentId);
     }
 
 

@@ -5,9 +5,11 @@ import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
 import { User } from "../../user/domain/entity/User.js";
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { MyComment } from "../dto/response/MyComment.js";
-import { CommentUpdate } from "../dto/request/CommentUpdate.js";
+import { CommentCheck } from "../dto/request/CommentCheck.js";
 import { CommentInsert } from "../dto/request/CommentInsert.js";
 import { CommentId } from "../dto/response/CommentId.js";
+import { CommentUpdate } from "../dto/request/CommentUpdate.js";
+import { CommentDelete } from "../dto/request/CommentDelete.js";
 
 @Controller("/api/template/comment")
 export class CommentController{
@@ -19,9 +21,9 @@ export class CommentController{
     @Patch("/check")
     @HttpCode(200)
     public async checkComment(
-      @Body() commentUpdate: CommentUpdate
+      @Body() commentCheck: CommentCheck
     ): Promise<SuccessResponseDto<void>>{
-      await this.commentService.checkComment(commentUpdate.getCommentId());
+      await this.commentService.checkComment(commentCheck.getCommentId());
       this.logger.log("댓글 확인 체킹 완료");
       return SuccessResponseDto.of();
     }
@@ -44,11 +46,10 @@ export class CommentController{
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async updateComment(
-      @Param('organization') organization: string,
-      @Param('challengeId') challengeId: number,
+      @Body() commentUpdate: CommentUpdate,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-    
+      await this.commentService.updateComment(user.user_id, commentUpdate.getOrganization(), commentUpdate.getCommentId(), commentUpdate.getContent());
       this.logger.log("댓글 수정 완료");
       return SuccessResponseDto.of();
     }
@@ -70,11 +71,10 @@ export class CommentController{
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async deleteComment(
-      @Param('organization') organization: string,
-      @Param('challengeId') challengeId: number,
+      @Body() commentDelete: CommentDelete,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-     
+      await this.commentService.deleteComment(user.user_id, commentDelete.getOrganization(), commentDelete.getCommentId());
       this.logger.log("댓글 삭제 완료");
       return SuccessResponseDto.of();
     }
