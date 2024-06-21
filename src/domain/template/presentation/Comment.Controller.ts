@@ -9,7 +9,7 @@ import { CommentUpdate } from "../dto/request/CommentUpdate.js";
 
 @Controller("/api/template/comment")
 export class CommentController{
-    private readonly logger = new Logger(CommentController.name);
+  private readonly logger = new Logger(CommentController.name);
     constructor(
         private readonly commentService: CommentService
     ){}

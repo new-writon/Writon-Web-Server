@@ -16,6 +16,17 @@ import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
 @Index("Like_affiliation_id_fkey_idx", ["affiliation_id"], {})
 @Entity("Likes", { schema: "nest" })
 export class Likes extends BaseEntity{
+
+  constructor(
+    affiliationId:number,
+    userTemplateId:number
+  ){
+    super()
+    this.setAffilationId(affiliationId);
+    this.setUserTemplateId(userTemplateId)
+  }
+
+
   @PrimaryGeneratedColumn({ type: "int", name: "like_id" })
   like_id: number;
 
@@ -45,6 +56,18 @@ export class Likes extends BaseEntity{
     { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
   userTemplete: Relation<UserTemplete>;
+
+  public static createLike(affiliationId:number, userTemplateId:number){
+    return new Likes(affiliationId, userTemplateId);
+  }
+
+  private setAffilationId(affiliation:number){
+    this.affiliation_id=affiliation;
+  }
+
+  private setUserTemplateId(userTemplateId:number){
+    this.user_templete_id=userTemplateId;
+  }
 
   public getCreatedAt(){
     return this.createdAt;
