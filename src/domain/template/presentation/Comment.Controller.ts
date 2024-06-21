@@ -6,6 +6,8 @@ import { User } from "../../user/domain/entity/User.js";
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { MyComment } from "../dto/response/MyComment.js";
 import { CommentUpdate } from "../dto/request/CommentUpdate.js";
+import { CommentInsert } from "../dto/request/CommentInsert.js";
+import { CommentId } from "../dto/response/CommentId.js";
 
 @Controller("/api/template/comment")
 export class CommentController{
@@ -55,13 +57,12 @@ export class CommentController{
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async addComment(
-      @Param('organization') organization: string,
-      @Param('challengeId') challengeId: number,
+      @Body() commentInsert: CommentInsert,
       @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<void>>  {
-    
+    ): Promise<SuccessResponseDto<CommentId>>  {
+      const result = await this.commentService.addComment(user.user_id, commentInsert.getOrganization(), commentInsert.getUserTemplateId(), commentInsert.getContent(), commentInsert.getCommentGroup());
       this.logger.log("댓글 추가 완료");
-      return SuccessResponseDto.of();
+      return SuccessResponseDto.of(result);
     }
 
 

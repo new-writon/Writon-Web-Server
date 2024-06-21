@@ -34,8 +34,12 @@ export class CommentDao extends Repository<Comment> implements CommentRepository
     async findCommentWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Comment[]>{
         return this.dataSource.createQueryBuilder(Comment, 'c')
             .innerJoinAndSelect('c.userTemplete', 'ut','ut.user_templete_id = c.user_templete_id')
-            .getMany();
-           
+            .getMany();        
+    }
+
+    async insertComment(affiliationId:number, content:string, userTemplateId:number, commentGroup:number):Promise<Comment>{
+        const newComment = Comment.createComment(affiliationId, content, userTemplateId, commentGroup);
+        return this.save(newComment);
     }
     
     

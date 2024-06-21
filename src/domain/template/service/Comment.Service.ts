@@ -3,6 +3,7 @@ import { CommentHelper } from "../helper/Comment.Helper.js";
 import { UserApi } from "../infrastructure/User.Api.js";
 import { DataMapperService } from "../domain/service/DataMappper.Service.js";
 import { MyComment } from "../dto/response/MyComment.js";
+import { CommentId } from "../dto/response/CommentId.js";
 
 @Injectable()
 export class CommentService{
@@ -36,6 +37,14 @@ export class CommentService{
     public async checkComment(commentId:number){
         await this.commentHelper.executeUpdateCommentCheck(commentId);
     }
+
+
+    public async addComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number){
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), content, userTemplateId, commentGroup);
+        return CommentId.of(commentData.getId());   
+    }
+
 
 
 

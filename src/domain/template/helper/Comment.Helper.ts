@@ -24,4 +24,8 @@ export class CommentHelper{
     public async giveCommentWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Comment[]>{
         return this.commentRepository.findCommentWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
     }
+
+    public async executeInsertComment(affiliationId:number, content:string, userTemplateId:number, commentGroup:number):Promise<Comment>{
+        return this.commentRepository.insertComment(affiliationId, content, userTemplateId, commentGroup);
+    }
 }
