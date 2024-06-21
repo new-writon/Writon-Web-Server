@@ -31,4 +31,9 @@ export class LikeServie{
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);
     }
+
+    public async bringLikeCount(userTemplateId: number):Promise<LikeCount>{
+        const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
+        return LikeCount.of(likeCount);
+    }
 }

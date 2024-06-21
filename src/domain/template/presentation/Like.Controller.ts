@@ -33,8 +33,8 @@ export class LikeController{
         @Body() likeCheck : LikeClick,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<LikeCount>>  {
-      const result = await this.likeService.addLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization())
-      this.logger.log("좋아요 추가 완료")
+      const result = await this.likeService.addLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization());
+      this.logger.log("좋아요 추가 완료");
       return SuccessResponseDto.of(result);
     }
 
@@ -46,8 +46,18 @@ export class LikeController{
         @Body() likeCheck : LikeClick,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<LikeCount>>  {
-        const result = await this.likeService.cancelLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization())    
-        this.logger.log("좋아요 취소 완료")
+        const result = await this.likeService.cancelLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization());   
+        this.logger.log("좋아요 취소 완료");
       return SuccessResponseDto.of(result);
+    }
+
+    @Get('/:userTemplateId')
+    @HttpCode(200)
+    public async bringLikeCount(
+        @Param("userTemplateId") userTemplateId:number
+    ): Promise<SuccessResponseDto<LikeCount>>  {
+       const result = await this.likeService.bringLikeCount(userTemplateId);
+    this.logger.log("좋아요 개수 조회 완료");
+       return SuccessResponseDto.of(result);
     }
 }
