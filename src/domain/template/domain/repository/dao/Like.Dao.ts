@@ -31,12 +31,20 @@ export class LikeDao extends Repository<Likes> implements LikeRepository{
         return this.save(newLike);
     }
 
+    async deleteLike(affiliationId:number, userTemplateId:number):Promise<void>{
+        await this.dataSource.createQueryBuilder()
+            .delete()
+            .from(Likes)
+            .where('affiliation_id = :affiliationId', { affiliationId })
+            .andWhere('user_templete_id = :userTemplateId', { userTemplateId })
+            .execute();
+    }
+
     async findLikeCountByUserTemplateId(userTemplateId:number):Promise<number>{
         return this.dataSource.createQueryBuilder()
             .select('l')
             .from(Likes, 'l')
             .where('l.user_templete_id = :userTemplateId',{userTemplateId})
             .getCount();
-
     }
 }

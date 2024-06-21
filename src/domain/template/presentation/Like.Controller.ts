@@ -43,10 +43,11 @@ export class LikeController{
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async cancelLike(
-        @Body() likeCheck : LikeCheck,
+        @Body() likeCheck : LikeClick,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<LikeCount>>  {
+        const result = await this.likeService.cancelLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization())    
         this.logger.log("좋아요 취소 완료")
-      return SuccessResponseDto.of();
+      return SuccessResponseDto.of(result);
     }
 }

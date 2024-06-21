@@ -26,6 +26,10 @@ export class LikeHelper{
         return this.likeRepository.findLikeCountByUserTemplateId(userTemplateId);
     }
 
+    public async executeDeleteLike(affiliationId:number, userTemplateId:number):Promise<void>{
+        return this.likeRepository.deleteLike(affiliationId, userTemplateId);
+    }
+
 
 
 }

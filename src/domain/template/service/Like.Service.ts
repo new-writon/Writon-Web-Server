@@ -27,7 +27,7 @@ export class LikeServie{
 
     public async cancelLike(userId: number, userTemplateId: number,organization: string):Promise<LikeCount>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-     
+        await this.likeHelper.executeDeleteLike(affiliationData.getAffiliationId(), userTemplateId);
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);
     }
