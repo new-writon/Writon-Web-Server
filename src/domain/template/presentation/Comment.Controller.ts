@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Logger, Param, Patch, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Logger, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { CommentService } from "../service/Comment.Service.js";
 import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
 import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
@@ -36,6 +36,50 @@ export class CommentController{
       this.logger.log("챌린지에 따른 내 템플릿 조회 완료");
       return SuccessResponseDto.of(result);
     }
+
+
+    @Patch()
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async updateComment(
+      @Param('organization') organization: string,
+      @Param('challengeId') challengeId: number,
+      @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<void>>  {
+    
+      this.logger.log("댓글 수정 완료");
+      return SuccessResponseDto.of();
+    }
+
+    @Post()
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async addComment(
+      @Param('organization') organization: string,
+      @Param('challengeId') challengeId: number,
+      @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<void>>  {
+    
+      this.logger.log("댓글 추가 완료");
+      return SuccessResponseDto.of();
+    }
+
+
+    @Delete()
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async deleteComment(
+      @Param('organization') organization: string,
+      @Param('challengeId') challengeId: number,
+      @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<void>>  {
+     
+      this.logger.log("댓글 삭제 완료");
+      return SuccessResponseDto.of();
+    }
+
+
+
 
 
 }
