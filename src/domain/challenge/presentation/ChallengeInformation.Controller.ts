@@ -31,6 +31,15 @@ export class ChallengeInformationController{
         return SuccessResponseDto.of(result);
     }
 
+    @Get('/:challengeId')
+    @HttpCode(200)
+    public async bringChallengeDay(
+         @Param('challengeId') challengeId: number
+    ): Promise<SuccessResponseDto<Date[]>>{
+       const result = await this.challengeInformationService.bringChallengeDay(challengeId);
+        this.logger.log("챌린지 수행 날짜 조회 완료");
+        return SuccessResponseDto.of(result);
+    }
     
     @Get('/:challengeId/:date')
     @HttpCode(200)
@@ -41,9 +50,5 @@ export class ChallengeInformationController{
         await this.challengeInformationService.signChallengeDay(challengeId, date);
         this.logger.log("챌린지 수행 날짜 여부 조회 완료");
         return SuccessResponseDto.of();
-    }
-
-    
-
-    
+    }  
 }

@@ -19,10 +19,6 @@ import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper.js";
 export class ChallengeInformationService{
 
     constructor(
-        // @Inject('challengeImpl')
-        // private readonly challengeRepository: ChallengeRepository,
-        // @Inject('challengedayImpl')
-        // private readonly challengeDayRepository: ChallengeDayRepository,
         private readonly challengeHelper: ChallengeHelper,
         private readonly challengeDayHelper: ChallengeDayHelper
     ){}
@@ -43,9 +39,18 @@ export class ChallengeInformationService{
     public async bringAllOragnizationAndAllChallenge(): Promise<ChallengeAccordingToOrganization[]> { 
         const allChallengeAccordingToOrganizationData = await this.challengeHelper.giveAllChallengeAccordingToOrganization();
         const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(allChallengeAccordingToOrganizationData);
-        return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData);
+        return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData); 
+    }
 
-       
+    public async bringChallengeDay(challengeId:number):Promise<Date[]>{ 
+       const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
+       const challengeDays = this.sortChallnegeDay(challengeDay);
+       return challengeDays;
+    }
+
+
+    private sortChallnegeDay(challengeDay:ChallengeDay[]){
+        return challengeDay.map((data)=> data.getDay())
     }
 
 
