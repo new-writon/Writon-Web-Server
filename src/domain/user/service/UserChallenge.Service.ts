@@ -22,20 +22,12 @@ import { UserVerifyService } from '../domain/service/UserVerify.Service.js';
 @Injectable()
 export class UserChallengeService {
     constructor(
-        // @Inject('affiliationImpl')
-        // private readonly affiliationRepository: AffiliationRepository,
-        // @Inject('userImpl')
-        // private readonly userRepository: UserRepository,
         private readonly affiliationHelper: AffiliationHelper,
         private readonly userHelper: UserHelper,
         private readonly templateApi: TemplateApi,
-        // @Inject('userchallengeImpl')
-        // private readonly userChallengeRepository: UserChallengeRepository,
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
-        private readonly userVerifyService: UserVerifyService
-
-      
+        private readonly userVerifyService: UserVerifyService 
     ) {}
 
     public async signTodayTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{

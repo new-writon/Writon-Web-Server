@@ -69,6 +69,12 @@ export class UserChallengeHelper{
         return this.userChallengeRepository.findUserChallengePaticipantCount(challengeId);
     }
 
+    async executeInsertCheeringPhrase(affiliationId: number, challengeId: number, content: string):Promise<void>{
+        const userChallengeData = await this.userChallengeRepository.findUserChallengeByAffiliationIdAndChallengeId(affiliationId, challengeId);
+        this.userVerifyService.verifyUserChallenge(userChallengeData);
+        return this.userChallengeRepository.insertCheeringPhrase(affiliationId, challengeId, content);
+    }
+
 
 
 

@@ -150,4 +150,16 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             .getCount();
     }
 
+    async insertCheeringPhrase(affiliationId: number, challengeId: number, content: string):Promise<void>{
+        await this.dataSource.createQueryBuilder()
+        .update(UserChallenge)
+        .set({
+          cheering_phrase: content,
+          cheering_phrase_date: () => 'CURDATE()' // Note the use of function to get the current date
+        })
+        .where('affiliation_id = :affiliationId', { affiliationId })
+        .andWhere('challenge_id = :challengeId', { challengeId })
+        .execute();
+    }
+
 }
