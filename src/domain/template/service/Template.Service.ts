@@ -29,18 +29,17 @@ export class TemplateService {
 
 
     public async bringTemplateOne(userId:number, userTemplateId:number, organization:string, visibility: boolean):Promise<TemplateContent[]>{
-        const affiliationData = await this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization);
-        console.log(affiliationData.getAffiliationId())
         // 1. 유저템플릿과 좋아요, 댓글, 대답 조회
-        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility);
         // 2. 질문 id, 질문 내용 조회
+        const [affiliationData, userTemplateData] = await Promise.all([
+            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
+            this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility)
+        ]);
         const questionIds = this.extractQuestionId(userTemplateData);
         const questionData = await this.challengeApi.requestQuestionById(questionIds);
         // 3. 데이터 결합
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData);
-        console.log(mergedForOneTemplate)
         const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate); 
-        console.log(sortedCompanyData)
         return sortedCompanyData;
     }
     
@@ -162,6 +161,7 @@ export class TemplateService {
                 questionContent.getVisibility(),
                 questionData.getCategory(),
                 questionData.getQuestion(),
+                affiliationData.getAffiliationId(),
                 likeCount.toString(),
                 commentCount.toString(),
                 myLikeSign

@@ -14,6 +14,7 @@ export class TemplateContent {
     private visibility: boolean;
     private category: string;
     private question: string;
+    private affiliationId:number;
     private likeCount: string; 
     private commentCount: string; 
     private myLikeSign: string;
@@ -32,6 +33,7 @@ export class TemplateContent {
         visibility: boolean,
         category: string,
         question: string,
+        affiliationId:number,
         likeCount: string,
         commentCount: string,
         myLikeSign: string
@@ -49,6 +51,7 @@ export class TemplateContent {
         this.setVisibility(visibility);
         this.setCategory(category);
         this.setQuestion(question);
+        this.setAffiliationId(affiliationId)
         this.setLikeCount(likeCount);
         this.setCommentCount(commentCount);
         this.setMyLikeSign(myLikeSign);
@@ -68,6 +71,7 @@ export class TemplateContent {
         visibility: boolean,
         category: string,
         question: string,
+        affiliationId:number,
         likeCount: string,
         commentCount: string,
         myLikeSign: string
@@ -83,7 +87,7 @@ export class TemplateContent {
 
         return new TemplateContent(job, nickname, company, company_public, profile,
             question_id, user_templete_id, question_content_id, content, created_at,
-            visibility, category, question, likeCount, commentCount, myLikeSign
+            visibility, category, question, affiliationId, likeCount, commentCount, myLikeSign
         )
     }
 
@@ -164,6 +168,11 @@ export class TemplateContent {
     private setMyLikeSign(myLikeSign: string): void {
         if (myLikeSign === null) throw new InternalServerErrorException(`${__dirname} : myLikeSign 값이 존재하지 않습니다.`);
         this.myLikeSign = myLikeSign;
+    }
+
+    private setAffiliationId(affiliationId:number){
+        if (affiliationId === null) throw new InternalServerErrorException(`${__dirname} : affiliationId 값이 존재하지 않습니다.`);
+        this.affiliationId = affiliationId;
     }
 
     public getCompanyPublic(){
