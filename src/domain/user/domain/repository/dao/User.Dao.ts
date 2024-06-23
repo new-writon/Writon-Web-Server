@@ -3,7 +3,7 @@ import { User } from '../../entity/User.js';
 import { Injectable } from '@nestjs/common';
 import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiionOrganization.interface.js';
 import { UserRepository } from '../User.Repository.js';
-import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
+
 
 
 /**

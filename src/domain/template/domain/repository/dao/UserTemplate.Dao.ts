@@ -4,7 +4,7 @@ import { UserTemplete } from '../../entity/UserTemplete.js';
 import { UserChallenge } from '../../../../user/domain/entity/UserChallenge.js';
 import { TemplateContent } from '../../../dto/response/TemplateContent.js';
 import { UserTemplateRepository } from '../UserTemplate.Repository.js';
-import { WriteTemplateContent } from '../../../dto/TemplateContent.js';
+
 
 /**
  * User DAO Class
@@ -125,8 +125,33 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
       .innerJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
       .where('ut.user_challenge_id = :userChallengeId',{userChallengeId})
       .getMany();
-
   }
+
+  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplete[]>{
+    return this.dataSource.createQueryBuilder(UserTemplete, 'ut')
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
+      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id')
+      .where('ut.user_challenge_id IN (:...userChallengeId)',{userChallengeId})
+      .andWhere("ut.finished_at = :date", {date})
+      .getMany();
+  }
+
+  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId: number, visibility: boolean): Promise<UserTemplete> {
+    const visibilityValue = visibility ? 1 : 0;
+
+    return this.dataSource.createQueryBuilder()
+        .select('ut')
+        .from(UserTemplete, 'ut')
+        .leftJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
+        .leftJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
+        .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id')
+        .where('ut.user_templete_id = :userTemplateId', { userTemplateId })
+        .andWhere('qc.visibility = 1 OR qc.visibility = :visibility', { visibility: visibilityValue })
+        .getOne();
+}
+
+
 
 
 }

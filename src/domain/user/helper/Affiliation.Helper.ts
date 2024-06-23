@@ -74,5 +74,9 @@ export class AffiliationHelper {
     public async giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant[]>{
         return this.affiliationRepository.findAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId);
     }
+
+    public async giveAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string):Promise<Affiliation>{
+        return this.affiliationRepository.findAffiliationAndUserByUserIdAndOrganization(userId, organization);
+    }
     
 }

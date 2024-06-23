@@ -16,6 +16,21 @@ export class TemplateController {
   constructor(private readonly templateService: TemplateService) {}
 
 
+  @Get("/:organization/:userTemplateId/:visibility")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringTemplateOne(
+    @Param('organization') organization: string,
+    @Param('userTemplateId') userTemplateId: number,
+    @Param('visibility') visibility:boolean,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<TemplateContent[]>>  {
+    const result = await this.templateService.bringTemplateOne(user.user_id, userTemplateId, organization, visibility);
+    this.logger.log("템플릿 하나 조회 완료");
+    return SuccessResponseDto.of(result);
+  }
+
+
   @Put("/update")
   @HttpCode(200)
   public async updateMyTemplate(
@@ -25,6 +40,22 @@ export class TemplateController {
     this.logger.log("템플릿 수정 완료");
     return SuccessResponseDto.of();
   }
+
+  @Get("/:organization/:challengeId/:date")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringTemplateAccordingToDate(
+    @Param('organization') organization: string,
+    @Param('challengeId') challengeId: number,
+    @Param('date') date:Date,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<TemplateContent[][]>>  {
+    const result = await this.templateService.bringTemplateAccordingToDate(user.user_id, organization, challengeId, date);
+    this.logger.log("날짜별 템플릿 조회 완료");
+    return SuccessResponseDto.of();
+  }
+
+
 
 
   @Get("/reminiscence/:organization/:challengeId")

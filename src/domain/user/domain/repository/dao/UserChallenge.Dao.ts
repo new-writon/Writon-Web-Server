@@ -155,11 +155,21 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         .update(UserChallenge)
         .set({
           cheering_phrase: content,
-          cheering_phrase_date: () => 'CURDATE()' // Note the use of function to get the current date
+          cheering_phrase_date: () => 'CURDATE()' 
         })
         .where('affiliation_id = :affiliationId', { affiliationId })
         .andWhere('challenge_id = :challengeId', { challengeId })
         .execute();
+    }
+
+    async findUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number):Promise<UserChallenge[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('uc')
+            .from(UserChallenge, 'uc')
+            .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
+            .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
+            .where('uc.challenge_id = :challengeId',{challengeId})
+            .getMany();
     }
 
 }

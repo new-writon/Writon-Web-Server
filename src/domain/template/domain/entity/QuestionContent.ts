@@ -71,6 +71,18 @@ export class QuestionContent extends BaseEntity{
     return this.question_content_id;
   }
 
+  public getQuestionId(){
+    return this.question_id;
+  }
+
+  public getContent(){
+    return this.content;
+  }
+
+  public getVisibility(){
+    return this.visibility
+  }
+
 
   public static createQuestionContent(    
     question_id: number,

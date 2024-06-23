@@ -205,4 +205,8 @@ export class Affiliation extends BaseEntity{
     return this.affiliation_id;
   }
 
+  public getUser(){
+    return this.user
+  }
+
 }

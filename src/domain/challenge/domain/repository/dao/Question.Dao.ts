@@ -14,7 +14,7 @@ export class QuestionDao extends Repository<Question> implements QuestionReposit
     constructor(private dataSource: DataSource) { super(Question, dataSource.createEntityManager());}
 
 
-    findBasicQuestionByChallengeId(challengeId:number):Promise<BasicQuestion[]>{
+    async findBasicQuestionByChallengeId(challengeId:number):Promise<BasicQuestion[]>{
         return this.dataSource.createQueryBuilder()
         .select([ 
             'q.question_id AS question_id', 
@@ -28,7 +28,7 @@ export class QuestionDao extends Repository<Question> implements QuestionReposit
 
     }
 
-    findSpecialQuestionByChallengeId(challengeId:number):Promise<SpecialQuestion[]>{
+    async findSpecialQuestionByChallengeId(challengeId:number):Promise<SpecialQuestion[]>{
         return this.dataSource.createQueryBuilder()
         .select([
             'q.question_id AS question_id', 
@@ -43,6 +43,14 @@ export class QuestionDao extends Repository<Question> implements QuestionReposit
         .addOrderBy('q.question_id')
         .getRawMany()
         
+    }
+
+    async findQuestionById(questionId:number[]):Promise<Question[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('q')
+            .from(Question, 'q')
+            .where('q.question_id IN (:...questionId)',{questionId})
+            .getMany();
     }
 
 

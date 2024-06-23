@@ -45,7 +45,15 @@ export class Question extends BaseEntity{
   @OneToMany(() => QuestionTag, (questionTag) => questionTag.question)
   questionTags: Relation<QuestionTag>[];
 
-  public getQuestionId(){
+  public getId(){
     return this.question_id;
+  }
+
+  public getCategory(){
+    return this.category;
+  }
+
+  public getQuestion(){
+    return this.question;
   }
 }

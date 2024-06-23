@@ -105,6 +105,22 @@ export class UserTemplete extends BaseEntity{
     return this.user_challenge_id
   }
 
+  public getQuestionContents(){
+    return this.questionContents;
+  }
+
+  public getLikes(){
+    return this.likes;
+  }
+
+  public getComments(){
+    return this.comments
+  }
+
+  public getCreatedAt(){
+    return this.createdAt;
+  }
+
 
 
   

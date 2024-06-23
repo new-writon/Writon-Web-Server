@@ -44,7 +44,8 @@ import { ChallengeVerifyService } from './domain/service/ChallengeVerify.Service
   controllers: [ChallengeInformationController, ChallengeQuestionController, ChallengeInviteController],
   exports:[
     ChallengeHelper,
-    ChallengeDayHelper
+    ChallengeDayHelper,
+    QuestionHelper
   ]
 })
 export class ChallengeModule {}

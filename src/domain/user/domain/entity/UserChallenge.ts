@@ -138,6 +138,7 @@ export class UserChallenge extends BaseEntity{
   public getReview(){
     return this.review;
   }
+
   
 
   public static createChallengeUser(

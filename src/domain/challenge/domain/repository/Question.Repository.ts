@@ -7,7 +7,7 @@ import { SpecialQuestion } from "../../dto/response/SpecialQuestion.js";
 export interface QuestionRepository extends Repository<Question>{
 
     findBasicQuestionByChallengeId(challengeId:number):Promise<BasicQuestion[]>;
-
     findSpecialQuestionByChallengeId(challengeId:number):Promise<SpecialQuestion[]>;
+    findQuestionById(questionId:number[]):Promise<Question[]>;
 
 }

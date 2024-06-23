@@ -206,6 +206,17 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
     return Participant.participantOf(participants);   
   }
 
+  async findAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string):Promise<Affiliation>{
+    return this.dataSource.createQueryBuilder()
+      .select('a')
+      .from(Affiliation, 'a')
+      .innerJoinAndSelect('a.user', 'u','u.user_id = a.user_id')
+      .innerJoin('a.organization', 'o')
+      .where("a.user_id = :userId", {userId:userId})
+      .andWhere('o.name = :organization', { organization: organization })
+      .getOne();
+  }
+
 
   
 }
