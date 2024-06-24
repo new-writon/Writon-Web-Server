@@ -10,6 +10,8 @@ import { CommentInsert } from "../dto/request/CommentInsert.js";
 import { CommentId } from "../dto/response/CommentId.js";
 import { CommentUpdate } from "../dto/request/CommentUpdate.js";
 import { CommentDelete } from "../dto/request/CommentDelete.js";
+import { CommentInformation } from "../dto/response/CommentInformation.js";
+
 
 @Controller("/api/template/comment")
 export class CommentController{
@@ -17,6 +19,21 @@ export class CommentController{
     constructor(
         private readonly commentService: CommentService
     ){}
+
+
+    @Get("/:organization/:userTemplateId")
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringTemplateComment(
+      @Param('userTemplateId') userTemplateId: number,
+      @Param('organization') organization: string,
+      @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<CommentInformation[]>> {
+      const result = await this.commentService.bringTemplateComment(user.user_id, organization, userTemplateId)
+      this.logger.log("템플릿 댓글 조회 완료");
+      return SuccessResponseDto.of(result);
+    }
+
 
     @Patch("/check")
     @HttpCode(200)
@@ -36,7 +53,7 @@ export class CommentController{
       @Param('challengeId') challengeId: number,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<MyComment[]>>  {
-      const result = await this.commentService.bringCommentAccordingToOrganizationAndChallengeId(user.user_id, organization, challengeId);
+      const result = await this.commentService.bringMyTemplate(user.user_id, organization, challengeId);
       this.logger.log("챌린지에 따른 내 템플릿 조회 완료");
       return SuccessResponseDto.of(result);
     }

@@ -70,6 +70,16 @@ export class CommentDao extends Repository<Comment> implements CommentRepository
             .getOne();
 
     }
+
+    async findCommentByUserTemplateId(userTemplateId:number):Promise<Comment[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('c')
+            .from(Comment, 'c')
+            .where('c.user_templete_id = :userTemplateId',{userTemplateId})
+            .orderBy('c.comment_group', "ASC", )
+            .addOrderBy('c.comment_id', "ASC")
+            .getMany();
+    }
     
     
 

@@ -53,5 +53,9 @@ export class UserApi {
         return this.affiliationHelper.giveAffiliationAndUserByUserIdAndOrganization(userId, organization);
     }
 
+    public async requestAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>{
+        return this.affiliationHelper.giveAffiliationAndUserById(affiliationId);
+    }
+
 
 }

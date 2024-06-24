@@ -100,6 +100,10 @@ export class Comment extends BaseEntity{
     return this.check;
   }
 
+  public getCommentGroup(){
+    return this.comment_group;
+  }
+
 
   private setAffiliation(affiliationId:number){
     this.affiliation_id=affiliationId;

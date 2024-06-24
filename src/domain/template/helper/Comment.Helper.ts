@@ -45,4 +45,8 @@ export class CommentHelper{
         this.templateVerifyService.verifyComment(commentData);
         return this.commentRepository.deleteComment(affilationId, commentId);
     }
+
+    public async giveCommentByUserTemplateId(userTemplateId:number):Promise<Comment[]>{
+        return this.commentRepository.findCommentByUserTemplateId(userTemplateId);
+    }
 }

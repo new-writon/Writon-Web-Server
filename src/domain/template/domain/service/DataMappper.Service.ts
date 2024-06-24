@@ -22,6 +22,8 @@ export class DataMapperService{
                 return new MyComment(comment.getId(), comment.getCreatedAt(), comment.getContent(), comment.userTemplete.getFinishedAt(), affiliation.getNickname(), comment.getUserTemplateId());
             }         
         })
-    }  
+    } 
+    
+
 
 }

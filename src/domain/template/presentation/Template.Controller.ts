@@ -10,25 +10,10 @@ import { TemplateUpdate } from '../dto/request/TemplateUpdate.js';
 
 
 
-@Controller("/api/template")
+@Controller("/api/template/root")
 export class TemplateController {
   private readonly logger = new Logger(TemplateController.name);
   constructor(private readonly templateService: TemplateService) {}
-
-
-  @Get("/:organization/:userTemplateId/:visibility")
-  @HttpCode(200)
-  @UseGuards(JWTAuthGuard)
-  public async bringTemplateOne(
-    @Param('organization') organization: string,
-    @Param('userTemplateId') userTemplateId: number,
-    @Param('visibility') visibility:boolean,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateContent[]>>  {
-    const result = await this.templateService.bringTemplateOne(user.user_id, userTemplateId, organization, visibility);
-    this.logger.log("템플릿 하나 조회 완료");
-    return SuccessResponseDto.of(result);
-  }
 
 
   @Put("/update")
@@ -39,6 +24,20 @@ export class TemplateController {
     await this.templateService.updateMyTemplate(templateUpdate.getUserTemplateId(), templateUpdate.getTemplateContent())
     this.logger.log("템플릿 수정 완료");
     return SuccessResponseDto.of();
+  }
+
+
+  @Get("/reminiscence/:organization/:challengeId")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringMyTemplate(
+    @Param('organization') organization: string,
+    @Param('challengeId') challengeId: number,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<TemplateContent[][]>>  {
+    const result = await this.templateService.bringMyTemplate(user.user_id, organization, challengeId);
+    this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
+    return SuccessResponseDto.of(result);
   }
 
   @Get("/:organization/:challengeId/:date")
@@ -53,22 +52,6 @@ export class TemplateController {
     const result = await this.templateService.bringTemplateAccordingToDate(user.user_id, organization, challengeId, date);
     this.logger.log("날짜별 템플릿 조회 완료");
     return SuccessResponseDto.of();
-  }
-
-
-
-
-  @Get("/reminiscence/:organization/:challengeId")
-  @HttpCode(200)
-  @UseGuards(JWTAuthGuard)
-  public async bringMyTemplate(
-    @Param('organization') organization: string,
-    @Param('challengeId') challengeId: number,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateContent[][]>>  {
-    const result = await this.templateService.bringMyTemplate(user.user_id, organization, challengeId);
-    this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
-    return SuccessResponseDto.of(result);
   }
 
   @Post("/write")
@@ -96,5 +79,20 @@ export class TemplateController {
     return SuccessResponseDto.of(result);
   }
 
+
+  @Get("/:organization/:userTemplateId/:visibility")
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringTemplateOne(
+    @Param('organization') organization: string,
+    @Param('userTemplateId') userTemplateId: number,
+    @Param('visibility') visibility:boolean,
+    @CurrentUser() user: User
+  ): Promise<SuccessResponseDto<TemplateContent[]>>  {
+    console.log(122)
+    const result = await this.templateService.bringTemplateOne(user.user_id, userTemplateId, organization, visibility);
+    this.logger.log("템플릿 하나 조회 완료");
+    return SuccessResponseDto.of(result);
+  }
 
 }

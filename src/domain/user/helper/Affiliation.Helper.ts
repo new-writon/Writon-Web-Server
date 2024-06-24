@@ -63,6 +63,7 @@ export class AffiliationHelper {
         return this.affiliationRepository.findAffiliationById(affiliationId);
     }
 
+    
     public async giveAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>{
         return this.affiliationRepository.findAffiliationAndUserById(affiliationId);
     }

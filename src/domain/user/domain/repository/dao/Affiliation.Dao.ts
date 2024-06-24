@@ -155,10 +155,10 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
       .getMany();
   }
 
-  async findAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>{
+  async findAffiliationAndUserById(affiliationIds: number[]):Promise<Affiliation[]>{
     return this.dataSource.createQueryBuilder(Affiliation, 'a')
       .innerJoinAndSelect('a.user', 'u','u.user_id = a.user_id')
-      .where('a.affiliation_id IN (:...affiliationIds)',{affiliationIds:affiliationId})
+      .where('a.affiliation_id IN (:...affiliationIds)',{affiliationIds})
       .getMany();
   }
 
