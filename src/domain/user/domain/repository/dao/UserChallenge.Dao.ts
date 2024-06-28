@@ -43,30 +43,6 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         this.save(newUserChallenge);
     }
 
-    // async findUserChallengeWithUserIdAndOragnizationByChallengeId(userId:number, organization:string, challengeId:number):Promise<UserChallenge>{
-    //     return this.dataSource.createQueryBuilder()
-    //         .select('uc.*')
-    //         .from(UserChallenge, 'uc')
-    //         .where(sq => {
-    //             const affiliationSubQuery = sq.subQuery()
-    //                 .select('a.affiliation_id')
-    //                 .from(Affiliation, 'a')
-    //                 .where('a.user_id',{userId})
-    //                 .andWhere(sq => {
-    //                     const organizationSubQuery = sq.subQuery()
-    //                         .select('o.organization_id')
-    //                         .from(Organization, 'o')
-    //                         .where('o.name = :organization', {organization})
-    //                         .getQuery();
-    //                     return `a.organization_id = (${organizationSubQuery})`;
-    //                 }).getQuery();
-    //             return `a.affiliation_id = (${affiliationSubQuery})`;
-    //         })
-    //         .andWhere('uc.challenge_id = :challengeId',{challengeId})
-    //         .getOne();
-    // }
-
-
     async findUserChallengeWithUserIdAndOragnizationByChallengeId(
         userId: number, 
         organization: string, 
@@ -170,6 +146,17 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
             .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
             .where('uc.challenge_id = :challengeId',{challengeId})
             .getMany();
+    }
+
+
+    async findUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>{
+        return this.dataSource.createQueryBuilder()
+        .select('uc')
+        .from(UserChallenge, 'uc')
+        .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
+        .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
+        .where('uc.user_challenge_id = :userChallengeId',{userChallengeId})
+        .getOne();
     }
 
 }

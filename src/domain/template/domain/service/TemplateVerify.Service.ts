@@ -10,7 +10,12 @@ import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 @Injectable()
 export class TemplateVerifyService{
 
-    public verifyUserTemplate(userTemplate:UserTemplete[]){
+    public verifyUserTemplates(userTemplates:UserTemplete[] ){
+        if(!checkData(userTemplates[0]))
+            throw new TemplateException(TemplateErrorCode.NOT_FOUND_USERTEMPLATE);
+    }
+
+    public verifyUserTemplate(userTemplate:UserTemplete){
         if(!checkData(userTemplate))
             throw new TemplateException(TemplateErrorCode.NOT_FOUND_USERTEMPLATE);
     }

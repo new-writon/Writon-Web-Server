@@ -139,6 +139,10 @@ export class UserChallenge extends BaseEntity{
     return this.review;
   }
 
+  public getAffiliation(){
+    return this.affiliation;
+  }
+
   
 
   public static createChallengeUser(

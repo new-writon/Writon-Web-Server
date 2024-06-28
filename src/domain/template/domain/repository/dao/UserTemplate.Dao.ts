@@ -131,20 +131,19 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
     return this.dataSource.createQueryBuilder(UserTemplete, 'ut')
       .leftJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
       .leftJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
-      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id')
+      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id AND qc.visibility = 1')
       .where('ut.user_challenge_id IN (:...userChallengeId)',{userChallengeId})
       .andWhere("ut.finished_at = :date", {date})
       .getMany();
   }
 
   async findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId: number, visibility: boolean): Promise<UserTemplete> {
-    const visibilityValue = visibility ? 1 : 0;
     return this.dataSource.createQueryBuilder()
         .select('ut')
         .from(UserTemplete, 'ut')
         .leftJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
         .leftJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
-        .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id AND qc.visibility = :visibility', { visibility: visibilityValue })
+        .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id AND qc.visibility = :visibility', { visibility})
         .where('ut.user_templete_id = :userTemplateId', { userTemplateId })
         .getOne();
 }

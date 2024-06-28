@@ -17,5 +17,6 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
     findUserChallengePaticipantCount(challengeId:number):Promise<number>;
     insertCheeringPhrase(affiliationId: number, challengeId: number, content: string):Promise<void>;
     findUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number):Promise<UserChallenge[]>;
+    findUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>;
 
 }   

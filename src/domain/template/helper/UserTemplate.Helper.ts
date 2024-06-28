@@ -36,7 +36,7 @@ export class UserTemplateHelper{
 
     public async giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplete[]>{
         const userTemplate = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId);
-        this.templateVerifyService.verifyUserTemplate(userTemplate);
+        this.templateVerifyService.verifyUserTemplates(userTemplate);
         return userTemplate;
     }
 
