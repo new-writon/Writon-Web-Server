@@ -9,6 +9,7 @@ import { AgoraException } from "../exception/AgoraException.js";
 import { AgoraErrorCode } from "../exception/AgoraErrorCode.js";
 import { getKoreanDateISOString, getTodayDateString } from "../util/date.js";
 import { Agora } from "../domain/entity/Agora.js";
+import { MutexAlgorithm } from "../../../global/decorator/mutex.js";
 
 
 @Injectable()
@@ -26,8 +27,9 @@ export class AgoraService{
         return AgoraAddResult.of(agoraLimitResult);
     }
 
+    @MutexAlgorithm()
     public async addAgora(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
-        await this.validateAgoraCount(challengeId,getTodayDateString() )
+        await this.validateAgoraCount(challengeId,getTodayDateString())
         const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
         await this.agoraHelper.executeInsertAgora(challengeId, userChallengeData.getId(), question);
     }
