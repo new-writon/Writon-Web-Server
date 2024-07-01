@@ -38,9 +38,6 @@ import { UserService } from './service/User.service.js';
     AuthModule,
     TemplateModule,
     ChallengeModule
-
-
-
   ],
   providers: [
     UserService, 
