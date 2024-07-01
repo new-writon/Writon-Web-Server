@@ -8,7 +8,7 @@ import {
   Relation
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 
 @Index("ChallengeDay_challenge_id_fkey", ["challenge_id"], {})

@@ -11,7 +11,7 @@ import {
 import { Challenge } from "./Challenge.js";
 import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
 import { QuestionTag } from "./QuestionTag.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 
 @Index("Question_challenge_id_fkey", ["challenge_id"], {})

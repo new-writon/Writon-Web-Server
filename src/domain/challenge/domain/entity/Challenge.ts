@@ -15,7 +15,7 @@ import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction.js";
 import { Question } from "./Question.js";
 import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 
 @Index("Challenge_challenge_id_key", ["challenge_id"], { unique: true })

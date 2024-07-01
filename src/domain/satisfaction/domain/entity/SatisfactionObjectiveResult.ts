@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Satisfaction } from "./Satisfaction.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 
 

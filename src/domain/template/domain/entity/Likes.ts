@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { UserTemplete } from "./UserTemplete.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 @Index("Like_like_id_key", ["like_id"], { unique: true })
 @Index("Like_user_templete_id_fkey", ["user_templete_id"], {})

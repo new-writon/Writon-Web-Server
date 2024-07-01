@@ -7,7 +7,7 @@ import {
   Relation
 } from "typeorm";
 import { Affiliation } from "./Affiliation.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
 @Index("User_identifier_key", ["identifier"], { unique: true })

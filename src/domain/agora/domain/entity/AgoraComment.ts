@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { Agora } from "./Agora.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
 @Index("AgoraComment_agora_id_fkey_idx", ["agora_id"], {})

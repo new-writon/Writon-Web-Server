@@ -12,7 +12,7 @@ import { Comment } from "./Comment.js";
 import { Likes } from "./Likes.js";
 import { QuestionContent } from "./QuestionContent.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
 

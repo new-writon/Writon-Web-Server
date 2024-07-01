@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Question } from "../../../challenge/domain/entity/Question.js";
 import { UserTemplete } from "./UserTemplete.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
 

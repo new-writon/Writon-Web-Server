@@ -12,7 +12,7 @@ import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 
 import { AgoraComment } from "./AgoraComment.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
 @Index("Agora_user_challenge_id_fkey_idx", ["user_challenge_id"], {})

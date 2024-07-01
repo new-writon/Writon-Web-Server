@@ -8,7 +8,7 @@ import {
   Relation
 } from "typeorm";
 import { Question } from "./Question.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 
 @Index("QuestionTag_question_id_fkey", ["question_id"], {})

@@ -15,7 +15,7 @@ import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 import { Comment } from "../../../template/domain/entity/Comment.js";
 import { Likes } from "../../../template/domain/entity/Likes.js";
 import { UserChallenge } from "./UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
 

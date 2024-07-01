@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { UserTemplete } from "./UserTemplete.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 
 @Index("Comment_comment_id_key", ["comment_id"], { unique: true })

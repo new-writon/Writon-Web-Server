@@ -11,7 +11,7 @@ import {
 import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 import { SatisfactionObjectiveResult } from "./SatisfactionObjectiveResult.js";
 import { SatisfactionSubjectiveResult } from "./SatisfactionSubjectiveResult.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 
 
 @Index("Satiscation_challenge_id_fkey_idx", ["challenge_id"], {})

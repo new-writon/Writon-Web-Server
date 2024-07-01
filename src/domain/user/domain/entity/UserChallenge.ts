@@ -15,7 +15,7 @@ import { UserTemplete } from "../../../template/domain/entity/UserTemplete.js";
 import { Agora } from "../../../agora/domain/entity/Agora.js";
 import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionObjectiveResult.js";
 import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
-import { BaseEntity } from "../../../../global/entity/Base.Entitiy.js";
+import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
 @Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
