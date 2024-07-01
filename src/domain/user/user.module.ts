@@ -29,8 +29,8 @@ import { DataMapperService } from './domain/service/DataMapper.Service.js';
 import { UserVerifyService } from './domain/service/UserVerify.Service.js';
 import { CheeringPhraseController } from './presentation/CheeringPhrase.Controller.js';
 import { CheeringPhraseService } from './service/CheeringPhrase.Service.js';
-import { UserController } from './presentation/User.Controller.js';
-import { UserService } from './service/User.Service.js';
+import { UserController } from './presentation/User.controller.js';
+import { UserService } from './service/User.service.js';
 
 @Module({
   imports: [

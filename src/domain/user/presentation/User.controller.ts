@@ -6,7 +6,7 @@ import { CurrentUserInterceptor } from '../../auth/interceptors/CurrentUser.Inte
 import { User } from '../domain/entity/User.js';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
 import { AccountUpdate } from '../dto/request/AccountUpdate.js';
-import { UserService } from '../service/User.Service.js';
+import { UserService } from '../service/User.service.js';
 
 @Controller("/api/user")
 export class UserController {
