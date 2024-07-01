@@ -1,10 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { UserController } from './presentation/User.Controller.js';
 import { User } from './domain/entity/User.js';
-
-import { UserService } from './service/User.Service.js';
 import { Affiliation } from './domain/entity/Affiliation.js';
 import { Organization } from './domain/entity/Organization.js';
 import { UserChallenge } from './domain/entity/UserChallenge.js';
@@ -33,6 +29,8 @@ import { DataMapperService } from './domain/service/DataMapper.Service.js';
 import { UserVerifyService } from './domain/service/UserVerify.Service.js';
 import { CheeringPhraseController } from './presentation/CheeringPhrase.Controller.js';
 import { CheeringPhraseService } from './service/CheeringPhrase.Service.js';
+import { UserController } from './presentation/User.Controller.js';
+import { UserService } from './service/User.Service.js';
 
 @Module({
   imports: [
