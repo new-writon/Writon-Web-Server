@@ -1,6 +1,6 @@
 import {  Injectable } from '@nestjs/common';
 import { User } from '../domain/entity/User.js';
-import { checkData } from '../../../domain/auth/util/checker.js';
+import { checkData } from '../../auth/util/checker.js';
 import { UserErrorCode } from '../exception/UserErrorCode.js';
 import { UserException } from '../exception/UserException.js';
 import { UserHelper } from '../helper/User.Helper.js';
