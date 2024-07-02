@@ -24,12 +24,12 @@ export class CommentController{
     @Get("/:organization/:userTemplateId")
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async bringTemplateComment(
+    public async bringCommentInformation(
       @Param('userTemplateId') userTemplateId: number,
       @Param('organization') organization: string,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CommentInformation[]>> {
-      const result = await this.commentService.bringTemplateComment(user.user_id, organization, userTemplateId)
+      const result = await this.commentService.bringCommentInformation(user.user_id, organization, userTemplateId)
       this.logger.log("템플릿 댓글 조회 완료");
       return SuccessResponseDto.of(result);
     }
@@ -48,12 +48,12 @@ export class CommentController{
     @Get("/:organization/:challengeId")
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async bringMyTemplate(
+    public async bringMyComment(
       @Param('organization') organization: string,
       @Param('challengeId') challengeId: number,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<MyComment[]>>  {
-      const result = await this.commentService.bringMyTemplate(user.user_id, organization, challengeId);
+      const result = await this.commentService.bringMyComment(user.user_id, organization, challengeId);
       this.logger.log("챌린지에 따른 내 템플릿 조회 완료");
       return SuccessResponseDto.of(result);
     }
@@ -62,11 +62,11 @@ export class CommentController{
     @Patch()
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async updateComment(
+    public async modifyComment(
       @Body() commentUpdate: CommentUpdate,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.commentService.updateComment(user.user_id, commentUpdate.getOrganization(), commentUpdate.getCommentId(), commentUpdate.getContent());
+      await this.commentService.modifyComment(user.user_id, commentUpdate.getOrganization(), commentUpdate.getCommentId(), commentUpdate.getContent());
       this.logger.log("댓글 수정 완료");
       return SuccessResponseDto.of();
     }
@@ -74,11 +74,11 @@ export class CommentController{
     @Post()
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async addComment(
+    public async penetrateComment(
       @Body() commentInsert: CommentInsert,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CommentId>>  {
-      const result = await this.commentService.addComment(user.user_id, commentInsert.getOrganization(), commentInsert.getUserTemplateId(), commentInsert.getContent(), commentInsert.getCommentGroup());
+      const result = await this.commentService.penetrateComment(user.user_id, commentInsert.getOrganization(), commentInsert.getUserTemplateId(), commentInsert.getContent(), commentInsert.getCommentGroup());
       this.logger.log("댓글 추가 완료");
       return SuccessResponseDto.of(result);
     }
@@ -87,11 +87,11 @@ export class CommentController{
     @Delete()
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async deleteComment(
+    public async eraseComment(
       @Body() commentDelete: CommentDelete,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.commentService.deleteComment(user.user_id, commentDelete.getOrganization(), commentDelete.getCommentId());
+      await this.commentService.eraseComment(user.user_id, commentDelete.getOrganization(), commentDelete.getCommentId());
       this.logger.log("댓글 삭제 완료");
       return SuccessResponseDto.of();
     }

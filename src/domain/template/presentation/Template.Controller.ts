@@ -19,10 +19,10 @@ export class TemplateController {
 
   @Put("/update")
   @HttpCode(200)
-  public async updateMyTemplate(
+  public async modifyMyTemplate(
     @Body() templateUpdate: TemplateUpdate,
   ): Promise<SuccessResponseDto<void>>  {
-    await this.templateService.updateMyTemplate(templateUpdate.getUserTemplateId(), templateUpdate.getTemplateContent())
+    await this.templateService.modifyMyTemplate(templateUpdate.getUserTemplateId(), templateUpdate.getTemplateContent())
     this.logger.log("템플릿 수정 완료");
     return SuccessResponseDto.of();
   }
@@ -46,13 +46,13 @@ export class TemplateController {
   @Get("/:organization/:userTemplateId/visibility/:visibility")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async bringTemplateOne(
+  public async bringTemplateContent(
     @Param('organization') organization: string,
     @Param('userTemplateId') userTemplateId: number,
     @Param('visibility') visibility:boolean,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<TemplateContent[]>>  {
-    const result = await this.templateService.bringTemplateOne(user.user_id, userTemplateId, organization, visibility);
+    const result = await this.templateService.bringTemplateContent(user.user_id, userTemplateId, organization, visibility);
     this.logger.log("템플릿 하나 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -61,12 +61,12 @@ export class TemplateController {
   @Get("/reminiscence/:organization/:challengeId")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async bringMyTemplate(
+  public async bringAllTemplateContent(
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<TemplateContent[][]>>  {
-    const result = await this.templateService.bringMyTemplate(user.user_id, organization, challengeId);
+    const result = await this.templateService.bringAllTemplateContent(user.user_id, organization, challengeId);
     this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -76,11 +76,11 @@ export class TemplateController {
   @Post("/write")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async writeTemplate(
+  public async penetrateTemplate(
     @Body() templateWrite: TemplateWrite,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.templateService.writeTemplate(user.user_id,templateWrite.getChallengeId(), templateWrite.getOrganization(), templateWrite.getDate(), templateWrite.getTemplateContent());
+    await this.templateService.penetrateTemplate(user.user_id,templateWrite.getChallengeId(), templateWrite.getOrganization(), templateWrite.getDate(), templateWrite.getTemplateContent());
     this.logger.log("템플릿 작성 완료");
     return SuccessResponseDto.of();
   }

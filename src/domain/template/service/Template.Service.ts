@@ -31,7 +31,7 @@ export class TemplateService {
       ) {}
 
 
-    public async bringTemplateOne(userId:number, userTemplateId:number, organization:string, visibility: boolean):Promise<TemplateContent[]>{
+    public async bringTemplateContent(userId:number, userTemplateId:number, organization:string, visibility: boolean):Promise<TemplateContent[]>{
         // 1. 유저템플릿과 좋아요, 댓글, 대답 조회
         // 2. 질문 id, 질문 내용 조회
         const [affiliationData, userTemplateData] = await Promise.all([
@@ -156,7 +156,7 @@ export class TemplateService {
         return userChallenge.map((data)=> data.getId())
     }
 
-    public async bringMyTemplate(userId: number, organization: string, challengeId:number): Promise<TemplateContent[][]>{
+    public async bringAllTemplateContent(userId: number, organization: string, challengeId:number): Promise<TemplateContent[][]>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         const templateContentData : TemplateContent[] = await this.userTemplateHelper.giveUserTemplateByChallengeIdForAffiliationId(affiliationData.getAffiliationId(), challengeId);
         const sortResult = this.sortAccorgindToUserTemplateId(templateContentData);  
@@ -164,7 +164,7 @@ export class TemplateService {
     }
 
     @Transactional()
-    public async writeTemplate(  
+    public async penetrateTemplate(  
         userId: number,
         challengeId: number,
         organization: string,
@@ -178,10 +178,9 @@ export class TemplateService {
     } 
 
 
-    public async updateMyTemplate(
+    public async modifyMyTemplate(
         userTemplateId:number,
         templateContent:Array<WriteTemplateContent>):Promise<void>{
-            console.log(userTemplateId)
             await this.userTemplateTransaction.updateTemplateTransaction(userTemplateId, templateContent);
     }
 

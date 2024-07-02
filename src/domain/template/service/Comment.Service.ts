@@ -20,7 +20,7 @@ export class CommentService{
     ){}
 
 
-    public async bringMyTemplate(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
+    public async bringMyComment(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
         // 댓글 작성자 정보 조회
         const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         console.log(commentWriteAffiliationData)
@@ -38,7 +38,7 @@ export class CommentService{
         return MyComment.of(myComment);
     }
 
-    public async bringTemplateComment(userId:number, organization:string, userTemplateId:number):Promise<CommentInformation[]>{
+    public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentInformation[]>{
         // userTemplateId에 있는 댓글 정보 모두 조회
         const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
         // 내 정보 가져오기
@@ -60,18 +60,18 @@ export class CommentService{
     }
 
 
-    public async addComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number):Promise<CommentId>{
+    public async penetrateComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number):Promise<CommentId>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), content, userTemplateId, commentGroup);
         return CommentId.of(commentData.getId());   
     }
 
-    public async updateComment(userId: number, organization: string, commentId: number, content: string):Promise<void>{
+    public async modifyComment(userId: number, organization: string, commentId: number, content: string):Promise<void>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.commentHelper.executeUpdateComment(affiliationData.getAffiliationId(), commentId, content);
     }
 
-    public async deleteComment(userId: number, organization: string, commentId: number):Promise<void>{
+    public async eraseComment(userId: number, organization: string, commentId: number):Promise<void>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.commentHelper.executeDeleteComment(affiliationData.getAffiliationId(), commentId);
     }
