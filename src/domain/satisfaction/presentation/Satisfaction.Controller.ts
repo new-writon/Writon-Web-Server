@@ -71,12 +71,12 @@ export class SatisfactionController{
   @Put("/:organization/:challengeId")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async updateSatisfactionStatus(
+  public async modifySatisfactionStatus(
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number, 
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.satisfactionService.updateSatisfactionStatus(user.user_id, organization, challengeId);
+    await this.satisfactionService.modifySatisfactionStatus(user.user_id, organization, challengeId);
     this.logger.log("유저 챌린지 만족도 조사 완료");
     return SuccessResponseDto.of();
   }

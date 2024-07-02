@@ -26,14 +26,14 @@ export class ResponseService{
     }
 
 
-    public async answerObjectiveQuestion(userId:number,  organization:string, challengeId:number, satisfactionAnswer: Array<ObjectiveAnswer>){
+    public async penetrateObjectiveQuestion(userId:number,  organization:string, challengeId:number, satisfactionAnswer: Array<ObjectiveAnswer>){
         const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
         const convertedObjectiveAnswer = this.convertObjectiveAnswerType(satisfactionAnswer, userChallengeData.getId());
         await this.satisfactionObjectiveHelper.executeInsertSatisfactionObjectiveResult(convertedObjectiveAnswer);
     }
 
 
-    public async answerSubjectiveQuestion(userId:number,  organization:string, challengeId:number, satisfactionAnswer: Array<SubjectiveAnswer>){
+    public async penetrateSubjectiveQuestion(userId:number,  organization:string, challengeId:number, satisfactionAnswer: Array<SubjectiveAnswer>){
         const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
         const convertedSubjectiveAnswer = this.convertSubjectiveAnswerType(satisfactionAnswer, userChallengeData.getId());
         await this.satisfactionSubjectiveHelper.executeInsertSatisfactionSubjectiveResult(convertedSubjectiveAnswer);

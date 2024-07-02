@@ -30,7 +30,7 @@ export class SatisfactionService{
     }
 
 
-    public async updateSatisfactionStatus(
+    public async modifySatisfactionStatus(
         userId:number,
         organization:string,
         challengeId:number
