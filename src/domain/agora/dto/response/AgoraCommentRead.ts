@@ -56,9 +56,6 @@ export class AgoraCommentRead{
     }
 
     private setProfile(profile: string) {
-        if (!profile) {
-            throw new InternalServerErrorException(`${__dirname} : profile 값이 존재하지 않습니다.`);
-        }
         this.profile = profile;
     }
 
