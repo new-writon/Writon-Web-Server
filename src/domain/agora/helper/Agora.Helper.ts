@@ -5,20 +5,29 @@ import { ParticularAgoraData } from "../dto/ParticularAgoraData.js";
 import { AgoraVerifyService } from "../domain/service/AgoraVerify.Service.js";
 
 
+
 @Injectable()
 export class AgoraHelper{
 
     constructor(
         @Inject("agoraImpl")
-        private readonly agoraRepository: AgoraRepository
+        private readonly agoraRepository: AgoraRepository,
+        private readonly agoraVerifyService: AgoraVerifyService
     ){}
 
 
     public async giveParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
         const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
-      //  this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
         return particularAgoraData;
     }
+
+    public async giveParticularAgoraByChallengeIdAndDateException(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
+        const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
+        this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
+        return particularAgoraData;
+    }
+
+
 
     public async executeInsertAgora(challengeId: number, userChallengeId: number, question:string):Promise<void>{
         return this.agoraRepository.insertAgora(challengeId, userChallengeId, question);

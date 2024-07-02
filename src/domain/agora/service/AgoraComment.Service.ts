@@ -30,13 +30,9 @@ export class AgoraCommentService{
         userId: number,
         agoraId: number
     ):Promise<AgoraCommentRead[]>{
-        console.log(0)
         const particularCommentData = await this.agoraCommentHelper.giveAgoraCommentByAgoraId(agoraId);
-        console.log(1)
         const extractedAffiliationId = this.extractAffiliationId(particularCommentData);
-        console.log(2)
         const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
-        console.log(3)
         const mergedParticularAgoraComment = this.mergeParticularAgoraComment(particularCommentData, affiliationData, userId);
         return AgoraCommentRead.of(mergedParticularAgoraComment);
 
@@ -69,9 +65,4 @@ export class AgoraCommentService{
         }
         return '0'
     }
-
-
-
-
-
 }
