@@ -21,14 +21,14 @@ export class AgoraService{
     ){}
 
 
-    public async checkAgoraAdd(challengeId:number, date:Date):Promise<AgoraAddResult>{
+    public async checkAgora(challengeId:number, date:Date):Promise<AgoraAddResult>{
         const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date);
         const agoraLimitResult = this.checkAgoraLimit(particularAgoraData);
         return AgoraAddResult.of(agoraLimitResult);
     }
 
     @MutexAlgorithm()
-    public async addAgora(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
+    public async penetrateAgora(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
         await this.validateAgoraCount(challengeId,getTodayDateString())
         const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
         await this.agoraHelper.executeInsertAgora(challengeId, userChallengeData.getId(), question);

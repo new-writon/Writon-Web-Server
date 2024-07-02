@@ -15,7 +15,7 @@ export class AgoraCommentService{
     ){}
 
 
-    public async writeAgoraComment(
+    public async penetrateAgoraComment(
         userId: number,
         agoraId: number,
         organization: string,
@@ -26,7 +26,7 @@ export class AgoraCommentService{
     }
 
 
-    public async bringAgoraComment(
+    public async bringAgoraCommentRead(
         userId: number,
         agoraId: number
     ):Promise<AgoraCommentRead[]>{

@@ -22,12 +22,12 @@ export class AgoraCommentController{
     @Get('/read/:agoraId')
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async bringAgoraComment(
+    public async bringAgoraCommentRead(
         @Param('agoraId') agoraId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<AgoraCommentRead[]>>{
         console.log(agoraId)
-       const result = await this.agoraCommentService.bringAgoraComment(user.user_id, agoraId);
+       const result = await this.agoraCommentService.bringAgoraCommentRead(user.user_id, agoraId);
         this.logger.log("아고라 댓글 읽기 완료");
         return SuccessResponseDto.of(result);
     }
@@ -35,11 +35,11 @@ export class AgoraCommentController{
     @Post('/write')
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async writeAgoraComment(
+    public async penetrateAgoraComment(
         @Body() agoraCommentInsert: AgoraCommentInsert,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.agoraCommentService.writeAgoraComment(user.user_id, agoraCommentInsert.getAgoraId(), agoraCommentInsert.getOragnization(), agoraCommentInsert.getAgoraComment());
+        await this.agoraCommentService.penetrateAgoraComment(user.user_id, agoraCommentInsert.getAgoraId(), agoraCommentInsert.getOragnization(), agoraCommentInsert.getAgoraComment());
         this.logger.log("아고라 댓글 쓰기 완료");
         return SuccessResponseDto.of();
     }
