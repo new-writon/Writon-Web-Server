@@ -36,7 +36,5 @@ export class ChallengeQuestionController{
         this.logger.log("스페셜 질문 조회 완료");
         return SuccessResponseDto.of(result);
     }
-    
-
-    
+ 
 }

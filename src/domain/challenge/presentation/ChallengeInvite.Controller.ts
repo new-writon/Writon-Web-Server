@@ -10,7 +10,7 @@ export class ChallengeInviteController {
         private readonly challengeInviteService: ChallengeInviteService
     ){}
 
-    @Post("")
+    @Post()
     @HttpCode(200)
     public async sendInvitation(
         @Body() challengeInvite: ChallengeInvite

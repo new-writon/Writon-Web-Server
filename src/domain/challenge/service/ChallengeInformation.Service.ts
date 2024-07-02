@@ -24,19 +24,19 @@ export class ChallengeInformationService{
     ){}
 
 
-    public async signChallengeDay(challengeId: number, date: Date){ 
+    public async checkChallengeDay(challengeId: number, date: Date){ 
         const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date);
         this.verifyChallengeDay(challengeDayData)
     }
 
-    public async signChallengeFinish(challengeId: number): Promise<ChallengeStatus> { 
+    public async bringChallengeStatus(challengeId: number): Promise<ChallengeStatus> { 
         const challengeData : Challenge[] = await this.challengeHelper.giveChallengeByIdAndOngoing(challengeId);
         const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
         return ChallengeStatus.of(challengeStatus);
        
     }
 
-    public async bringAllOragnizationAndAllChallenge(): Promise<ChallengeAccordingToOrganization[]> { 
+    public async bringChallengeAccordingToOrganization(): Promise<ChallengeAccordingToOrganization[]> { 
         const allChallengeAccordingToOrganizationData = await this.challengeHelper.giveAllChallengeAccordingToOrganization();
         const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(allChallengeAccordingToOrganizationData);
         return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData); 

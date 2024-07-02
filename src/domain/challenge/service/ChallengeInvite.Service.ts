@@ -6,8 +6,6 @@ import { ChallengeHelper } from "../helper/Challenge.Helper.js";
 export class ChallengeInviteService{
 
     constructor(
-        // @Inject('challengeImpl')
-        // private readonly challengeRepository: ChallengeRepository,
         private readonly challengeHelper: ChallengeHelper,
         private readonly mailManager:MailManager
     ){}
