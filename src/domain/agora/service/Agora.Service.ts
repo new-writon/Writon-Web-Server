@@ -41,9 +41,6 @@ export class AgoraService{
         }
     }
 
-
-
-
     public async bringAgora(userId:number, challengeId:number, date:Date){
 
         // 1. 특정 아고라 정보 조회
@@ -55,8 +52,6 @@ export class AgoraService{
         const mergedAgoraData = this.mergeUserChallenge(particularAgoraData, userChallengeData, userId);
         return AgoraDataResult.of(mergedAgoraData);
     }
-
-
 
     private sortUserChallengeId(agora: ParticularAgoraData[]){
         return agora.map((agoraData) => agoraData.getUserChallengeId())
