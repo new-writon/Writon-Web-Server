@@ -10,14 +10,13 @@ export class AgoraHelper{
 
     constructor(
         @Inject("agoraImpl")
-        private readonly agoraRepository: AgoraRepository,
-        private readonly agoraVerifyService:AgoraVerifyService
+        private readonly agoraRepository: AgoraRepository
     ){}
 
 
     public async giveParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
         const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
-        this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
+      //  this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
         return particularAgoraData;
     }
 
