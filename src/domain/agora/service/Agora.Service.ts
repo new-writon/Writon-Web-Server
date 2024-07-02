@@ -7,7 +7,7 @@ import { AgoraAddResult } from "../dto/response/AgoraAddResult.js";
 import { AgoraDataResult } from "../dto/response/\bAgoraDataResult.js";
 import { AgoraException } from "../exception/AgoraException.js";
 import { AgoraErrorCode } from "../exception/AgoraErrorCode.js";
-import { getKoreanDateISOString, getTodayDateString } from "../util/date.js";
+import {  getTodayDateString } from "../util/date.js";
 import { Agora } from "../domain/entity/Agora.js";
 import { MutexAlgorithm } from "../../../global/decorator/mutex.js";
 
@@ -22,7 +22,7 @@ export class AgoraService{
 
 
     public async checkAgora(challengeId:number, date:Date):Promise<AgoraAddResult>{
-        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date);
+        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date, false);
         const agoraLimitResult = this.checkAgoraLimit(particularAgoraData);
         return AgoraAddResult.of(agoraLimitResult);
     }
@@ -42,9 +42,8 @@ export class AgoraService{
     }
 
     public async bringAgora(userId:number, challengeId:number, date:Date){
-
         // 1. 특정 아고라 정보 조회
-        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDateException(challengeId, date);
+        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date, true);
         // 2. 1번 데이터에서 userChallengeId를 추출
         const userChallengeId = this.sortUserChallengeId(particularAgoraData);
         // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.

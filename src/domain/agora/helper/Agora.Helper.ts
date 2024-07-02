@@ -16,16 +16,18 @@ export class AgoraHelper{
     ){}
 
 
-    public async giveParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
+    public async giveParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date, verifyChecking:boolean):Promise<ParticularAgoraData[]>{
         const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
+        if(verifyChecking)
+            this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
         return particularAgoraData;
     }
 
-    public async giveParticularAgoraByChallengeIdAndDateException(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
-        const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
-        this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
-        return particularAgoraData;
-    }
+    // public async giveParticularAgoraByChallengeIdAndDateException(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
+    //     const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
+    //     this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
+    //     return particularAgoraData;
+    // }
 
 
 
