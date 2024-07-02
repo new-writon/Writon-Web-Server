@@ -13,29 +13,16 @@ export class UserController {
   private readonly logger = new Logger(UserController.name);
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  @HttpCode(200)
-  @UseGuards(JWTAuthGuard)
-  @UseInterceptors(CurrentUserInterceptor)
-  public async getHello(
-    @Body() testReqeustDto :TestRequestDto,
-    @Req() req:Request,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<string>>  {
-    console.log(user)
-    console.log(req.body)
-    const result :string = await this.userService.test(user.user_id);
-    return SuccessResponseDto.of(result);
-  }
+
 
   @Patch("/account")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async updateAccount(
+  public async modifyAccount(
     @Body() accountUpdate:AccountUpdate,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<string>>  {
-    await this.userService.updateAccount(accountUpdate.getAccountNumber(), accountUpdate.getBank(), user.user_id);
+    await this.userService.modifyAccount(accountUpdate.getAccountNumber(), accountUpdate.getBank(), user.user_id);
     this.logger.log("계좌 정보 업데이트 완료");
     return SuccessResponseDto.of();
   }

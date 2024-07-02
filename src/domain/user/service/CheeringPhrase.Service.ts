@@ -21,13 +21,13 @@ export class CheeringPhraseService{
 
 
 
-    public async bringMyInformation(userId:number, challengeId:number): Promise<Participant>{
+    public async bringParticipant(userId:number, challengeId:number): Promise<Participant>{
         const myInformationData = await this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId, challengeId);
         const sortedMyInformationData = this.sortCheeringAndPublic(new Array(myInformationData))
         return sortedMyInformationData[0]; 
     }
 
-    public async bringParticipantInformation(userId:number, challengeId:number): Promise<ParticipantComponent>{
+    public async bringParticipantComponent(userId:number, challengeId:number): Promise<ParticipantComponent>{
         const [participantData, participantCount, challengePeriod] = await Promise.all([
             this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId),
             this.userChallengeHelper.giveUserChallengePaticipantCount(challengeId),
@@ -36,7 +36,7 @@ export class CheeringPhraseService{
         return ParticipantComponent.of(challengePeriod, participantCount, participantData);
     }
 
-    public async insertCheeringPhrase(userId: number, organization: string, challengeId: number, content: string){
+    public async penetrateCheeringPhrase(userId: number, organization: string, challengeId: number, content: string){
         const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
         await this.userChallengeHelper.executeInsertCheeringPhrase(affiliationData.getAffiliationId(), challengeId, content);
     }

@@ -24,12 +24,12 @@ export class UserChallengeController {
     @Get('/:organization/:challengeId/daily-reflection')
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async signChallengeFinish(
+    public async signTemplateStatus(
         @Param('organization') organization: string,
         @Param('challengeId') challengeId: number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<TemplateStatus>>{
-        const result = await this.userChallengeService.signTodayTemplateStatus(user.user_id, organization, challengeId);
+        const result = await this.userChallengeService.signTemplateStatus(user.user_id, organization, challengeId);
         this.logger.log("챌린지 종료 여부 완료");
         return SuccessResponseDto.of(result);
     }
@@ -37,12 +37,12 @@ export class UserChallengeController {
     @Get('/present-situation/:organization/:challengeId')
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async presentSituation(
+    public async bringUserChallengeSituation(
         @Param('organization') organization: string,
         @Param('challengeId') challengeId: number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<UserChallengeSituation>>{
-        const result = await this.userChallengeService.presentSituation(user.user_id, organization, challengeId);
+        const result = await this.userChallengeService.bringUserChallengeSituation(user.user_id, organization, challengeId);
         this.logger.log("챌린지 현재 상황 조회 완료");
         return SuccessResponseDto.of(result);
     }
@@ -118,13 +118,13 @@ export class UserChallengeController {
     @Patch("/:organization/:challengeId/check-count")
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async updateUserChallengeCheckCount(
+    public async modifyUserChallengeCheckCount(
         @Body() userChallengeCheckCountUpdate: UserChallengeCheckCountUpdate,
         @Param("organization") organization:string,
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<null>> {
-        await this.userChallengeService.updateUserChallengeCheckCount(user.user_id, organization, challengeId, userChallengeCheckCountUpdate.getCheckCount());
+        await this.userChallengeService.modifyUserChallengeCheckCount(user.user_id, organization, challengeId, userChallengeCheckCountUpdate.getCheckCount());
         this.logger.log("유저 챌린지 체킹 카운트 업데이트 완료");
         return SuccessResponseDto.of();
     }

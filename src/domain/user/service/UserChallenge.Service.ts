@@ -30,7 +30,7 @@ export class UserChallengeService {
         private readonly userVerifyService: UserVerifyService 
     ) {}
 
-    public async signTodayTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
+    public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
 
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
         const userTemplateData : UserTemplete[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
@@ -38,7 +38,7 @@ export class UserChallengeService {
         return TemplateStatus.of(todayTemplateStatus);
     }
 
-    public async presentSituation(userId: number, organization: string, challengeId: number): Promise<UserChallengeSituation>{
+    public async bringUserChallengeSituation(userId: number, organization: string, challengeId: number): Promise<UserChallengeSituation>{
       
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
         const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
@@ -114,7 +114,7 @@ export class UserChallengeService {
         return UserChallengeCheckCount.of(userChallengeData.getCheckCount())
     }
 
-    public async updateUserChallengeCheckCount(userId:number,organization:string,challengeId:number, checkCount:number):Promise<void>{
+    public async modifyUserChallengeCheckCount(userId:number,organization:string,challengeId:number, checkCount:number):Promise<void>{
         const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId);
         this.userVerifyService.verifyUserChallenge(userChallengeData);
         await this.userChallengeHelper.executeUpdateUserChallengeCheckCount(userChallengeData.getId(), checkCount);

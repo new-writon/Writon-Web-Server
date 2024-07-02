@@ -19,7 +19,7 @@ export class AffiliationService{
         private readonly challengeApi: ChallengeApi
     ){}
 
-    public async enterAffiliation(userId:number, organization:string,     
+    public async penetrateAffiliation(userId:number, organization:string,     
         nickname: string,
         job: string,
         jobIntroduce: string,
@@ -31,13 +31,13 @@ export class AffiliationService{
     }
 
 
-    public async bringUserProfileAccordingToOrganization(userId:number, organization:string):Promise<UserProfile>{
+    public async bringUserProfile(userId:number, organization:string):Promise<UserProfile>{
         const userProfileData:UserProfile = await this.affiliationHelper.giveUserProfileByUserIdAndOrganization(userId, organization);
         return UserProfile.of(userProfileData);
     }
 
 
-    public async updateUserProfileAccordingToOrganization(
+    public async modifyProfileUpdate(
         userId:number,
         organization:string,
         nickname:string,

@@ -7,8 +7,7 @@ import { AffiliationService } from '../service/Affiliation.Service.js';
 import { AffiliationStart } from '../dto/request/AffiliationStart.js';
 import { UserProfile } from '../dto/response/UserProfile.js';
 import { ProfileUpdate } from '../dto/request/ProfileUpdate.js';
-import { Participant } from '../dto/response/Participant.js';
-import { ParticipantComponent } from '../dto/response/ParticipantComponent.js';
+
 
 
 @Controller("/api/user/affiliation")
@@ -20,12 +19,12 @@ export class AffiliationController {
   @Post("/enter")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async enterAffiliation(
+  public async penetrateAffiliation(
     @Body() affiliationStartDto: AffiliationStart,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
 
-    await this.affiliationService.enterAffiliation(user.user_id, affiliationStartDto.getOrganization(), affiliationStartDto.getNickname(),
+    await this.affiliationService.penetrateAffiliation(user.user_id, affiliationStartDto.getOrganization(), affiliationStartDto.getNickname(),
      affiliationStartDto.getJob(), affiliationStartDto.getJobIntroduce(), String(affiliationStartDto.getHireDate()), affiliationStartDto.getCompany(),
      affiliationStartDto.getCompanyPublic())
     this.logger.log("소속 참여 완료");
@@ -35,12 +34,12 @@ export class AffiliationController {
   @Put("/:organization/profile")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async updateUserProfileAccordingToOrganization(
+  public async modifyProfileUpdate(
     @Body() profileUpdate: ProfileUpdate,
     @Param('organization') organization: string,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.affiliationService.updateUserProfileAccordingToOrganization(user.user_id, organization, profileUpdate.getNickname(),
+    await this.affiliationService.modifyProfileUpdate(user.user_id, organization, profileUpdate.getNickname(),
     profileUpdate.getCompany(), profileUpdate.getHireDate(), profileUpdate.getJob(), profileUpdate.getJobIntroduce(), profileUpdate.getComanyPublic()
   );
    this.logger.log("소속 프로필 업데이트 완료");
@@ -51,11 +50,11 @@ export class AffiliationController {
   @Get('/:organization/profile')
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
-  public async bringUserProfileAccordingToOrganization(
+  public async bringUserProfile(
     @Param('organization') organization: string,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<UserProfile>>  {
-    const result = await this.affiliationService.bringUserProfileAccordingToOrganization(user.user_id, organization);
+    const result = await this.affiliationService.bringUserProfile(user.user_id, organization);
     this.logger.log("소속 프로필 조회 완료");
     return SuccessResponseDto.of(result);
   }
