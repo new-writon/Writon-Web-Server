@@ -20,13 +20,12 @@ export class AccountService {
 
         private readonly tokenManager: TokenManager,
         private readonly mailManager: MailManager,
-    //    private readonly userHelper: UserHelper,
         private readonly userApi: UserApi
     ) {}
 
 
 
-    public async localSignUp(identifier: string, password: string, email: string,): Promise<void> {
+    public async penetratelocalUser(identifier: string, password: string, email: string,): Promise<void> {
         const encryptedPassword = await bcrypt.hash(password, 10);
         await this.userApi.requestLocalSignUp(identifier, encryptedPassword, email);
     }

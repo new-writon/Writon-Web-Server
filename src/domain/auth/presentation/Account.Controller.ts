@@ -6,7 +6,7 @@ import { SiginUp } from "../dto/request/SignUp.js";
 import { TemporaryPassword } from "../dto/request/TemporaryPassword.js";
 import { UserIdentifier } from "../dto/response/UserIdentifier.js";
 import { AuthService } from "../service/Auth.Service.js";
-import { Body, Controller, Get, HttpCode, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Logger, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { JWTAuthGuard } from "../guards/JwtAuth.Guard.js";
 import { AccountService } from "../service/Account.Service.js";
 
@@ -16,7 +16,7 @@ import { AccountService } from "../service/Account.Service.js";
 @Controller("/api/auth/account")
 export class AccountController {
 
-
+  private readonly logger = new Logger(AccountController.name);
     constructor(
       private readonly accountService: AccountService
     ) {}
@@ -24,12 +24,12 @@ export class AccountController {
 
     @Post("/sign-up")
     @HttpCode(200)
-    public async localSignUp(
+    public async penetratelocalUser(
         @Body() signUp: SiginUp
     ): Promise<SuccessResponseDto<void>>  {
-
-     await this.accountService.localSignUp(signUp.geIdentifier(), signUp.getPassword(), signUp.getEmail());
-     return SuccessResponseDto.of();
+      await this.accountService.penetratelocalUser(signUp.geIdentifier(), signUp.getPassword(), signUp.getEmail());
+      this.logger.log("로컬 회원가입 완료");
+      return SuccessResponseDto.of();
     }
 
 
@@ -39,8 +39,8 @@ export class AccountController {
       @Query("email") email: string,
       @Query("code") code: string
     ): Promise<SuccessResponseDto<UserIdentifier>>  {
-  
       const result : UserIdentifier = await this.accountService.findIdentifier(email, code);
+      this.logger.log("아이디 찾기 완료");
       return SuccessResponseDto.of(result);
     }
   
@@ -50,8 +50,8 @@ export class AccountController {
     public async generateTemporaryPassword(
       @Body() temporaryPassword: TemporaryPassword
     ): Promise<SuccessResponseDto<void>>  {
-  
       await this.accountService.generateTemporaryPassword(temporaryPassword.getIdentifier(), temporaryPassword.getEmail());
+      this.logger.log("임시 비밀번호 생성 완료");
       return SuccessResponseDto.of();
     }
   
