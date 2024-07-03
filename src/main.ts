@@ -13,6 +13,11 @@ import { TokenInterceptor } from './domain/auth/interceptors/Token.Interceptor.j
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: true,
+    credentials: true,
+    exposedHeaders: ['Authorization'], // * 사용할 헤더 추가.
+  });
   const config = app.get<ConfigService<ConfigObject, true>>(ConfigService);
   app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalPipes(new ValidationPipe(config.get('validation')));
