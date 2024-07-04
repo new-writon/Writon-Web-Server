@@ -12,7 +12,10 @@ import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 import { SatisfactionObjectiveResult } from "./SatisfactionObjectiveResult.js";
 import { SatisfactionSubjectiveResult } from "./SatisfactionSubjectiveResult.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 @Index("Satiscation_challenge_id_fkey_idx", ["challenge_id"], {})
 @Entity("Satisfaction", { schema: "nest" })
