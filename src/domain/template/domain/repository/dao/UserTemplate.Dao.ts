@@ -143,7 +143,7 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         .from(UserTemplate, 'ut')
         .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
         .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
-        .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_templete_id AND qc.visibility = :visibility', { visibility})
+        .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_template_id AND qc.visibility = :visibility', { visibility})
         .where('ut.user_template_id = :userTemplateId', { userTemplateId })
         .getOne();
 }

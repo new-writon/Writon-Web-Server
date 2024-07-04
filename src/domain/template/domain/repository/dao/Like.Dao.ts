@@ -22,7 +22,7 @@ export class LikeDao extends Repository<Likes> implements LikeRepository{
 
     async findLikeWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Likes[]>{
         return this.dataSource.createQueryBuilder(Likes, 'l')
-        .innerJoinAndSelect('l.userTemplete', 'ut','ut.user_templete_id = l.user_templete_id')
+        .innerJoinAndSelect('l.userTemplate', 'ut','ut.user_template_id = l.user_template_id')
         .getMany();
     }
 
@@ -36,7 +36,7 @@ export class LikeDao extends Repository<Likes> implements LikeRepository{
             .delete()
             .from(Likes)
             .where('affiliation_id = :affiliationId', { affiliationId })
-            .andWhere('user_templete_id = :userTemplateId', { userTemplateId })
+            .andWhere('user_template_id = :userTemplateId', { userTemplateId })
             .execute();
     }
 
@@ -44,7 +44,7 @@ export class LikeDao extends Repository<Likes> implements LikeRepository{
         return this.dataSource.createQueryBuilder()
             .select('l')
             .from(Likes, 'l')
-            .where('l.user_templete_id = :userTemplateId',{userTemplateId})
+            .where('l.user_template_id = :userTemplateId',{userTemplateId})
             .getCount();
     }
 }
