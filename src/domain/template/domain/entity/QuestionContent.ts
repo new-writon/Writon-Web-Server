@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
   unique: true,
 })
 @Index("QuestionContent_question_id_fkey", ["question_id"], {})
-@Index("QuestionContent_user_templete_id_fkey", ["user_templete_id"], {})
+@Index("QuestionContent_user_template_id_fkey", ["user_template_id"], {})
 @Entity("QuestionContent", { schema: "nest" })
 export class QuestionContent extends BaseEntity{
 
@@ -46,7 +46,7 @@ export class QuestionContent extends BaseEntity{
   @Column("int", { primary: true, name: "question_id" })
   question_id: number;
 
-  @Column("int", { primary: true, name: "user_templete_id" })
+  @Column("int", { primary: true, name: "user_template_id" })
   user_template_id: number;
 
   @Column("text", { name: "content" })
@@ -68,7 +68,7 @@ export class QuestionContent extends BaseEntity{
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
-    { name: "user_templete_id", referencedColumnName: "user_templete_id" },
+    { name: "user_template_id", referencedColumnName: "user_template_id" },
   ])
   userTemplate: Relation<UserTemplate>;
 

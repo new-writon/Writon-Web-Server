@@ -19,8 +19,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Index("UserTemplete_user_challenge_id_fkey", ["user_challenge_id"], {})
-@Entity("UserTemplete")
+@Index("UserTemplate_user_challenge_id_fkey", ["user_challenge_id"], {})
+@Entity("UserTemplate")
 export class UserTemplate extends BaseEntity{
 
   constructor(   
@@ -34,7 +34,7 @@ export class UserTemplate extends BaseEntity{
     this.setComplete(complete);
   }
 
-  @PrimaryGeneratedColumn({ type: "int", name: "user_templete_id" })
+  @PrimaryGeneratedColumn({ type: "int", name: "user_template_id" })
   user_template_id: number;
 
   @Column("int", { name: "user_challenge_id" })

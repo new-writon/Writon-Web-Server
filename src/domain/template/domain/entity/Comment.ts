@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 @Index("Comment_comment_id_key", ["comment_id"], { unique: true })
-@Index("Comment_user_templete_id_fkey", ["user_templete_id"], {})
+@Index("Comment_user_template_id_fkey", ["user_template_id"], {})
 @Index("Comment_comment_group_fkey", ["comment_group"], {})
 @Index("Comment_affiliation_id_fkey_idx", ["affiliation_id"], {})
 @Entity("Comment")
@@ -43,7 +43,7 @@ export class Comment extends BaseEntity{
   @Column("int", { name: "comment_group", nullable: true })
   comment_group: number | null;
 
-  @Column("int", { primary: true, name: "user_templete_id" })
+  @Column("int", { primary: true, name: "user_template_id" })
   user_template_id: number;
 
   @Column("int", { primary: true, name: "affiliation_id" })

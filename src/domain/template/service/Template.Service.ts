@@ -5,7 +5,7 @@ import { WriteTemplateContent } from '../dto/TemplateContent.js';
 import { ChallengeApi } from '../infrastructure/Challenge.Api.js';
 import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction.js';
 import { UserTemplateHelper } from '../helper/UserTemplate.Helper.js';
-import { UserTemplete } from '../domain/entity/UserTemplate.js';
+import { UserTemplate } from '../domain/entity/UserTemplate.js';
 import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
 import { Affiliation } from '../../user/domain/entity/Affiliation.js';
 import { Transactional } from '../../../global/decorator/transaction.js';
@@ -73,7 +73,7 @@ export class TemplateService {
         return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
     }
 
-    private mergeForOneTemplate(affiliationData: Affiliation, userTemplateData: UserTemplete, questionDatas: Question[], userChallengeData:UserChallenge) {
+    private mergeForOneTemplate(affiliationData: Affiliation, userTemplateData: UserTemplate, questionDatas: Question[], userChallengeData:UserChallenge) {
         return questionDatas.map((questionData) => {
             const questionContent = userTemplateData.getQuestionContents().find(
                 (content) => content.getQuestionId() === questionData.getId());
@@ -102,7 +102,7 @@ export class TemplateService {
             )}).filter(item => item !== null);
     }
 
-    private mergeForManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplete[], questionDatas: Question[], userChallengeDatas:UserChallenge[]) {
+    private mergeForManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeDatas:UserChallenge[]) {
         return userTemplateDatas.map(userTemplateData => {
             return questionDatas.map(questionData => {
                 const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
@@ -134,16 +134,16 @@ export class TemplateService {
         });
     }
 
-    private extractCompleteCount(userTemplates:UserTemplete[]){
+    private extractCompleteCount(userTemplates:UserTemplate[]){
         return userTemplates.map((userTemplate)=>userTemplate.getComplete()).length;
     }
     
     
-    private extractQuestionId(userTemplate:UserTemplete){
+    private extractQuestionId(userTemplate:UserTemplate){
         return userTemplate.getQuestionContents().map((data)=> data.getQuestionId())
     }
 
-    private extractQuestionIds(userTemplates:UserTemplete[]){
+    private extractQuestionIds(userTemplates:UserTemplate[]){
         return userTemplates.flatMap((userTemplate)=>{
             return userTemplate.getQuestionContents().map((questionContent) =>
                questionContent.getQuestionId()
@@ -211,7 +211,7 @@ export class TemplateService {
 
 
 
-    private extractAffiliationIdAccordingToCommentAndLike(userTemplate:UserTemplete[]){
+    private extractAffiliationIdAccordingToCommentAndLike(userTemplate:UserTemplate[]){
         const commentAffiliationIds: number[] = userTemplate.flatMap(userTemplate => userTemplate.comments.map(comment => comment.getAffiliationId()));
         const likeAffiliationIds: number[] = userTemplate.flatMap(userTemplate => userTemplate.likes.map(like => like.getAffiliationId()));
         return { commentAffiliationIds, likeAffiliationIds };
@@ -223,7 +223,7 @@ export class TemplateService {
      * @param userChallengeAndAffiliationData 유저 챌린지와 소속 데이터가 포함된 데이터
      * @returns 유저가 자신의 템플릿에 단 댓글이 제거된 데이터
      */
-    private makeCommentShapeAccordingToUserTemplate(userTemplate: UserTemplete[], userChallengeAndAffiliationData: UserChallenge, affiliation: Affiliation[]):GetCommentNotify[] {
+    private makeCommentShapeAccordingToUserTemplate(userTemplate: UserTemplate[], userChallengeAndAffiliationData: UserChallenge, affiliation: Affiliation[]):GetCommentNotify[] {
         return userTemplate.flatMap((userTemplate) => 
             userTemplate.comments
                 .filter((comment) => comment.getAffiliationId() !== userChallengeAndAffiliationData.affiliation.getId())
@@ -243,7 +243,7 @@ export class TemplateService {
     }
     
 
-    private makeLikeShapeAccordingToUserTemplate(userTemplate: UserTemplete[], userChallengeAndAffiliationData:UserChallenge, affiliation: Affiliation[]):GetLikeNotify[]{
+    private makeLikeShapeAccordingToUserTemplate(userTemplate: UserTemplate[], userChallengeAndAffiliationData:UserChallenge, affiliation: Affiliation[]):GetLikeNotify[]{
         return userTemplate.flatMap((userTemplate) => userTemplate.likes.filter((like)=> like.getAffiliationId() !== userChallengeAndAffiliationData.affiliation.getId())
         .map((like) => {
             const matchedAffiliation = affiliation.find(affiliation => affiliation.getId() === like.getAffiliationId());

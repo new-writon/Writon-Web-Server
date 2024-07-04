@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 
 
 @Index("Like_like_id_key", ["like_id"], { unique: true })
-@Index("Like_user_templete_id_fkey", ["user_templete_id"], {})
+@Index("Like_user_template_id_fkey", ["user_template_id"], {})
 @Index("Like_affiliation_id_fkey_idx", ["affiliation_id"], {})
 @Entity("Likes", { schema: "nest" })
 export class Likes extends BaseEntity{
@@ -38,7 +38,7 @@ export class Likes extends BaseEntity{
   @Column("int", { primary: true, name: "affiliation_id" })
   affiliation_id: number;
 
-  @Column("int", { primary: true, name: "user_templete_id" })
+  @Column("int", { primary: true, name: "user_template_id" })
   user_template_id: number;
 
   @Column("tinyint", { name: "check", nullable: true })

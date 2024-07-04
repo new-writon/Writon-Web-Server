@@ -20,7 +20,7 @@ import { SatisfactionSubjectiveResult } from '../../domain/satisfaction/domain/e
 import { Question } from '../../domain/challenge/domain/entity/Question.js';
 import { QuestionContent } from '../../domain/template/domain/entity/QuestionContent.js';
 import { QuestionTag } from '../../domain/challenge/domain/entity/QuestionTag.js';
-import { UserTemplete } from '../../domain/template/domain/entity/UserTemplate.js';
+import { UserTemplate } from '../../domain/template/domain/entity/UserTemplate.js';
 import { Comment } from '../../domain/template/domain/entity/Comment.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -39,7 +39,7 @@ const dataSourceOptions: DataSourceOptions = {
     Challenge, ChallengeDay, ChallengeDepositDeduction,
     ErrorLog, Agora, AgoraComment,  Likes,
     Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
-    QuestionTag, UserTemplete, Comment, UserChallenge, Question, QuestionContent,
+    QuestionTag, UserTemplate, Comment, UserChallenge, Question, QuestionContent,
 
   ],
   synchronize: false,
@@ -63,7 +63,7 @@ export const dataSource = registerAs('data-source', () => {
       Challenge, ChallengeDay, ChallengeDepositDeduction,
       ErrorLog, Agora, AgoraComment,  Likes,
       Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
-      QuestionTag, UserTemplete, Comment, UserChallenge, Question, QuestionContent,
+      QuestionTag, UserTemplate, Comment, UserChallenge, Question, QuestionContent,
     ],
     logging: ['query', 'error']
   } as TypeOrmModuleOptions;

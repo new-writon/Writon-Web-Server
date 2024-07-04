@@ -1,10 +1,10 @@
 import { ChallengeDay } from "../../challenge/domain/entity/ChallengeDay.js";
-import { UserTemplete } from "../../template/domain/entity/UserTemplate.js";
+import { UserTemplate } from "../../template/domain/entity/UserTemplate.js";
 
 
 const sortCallendarDateBadge = (
     challengeDays: ChallengeDay[],
-    userTemplateDays: UserTemplete[]
+    userTemplateDays: UserTemplate[]
 ) => {
     const result = [];
     for (const challengeDay of challengeDays!) {

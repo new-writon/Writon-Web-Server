@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UserTemplete } from '../../template/domain/entity/UserTemplate.js';
+import { UserTemplate } from '../../template/domain/entity/UserTemplate.js';
 import { Affiliation } from '../domain/entity/Affiliation.js';
 import { checkData } from '../../auth/util/checker.js';
 import { TemplateStatus } from '../dto/response/TemplateStatus.js';
@@ -33,7 +33,7 @@ export class UserChallengeService {
     public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
 
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
-        const userTemplateData : UserTemplete[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
+        const userTemplateData : UserTemplate[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
         const todayTemplateStatus : boolean = this.verifyTodayTemplateStatus(userTemplateData);
         return TemplateStatus.of(todayTemplateStatus);
     }
@@ -123,7 +123,7 @@ export class UserChallengeService {
 
   
 
-    private verifyTodayTemplateStatus(userTemplete: UserTemplete[]): boolean{
+    private verifyTodayTemplateStatus(userTemplete: UserTemplate[]): boolean{
         if(!checkData(userTemplete[0]))
             return true;
         return false;

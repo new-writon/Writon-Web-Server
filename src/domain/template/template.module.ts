@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Comment } from './domain/entity/Comment.js';
 import { Likes } from './domain/entity/Likes.js';
 import { QuestionContent } from './domain/entity/QuestionContent.js';
-import { UserTemplete } from './domain/entity/UserTemplate.js';
+import { UserTemplate } from './domain/entity/UserTemplate.js';
 import { UserTemplateHelper } from './helper/UserTemplate.Helper.js';
 import { UserTemplateDao } from './domain/repository/dao/UserTemplate.Dao.js';
 import { TemplateController } from './presentation/Template.Controller.js';
@@ -32,7 +32,7 @@ import { TemplateVerifyService } from './domain/service/TemplateVerify.Service.j
 @Module({
   imports: [
  
-    TypeOrmModule.forFeature([Comment, Likes, QuestionContent, UserTemplete]),
+    TypeOrmModule.forFeature([Comment, Likes, QuestionContent, UserTemplate]),
     forwardRef(() => UserModule),
     ChallengeModule
   ],
