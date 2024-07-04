@@ -34,7 +34,7 @@ export class UserTemplateTransaction {
         });   
     }
 
-    private createQuestionContentObject(templateContent: InsertUserTemplateContent){
+    private createQuestionContentObject(templateContent: InsertUserTemplateContent):QuestionContent{
         return QuestionContent.createQuestionContent(templateContent.getQuestionId(), templateContent.getContent(), templateContent.getVisibility(), templateContent.getUserTempleteId());
     }
 

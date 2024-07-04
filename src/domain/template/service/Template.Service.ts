@@ -71,7 +71,6 @@ export class TemplateService {
         const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
         return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
-    //    return sortedCompanyData;
     }
 
     private mergeForOneTemplate(affiliationData: Affiliation, userTemplateData: UserTemplete, questionDatas: Question[], userChallengeData:UserChallenge) {

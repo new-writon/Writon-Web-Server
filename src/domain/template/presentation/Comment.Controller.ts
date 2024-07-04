@@ -20,8 +20,21 @@ export class CommentController{
         private readonly commentService: CommentService
     ){}
 
+    @Get("/:organization/challengeId/:challengeId")
+    @HttpCode(200)
+    @UseGuards(JWTAuthGuard)
+    public async bringMyComment(
+      @Param('organization') organization: string,
+      @Param('challengeId') challengeId: number,
+      @CurrentUser() user: User
+    ): Promise<SuccessResponseDto<MyComment[]>>  {
+      const result = await this.commentService.bringMyComment(user.user_id, organization, challengeId);
+      this.logger.log("챌린지에 따른 내가 단 댓글 조회 완료");
+      return SuccessResponseDto.of(result);
+    }
 
-    @Get("/:organization/:userTemplateId")
+
+    @Get("/:organization/userTemplateId/:userTemplateId")
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async bringCommentInformation(
@@ -45,18 +58,7 @@ export class CommentController{
       return SuccessResponseDto.of();
     }
 
-    @Get("/:organization/:challengeId")
-    @HttpCode(200)
-    @UseGuards(JWTAuthGuard)
-    public async bringMyComment(
-      @Param('organization') organization: string,
-      @Param('challengeId') challengeId: number,
-      @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<MyComment[]>>  {
-      const result = await this.commentService.bringMyComment(user.user_id, organization, challengeId);
-      this.logger.log("챌린지에 따른 내 템플릿 조회 완료");
-      return SuccessResponseDto.of(result);
-    }
+
 
 
     @Patch()

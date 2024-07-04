@@ -15,7 +15,9 @@ export class CommentHelper{
 
 
     public async giveCommentByAffiliationIdWithChallengeId(affilationId:number,challengeId:number):Promise<Comment[]>{
-        return this.commentRepository.findCommentByAffiliationIdWithChallengeId(affilationId, challengeId);
+        const commentData = await this.commentRepository.findCommentByAffiliationIdWithChallengeId(affilationId, challengeId);
+        this.templateVerifyService.verifyComment(commentData[0]);
+        return commentData;
     }
 
     public async executeUpdateCommentCheck(commentId: number):Promise<void>{
