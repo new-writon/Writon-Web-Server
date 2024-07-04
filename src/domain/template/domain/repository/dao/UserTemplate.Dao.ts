@@ -131,7 +131,7 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
     return this.dataSource.createQueryBuilder(UserTemplate, 'ut')
       .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
       .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
-      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_template_id AND qc.visibility = 1')
+      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_template_id AND qc.visibility = 1')
       .where('ut.user_challenge_id IN (:...userChallengeId)',{userChallengeId})
       .andWhere("ut.finished_at = :date", {date})
       .getMany();
