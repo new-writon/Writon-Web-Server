@@ -17,6 +17,11 @@ import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity
 import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 @Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
   unique: true,

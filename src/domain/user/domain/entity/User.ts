@@ -9,6 +9,11 @@ import {
 import { Affiliation } from "./Affiliation.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 @Index("User_identifier_key", ["identifier"], { unique: true })
 @Index("User_email_key", ["email"], { unique: true })
