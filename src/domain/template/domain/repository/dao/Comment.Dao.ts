@@ -13,7 +13,7 @@ export class CommentDao extends Repository<Comment> implements CommentRepository
 
     async findCommentByAffiliationIdWithChallengeId(affiliationId: number, challengeId:number): Promise<Comment[]> {
         return this.dataSource.createQueryBuilder(Comment, 'c')
-            .innerJoinAndSelect('c.userTemplete', 'ut')
+            .innerJoinAndSelect('c.userTemplate', 'ut')
             .innerJoin(UserChallenge,'uc', 'uc.user_challenge_id = ut.user_challenge_id')
             .where('c.affiliation_id = :affiliationId', { affiliationId })
             .andWhere('uc.challenge_id = :challengeId',{challengeId})
