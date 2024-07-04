@@ -14,7 +14,10 @@ import { QuestionContent } from "./QuestionContent.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
-
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 @Index("UserTemplete_user_challenge_id_fkey", ["user_challenge_id"], {})
 @Entity("UserTemplete")

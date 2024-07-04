@@ -11,6 +11,11 @@ import { Question } from "../../../challenge/domain/entity/Question.js";
 import { UserTemplete } from "./UserTemplete.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 
 @Index("QuestionContent_question_content_id_key", ["question_content_id"], {
