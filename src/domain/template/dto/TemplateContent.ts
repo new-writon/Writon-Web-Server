@@ -1,11 +1,17 @@
+import { IsNotEmpty } from "class-validator";
 
 
 
 
 export class WriteTemplateContent{
 
-    private question_id: number
+    @IsNotEmpty()
+    private question_id: number;
+
+    @IsNotEmpty()
     private content: string
+
+    @IsNotEmpty()
     private visibility: boolean
 
     public getQuestionId(){

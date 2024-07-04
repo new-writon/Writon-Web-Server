@@ -1,5 +1,6 @@
 import { IsNotEmpty } from "class-validator";
 import { WriteTemplateContent } from "../TemplateContent.js";
+import { Type } from "class-transformer";
 
 
 export class TemplateUpdate{
@@ -8,6 +9,7 @@ export class TemplateUpdate{
     @IsNotEmpty()
     private userTemplateId: number;
 
+    @Type(() => WriteTemplateContent)
     @IsNotEmpty()
     private templateContent:Array<WriteTemplateContent>;
 
