@@ -16,7 +16,10 @@ import { Question } from "./Question.js";
 import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 @Index("Challenge_challenge_id_key", ["challenge_id"], { unique: true })
 @Index("Challenge_affiliation_id_fkey", ["affiliation_id"], {})
