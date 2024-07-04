@@ -24,7 +24,7 @@ export class AgoraService{
     public async checkAgora(challengeId:number, date:Date):Promise<AgoraAddResult>{
         const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date, false);
         const agoraLimitResult = this.checkAgoraLimit(particularAgoraData);
-        return AgoraAddResult.of(agoraLimitResult);
+        return AgoraAddResult.of(null);
     }
 
     @MutexAlgorithm()
