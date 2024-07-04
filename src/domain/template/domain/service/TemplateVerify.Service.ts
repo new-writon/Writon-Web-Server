@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { UserTemplete } from "../entity/UserTemplete.js";
+import { UserTemplate } from "../entity/UserTemplate.js";
 import { checkData } from "../../util/checker.js";
 import { TemplateException } from "../../exception/TemplateException.js";
 import { TemplateErrorCode } from "../../exception/TemplateErrorCode.js";
@@ -10,12 +10,12 @@ import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 @Injectable()
 export class TemplateVerifyService{
 
-    public verifyUserTemplates(userTemplates:UserTemplete[] ){
+    public verifyUserTemplates(userTemplates:UserTemplate[] ){
         if(!checkData(userTemplates[0]))
             throw new TemplateException(TemplateErrorCode.NOT_FOUND_USERTEMPLATE);
     }
 
-    public verifyUserTemplate(userTemplate:UserTemplete){
+    public verifyUserTemplate(userTemplate:UserTemplate){
         if(!checkData(userTemplate))
             throw new TemplateException(TemplateErrorCode.NOT_FOUND_USERTEMPLATE);
     }

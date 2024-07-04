@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { UserTemplateRepository } from "../domain/repository/UserTemplate.Repository.js";
-import { UserTemplete } from "../domain/entity/UserTemplete.js";
+import { UserTemplate } from "../domain/entity/UserTemplate.js";
 import { TemplateContent } from "../dto/response/TemplateContent.js";
 import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service.js";
 
@@ -14,7 +14,7 @@ export class UserTemplateHelper{
         private readonly templateVerifyService: TemplateVerifyService
     ){}
 
-    public async giveUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplete[]>{
+    public async giveUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplate[]>{
         return this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
     };
 
@@ -22,7 +22,7 @@ export class UserTemplateHelper{
         return this.userTemplateRepository.findChallengeSuccessChallengeCount(affiliationId, challengeId);
     };
 
-    public async giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
+    public async giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
         return this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
     }
 
@@ -30,21 +30,21 @@ export class UserTemplateHelper{
         return this.userTemplateRepository.findUserTemplateByChallengeIdForAffiliationId(affiliationId, challengeId);
     }
 
-    public async exexuteInsertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplete>{
+    public async exexuteInsertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate>{
         return this.userTemplateRepository.insertUserTemplate(userChallnegeId, date, complete);
     }
 
-    public async giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplete[]>{
+    public async giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplate[]>{
         const userTemplate = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId);
         this.templateVerifyService.verifyUserTemplates(userTemplate);
         return userTemplate;
     }
 
-    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplete[]>{
+    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplate[]>{
         return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId, date);
     }
 
-    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId:number, visibility:boolean):Promise<UserTemplete>{
+    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId:number, visibility:boolean):Promise<UserTemplate>{
         return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility);
     }
 

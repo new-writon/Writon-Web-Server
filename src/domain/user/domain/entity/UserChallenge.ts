@@ -11,7 +11,7 @@ import {
 } from "typeorm";
 import { Affiliation } from "./Affiliation.js";
 import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
-import { UserTemplete } from "../../../template/domain/entity/UserTemplete.js";
+import { UserTemplate } from "../../../template/domain/entity/UserTemplate.js";
 import { Agora } from "../../../agora/domain/entity/Agora.js";
 import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionObjectiveResult.js";
 import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
@@ -104,8 +104,8 @@ export class UserChallenge extends BaseEntity{
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 
-  @OneToMany(() => UserTemplete, (userTemplete) => userTemplete.userChallenge)
-  userTempletes: Relation<UserTemplete>[];
+  @OneToMany(() => UserTemplate, (userTemplate) => userTemplate.userChallenge)
+  userTemplates: Relation<UserTemplate>[];
 
 
   private setAffiliationId(affiliationId: number){

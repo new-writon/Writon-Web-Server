@@ -8,7 +8,7 @@ import {
   Relation
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { UserTemplete } from "./UserTemplete.js";
+import { UserTemplate } from "./UserTemplate.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -44,7 +44,7 @@ export class Comment extends BaseEntity{
   comment_group: number | null;
 
   @Column("int", { primary: true, name: "user_templete_id" })
-  user_templete_id: number;
+  user_template_id: number;
 
   @Column("int", { primary: true, name: "affiliation_id" })
   affiliation_id: number;
@@ -64,14 +64,14 @@ export class Comment extends BaseEntity{
   ])
   affiliation: Relation<Affiliation>;
 
-  @ManyToOne(() => UserTemplete, (userTemplete) => userTemplete.comments, {
+  @ManyToOne(() => UserTemplate, (userTemplate) => userTemplate.comments, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "user_templete_id", referencedColumnName: "user_templete_id" },
+    { name: "user_template_id", referencedColumnName: "user_template_id" },
   ])
-  userTemplete: Relation<UserTemplete>;
+  userTemplate: Relation<UserTemplate>;
 
 
   public static createComment(affiliationId:number, content:string, userTemplateId:number, commentGroup:number){
@@ -80,7 +80,7 @@ export class Comment extends BaseEntity{
 
 
   public getUserTemplateId(){
-    return this.user_templete_id;
+    return this.user_template_id;
   }
 
   public getId(){
@@ -117,7 +117,7 @@ export class Comment extends BaseEntity{
   }
 
   private setUserTemplateId(userTemplateId:number){
-    this.user_templete_id=userTemplateId;
+    this.user_template_id=userTemplateId;
   }
 
   private setCommentGroup(commentGroup:number){

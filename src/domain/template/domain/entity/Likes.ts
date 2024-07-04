@@ -8,7 +8,7 @@ import {
   Relation
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { UserTemplete } from "./UserTemplete.js";
+import { UserTemplate } from "./UserTemplate.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -39,7 +39,7 @@ export class Likes extends BaseEntity{
   affiliation_id: number;
 
   @Column("int", { primary: true, name: "user_templete_id" })
-  user_templete_id: number;
+  user_template_id: number;
 
   @Column("tinyint", { name: "check", nullable: true })
   check: number | null;
@@ -53,14 +53,14 @@ export class Likes extends BaseEntity{
   ])
   affiliation: Relation<Affiliation>;
 
-  @ManyToOne(() => UserTemplete, (userTemplete) => userTemplete.likes, {
+  @ManyToOne(() => UserTemplate, (userTemplate) => userTemplate.likes, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "user_templete_id", referencedColumnName: "user_templete_id" },
+    { name: "user_template_id", referencedColumnName: "user_template_id" },
   ])
-  userTemplete: Relation<UserTemplete>;
+  userTemplate: Relation<UserTemplate>;
 
   public static createLike(affiliationId:number, userTemplateId:number){
     return new Likes(affiliationId, userTemplateId);
@@ -71,7 +71,7 @@ export class Likes extends BaseEntity{
   }
 
   private setUserTemplateId(userTemplateId:number){
-    this.user_templete_id=userTemplateId;
+    this.user_template_id=userTemplateId;
   }
 
   public getCreatedAt(){

@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 
 @Index("UserTemplete_user_challenge_id_fkey", ["user_challenge_id"], {})
 @Entity("UserTemplete")
-export class UserTemplete extends BaseEntity{
+export class UserTemplate extends BaseEntity{
 
   constructor(   
     userChallengeId:number,
@@ -35,7 +35,7 @@ export class UserTemplete extends BaseEntity{
   }
 
   @PrimaryGeneratedColumn({ type: "int", name: "user_templete_id" })
-  user_templete_id: number;
+  user_template_id: number;
 
   @Column("int", { name: "user_challenge_id" })
   user_challenge_id: number;
@@ -46,21 +46,21 @@ export class UserTemplete extends BaseEntity{
   @Column("tinyint", { name: "complete", nullable: true, width: 1 })
   complete: boolean | null;
 
-  @OneToMany(() => Comment, (comment) => comment.userTemplete)
+  @OneToMany(() => Comment, (comment) => comment.userTemplate)
   comments: Relation<Comment>[];
 
-  @OneToMany(() => Likes, (likes) => likes.userTemplete)
+  @OneToMany(() => Likes, (likes) => likes.userTemplate)
   likes: Relation<Likes>[];
 
   @OneToMany(
     () => QuestionContent,
-    (questionContent) => questionContent.userTemplete
+    (questionContent) => questionContent.userTemplate
   )
   questionContents: Relation<QuestionContent>[];
 
   @ManyToOne(
     () => UserChallenge,
-    (userChallenge) => userChallenge.userTempletes,
+    (userChallenge) => userChallenge.userTemplates,
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
@@ -73,7 +73,7 @@ export class UserTemplete extends BaseEntity{
     finished_at:Date,
     complete:boolean
   ){
-    return new UserTemplete(userChallengeId,finished_at,complete);
+    return new UserTemplate(userChallengeId,finished_at,complete);
   }
 
   private setUserChallengeId(userChallengeId:number){
@@ -93,7 +93,7 @@ export class UserTemplete extends BaseEntity{
   }
 
   public getId(){
-    return this.user_templete_id
+    return this.user_template_id
   }
 
   public getFinishedAt(): Date{

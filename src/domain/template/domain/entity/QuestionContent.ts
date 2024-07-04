@@ -8,7 +8,7 @@ import {
   Relation
 } from "typeorm";
 import { Question } from "../../../challenge/domain/entity/Question.js";
-import { UserTemplete } from "./UserTemplete.js";
+import { UserTemplate } from "./UserTemplate.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 import path from 'path';
@@ -31,13 +31,13 @@ export class QuestionContent extends BaseEntity{
     question_id: number,
     content: string,
     visibility: boolean,
-    user_templete_id: number
+    user_template_id: number
   ){
     super(),
     this.setQuestionId(question_id);
     this.setContent(content);
     this.setVisibility(visibility);
-    this.setUserTemplateId(user_templete_id);
+    this.setUserTemplateId(user_template_id);
   }
 
   @PrimaryGeneratedColumn({ type: "int", name: "question_content_id" })
@@ -47,7 +47,7 @@ export class QuestionContent extends BaseEntity{
   question_id: number;
 
   @Column("int", { primary: true, name: "user_templete_id" })
-  user_templete_id: number;
+  user_template_id: number;
 
   @Column("text", { name: "content" })
   content: string;
@@ -63,14 +63,14 @@ export class QuestionContent extends BaseEntity{
   question: Relation<Question>;
 
   @ManyToOne(
-    () => UserTemplete,
-    (userTemplete) => userTemplete.questionContents,
+    () => UserTemplate,
+    (userTemplate) => userTemplate.questionContents,
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
     { name: "user_templete_id", referencedColumnName: "user_templete_id" },
   ])
-  userTemplete: Relation<UserTemplete>;
+  userTemplate: Relation<UserTemplate>;
 
   public getId (){
     return this.question_content_id;
@@ -93,8 +93,8 @@ export class QuestionContent extends BaseEntity{
     question_id: number,
     content: string,
     visibility: boolean,
-    user_templete_id: number){
-      return new QuestionContent(question_id, content, visibility, user_templete_id);
+    user_template_id: number){
+      return new QuestionContent(question_id, content, visibility, user_template_id);
     }
 
   private setQuestionId(questionId: number){
@@ -114,6 +114,6 @@ export class QuestionContent extends BaseEntity{
 
   private setUserTemplateId(userTemplateId:number){
     if(userTemplateId=== null) throw new InternalServerErrorException (`${__dirname} : userTemplateId 값이 존재하지 않습니다.`);
-    this.user_templete_id=userTemplateId
+    this.user_template_id=userTemplateId
   }
 }

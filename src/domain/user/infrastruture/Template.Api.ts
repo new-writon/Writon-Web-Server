@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { UserTemplete } from "src/domain/template/domain/entity/UserTemplete.js";
+import { UserTemplate } from "src/domain/template/domain/entity/UserTemplate.js";
 import { UserTemplateHelper } from "../../../domain/template/helper/UserTemplate.Helper.js";
 
 
@@ -11,7 +11,7 @@ export class TemplateApi{
         private readonly userTemplateHelper: UserTemplateHelper
     ){}
 
-    public async requestUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplete[]>{
+    public async requestUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplate[]>{
         return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
     }
 
@@ -21,7 +21,7 @@ export class TemplateApi{
     }
 
 
-    public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
+    public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
         return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
     }
 }

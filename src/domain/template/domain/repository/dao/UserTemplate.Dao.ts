@@ -1,6 +1,6 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { UserTemplete } from '../../entity/UserTemplete.js';
+import { UserTemplate } from '../../entity/UserTemplate.js';
 import { UserChallenge } from '../../../../user/domain/entity/UserChallenge.js';
 import { TemplateContent } from '../../../dto/response/TemplateContent.js';
 import { UserTemplateRepository } from '../UserTemplate.Repository.js';
@@ -10,13 +10,13 @@ import { UserTemplateRepository } from '../UserTemplate.Repository.js';
  * User DAO Class
  */
 @Injectable()
-export class UserTemplateDao extends Repository<UserTemplete> implements UserTemplateRepository {
-    constructor(private dataSource: DataSource) { super(UserTemplete, dataSource.createEntityManager()); }
+export class UserTemplateDao extends Repository<UserTemplate> implements UserTemplateRepository {
+    constructor(private dataSource: DataSource) { super(UserTemplate, dataSource.createEntityManager()); }
 
 
-    async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplete[]> {
+    async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplate[]> {
         return this.query(`
-        select ut.* from UserTemplete as ut
+        select ut.* from UserTemplate as ut
         where date(ut.finished_at) = curdate() 
         and
         ut.user_challenge_id = (select uc.user_challenge_id
@@ -31,7 +31,7 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
   async findChallengeSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
 
     const data = await this.query(`
-        select count(*) as count from UserTemplete as ut
+        select count(*) as count from UserTemplate as ut
         where ut.complete = 1
         and
         ut.user_challenge_id = (select uc.user_challenge_id
@@ -43,10 +43,10 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
    }
 
 
-   async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplete[]>{
+   async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
     return this.createQueryBuilder('ut')
         .select('ut.*')
-        .from(UserTemplete, 'ut')
+        .from(UserTemplate, 'ut')
         .where('ut.user_challenge_id = :userChallengeId', {
             userChallengeId: (qb) => {
                 qb.select('uc.user_challenge_id')
@@ -64,7 +64,7 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
     return await this.dataSource.createQueryBuilder()
       .select([
         'qc.question_id AS question_id ',
-        'qc.user_templete_id AS user_templete_id',
+        'qc.user_template_id AS user_templete_id',
         'qc.question_content_id AS question_content_id',
         'qc.content AS content',
         'ut.finished_at AS created_at',
@@ -80,19 +80,19 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
       .addSelect('COUNT(DISTINCT l.like_id)', 'likeCount')
       .addSelect('COUNT(DISTINCT cm.comment_id)', 'commentCount')
       .addSelect(`CASE WHEN MAX(CAST(l.affiliation_id AS SIGNED)) = ${affiliationId} THEN 1 ELSE 0 END`, 'myLikeSign')
-      .from(UserTemplete, 'ut')
+      .from(UserTemplate, 'ut')
       .innerJoin('UserChallenge', 'uc', 'ut.user_challenge_id = uc.user_challenge_id')
-      .innerJoin('QuestionContent', 'qc', 'ut.user_templete_id = qc.user_templete_id')
+      .innerJoin('QuestionContent', 'qc', 'ut.user_template_id = qc.user_template_id')
       .innerJoin('Question', 'q', 'q.question_id = qc.question_id')
       .innerJoin('Affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
       .innerJoin('User', 'u', 'u.user_id = a.user_id')
-      .leftJoin('Likes', 'l', 'l.user_templete_id = ut.user_templete_id')
-      .leftJoin('Comment', 'cm', 'cm.user_templete_id = ut.user_templete_id')
+      .leftJoin('Likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .leftJoin('Comment', 'cm', 'cm.user_template_id = ut.user_template_id')
       .where('uc.affiliation_id = :affiliationId', { affiliationId })
       .andWhere('uc.challenge_id = :challengeId', { challengeId })
       .groupBy([
         'qc.question_id',
-        'qc.user_templete_id',
+        'qc.user_template_id',
         'qc.question_content_id',
         'qc.content',
         'q.category',
@@ -113,38 +113,38 @@ export class UserTemplateDao extends Repository<UserTemplete> implements UserTem
   }
 
 
-  async insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplete> {
-    const newUserTemplate = UserTemplete.createUserTemplate(userChallnegeId, date, complete);
+  async insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate> {
+    const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
     return this.save(newUserTemplate);
   }
 
 
-  async findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplete[]>{
-    return this.dataSource.createQueryBuilder(UserTemplete, 'ut')
-      .innerJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
-      .innerJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
+  async findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplate[]>{
+    return this.dataSource.createQueryBuilder(UserTemplate, 'ut')
+      .innerJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .innerJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
       .where('ut.user_challenge_id = :userChallengeId',{userChallengeId})
       .getMany();
   }
 
-  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplete[]>{
-    return this.dataSource.createQueryBuilder(UserTemplete, 'ut')
-      .leftJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
-      .leftJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
-      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id AND qc.visibility = 1')
+  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplate[]>{
+    return this.dataSource.createQueryBuilder(UserTemplate, 'ut')
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_template_id AND qc.visibility = 1')
       .where('ut.user_challenge_id IN (:...userChallengeId)',{userChallengeId})
       .andWhere("ut.finished_at = :date", {date})
       .getMany();
   }
 
-  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId: number, visibility: boolean): Promise<UserTemplete> {
+  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId: number, visibility: boolean): Promise<UserTemplate> {
     return this.dataSource.createQueryBuilder()
         .select('ut')
-        .from(UserTemplete, 'ut')
-        .leftJoinAndSelect('ut.comments', 'c', 'c.user_templete_id = ut.user_templete_id')
-        .leftJoinAndSelect('ut.likes', 'l', 'l.user_templete_id = ut.user_templete_id')
-        .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_templete_id = ut.user_templete_id AND qc.visibility = :visibility', { visibility})
-        .where('ut.user_templete_id = :userTemplateId', { userTemplateId })
+        .from(UserTemplate, 'ut')
+        .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+        .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+        .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_templete_id AND qc.visibility = :visibility', { visibility})
+        .where('ut.user_template_id = :userTemplateId', { userTemplateId })
         .getOne();
 }
 

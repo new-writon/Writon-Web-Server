@@ -1,5 +1,5 @@
 import { Comment } from "../domain/entity/Comment.js";
-import { UserTemplete } from "../domain/entity/UserTemplete.js";
+import { UserTemplate } from "../domain/entity/UserTemplate.js";
 
 
 
@@ -12,7 +12,7 @@ export class CommentAndUserTemplate {
     affiliationId: number;
     content: string;
     check: number;
-    userTemplete: UserTemplete;
+    userTemplete: UserTemplate;
 
 
     getCreatedAt(): Date {
@@ -47,7 +47,7 @@ export class CommentAndUserTemplate {
         return this.check;
     }
 
-    getUserTemplete(): UserTemplete {
+    getUserTemplete(): UserTemplate {
         return this.userTemplete;
     }
 }

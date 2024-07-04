@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UserTemplete } from '../../../domain/template/domain/entity/UserTemplete.js';
+import { UserTemplete } from '../../template/domain/entity/UserTemplate.js';
 import { Affiliation } from '../domain/entity/Affiliation.js';
 import { checkData } from '../../auth/util/checker.js';
 import { TemplateStatus } from '../dto/response/TemplateStatus.js';

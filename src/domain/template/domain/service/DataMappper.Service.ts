@@ -11,15 +11,15 @@ export class DataMapperService{
 
     public getUserChallengeIdMapper(comments:Comment[]):number[]{
         return comments.map((e) =>{
-            return e.userTemplete.getUserChallengeId()
+            return e.userTemplate.getUserChallengeId()
         })
     }
 
     public makeMyCommentMapper(affiliationData:Affiliation[], commentData:Comment[]){
         return commentData.map((comment)=>{
-            const affiliation = affiliationData.find((affiliation) => affiliation.userChallenges[0].getId() === comment.userTemplete.getUserChallengeId());
+            const affiliation = affiliationData.find((affiliation) => affiliation.userChallenges[0].getId() === comment.userTemplate.getUserChallengeId());
             if(checkData(affiliation)){
-                return new MyComment(comment.getId(), comment.getCreatedAt(), comment.getContent(), comment.userTemplete.getFinishedAt(), affiliation.getNickname(), comment.getUserTemplateId());
+                return new MyComment(comment.getId(), comment.getCreatedAt(), comment.getContent(), comment.userTemplate.getFinishedAt(), affiliation.getNickname(), comment.getUserTemplateId());
             }         
         })
     } 

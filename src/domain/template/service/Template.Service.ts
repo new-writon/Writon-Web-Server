@@ -5,7 +5,7 @@ import { WriteTemplateContent } from '../dto/TemplateContent.js';
 import { ChallengeApi } from '../infrastructure/Challenge.Api.js';
 import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction.js';
 import { UserTemplateHelper } from '../helper/UserTemplate.Helper.js';
-import { UserTemplete } from '../domain/entity/UserTemplete.js';
+import { UserTemplete } from '../domain/entity/UserTemplate.js';
 import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
 import { Affiliation } from '../../user/domain/entity/Affiliation.js';
 import { Transactional } from '../../../global/decorator/transaction.js';

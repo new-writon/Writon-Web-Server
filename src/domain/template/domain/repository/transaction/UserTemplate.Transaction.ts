@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import { UserTemplete } from "../../entity/UserTemplete.js";
+import { UserTemplate } from "../../entity/UserTemplate.js";
 import { WriteTemplateContent } from "../../../../template/dto/TemplateContent.js";
 import {Injectable } from "@nestjs/common";
 import { InsertUserTemplateContent } from "../../../dto/InsertUserTemplateContent.js";
@@ -16,7 +16,7 @@ export class UserTemplateTransaction {
 
     public async insertTemplateTransaction(userChallnegeId: number, date: Date, complete: boolean, templateContent: Array<WriteTemplateContent>):Promise<void>{
       
-        const newUserTemplate = UserTemplete.createUserTemplate(userChallnegeId, date, complete);
+        const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
         await this.dataSource.transaction(async (transactionalEntityManager) => {
            const userTemplateData = await transactionalEntityManager.save(newUserTemplate)
            const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.getId());
