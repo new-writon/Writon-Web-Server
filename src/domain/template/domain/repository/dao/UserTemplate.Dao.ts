@@ -63,18 +63,19 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
    async findUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]> {
     return await this.dataSource.createQueryBuilder()
       .select([
-        'qc.question_id AS question_id ',
-        'qc.user_template_id AS user_templete_id',
-        'qc.question_content_id AS question_content_id',
+        'qc.question_id AS questionId ',
+        'qc.user_template_id AS userTemplateId',
+        'qc.question_content_id AS questionContentId',
         'qc.content AS content',
-        'ut.finished_at AS created_at',
+        'ut.finished_at AS createdAt',
         'qc.visibility AS visibility',
         'q.category AS category ',
         'q.question AS question',
+        'a.affiliation_id AS affiliationId'
       ])
       .addSelect('a.job', 'job')
       .addSelect('a.company', 'company')
-      .addSelect('a.company_public', 'company_public')
+      .addSelect('a.company_public', 'companyPublic')
       .addSelect('a.nickname', 'nickname')
       .addSelect('u.profile', 'profile')
       .addSelect('COUNT(DISTINCT l.like_id)', 'likeCount')

@@ -8,13 +8,13 @@ export class TemplateContent {
     private job: string;
     private nickname: string;
     private company: string;
-    private company_public: boolean;
+    private companyPublic: boolean;
     private profile: string | null ; 
-    private question_id: number;
-    public user_templete_id: number;
-    private question_content_id: number;
+    private questionId: number;
+    public userTemplateId: number;
+    private questionContentId: number;
     private content: string;
-    private created_at: string;
+    private createdAt: string;
     private visibility: boolean;
     private category: string;
     private question: string;
@@ -27,13 +27,13 @@ export class TemplateContent {
         job: string,
         nickname: string,
         company: string,
-        company_public: boolean,
+        companyPublic: boolean,
         profile: string | null,
-        question_id: number,
-        user_templete_id: number,
-        question_content_id: number,
+        questionId: number,
+        userTempleteId: number,
+        questionContentId: number,
         content: string,
-        created_at: string,
+        createdAt: string,
         visibility: boolean,
         category: string,
         question: string,
@@ -45,13 +45,13 @@ export class TemplateContent {
         this.setJob(job);
         this.setNickname(nickname);
         this.setCompany(company);
-        this.setCompanyPublic(company_public);
+        this.setCompanyPublic(companyPublic);
         this.setProfile(profile);
-        this.setQuestionId(question_id);
-        this.setUserTempleteId(user_templete_id);
-        this.setQuestionContentId(question_content_id);
+        this.setQuestionId(questionId);
+        this.setUserTempleteId(userTempleteId);
+        this.setQuestionContentId(questionContentId);
         this.setContent(content);
-        this.setCreatedAt(created_at);
+        this.setCreatedAt(createdAt);
         this.setVisibility(visibility);
         this.setCategory(category);
         this.setQuestion(question);
@@ -65,13 +65,13 @@ export class TemplateContent {
         job: string,
         nickname: string,
         company: string,
-        company_public: boolean,
+        companyPublic: boolean,
         profile: string | null,
-        question_id: number,
-        user_templete_id: number,
-        question_content_id: number,
+        questionId: number,
+        userTempleteId: number,
+        questionContentId: number,
         content: string,
-        created_at: string,
+        createdAt: string,
         visibility: boolean,
         category: string,
         question: string,
@@ -89,8 +89,8 @@ export class TemplateContent {
         //     templateContents.visibility, templateContents.category, templateContents.question, templateContents.likeCount, templateContents.commentCount, templateContents.myLikeSign
         // )
 
-        return new TemplateContent(job, nickname, company, company_public, profile,
-            question_id, user_templete_id, question_content_id, content, created_at,
+        return new TemplateContent(job, nickname, company, companyPublic, profile,
+            questionId, userTempleteId, questionContentId, content, createdAt,
             visibility, category, question, affiliationId, likeCount, commentCount, myLikeSign
         )
     }
@@ -110,28 +110,28 @@ export class TemplateContent {
         this.company = company;
     }
 
-    private setCompanyPublic(company_public: boolean): void {
-        if (company_public === null) throw new InternalServerErrorException(`${__dirname} : company_public 값이 존재하지 않습니다.`);
-        this.company_public = company_public;
+    private setCompanyPublic(companyPublic: boolean): void {
+        if (companyPublic === null) throw new InternalServerErrorException(`${__dirname} : companyPublic 값이 존재하지 않습니다.`);
+        this.companyPublic = companyPublic;
     }
 
     private setProfile(profile: string | null): void {
         this.profile = profile;
     }
 
-    private setQuestionId(question_id: number): void {
-        if (question_id === null) throw new InternalServerErrorException(`${__dirname} : question_id 값이 존재하지 않습니다.`);
-        this.question_id = question_id;
+    private setQuestionId(questionId: number): void {
+        if (questionId === null) throw new InternalServerErrorException(`${__dirname} : questionId 값이 존재하지 않습니다.`);
+        this.questionId = questionId;
     }
 
-    private setUserTempleteId(user_templete_id: number): void {
-        if (user_templete_id === null) throw new InternalServerErrorException(`${__dirname} : user_templete_id 값이 존재하지 않습니다.`);
-        this.user_templete_id = user_templete_id;
+    private setUserTempleteId(userTemplateId: number): void {
+        if (userTemplateId === null) throw new InternalServerErrorException(`${__dirname} : userTemplateId값이 존재하지 않습니다.`);
+        this.userTemplateId = userTemplateId;
     }
 
-    private setQuestionContentId(question_content_id: number): void {
-        if (question_content_id === null) throw new InternalServerErrorException(`${__dirname} : question_content_id 값이 존재하지 않습니다.`);
-        this.question_content_id = question_content_id;
+    private setQuestionContentId(questionContentId: number): void {
+        if (questionContentId === null) throw new InternalServerErrorException(`${__dirname} : questionContentId 값이 존재하지 않습니다.`);
+        this.questionContentId= questionContentId;
     }
 
     private setContent(content: string): void {
@@ -139,9 +139,9 @@ export class TemplateContent {
         this.content = content;
     }
 
-    private setCreatedAt(created_at: string): void {
-        if (created_at === null) throw new InternalServerErrorException(`${__dirname} : created_at 값이 존재하지 않습니다.`);
-        this.created_at = created_at;
+    private setCreatedAt(createdAt: string): void {
+        if (createdAt === null) throw new InternalServerErrorException(`${__dirname} : createdAt 값이 존재하지 않습니다.`);
+        this.createdAt= createdAt;
     }
 
     private setVisibility(visibility: boolean): void {
@@ -180,7 +180,7 @@ export class TemplateContent {
     }
 
     public getCompanyPublic(){
-        return this.company_public;
+        return this.companyPublic;
     }
 
     public changeCompany(company:string | null){

@@ -8,40 +8,40 @@ const __dirname = path.dirname(__filename);
 export class CommentInformation {
     private job: string;
     private company: string;
-    private company_public: boolean;
+    private companyPublic: boolean;
     private profile: string;
-    private comment_id: number;
+    private commentId: number;
     private nickname: string;
-    private user_templete_id: number;
+    private userTemplateId: number;
     private content: string;
-    private created_at: Date;
+    private createdAt: Date;
     private myCommentSign: number;
-    private comment_group: string;
+    private commentGroup: string;
 
     constructor(
         job: string,
         company: string,
-        company_public: boolean,
+        companyPublic: boolean,
         profile: string,
-        comment_id: number,
+        commentId: number,
         nickname: string,
-        user_templete_id: number,
+        userTemplateId: number,
         content: string,
-        created_at: Date,
+        createdAt: Date,
         myCommentSign: number,
-        comment_group: string
+        commentGroup: string
     ) {
         this.setJob(job);
         this.setCompany(company);
-        this.setCompanyPublic(company_public);
+        this.setCompanyPublic(companyPublic);
         this.setProfile(profile);
-        this.setCommentId(comment_id);
+        this.setCommentId(commentId);
         this.setNickname(nickname);
-        this.setUserTempleteId(user_templete_id);
+        this.setUserTempleteId(userTemplateId);
         this.setContent(content);
-        this.setCreatedAt(created_at);
+        this.setCreatedAt(createdAt);
         this.setMyCommentSign(myCommentSign);
-        this.setCommentGroup(comment_group);
+        this.setCommentGroup(commentGroup);
     }
 
     public static of(
@@ -85,12 +85,12 @@ export class CommentInformation {
 
 
     isCompanyPublic(): boolean {
-        return this.company_public;
+        return this.companyPublic;
     }
 
-    private setCompanyPublic(company_public: boolean): void {
-        if (company_public === null) throw new InternalServerErrorException(`${__dirname} : company_public 값이 존재하지 않습니다.`);
-        this.company_public = company_public;
+    private setCompanyPublic(companyPublic: boolean): void {
+        if (companyPublic === null) throw new InternalServerErrorException(`${__dirname} : companyPublic 값이 존재하지 않습니다.`);
+        this.companyPublic = companyPublic;
     }
 
 
@@ -104,12 +104,12 @@ export class CommentInformation {
 
 
     getCommentId(): number {
-        return this.comment_id;
+        return this.commentId;
     }
 
-    private setCommentId(comment_id: number): void {
-        if (comment_id === null) throw new InternalServerErrorException(`${__dirname} : comment_id 값이 존재하지 않습니다.`);
-        this.comment_id = comment_id;
+    private setCommentId(commentId: number): void {
+        if (commentId === null) throw new InternalServerErrorException(`${__dirname} : commentId 값이 존재하지 않습니다.`);
+        this.commentId = commentId;
     }
 
     getNickname(): string {
@@ -123,12 +123,12 @@ export class CommentInformation {
 
 
     getUserTempleteId(): number {
-        return this.user_templete_id;
+        return this.userTemplateId;
     }
 
-    private setUserTempleteId(user_templete_id: number): void {
-        if (user_templete_id === null) throw new InternalServerErrorException(`${__dirname} : user_templete_id 값이 존재하지 않습니다.`);
-        this.user_templete_id = user_templete_id;
+    private setUserTempleteId(userTemplateId: number): void {
+        if (userTemplateId === null) throw new InternalServerErrorException(`${__dirname} : userTemplateId 값이 존재하지 않습니다.`);
+        this.userTemplateId = userTemplateId;
     }
 
     // Getter and Setter for content
@@ -143,12 +143,12 @@ export class CommentInformation {
 
 
     getCreatedAt(): Date {
-        return this.created_at;
+        return this.createdAt;
     }
 
-    private setCreatedAt(created_at: Date): void {
-        if (created_at === null) throw new InternalServerErrorException(`${__dirname} : created_at 값이 존재하지 않습니다.`);
-        this.created_at = created_at;
+    private setCreatedAt(createdAt: Date): void {
+        if (createdAt === null) throw new InternalServerErrorException(`${__dirname} : createdAt 값이 존재하지 않습니다.`);
+        this.createdAt = createdAt;
     }
 
 
@@ -163,11 +163,11 @@ export class CommentInformation {
 
 
     getCommentGroup(): string {
-        return this.comment_group;
+        return this.commentGroup;
     }
 
-    private setCommentGroup(comment_group: string): void {
-        if (comment_group === null) throw new InternalServerErrorException(`${__dirname} : comment_group 값이 존재하지 않습니다.`);
-        this.comment_group = comment_group;
+    private setCommentGroup(commentGroup: string): void {
+        if (commentGroup === null) throw new InternalServerErrorException(`${__dirname} : commentGroup 값이 존재하지 않습니다.`);
+        this.commentGroup = commentGroup;
     }
 }

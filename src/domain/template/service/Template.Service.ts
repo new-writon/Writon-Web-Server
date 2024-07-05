@@ -283,9 +283,9 @@ export class TemplateService {
 
     private sortAccorgindToUserTemplateId(userTemplates: TemplateContent[]):  TemplateContent[][]{
         const sortedUserTemplate : TemplateContent[][]= [];
-        const uniqueUserTemplateIds = Array.from(new Set(userTemplates.map((q) => q.user_templete_id)));
+        const uniqueUserTemplateIds = Array.from(new Set(userTemplates.map((q) => q.userTemplateId)));
         for (const userTemplateId of uniqueUserTemplateIds) {
-            const filteredQuestions = userTemplates.filter((q) => q.user_templete_id === userTemplateId);
+            const filteredQuestions = userTemplates.filter((q) => q.userTemplateId === userTemplateId);
             sortedUserTemplate.push(filteredQuestions);
         }
         return sortedUserTemplate;
