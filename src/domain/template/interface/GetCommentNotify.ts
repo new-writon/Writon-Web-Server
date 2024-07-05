@@ -3,7 +3,7 @@ interface GetCommentNotify {
     content: string,
     createdAt: Date,
     sign: number,
-    userTempleteId: number,
+    userTemplateId: number,
     templateName: Date,
     nickname: string,
     type: string

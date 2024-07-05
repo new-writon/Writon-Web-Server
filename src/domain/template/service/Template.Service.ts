@@ -234,7 +234,7 @@ export class TemplateService {
                     content: comment.getContent(),
                     createdAt: comment.getCreatedAt(),
                     sign: comment.getCheck(),
-                    userTempleteId: userTemplate.getId(),
+                    userTemplateId: userTemplate.getId(),
                     templateName: userTemplate.getFinishedAt(),
                     nickname:matchedAffiliation.getNickname(),
                     type: "comment"
@@ -251,7 +251,7 @@ export class TemplateService {
             likeId: like.getId(),
             createdAt: like.getCreatedAt(),
             sign: like.getCheck(),
-            userTempleteId: userTemplate.getId(),
+            userTemplateId: userTemplate.getId(),
             templateName: userTemplate.getFinishedAt(),
             nickname: matchedAffiliation.getNickname(),
             type: "like"

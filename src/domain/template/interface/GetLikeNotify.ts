@@ -2,7 +2,7 @@ interface GetLikeNotify {
     likeId: number,
     createdAt: Date,
     sign: number,
-    userTempleteId: number,
+    userTemplateId: number,
     templateName: Date,
     nickname: string,
     type: string
