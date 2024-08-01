@@ -1,6 +1,6 @@
 
 import { LikeServie } from "../service/Like.Service.js";
-import { Body, Controller, Delete, Get, HttpCode, Logger, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Logger, Param, Patch, Post, Put, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
 import { LikeCheck } from "../dto/request/LikeCheck.js";
 import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
@@ -39,7 +39,7 @@ export class LikeController{
     }
 
 
-    @Delete()
+    @Put()
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async eraseLike(
