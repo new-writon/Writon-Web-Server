@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 export class UserProfile{
     private email: string;
-    private userProfile: string;
+    private userProfile: string | null;
     private accountNumber: string | null;
     private bank:string | null;
     private hiredate: Date;
@@ -17,7 +17,7 @@ export class UserProfile{
 
     constructor(
         email: string,
-        userProfile: string,
+        userProfile: string | null,
         accountNumber: string | null,
         bank:string | null,
         hiredate: Date,
@@ -56,7 +56,7 @@ export class UserProfile{
         this.email = email;
     }
 
-    private setUserProfile(userProfile: string): void {
+    private setUserProfile(userProfile: string | null): void {
         if(userProfile === null)throw new InternalServerErrorException (`${__dirname} : userProfile값이 존재하지 않습니다.`);
         this.userProfile = userProfile;
     }
