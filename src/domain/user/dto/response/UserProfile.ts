@@ -6,6 +6,7 @@ const __dirname = path.dirname(__filename);
 
 
 export class UserProfile{
+    private nickname:string;
     private email: string;
     private userProfile: string | null;
     private accountNumber: string | null;
@@ -16,6 +17,7 @@ export class UserProfile{
     private jobIntroduce:string;
 
     constructor(
+        nickname:string,
         email: string,
         userProfile: string | null,
         accountNumber: string | null,
@@ -39,6 +41,7 @@ export class UserProfile{
         userProfile:UserProfile
     ){
         return new UserProfile(
+            userProfile.nickname,
             userProfile.email,
             userProfile.userProfile,
             userProfile.accountNumber,
@@ -50,6 +53,10 @@ export class UserProfile{
         );
     }
 
+    private setNickname(nickname: string): void {
+        if(nickname === null)throw new InternalServerErrorException (`${__dirname} :nickname값이 존재하지 않습니다.`);
+        this.nickname= nickname;
+    }
 
     private setEmail(email: string): void {
         if(email === null)throw new InternalServerErrorException (`${__dirname} : email값이 존재하지 않습니다.`);
