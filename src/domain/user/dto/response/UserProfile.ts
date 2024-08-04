@@ -27,6 +27,7 @@ export class UserProfile{
         job: string,
         jobIntroduce:string
     ){
+        this.setNickname(nickname)
         this.setEmail(email);
         this.setUserProfile(userProfile);
         this.setAccountNumber(accountNumber);
