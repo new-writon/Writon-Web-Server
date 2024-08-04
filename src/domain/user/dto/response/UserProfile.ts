@@ -57,7 +57,6 @@ export class UserProfile{
     }
 
     private setUserProfile(userProfile: string | null): void {
-        if(userProfile === null)throw new InternalServerErrorException (`${__dirname} : userProfile값이 존재하지 않습니다.`);
         this.userProfile = userProfile;
     }
 
