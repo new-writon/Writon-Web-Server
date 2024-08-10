@@ -13,17 +13,30 @@ import { UserTemplateRepository } from '../UserTemplate.Repository.js';
 export class UserTemplateDao extends Repository<UserTemplate> implements UserTemplateRepository {
     constructor(private dataSource: DataSource) { super(UserTemplate, dataSource.createEntityManager()); }
 
-
     async findUserTemplateByAffiliationAndChallengeId(affiliationId: number, challengeId: number): Promise<UserTemplate[]> {
-        return this.query(`
-        select ut.* from UserTemplate as ut
-        where date(ut.finished_at) = curdate() 
-        and
-        ut.user_challenge_id = (select uc.user_challenge_id
-        from UserChallenge as uc 
-            where uc.affiliation_id = ${affiliationId}
-                and uc.challenge_id = ${challengeId});
-        `)
+      return this.dataSource.createQueryBuilder()
+          .select('ut')
+          .from(UserTemplate, 'ut')
+          .innerJoin(UserChallenge, 'uc', 'ut.user_challenge_id = uc.user_challenge_id')
+          .where('uc.affiliation_id = :affiliationId', { affiliationId })
+          .andWhere('uc.challenge_id = :challengeId', { challengeId })
+          .orderBy("DATE_FORMAT(ut.finished_at, '%Y-%m')")
+          .getMany();
+    
+        
+        
+        
+        
+        // this.query(`
+        // select ut.* from UserTemplate as ut
+        // where 
+        // ut.user_challenge_id = (select uc.user_challenge_id
+        // from UserChallenge as uc 
+        //     where uc.affiliation_id = ${affiliationId}
+        //         and uc.challenge_id = ${challengeId}
+        //         order by date_format(ut.finished_at, '%Y-%m')
+        //         );
+        // `)
     }
 
 
