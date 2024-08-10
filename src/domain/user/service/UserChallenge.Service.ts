@@ -70,7 +70,6 @@ export class UserChallengeService {
      * @param challengeId 챌린지 id
      */
     public async startChallenge(userId:number, organization:string, challengeId: number): Promise<void>{
-        
         const [challengeAllData, userAffiliation, challengeData] = await Promise.all([
             this.challengeApi.requestChallengeWithCondition(challengeId),
             this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
@@ -89,9 +88,12 @@ export class UserChallengeService {
             this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
             this.challengeApi.requestChallengeDayByChallengeId(challengeId) 
         ]);
+       
         const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
+        console.log(userTemplateData )
+
         const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
-        return CalendarData.of(calendarData);
+        return CalendarData.of(calendarData);                           
     };
 
     public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization[]>{

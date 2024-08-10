@@ -7,7 +7,7 @@ const sortCallendarDateBadge = (
     userTemplateDays: UserTemplate[]
 ) => {
     const result = [];
-    for (const challengeDay of challengeDays!) {
+    for (const challengeDay of challengeDays) {
         const hasMatchingDate = userTemplateDays!.some(userTemplateDay =>
             isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDay.getFinishedAt()))
         );
@@ -30,8 +30,6 @@ const sortCallendarDateBadge = (
             }
         }
          else if (isSameDate(new Date(challengeDay.getDay()), new Date())) {
-           // isSameDate(challengeDay.day, new Date())
-
             customObject["badge"] = "Purple";
             result.push({ ...customObject });
         } else {
