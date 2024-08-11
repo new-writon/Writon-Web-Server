@@ -14,7 +14,7 @@ export class CommentInformation {
     private nickname: string;
     private userTemplateId: number;
     private content: string;
-    private createdAt: Date;
+    private createdAt: string;
     private myCommentSign: number;
     private commentGroup: string;
 
@@ -27,7 +27,7 @@ export class CommentInformation {
         nickname: string,
         userTemplateId: number,
         content: string,
-        createdAt: Date,
+        createdAt: string,
         myCommentSign: number,
         commentGroup: string
     ) {
@@ -53,7 +53,7 @@ export class CommentInformation {
         nickname: string,
         user_templete_id: number,
         content: string,
-        created_at: Date,
+        created_at: string,
         myCommentSign: number,
         comment_group: string
     ){
@@ -142,11 +142,11 @@ export class CommentInformation {
     }
 
 
-    getCreatedAt(): Date {
+    getCreatedAt(): string {
         return this.createdAt;
     }
 
-    private setCreatedAt(createdAt: Date): void {
+    private setCreatedAt(createdAt: string): void {
         if (createdAt === null) throw new InternalServerErrorException(`${__dirname} : createdAt 값이 존재하지 않습니다.`);
         this.createdAt = createdAt;
     }
@@ -169,5 +169,14 @@ export class CommentInformation {
     private setCommentGroup(commentGroup: string): void {
         if (commentGroup === null) throw new InternalServerErrorException(`${__dirname} : commentGroup 값이 존재하지 않습니다.`);
         this.commentGroup = commentGroup;
+    }
+
+
+    getCompanyPublic(){
+        return this.companyPublic;
+    }
+
+    changeCompany(company:string | null){
+        this.company=company;
     }
 }
