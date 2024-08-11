@@ -8,6 +8,8 @@ import { Comment } from "../domain/entity/Comment.js";
 import { Affiliation } from "src/domain/user/domain/entity/Affiliation.js";
 import { CommentInformation } from "../dto/response/CommentInformation.js";
 import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service.js";
+import { sortCompanyPublic } from "../util/data.js";
+import { formatDate } from "../util/date.js";
 
 @Injectable()
 export class CommentService{
@@ -29,13 +31,14 @@ export class CommentService{
         const userChallengeIdArray = this.dataMapperService.getUserChallengeIdMapper(commentData);
         // 유저 챌린지 id를 통해 글 작성자 정보 조회
         const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
-        console.log(templateWriteAffiliationData)
         // 함수 매핑
         const myComment = this.dataMapperService.makeMyCommentMapper(templateWriteAffiliationData, commentData);
         return MyComment.of(myComment);
     }
 
-    public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentInformation[]>{
+    public async bringCommentInformation(userId:number, organization:string, userTemplateId:number)
+    //:Promise<CommentInformation[]>
+    {
         // userTemplateId에 있는 댓글 정보 모두 조회
         const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
         // 내 정보 가져오기
@@ -48,7 +51,9 @@ export class CommentService{
         const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
         // 같은 affiliationId끼리 묶기
         const mergedCommentInformation = this.mergeCommentAndAffiliationForCommentInformation(commentDatas, affiliationDatas, myAffiliationData);
-        return mergedCommentInformation;
+        const sortedCompanyData = sortCompanyPublic(mergedCommentInformation) as CommentInformation[];
+        const customedCommentData = this.commentDataCustom(sortedCompanyData);
+        return customedCommentData 
     }
 
 
@@ -83,7 +88,81 @@ export class CommentService{
             const myAffiliationId = Number(myAffiliationData.getAffiliationId() === commentData.getAffiliationId());
             return CommentInformation.of(matchedAffiliationData.getJob(), matchedAffiliationData.getCompany(), matchedAffiliationData.getCompanyPublic(),
                     matchedAffiliationData.getUser().getProfileImage(),commentData.getId(), matchedAffiliationData.getNickname(),
-                    commentData.getUserTemplateId(), commentData.getContent(), commentData.getCreatedAt(), myAffiliationId, String(commentData.getCommentGroup())
+                    commentData.getUserTemplateId(), commentData.getContent(), this.commentDateFormat(String(commentData.getCreatedAt())), myAffiliationId, String(commentData.getCommentGroup())
         )});
     }
+
+    private commentDataCustom = (commentData: CommentInformation[]): CommentWithReplies[] => {
+        const result: CommentWithReplies[] = [];
+        commentData.forEach((comment: CommentInformation) => {
+            const existingComment = this.findExistingComment(result, comment);
+    
+            if (existingComment) {
+                this.addReplyToExistingComment(existingComment, comment);
+            } else if (comment.getCommentGroup() === '-1') {
+                const mainComment = this.createMainComment(comment);
+                mainComment.reply = this.findRepliesForComment(commentData, comment);
+                result.push(mainComment);
+            }
+        });
+        return result;
+    };
+    
+    private findExistingComment = (result: CommentWithReplies[], comment: CommentInformation): CommentWithReplies | undefined => {
+        return result.find(
+            (item) => item.commentGroup === '-1' && item.commentId === String(comment.getCommentId())
+        );
+    };
+    
+    private addReplyToExistingComment = (existingComment: CommentWithReplies, comment: CommentInformation): void => {
+        const reply = this.createCommentReply(comment);
+        existingComment.reply.push(reply);
+    };
+    
+    private createMainComment = (comment: CommentInformation): CommentWithReplies => {
+        return {
+            job: comment.getJob(),
+            company: comment.getCompany(),
+            companyPublic: Number(comment.getCompanyPublic()),
+            profile: comment.getProfile(),
+            commentId: String(comment.getCommentId()),
+            nickname: comment.getNickname(),
+            commentGroup: comment.getCommentGroup(),
+            userTempleteId: comment.getUserTempleteId(),
+            myCommentSign: !!comment.getMyCommentSign(),
+            content: comment.getContent(),
+            createdAt: comment.getCreatedAt(),
+            reply: [],
+        };
+    };
+    
+    private createCommentReply = (comment: CommentInformation): CommentWithReplies => {
+        return {
+            job: comment.getJob(),
+            company: comment.getCompany(),
+            companyPublic: Number(comment.getCompanyPublic()),
+            profile: comment.getProfile(),
+            commentId: String(comment.getCommentId()),
+            nickname: comment.getNickname(),
+            commentGroup: comment.getCommentGroup(),
+            userTempleteId: comment.getUserTempleteId(),
+            myCommentSign: !!comment.getMyCommentSign(),
+            content: comment.getContent(),
+            createdAt: comment.getCreatedAt(),
+            reply: [],
+        };
+    };
+    
+    private findRepliesForComment = (commentData: CommentInformation[], comment: CommentInformation): CommentWithReplies[] => {
+        return commentData
+            .filter((reply) => reply.getCommentGroup() !== '-1' && reply.getCommentGroup() === String(comment.getCommentId()))
+            .map((reply) => this.createCommentReply(reply));
+    };
+
+
+    private commentDateFormat(date:string){
+        return formatDate(date)
+    }
+
+    
 }
