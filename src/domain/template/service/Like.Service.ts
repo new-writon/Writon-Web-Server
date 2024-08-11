@@ -19,6 +19,7 @@ export class LikeServie{
 
     public async penetrateLike(userId: number, userTemplateId: number,organization: string):Promise<LikeCount>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        console.log(affiliationData)
         await this.likeHelper.executeInsertLike(affiliationData.getAffiliationId(), userTemplateId);
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);

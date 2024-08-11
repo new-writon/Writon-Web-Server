@@ -41,7 +41,7 @@ export class CommentController{
       @Param('userTemplateId') userTemplateId: number,
       @Param('organization') organization: string,
       @CurrentUser() user: User
-    ): Promise<SuccessResponseDto<CommentInformation[]>> {
+    ): Promise<SuccessResponseDto<CommentWithReplies[]>> {
       const result = await this.commentService.bringCommentInformation(user.user_id, organization, userTemplateId)
       this.logger.log("템플릿 댓글 조회 완료");
       return SuccessResponseDto.of(result);

@@ -1,6 +1,7 @@
+import { CommentInformation } from "../dto/response/CommentInformation.js";
 import { TemplateContent } from "../dto/response/TemplateContent.js";
 
-export const sortCompanyPublic = (data: TemplateContent[]): TemplateContent[] => {
+export const sortCompanyPublic = (data: TemplateContent[] | CommentInformation[]): TemplateContent[] | CommentInformation[] => {
     return data.map((item) => {
         if (Number(item.getCompanyPublic()) === 0) {
             item.changeCompany(null);
