@@ -46,7 +46,7 @@ export class TemplateService {
         ]);    
         // 3. 데이터 결합
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
-        const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate); 
+        const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
         return sortedCompanyData;
     }
     
@@ -59,14 +59,19 @@ export class TemplateService {
             this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
             this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId)
         ]);
+        
         // 유저 챌린지 Id 추출
         const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
         // 유저챌린지와 날짜에 따른 템플릿 배열 조회
+        console.log(userChallengeIds)
         const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date);
+        console.log(userTemplateData)
         this.templateVerifyService.verifyUserTemplates(userTemplateData)
         const questionIds = this.extractQuestionIds(userTemplateData);
+        console.log(123)
         // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
         const questionData = await this.challengeApi.requestQuestionById(questionIds);
+        console.log(124)
         const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
         const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
