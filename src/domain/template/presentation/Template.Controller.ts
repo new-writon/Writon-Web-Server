@@ -36,7 +36,7 @@ export class TemplateController {
     @Param('challengeId') challengeId: number,
     @Param('date') date:Date,
     @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateInformation>>  {
+  ): Promise<SuccessResponseDto<TemplateInformation | []>>  {
     const result = await this.templateService.bringTemplateAccordingToDate(user.user_id, organization, challengeId, date);
     this.logger.log("날짜별 템플릿 조회 완료");
     return SuccessResponseDto.of(result);

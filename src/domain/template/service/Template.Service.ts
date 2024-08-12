@@ -52,7 +52,7 @@ export class TemplateService {
     
 
 
-    public async bringTemplateAccordingToDate(userId:number, organization:string, challengeId:number, date:Date):Promise<TemplateInformation>{
+    public async bringTemplateAccordingToDate(userId:number, organization:string, challengeId:number, date:Date):Promise<TemplateInformation | []>{
         // 내 조직 정보 가져오기
         // 챌린지에 따른 유저 챌린지배열 조회 
         const [affiliationData, userChallengeDatas] = await Promise.all([
@@ -63,15 +63,23 @@ export class TemplateService {
         // 유저 챌린지 Id 추출
         const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
         // 유저챌린지와 날짜에 따른 템플릿 배열 조회
-        console.log(userChallengeIds)
         const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date);
-        console.log(userTemplateData)
-        this.templateVerifyService.verifyUserTemplates(userTemplateData)
+        return userTemplateData.length === 0 ? []:this.proccessTemplateAccordingToDateData(userTemplateData,affiliationData,userChallengeDatas)
+
+    //    this.templateVerifyService.verifyUserTemplates(userTemplateData)
+        // const questionIds = this.extractQuestionIds(userTemplateData);
+        // // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
+        // const questionData = await this.challengeApi.requestQuestionById(questionIds);
+        // const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
+        // const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
+        // const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
+        // return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
+    }
+
+    private async proccessTemplateAccordingToDateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeDatas:UserChallenge[]){
         const questionIds = this.extractQuestionIds(userTemplateData);
-        console.log(123)
         // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
         const questionData = await this.challengeApi.requestQuestionById(questionIds);
-        console.log(124)
         const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
         const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
