@@ -38,7 +38,23 @@ export class TemplateService {
             this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
             this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility)
         ]);
-        this.templateVerifyService.verifyUserTemplate(userTemplateData)
+        return userTemplateData === null? []:this.proccessTemplateContent(userTemplateData, affiliationData);
+    
+
+    //   //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
+    //     const questionIds = this.extractQuestionId(userTemplateData);
+    //     const [questionData, userChallengeData]= await Promise.all([
+    //         this.challengeApi.requestQuestionById(questionIds),
+    //         this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
+    //     ]);    
+    //     // 3. 데이터 결합
+    //     const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
+    //     const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
+    //     return sortedCompanyData;
+    }
+
+    private async proccessTemplateContent(userTemplateData:UserTemplate, affiliationData:Affiliation){
+        //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
         const questionIds = this.extractQuestionId(userTemplateData);
         const [questionData, userChallengeData]= await Promise.all([
             this.challengeApi.requestQuestionById(questionIds),
@@ -48,6 +64,7 @@ export class TemplateService {
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
         const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
         return sortedCompanyData;
+
     }
     
 
