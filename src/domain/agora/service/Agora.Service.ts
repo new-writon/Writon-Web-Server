@@ -44,6 +44,17 @@ export class AgoraService{
     public async bringAgora(userId:number, challengeId:number, date:Date){
         // 1. 특정 아고라 정보 조회
         const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date, true);
+        console.log(particularAgoraData)
+        return particularAgoraData.length === 0 ? []:this.proccessAgoraData(particularAgoraData, userId, challengeId)
+        // // 2. 1번 데이터에서 userChallengeId를 추출
+        // const userChallengeId = this.sortUserChallengeId(particularAgoraData);
+        // // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
+        // const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
+        // const mergedAgoraData = this.mergeUserChallenge(particularAgoraData, userChallengeData, userId);
+        // return AgoraDataResult.of(mergedAgoraData);
+    }
+
+    private async proccessAgoraData(particularAgoraData:ParticularAgoraData[], userId:number, challengeId:number){
         // 2. 1번 데이터에서 userChallengeId를 추출
         const userChallengeId = this.sortUserChallengeId(particularAgoraData);
         // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.

@@ -18,8 +18,8 @@ export class AgoraHelper{
 
     public async giveParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date, verifyChecking:boolean):Promise<ParticularAgoraData[]>{
         const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
-        if(verifyChecking)
-            this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
+        // if(verifyChecking)
+        //     this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
         return particularAgoraData;
     }
 
