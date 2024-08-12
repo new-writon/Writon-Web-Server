@@ -27,11 +27,20 @@ export class CommentService{
         const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         // 댓글 정보, 해당 템플릿 정보 조회
         const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId);
-        // 댓글 정보를 통해 유저 챌린지 id 배열 조회
+        return commentData.length === 0 ? [] : this.processCommentData(commentData)
+        
+        // // 댓글 정보를 통해 유저 챌린지 id 배열 조회
+        // const userChallengeIdArray = this.dataMapperService.getUserChallengeIdMapper(commentData);
+        // // 유저 챌린지 id를 통해 글 작성자 정보 조회
+        // const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
+        // // 함수 매핑
+        // const myComment = this.dataMapperService.makeMyCommentMapper(templateWriteAffiliationData, commentData);
+        // return MyComment.of(myComment);
+    }
+
+    private async processCommentData(commentData: Comment[]): Promise<MyComment[]> {
         const userChallengeIdArray = this.dataMapperService.getUserChallengeIdMapper(commentData);
-        // 유저 챌린지 id를 통해 글 작성자 정보 조회
         const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
-        // 함수 매핑
         const myComment = this.dataMapperService.makeMyCommentMapper(templateWriteAffiliationData, commentData);
         return MyComment.of(myComment);
     }
