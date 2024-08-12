@@ -19,7 +19,7 @@ export class AgoraCommentHelper{
 
     public async giveAgoraCommentByAgoraId(agoraId:number):Promise<ParticularAgoraCommentData[]>{
         const particularCommentData = await this.agoraCommentRepository.findAgoraCommentByAgoraId(agoraId);
-        this.agoraVerifyService.verifyParticularAgoraComment(particularCommentData);
+     //   this.agoraVerifyService.verifyParticularAgoraComment(particularCommentData);
         return particularCommentData;
     }
 

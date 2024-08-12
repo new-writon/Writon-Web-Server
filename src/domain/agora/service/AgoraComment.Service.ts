@@ -30,12 +30,21 @@ export class AgoraCommentService{
         userId: number,
         agoraId: number
     ):Promise<AgoraCommentRead[]>{
-        const particularCommentData = await this.agoraCommentHelper.giveAgoraCommentByAgoraId(agoraId);
-        const extractedAffiliationId = this.extractAffiliationId(particularCommentData);
-        const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
-        const mergedParticularAgoraComment = this.mergeParticularAgoraComment(particularCommentData, affiliationData, userId);
-        return AgoraCommentRead.of(mergedParticularAgoraComment);
+        const agoraCommentData = await this.agoraCommentHelper.giveAgoraCommentByAgoraId(agoraId);
+        return agoraCommentData.length === 0 ? []:this.proccessAgoraCommentData(agoraCommentData, userId);
 
+        // const extractedAffiliationId = this.extractAffiliationId(agoraCommentData);
+        // const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
+        // const mergedParticularAgoraComment = this.mergeParticularAgoraComment(agoraCommentData, affiliationData, userId);
+        // return AgoraCommentRead.of(mergedParticularAgoraComment);
+
+    }
+
+    private async proccessAgoraCommentData(agoraCommentData:ParticularAgoraCommentData[], userId:number){
+        const extractedAffiliationId = this.extractAffiliationId(agoraCommentData);
+        const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
+        const mergedParticularAgoraComment = this.mergeParticularAgoraComment(agoraCommentData, affiliationData, userId);
+        return AgoraCommentRead.of(mergedParticularAgoraComment);
     }
 
     private extractAffiliationId(particularCommentData: ParticularAgoraCommentData[]){
