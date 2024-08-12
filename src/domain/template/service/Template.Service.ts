@@ -193,26 +193,44 @@ export class TemplateService {
         organization: string,
         challengeId: number): Promise<(GetCommentNotify | GetLikeNotify)[]>{
 
+        
             // 1. 챌린지 id, 조직, 유저id를 통해 userChallenge, affiliation을 가져온다.
             const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
 
             // 2. userChallengeId를 통해 userTemplate데이터, comment, like 를 모두 가져온다.
             const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId());
 
-            // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
-            const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
-            // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
-            let [commentAffiliationData, likeAffiliationData] = await Promise.all([
-                this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
-                this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
-            ]);
-            // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
-            const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
-            const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
-            // 6. comment, like의 데이터를 시간 순으로 나열한다.
-            const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
-            return mergedCommentAndLike;
+            return userTemplateAndCommentAndLikeData.length === 0 ? []: this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData)
+            // // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
+            // const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
+            // // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
+            // let [commentAffiliationData, likeAffiliationData] = await Promise.all([
+            //     this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
+            //     this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
+            // ]);
+            // // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
+            // const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
+            // const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
+            // // 6. comment, like의 데이터를 시간 순으로 나열한다.
+            // const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
+            // return mergedCommentAndLike;
     } 
+
+    private async proccessNotifyData(userTemplateAndCommentAndLikeData:UserTemplate[], userChallengeAndAffiliationData:UserChallenge){
+          // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
+          const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
+          // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
+          let [commentAffiliationData, likeAffiliationData] = await Promise.all([
+              this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
+              this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
+          ]);
+          // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
+          const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
+          const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
+          // 6. comment, like의 데이터를 시간 순으로 나열한다.
+          const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
+          return mergedCommentAndLike;
+    }
 
 
 
