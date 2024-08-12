@@ -45,15 +45,32 @@ export class CommentService{
         return MyComment.of(myComment);
     }
 
-    public async bringCommentInformation(userId:number, organization:string, userTemplateId:number)
-    //:Promise<CommentInformation[]>
+    public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>
     {
         // userTemplateId에 있는 댓글 정보 모두 조회
         const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
+        return commentDatas.length === 0 ? []:this.proccessCommentInformationData(userId, organization, commentDatas)
+    //     // 내 정보 가져오기
+    //     const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+    //     // 댓글 개수 검증하기
+    //   //  this.templateVerifyService.verifyCommentCount(commentDatas)
+    //     console.log(2)
+    //     // affiliationId 추출
+    //     const extractedAffiliationIds = this.extractAffiliationId(commentDatas)
+    //     // affiliationId 기반 데이터 조회
+    //     const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
+    //     // 같은 affiliationId끼리 묶기
+    //     const mergedCommentInformation = this.mergeCommentAndAffiliationForCommentInformation(commentDatas, affiliationDatas, myAffiliationData);
+    //     const sortedCompanyData = sortCompanyPublic(mergedCommentInformation) as CommentInformation[];
+    //     const customedCommentData = this.commentDataCustom(sortedCompanyData);
+    //     return customedCommentData 
+    }
+
+    private async proccessCommentInformationData(userId:number, organization:string, commentDatas:Comment[]){
         // 내 정보 가져오기
         const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         // 댓글 개수 검증하기
-        this.templateVerifyService.verifyCommentCount(commentDatas)
+      //  this.templateVerifyService.verifyCommentCount(commentDatas)
         // affiliationId 추출
         const extractedAffiliationIds = this.extractAffiliationId(commentDatas)
         // affiliationId 기반 데이터 조회
