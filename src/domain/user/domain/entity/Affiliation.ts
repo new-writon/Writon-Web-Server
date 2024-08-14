@@ -10,8 +10,7 @@ import {
 } from "typeorm";
 import { Organization } from "./Organization.js";
 import { User } from "./User.js";
-import { AgoraComment } from "../../../agora/domain/entity/AgoraComment.js";
-import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
+import { SmallTalkComment } from "../../../smalltalk/domain/entity/SmallTalkComment.js";
 import { Comment } from "../../../template/domain/entity/Comment.js";
 import { Likes } from "../../../template/domain/entity/Likes.js";
 import { UserChallenge } from "./UserChallenge.js";
@@ -96,8 +95,8 @@ export class Affiliation extends BaseEntity{
   @JoinColumn([{ name: "user_id", referencedColumnName: "user_id" }])
   user: User;
 
-  @OneToMany(() => AgoraComment, (agoraComment) => agoraComment.affiliation)
-  agoraComments: Relation<AgoraComment>[];
+  @OneToMany(() => SmallTalkComment, (smallTalkComment) => smallTalkComment.affiliation)
+  smallTalkComments: Relation<SmallTalkComment>[];
 
   // @OneToMany(() => Challenge, (challenge) => challenge.affiliation)
   // challenges: Relation<Challenge>[];

@@ -6,7 +6,7 @@ import { configuration } from './global/config/configuration.js';
 import { dataSource } from './global/config/database.js';
 import { UserModule } from './domain/user/user.module.js';
 import { AuthModule } from './domain/auth/auth.module.js';
-import { AgoraModule } from './domain/agora/agora.module.js';
+import { SmallTalkModule } from './domain/smalltalk/smalltalk.module.js';
 import { ErrorModule } from './domain/error/error.module.js';
 import { SatisfactionModule } from './domain/satisfaction/satisfaction.module.js';
 import { ChallengeModule } from './domain/challenge/challenge.module.js';
@@ -56,7 +56,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     }),
     UserModule,
     AuthModule,
-    AgoraModule,
+    SmallTalkModule,
     ErrorModule,
     SatisfactionModule,
     ChallengeModule,

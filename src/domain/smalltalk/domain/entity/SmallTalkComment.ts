@@ -8,7 +8,7 @@ import {
   Relation
 } from "typeorm";
 import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { Agora } from "./Agora.js";
+import { SmallTalk } from "./SmallTalk.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 import path from 'path';
@@ -17,45 +17,45 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-@Index("AgoraComment_agora_id_fkey_idx", ["agora_id"], {})
-@Index("AgoraComment_affiliation_id_fkey_idx", ["affiliation_id"], {})
-@Entity("agora_comment", { schema: "nest" })
-export class AgoraComment extends BaseEntity{
+//@Index("AgoraComment_agora_id_fkey_idx", ["small_talk_id"], {})
+//@Index("AgoraComment_affiliation_id_fkey_idx", ["affiliation_id"], {})
+@Entity("small_talk_comment", { schema: "nest" })
+export class SmallTalkComment extends BaseEntity{
 
   constructor(
-      agoraId:number,
+      smallTalkId:number,
       affiliationId:number,
-      agoraComment:string
+      smallTalkComment:string
   ){
     super()
-    this.setAgoraId(agoraId);
+    this.setSmallTalkId(smallTalkId);
     this.setAffiliationId(affiliationId);
-    this.setContent(agoraComment);
+    this.setContent(smallTalkComment);
   }
 
-  public static createAgoraComment(
-    agoraId:number,
+  public static createSmallTalkComment(
+    smallTalkId:number,
     affiliationId:number,
-    agoraComment:string
+    smallTalkComment:string
   ){
-    return new AgoraComment(agoraId, affiliationId, agoraComment);
+    return new SmallTalkComment(smallTalkId, affiliationId, smallTalkComment);
   }
 
 
-  @PrimaryGeneratedColumn({ type: "int", name: "agora_comment_id" })
-  agora_comment_id: number;
+  @PrimaryGeneratedColumn({ type: "int", name: "small_talk_comment_id" })
+  smallTalkCommentId: number;
 
   @Column("text", { name: "content" })
   content: string;
 
-  @Column("int", { name: "agora_id" })
-  agora_id: number;
+  @Column("int", { name: "small_talk_id" })
+  smallTalkId: number;
 
   @Column("int", { name: "affiliation_id" })
-  affiliation_id: number;
+  affiliationId: number;
 
 
-  @ManyToOne(() => Affiliation, (affiliation) => affiliation.agoraComments, {
+  @ManyToOne(() => Affiliation, (affiliation) => affiliation.smallTalkComments, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
@@ -64,17 +64,17 @@ export class AgoraComment extends BaseEntity{
   ])
   affiliation: Relation<Affiliation>;
 
-  @ManyToOne(() => Agora, (agora) => agora.agoraComments, {
+  @ManyToOne(() => SmallTalk, (smallTalk) => smallTalk.smallTalkComments, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "agora_id", referencedColumnName: "agora_id" }])
-  agora: Relation<Agora>;
+  @JoinColumn([{ name: "small_talk_id", referencedColumnName: "smallTalkId" }])
+  smallTalk: Relation<SmallTalk>;
 
 
-  private setAgoraId(agoraId:number){
-    if(agoraId === null)throw new InternalServerErrorException (`${__dirname} : agoraId 값이 존재하지 않습니다.`);
-    this.agora_id=agoraId;
+  private setSmallTalkId(smallTalkId:number){
+    if(smallTalkId === null)throw new InternalServerErrorException (`${__dirname} : smallTalkId 값이 존재하지 않습니다.`);
+    this.smallTalkId=smallTalkId;
   }
 
   private setContent(content:string){
@@ -84,6 +84,6 @@ export class AgoraComment extends BaseEntity{
 
   private setAffiliationId(affiliationId:number){
     if(affiliationId=== null)throw new InternalServerErrorException (`${__dirname} : affiliationId 값이 존재하지 않습니다.`);
-    this.affiliation_id=affiliationId;
+    this.affiliationId=affiliationId;
   }
 }

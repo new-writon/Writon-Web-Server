@@ -2,14 +2,11 @@ import {
   Column,
   Entity,
   Index,
-  JoinColumn,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Agora } from "../../../agora/domain/entity/Agora.js";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
+import { SmallTalk} from "../../../smalltalk/domain/entity/SmallTalk.js";
 import { ChallengeDay } from "./ChallengeDay.js";
 import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction.js";
 import { Question } from "./Question.js";
@@ -56,8 +53,8 @@ export class Challenge extends BaseEntity{
   challengeDays: Relation<ChallengeDay>[];
 
 
-  @OneToMany(() => Agora, (agora) => agora.challenge)
-  agoras: Relation<Agora>[];
+  @OneToMany(() => SmallTalk, (smallTalk) => smallTalk.challenge)
+  smallTalks: Relation<SmallTalk>[];
 
   // @ManyToOne(() => Affiliation, (affiliation) => affiliation.challenges, {
   //   onDelete: "CASCADE",

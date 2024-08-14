@@ -13,15 +13,15 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-import { AgoraComment } from "./AgoraComment.js";
+import { SmallTalkComment } from "./SmallTalkComment.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
 
-@Index("Agora_user_challenge_id_fkey_idx", ["user_challenge_id"], {})
-@Index("Agora_challenge_id_fkey_idx", ["challenge_id"], {})
-@Entity("agora", { schema: "nest" })
-export class Agora extends BaseEntity{
+// @Index("Agora_user_challenge_id_fkey_idx", ["user_challenge_id"], {})
+// @Index("Agora_challenge_id_fkey_idx", ["challenge_id"], {})
+@Entity("small_talk", { schema: "nest" })
+export class SmallTalk extends BaseEntity{
 
   constructor(
     challengeId:number,
@@ -34,31 +34,31 @@ export class Agora extends BaseEntity{
     this.setQuestion(question);
   }
 
-  public static createAgora(challengeId:number, userChallengeId:number, question:string){
-    return new Agora(challengeId, userChallengeId, question);
+  public static createSmallTalk(challengeId:number, userChallengeId:number, question:string){
+    return new SmallTalk(challengeId, userChallengeId, question);
   }
 
 
-  @PrimaryGeneratedColumn({ type: "int", name: "agora_id" })
-  agora_id: number;
+  @PrimaryGeneratedColumn({ type: "int", name: "small_talk_id" })
+  smallTalkId: number;
 
   @Column("text", { name: "question" })
   question: string;
 
   @Column("int", { name: "user_challenge_id" })
-  user_challenge_id: number;
+  userChallengeId: number;
 
   @Column("int", { name: "challenge_id" })
-  challenge_id: number;
+  challengeId: number;
 
-  @ManyToOne(() => Challenge, (challenge) => challenge.agoras, {
+  @ManyToOne(() => Challenge, (challenge) => challenge.smallTalks, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 
-  @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.agoras, {
+  @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.smallTalks, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
@@ -67,13 +67,13 @@ export class Agora extends BaseEntity{
   ])
   userChallenge: Relation<UserChallenge>;
 
-  @OneToMany(() => AgoraComment, (agoraComment) => agoraComment.agora)
-  agoraComments: Relation<AgoraComment>[];
+  @OneToMany(() => SmallTalkComment, (smallTalkComment) => smallTalkComment.smallTalk)
+  smallTalkComments: Relation<SmallTalkComment>[];
 
 
   private setChallengeId(challengeId:number){
     if(challengeId === null)throw new InternalServerErrorException (`${__dirname} : challengeId 값이 존재하지 않습니다.`);
-    this.challenge_id=challengeId;
+    this.challengeId=challengeId;
   }
 
   private setQuestion(question:string){
@@ -83,6 +83,6 @@ export class Agora extends BaseEntity{
 
   private setUserChallengeId(userChallengeId:number){
     if(userChallengeId === null)throw new InternalServerErrorException (`${__dirname} : userChallengeId 값이 존재하지 않습니다.`);
-    this.user_challenge_id=userChallengeId;
+    this.userChallengeId=userChallengeId;
   }
 }

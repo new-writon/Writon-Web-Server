@@ -1,15 +1,15 @@
 import { DataSource, Repository } from "typeorm";
-import { AgoraRepository } from "../Agora.Repository.js";
-import { Agora } from "../../entity/Agora.js";
+import { SmallTalkRepository} from "../SmallTalk.Repository.js";
+import { SmallTalk } from "../../entity/SmallTalk.js";
 import { Injectable } from "@nestjs/common";
-import { AgoraComment } from "../../entity/AgoraComment.js";
-import { ParticularAgoraData } from "../../../../agora/dto/ParticularAgoraData.js";
+import { SmallTalkComment } from "../../entity/SmallTalkComment.js";
+import { ParticularAgoraData } from "../../../dto/ParticularAgoraData.js";
 
 
 @Injectable()
-export class AgoraDao extends Repository<Agora> implements AgoraRepository{
+export class AgoraDao extends Repository<SmallTalk> implements SmallTalkRepository{
 
-    constructor(private dataSource: DataSource) { super(Agora, dataSource.createEntityManager()); }
+    constructor(private dataSource: DataSource) { super(SmallTalk, dataSource.createEntityManager()); }
 
     async findParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
         const particularAgoraData :ParticularAgoraData[] = await this.dataSource.createQueryBuilder()
@@ -21,8 +21,8 @@ export class AgoraDao extends Repository<Agora> implements AgoraRepository{
                 "DATE(ag.createdAt) AS createdDate",
                 'ag.user_challenge_id AS user_challenge_id'
             ])
-            .from(Agora, 'ag')
-            .leftJoin(AgoraComment, 'agc', 'agc.agora_id = ag.agora_id')
+            .from(SmallTalk, 'ag')
+            .leftJoin(SmallTalkComment, 'agc', 'agc.agora_id = ag.agora_id')
             .where('DATE(ag.createdAt) = :date', { date })
             .andWhere('ag.challenge_id = :challengeId', { challengeId })
             .groupBy('ag.agora_id, ag.question, ag.createdAt, ag.user_challenge_id')
@@ -34,15 +34,15 @@ export class AgoraDao extends Repository<Agora> implements AgoraRepository{
         }
 
     async insertAgora(challengeId: number, userChallengeId: number, question:string):Promise<void>{
-        const newAgora = Agora.createAgora(challengeId, userChallengeId, question);
+        const newAgora = SmallTalk.createSmallTalk(challengeId, userChallengeId, question);
         await this.save(newAgora);
     }
     
 
-    async findAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<Agora[]>{
+    async findAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
         return this.dataSource.createQueryBuilder()
         .select('ag')
-        .from(Agora, 'ag')
+        .from(SmallTalk, 'ag')
         .where('DATE(ag.createdAt) = :date', { date })
         .andWhere('ag.challenge_id = :challengeId', { challengeId })
         .getMany()

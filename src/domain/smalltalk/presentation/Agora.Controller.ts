@@ -4,7 +4,7 @@ import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.
 import { User } from "../../user/domain/entity/User.js";
 import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
 import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { AgoraService } from "../service/Agora.Service.js";
+import { AgoraService } from "../service/SmallTalk.Service.js";
 import { AgoraAddResult } from "../dto/response/AgoraAddResult.js";
 import { AgoraAdd } from "../dto/request/AgoraAdd.js";
 

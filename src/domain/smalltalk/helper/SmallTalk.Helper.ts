@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { AgoraRepository } from "../domain/repository/Agora.Repository.js";
-import { Agora } from "../domain/entity/Agora.js";
+import { SmallTalkRepository } from "../domain/repository/SmallTalk.Repository.js";
+import { SmallTalk } from "../domain/entity/SmallTalk.js";
 import { ParticularAgoraData } from "../dto/ParticularAgoraData.js";
 import { AgoraVerifyService } from "../domain/service/AgoraVerify.Service.js";
 
@@ -11,7 +11,7 @@ export class AgoraHelper{
 
     constructor(
         @Inject("agoraImpl")
-        private readonly agoraRepository: AgoraRepository,
+        private readonly agoraRepository: SmallTalkRepository,
         private readonly agoraVerifyService: AgoraVerifyService
     ){}
 
@@ -28,7 +28,7 @@ export class AgoraHelper{
     }
     
 
-    public async giveAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<Agora[]>{
+    public async giveAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
         return this.agoraRepository.findAgoraByChallengeIdAndDate(challengeId, date);
     }
 

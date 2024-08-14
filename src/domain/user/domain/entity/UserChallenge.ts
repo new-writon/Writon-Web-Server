@@ -12,7 +12,7 @@ import {
 import { Affiliation } from "./Affiliation.js";
 import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
 import { UserTemplate } from "../../../template/domain/entity/UserTemplate.js";
-import { Agora } from "../../../agora/domain/entity/Agora.js";
+import { SmallTalk } from "../../../smalltalk/domain/entity/SmallTalk.js";
 import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionObjectiveResult.js";
 import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
@@ -73,8 +73,8 @@ export class UserChallenge extends BaseEntity{
   @Column("tinyint", { name: "re_engagement", nullable: true })
   re_engagement: number | null;
 
-  @OneToMany(() => Agora, (agora) => agora.userChallenge)
-  agoras: Relation<Agora>[];
+  @OneToMany(() => SmallTalk, (smallTalk) => smallTalk.userChallenge)
+  smallTalks: Relation<SmallTalk>[];
 
   @OneToMany(
     () => SatisfactionObjectiveResult,

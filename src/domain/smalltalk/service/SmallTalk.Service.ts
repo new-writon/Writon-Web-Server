@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AgoraHelper } from "../helper/Agora.Helper.js";
+import { AgoraHelper } from "../helper/SmallTalk.Helper.js";
 import { UserApi } from "../infrastructure/User.Api.js";
 import { ParticularAgoraData } from "../dto/ParticularAgoraData.js";
 import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
@@ -8,7 +8,7 @@ import { AgoraDataResult } from "../dto/response/\bAgoraDataResult.js";
 import { AgoraException } from "../exception/AgoraException.js";
 import { AgoraErrorCode } from "../exception/AgoraErrorCode.js";
 import {  getTodayDateString } from "../util/date.js";
-import { Agora } from "../domain/entity/Agora.js";
+import { SmallTalk } from "../domain/entity/SmallTalk.js";
 import { MutexAlgorithm } from "../../../global/decorator/mutex.js";
 
 
@@ -93,7 +93,7 @@ export class AgoraService{
         return '0'
     }
 
-    private checkAgoraLimit(agora:ParticularAgoraData[] | Agora[]){
+    private checkAgoraLimit(agora:ParticularAgoraData[] | SmallTalk[]){
         if(agora.length >= 3){
             return false;
         }

@@ -1,6 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { AgoraCommentRepository } from "../domain/repository/AgoraComment.Repository.js";
-import { AgoraComment } from "../domain/entity/AgoraComment.js";
+import { SmallTalkCommentRepository} from "../domain/repository/SmallTalkComment.Repository.js";
 import { ParticularAgoraCommentData } from "../dto/ParticularAgoraCommentData.js";
 import { AgoraVerifyService } from "../domain/service/AgoraVerify.Service.js";
 
@@ -9,7 +8,7 @@ export class AgoraCommentHelper{
 
     constructor(
         @Inject("agoraCommentImpl")
-        private readonly agoraCommentRepository: AgoraCommentRepository,
+        private readonly agoraCommentRepository: SmallTalkCommentRepository,
         private readonly agoraVerifyService:AgoraVerifyService
     ){}
 

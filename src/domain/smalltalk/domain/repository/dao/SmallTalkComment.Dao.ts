@@ -1,17 +1,17 @@
 import { DataSource, Repository } from "typeorm";
-import { AgoraComment } from "../../entity/AgoraComment.js";
-import { AgoraCommentRepository } from "../AgoraComment.Repository.js";
+import { SmallTalkComment } from "../../entity/SmallTalkComment.js";
+import { SmallTalkCommentRepository } from "../SmallTalkComment.Repository.js";
 import { Injectable } from "@nestjs/common";
-import { ParticularAgoraCommentData } from "../../../../agora/dto/ParticularAgoraCommentData.js";
+import { ParticularAgoraCommentData } from "../../../dto/ParticularAgoraCommentData.js";
 
 
 @Injectable()
-export class AgoraCommentDao extends Repository<AgoraComment> implements AgoraCommentRepository{
+export class AgoraCommentDao extends Repository<SmallTalkComment> implements SmallTalkCommentRepository{
 
-    constructor(private dataSource: DataSource) { super(AgoraComment, dataSource.createEntityManager()); }
+    constructor(private dataSource: DataSource) { super(SmallTalkComment, dataSource.createEntityManager()); }
 
     async insertAgoraComment(agoraId:number, affiliationId:number, agoraComment:string):Promise<void>{
-        const newAgoraComment = AgoraComment.createAgoraComment(agoraId, affiliationId, agoraComment);
+        const newAgoraComment = SmallTalkComment.createSmallTalkComment(agoraId, affiliationId, agoraComment);
         await this.save(newAgoraComment);
     }
 
@@ -24,7 +24,7 @@ export class AgoraCommentDao extends Repository<AgoraComment> implements AgoraCo
                 "TIME_FORMAT(agc.createdAt, '%H:%i') AS created_time",
                 'agc.affiliation_id AS affiliation_id'
             ])
-            .from(AgoraComment, 'agc')
+            .from(SmallTalkComment, 'agc')
             .where('agc.agora_id = :agoraId',{agoraId})
             .orderBy('agc.createdAt', 'ASC')
             .getRawMany();

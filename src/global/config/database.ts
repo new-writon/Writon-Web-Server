@@ -12,8 +12,8 @@ import { Organization } from '../../domain/user/domain/entity/Organization.js';
 import { ChallengeDepositDeduction } from '../../domain/challenge/domain/entity/ChallengeDepositDeduction.js';
 import { UserChallenge } from '../../domain/user/domain/entity/UserChallenge.js';
 import { ErrorLog } from '../../domain/error/domain/entity/ErrorLog.js';
-import { Agora } from '../../domain/agora/domain/entity/Agora.js';
-import { AgoraComment } from '../../domain/agora/domain/entity/AgoraComment.js';
+import { SmallTalk } from '../../domain/smalltalk/domain/entity/SmallTalk.js';
+import { SmallTalkComment } from '../../domain/smalltalk/domain/entity/SmallTalkComment.js';
 import { Satisfaction } from '../../domain/satisfaction/domain/entity/Satisfaction.js';
 import { SatisfactionObjectiveResult } from '../../domain/satisfaction/domain/entity/SatisfactionObjectiveResult.js';
 import { SatisfactionSubjectiveResult } from '../../domain/satisfaction/domain/entity/SatisfactionSubjectiveResult.js';
@@ -37,7 +37,7 @@ const dataSourceOptions: DataSourceOptions = {
   //  `${join(__dirname, '../../')}/domain/**/*.{js,ts}`,
     User, Organization, Affiliation,  UserChallenge,
     Challenge, ChallengeDay, ChallengeDepositDeduction,
-    ErrorLog, Agora, AgoraComment,  Likes,
+    ErrorLog, SmallTalk, SmallTalkComment,  Likes,
     Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
     QuestionTag, UserTemplate, Comment, UserChallenge, Question, QuestionContent,
 
@@ -61,7 +61,7 @@ export const dataSource = registerAs('data-source', () => {
     entities: [
       User, Organization, Affiliation,  UserChallenge,
       Challenge, ChallengeDay, ChallengeDepositDeduction,
-      ErrorLog, Agora, AgoraComment,  Likes,
+      ErrorLog, SmallTalk, SmallTalkComment,  Likes,
       Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
       QuestionTag, UserTemplate, Comment, UserChallenge, Question, QuestionContent,
     ],

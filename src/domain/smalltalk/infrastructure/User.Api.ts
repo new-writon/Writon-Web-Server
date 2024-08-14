@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { Affiliation } from "../../../domain/user/domain/entity/Affiliation.js";
-import { AffiliationHelper } from "../../../domain/user/helper/Affiliation.Helper.js";
+import { Affiliation } from "../../user/domain/entity/Affiliation.js";
+import { AffiliationHelper } from "../../user/helper/Affiliation.Helper.js";
 import { UserChallengeHelper } from "../../user/helper/UserChallenge.Helper.js";
 import { UserChallenge } from "../../user/domain/entity/UserChallenge.js";
 

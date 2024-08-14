@@ -1,11 +1,11 @@
 import { Repository } from "typeorm";
-import { AgoraComment } from "../entity/AgoraComment.js";
+import { SmallTalkComment } from "../entity/SmallTalkComment.js";
 import { ParticularAgoraCommentData } from "../../dto/ParticularAgoraCommentData.js";
 
 
 
 
-export interface AgoraCommentRepository extends Repository<AgoraComment>{
+export interface SmallTalkCommentRepository extends Repository<SmallTalkComment>{
 
     insertAgoraComment(agoraId:number, affiliationId:number, agoraComment:string):Promise<void>;
     findAgoraCommentByAgoraId(agoraId:number):Promise<ParticularAgoraCommentData[]>;

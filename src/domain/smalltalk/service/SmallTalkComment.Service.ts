@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { AgoraCommentHelper } from "../helper/AgoraComment.Helper.js";
+import { AgoraCommentHelper } from "../helper/SmallTalkComment.Helper.js";
 import { UserApi } from "../infrastructure/User.Api.js";
 import { AgoraCommentRead } from "../dto/response/AgoraCommentRead.js";
 import { ParticularAgoraCommentData } from "../dto/ParticularAgoraCommentData.js";

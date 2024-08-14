@@ -2,7 +2,7 @@
 
 import { Body, Controller, Get, HttpCode, Logger, Param, Post, UseGuards } from "@nestjs/common";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { AgoraCommentService } from "../service/AgoraComment.Service.js";
+import { AgoraCommentService } from "../service/SmallTalkComment.Service.js";
 import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
 import { User } from "../../user/domain/entity/User.js";
 import { AgoraCommentInsert } from "../dto/request/AgoraCommentInsert.js";
