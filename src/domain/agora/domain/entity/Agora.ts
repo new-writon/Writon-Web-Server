@@ -45,10 +45,10 @@ export class Agora extends BaseEntity{
   @Column("text", { name: "question" })
   question: string;
 
-  @Column("int", { primary: true, name: "user_challenge_id" })
+  @Column("int", { name: "user_challenge_id" })
   user_challenge_id: number;
 
-  @Column("int", { primary: true, name: "challenge_id" })
+  @Column("int", { name: "challenge_id" })
   challenge_id: number;
 
   @ManyToOne(() => Challenge, (challenge) => challenge.agoras, {

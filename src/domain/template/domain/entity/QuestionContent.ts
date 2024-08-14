@@ -43,10 +43,10 @@ export class QuestionContent extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "question_content_id" })
   question_content_id: number;
 
-  @Column("int", { primary: true, name: "question_id" })
+  @Column("int", { name: "question_id" })
   question_id: number;
 
-  @Column("int", { primary: true, name: "user_template_id" })
+  @Column("int", { name: "user_template_id" })
   user_template_id: number;
 
   @Column("text", { name: "content" })

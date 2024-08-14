@@ -28,7 +28,7 @@ export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })
   challenge_id: number;
 
-  @Column("int", { primary: true, name: "affiliation_id" })
+  @Column("int", { name: "affiliation_id" })
   affiliation_id: number;
 
   @Column("varchar", { name: "name", length: 40 })

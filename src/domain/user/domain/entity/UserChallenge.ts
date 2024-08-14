@@ -49,10 +49,10 @@ export class UserChallenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "user_challenge_id" })
   user_challenge_id: number;
 
-  @Column("int", { primary: true, name: "affiliation_id" })
+  @Column("int", { name: "affiliation_id" })
   affiliation_id: number;
 
-  @Column("int", { primary: true, name: "challenge_id" })
+  @Column("int", { name: "challenge_id" })
   challenge_id: number;
 
   @Column("int", { name: "user_deposit" })

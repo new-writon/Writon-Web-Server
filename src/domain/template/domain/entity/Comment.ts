@@ -43,10 +43,10 @@ export class Comment extends BaseEntity{
   @Column("int", { name: "comment_group", nullable: true })
   comment_group: number | null;
 
-  @Column("int", { primary: true, name: "user_template_id" })
+  @Column("int", { name: "user_template_id" })
   user_template_id: number;
 
-  @Column("int", { primary: true, name: "affiliation_id" })
+  @Column("int", { name: "affiliation_id" })
   affiliation_id: number;
 
   @Column("text", { name: "content" })

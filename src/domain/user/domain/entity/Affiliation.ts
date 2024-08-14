@@ -56,10 +56,10 @@ export class Affiliation extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "affiliation_id" })
   affiliation_id: number;
 
-  @Column("int", { primary: true, name: "organization_id" })
+  @Column("int", { name: "organization_id" })
   organization_id: number;
 
-  @Column("int", { primary: true, name: "user_id" })
+  @Column("int", { name: "user_id" })
   user_id: number;
 
   @Column("date", { name: "hire_date", nullable: true })

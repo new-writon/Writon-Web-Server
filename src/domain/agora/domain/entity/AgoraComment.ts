@@ -48,10 +48,10 @@ export class AgoraComment extends BaseEntity{
   @Column("text", { name: "content" })
   content: string;
 
-  @Column("int", { primary: true, name: "agora_id" })
+  @Column("int", { name: "agora_id" })
   agora_id: number;
 
-  @Column("int", { primary: true, name: "affiliation_id" })
+  @Column("int", { name: "affiliation_id" })
   affiliation_id: number;
 
 
