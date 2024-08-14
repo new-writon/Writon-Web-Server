@@ -59,14 +59,14 @@ export class Challenge extends BaseEntity{
   @OneToMany(() => Agora, (agora) => agora.challenge)
   agoras: Relation<Agora>[];
 
-  @ManyToOne(() => Affiliation, (affiliation) => affiliation.challenges, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
-  @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
-  ])
-  affiliation: Relation<Affiliation>;
+  // @ManyToOne(() => Affiliation, (affiliation) => affiliation.challenges, {
+  //   onDelete: "CASCADE",
+  //   onUpdate: "CASCADE",
+  // })
+  // @JoinColumn([
+  //   { name: "affiliation_id", referencedColumnName: "affiliation_id" },
+  // ])
+  // affiliation: Relation<Affiliation>;
 
   @OneToMany(
     () => ChallengeDepositDeduction,

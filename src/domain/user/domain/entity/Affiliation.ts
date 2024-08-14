@@ -99,8 +99,8 @@ export class Affiliation extends BaseEntity{
   @OneToMany(() => AgoraComment, (agoraComment) => agoraComment.affiliation)
   agoraComments: Relation<AgoraComment>[];
 
-  @OneToMany(() => Challenge, (challenge) => challenge.affiliation)
-  challenges: Relation<Challenge>[];
+  // @OneToMany(() => Challenge, (challenge) => challenge.affiliation)
+  // challenges: Relation<Challenge>[];
 
   @OneToMany(() => Comment, (comment) => comment.affiliation)
   comments: Relation<Comment>[];
