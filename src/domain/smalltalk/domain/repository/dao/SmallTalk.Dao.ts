@@ -34,8 +34,8 @@ export class SmallTalkDao extends Repository<SmallTalk> implements SmallTalkRepo
         }
 
     async insertSmallTalk(challengeId: number, userChallengeId: number, question:string):Promise<void>{
-        const newAgora = SmallTalk.createSmallTalk(challengeId, userChallengeId, question);
-        await this.save(newAgora);
+        const newSmallTalk = SmallTalk.createSmallTalk(challengeId, userChallengeId, question);
+        await this.save(newSmallTalk);
     }
     
 

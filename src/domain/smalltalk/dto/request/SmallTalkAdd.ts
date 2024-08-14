@@ -11,7 +11,7 @@ export class SmallTalkAdd{
     private organization:string;
 
     @IsNotEmpty()
-    private agoraQuestion:string;
+    private smallTalkQuestion:string;
 
 
     public getChallengeId(){
@@ -23,6 +23,6 @@ export class SmallTalkAdd{
     }
 
     public getAgoraQuestion(){
-        return this.agoraQuestion;
+        return this.smallTalkQuestion;
     }
 }

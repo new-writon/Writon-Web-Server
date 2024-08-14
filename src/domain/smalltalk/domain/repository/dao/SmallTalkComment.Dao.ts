@@ -11,12 +11,12 @@ export class SmallTalkCommentDao extends Repository<SmallTalkComment> implements
     constructor(private dataSource: DataSource) { super(SmallTalkComment, dataSource.createEntityManager()); }
 
     async insertSmallTalkComment(smallTalkId:number, affiliationId:number, smallTalkComment:string):Promise<void>{
-        const newAgoraComment = SmallTalkComment.createSmallTalkComment(smallTalkId, affiliationId, smallTalkComment);
-        await this.save(newAgoraComment);
+        const newSmallTalkComment = SmallTalkComment.createSmallTalkComment(smallTalkId, affiliationId, smallTalkComment);
+        await this.save(newSmallTalkComment);
     }
 
 
-    async findSmallTalkCommentByAgoraId(smallTalkId:number):Promise<ParticularSmallTalkCommentData[]>{
+    async findSmallTalkCommentBySmallTalkId(smallTalkId:number):Promise<ParticularSmallTalkCommentData[]>{
         const particularCommentData : ParticularSmallTalkCommentData[] = await this.dataSource.createQueryBuilder()
             .select([
                 'agc.agora_comment_id AS agora_comment_id',
@@ -28,6 +28,6 @@ export class SmallTalkCommentDao extends Repository<SmallTalkComment> implements
             .where('agc.agora_id = :agoraId',{smallTalkId})
             .orderBy('agc.createdAt', 'ASC')
             .getRawMany();
-        return particularCommentData.map((data) => new ParticularSmallTalkCommentData(data.smallTalkCommentId, data.content, data.created_time, data.affiliationId));
+        return particularCommentData.map((data) => new ParticularSmallTalkCommentData(data.smallTalkCommentId, data.content, data.createdTime, data.affiliationId));
     }
 }

@@ -10,19 +10,19 @@ export class ParticularSmallTalkCommentData{
 
     public smallTalkCommentId:number;
     public content: string;
-    public created_time: string;
+    public createdTime: string;
     public affiliationId:number;
 
 
     constructor(
         smallTalkCommentId:number,
         content: string,
-        created_time: string,
+        createdTime: string,
         affiliationId:number
     ){
             this.setSmallTalkCommentId(smallTalkCommentId);
             this.setContent(content);
-            this.setCreatedTime(created_time);
+            this.setCreatedTime(createdTime);
             this.setAffiliationId(affiliationId)
         }
 
@@ -43,7 +43,7 @@ export class ParticularSmallTalkCommentData{
     private setCreatedTime(createdTime: string) {
         if (!createdTime) 
             throw new InternalServerErrorException(`${__dirname} : createdTime 값이 존재하지 않습니다.`);
-        this.created_time = createdTime;
+        this.createdTime = createdTime;
     }
 
     private setAffiliationId(affiliationId: number) {
@@ -61,7 +61,7 @@ export class ParticularSmallTalkCommentData{
     }
 
     public getCreatedTime(){
-        return this.created_time;
+        return this.createdTime;
     }
 
     public getAffiliationId(){

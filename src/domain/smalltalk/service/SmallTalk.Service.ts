@@ -37,7 +37,7 @@ export class SmallTalkService{
     private async validateSmallTalkCount(challengeId:number, date:string){
         const smallTalkData = await this.smallTalkHelper.giveSmallTalkByChallengeIdAndDate(challengeId, date);
         if(!this.checkSmallTalkLimit(smallTalkData)){
-            throw new SmallTalkException(SmallTalkErrorCode.CANT_ADD_AGORA);
+            throw new SmallTalkException(SmallTalkErrorCode.CANT_ADD_SMALL_TALK);
         }
     }
 

@@ -17,7 +17,7 @@ export class SmallTalkCommentHelper{
     }
 
     public async giveSmallTalkCommentBySmallTalkId(smallTalkId:number):Promise<ParticularSmallTalkCommentData[]>{
-        const particularCommentData = await this.smallTalkCommentRepository.findSmallTalkCommentByAgoraId(smallTalkId);
+        const particularCommentData = await this.smallTalkCommentRepository.findSmallTalkCommentBySmallTalkId(smallTalkId);
      //   this.agoraVerifyService.verifyParticularAgoraComment(particularCommentData);
         return particularCommentData;
     }

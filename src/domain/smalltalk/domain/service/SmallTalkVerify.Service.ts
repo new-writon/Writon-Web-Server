@@ -9,13 +9,13 @@ import { ParticularSmallTalkCommentData } from "../../dto/ParticularSmallTalkCom
 export class SmallTalkVerifyService{
 
 
-    public verifyParticularAgora(particularSmallTalkData: ParticularSmallTalkData[]){
+    public verifyParticularSmallTalk(particularSmallTalkData: ParticularSmallTalkData[]){
         if(!checkData(particularSmallTalkData[0]))
-            throw new SmallTalkException(SmallTalkErrorCode.NOT_FOUND_PARTICULAR_AGORA);
+            throw new SmallTalkException(SmallTalkErrorCode.NOT_FOUND_PARTICULAR_SMALL_TALK);
     }
 
-    public verifyParticularAgoraComment(particularSmallTalkCommentData: ParticularSmallTalkCommentData[]){
+    public verifyParticularSmallTalkComment(particularSmallTalkCommentData: ParticularSmallTalkCommentData[]){
         if(!checkData(particularSmallTalkCommentData[0]))
-            throw new SmallTalkException(SmallTalkErrorCode.NOT_FOUND_PARTICULAR_AGORA_COMMENT);
+            throw new SmallTalkException(SmallTalkErrorCode.NOT_FOUND_PARTICULAR_SMALL_TALK_COMMENT);
     }
 }

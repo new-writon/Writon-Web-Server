@@ -7,7 +7,7 @@ import { ParticularSmallTalkCommentData } from "../../dto/ParticularSmallTalkCom
 
 export interface SmallTalkCommentRepository extends Repository<SmallTalkComment>{
 
-    insertSmallTalkComment(smallTalkId:number, affiliationId:number, smallTalkIComment:string):Promise<void>;
-    findSmallTalkCommentByAgoraId(smallTalkIId:number):Promise<ParticularSmallTalkCommentData[]>;
+    insertSmallTalkComment(smallTalkId:number, affiliationId:number, smallTalkComment:string):Promise<void>;
+    findSmallTalkCommentBySmallTalkId(smallTalkId:number):Promise<ParticularSmallTalkCommentData[]>;
 
 }
