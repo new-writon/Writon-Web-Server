@@ -14,19 +14,19 @@ export class SmallTalkDao extends Repository<SmallTalk> implements SmallTalkRepo
     async findParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularSmallTalkData[]>{
         const particularSmallTalkData :ParticularSmallTalkData[] = await this.dataSource.createQueryBuilder()
             .select([
-                'ag.agora_id AS agoraId',
-                'ag.question AS question',
-                'COUNT(DISTINCT agc.affiliation_id) AS participateCount',
-                "DATE_FORMAT(ag.createdAt, '%H:%i') AS createdTime",
-                "DATE(ag.createdAt) AS createdDate",
-                'ag.user_challenge_id AS user_challenge_id'
+                'st.small_talk_id AS smallTalkId',
+                'st.question AS question',
+                'COUNT(DISTINCT stc.affiliation_id) AS participateCount',
+                "DATE_FORMAT(st.created_at, '%H:%i') AS createdTime",
+                "DATE(st.created_at) AS createdDate",
+                'st.user_challenge_id AS userChallengeId'
             ])
-            .from(SmallTalk, 'ag')
-            .leftJoin(SmallTalkComment, 'agc', 'agc.agora_id = ag.agora_id')
-            .where('DATE(ag.createdAt) = :date', { date })
-            .andWhere('ag.challenge_id = :challengeId', { challengeId })
-            .groupBy('ag.agora_id, ag.question, ag.createdAt, ag.user_challenge_id')
-            .orderBy('ag.createdAt', 'DESC')
+            .from(SmallTalk, 'st')
+            .leftJoin(SmallTalkComment, 'stc', 'stc.small_talk_id = st.small_talk_id')
+            .where('DATE(st.created_at) = :date', { date })
+            .andWhere('st.challenge_id = :challengeId', { challengeId })
+            .groupBy('st.small_talk_id, st.question, st.created_at, st.user_challenge_id')
+            .orderBy('st.created_at', 'DESC')
             .getRawMany();
     
         return particularSmallTalkData.map((data)=> new ParticularSmallTalkData(data.smallTalkId, data.question, data.participateCount, data.createdTime, data.createdDate, data.userChallengeId))
@@ -41,10 +41,10 @@ export class SmallTalkDao extends Repository<SmallTalk> implements SmallTalkRepo
 
     async findSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
         return this.dataSource.createQueryBuilder()
-        .select('ag')
-        .from(SmallTalk, 'ag')
-        .where('DATE(ag.createdAt) = :date', { date })
-        .andWhere('ag.challenge_id = :challengeId', { challengeId })
+        .select('st')
+        .from(SmallTalk, 'st')
+        .where('DATE(st.created_at) = :date', { date })
+        .andWhere('st.challenge_id = :challengeId', { challengeId })
         .getMany()
     }
 }

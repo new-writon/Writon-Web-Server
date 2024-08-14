@@ -19,14 +19,14 @@ export class SmallTalkCommentDao extends Repository<SmallTalkComment> implements
     async findSmallTalkCommentBySmallTalkId(smallTalkId:number):Promise<ParticularSmallTalkCommentData[]>{
         const particularCommentData : ParticularSmallTalkCommentData[] = await this.dataSource.createQueryBuilder()
             .select([
-                'agc.agora_comment_id AS agora_comment_id',
-                'agc.content AS content',
-                "TIME_FORMAT(agc.createdAt, '%H:%i') AS created_time",
-                'agc.affiliation_id AS affiliation_id'
+                'stc.small_talk_comment_id AS smallTalkCommentId',
+                'stc.content AS content',
+                "TIME_FORMAT(stc.created_at, '%H:%i') AS createdTime",
+                'stc.affiliation_id AS affiliationId'
             ])
-            .from(SmallTalkComment, 'agc')
-            .where('agc.agora_id = :agoraId',{smallTalkId})
-            .orderBy('agc.createdAt', 'ASC')
+            .from(SmallTalkComment, 'stc')
+            .where('stc.small_talk_id = :smallTalkId',{smallTalkId})
+            .orderBy('stc.created_at', 'ASC')
             .getRawMany();
         return particularCommentData.map((data) => new ParticularSmallTalkCommentData(data.smallTalkCommentId, data.content, data.createdTime, data.affiliationId));
     }

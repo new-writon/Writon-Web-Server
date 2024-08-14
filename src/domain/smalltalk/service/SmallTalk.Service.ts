@@ -24,7 +24,7 @@ export class SmallTalkService{
     public async checkSmallTalk(challengeId:number, date:Date):Promise<SmallTalkResult>{
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, false);
         const smallTalkLimitResult = this.checkSmallTalkLimit(particularSmallTalkData);
-        return SmallTalkResult.of(null);
+        return SmallTalkResult.of(smallTalkLimitResult);
     }
 
     @MutexAlgorithm()
