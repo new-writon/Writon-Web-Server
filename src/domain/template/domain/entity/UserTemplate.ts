@@ -25,12 +25,12 @@ export class UserTemplate extends BaseEntity{
 
   constructor(   
     userChallengeId:number,
-    finished_at:Date,
+    templateDate:Date,
     complete:boolean
   ){
     super();
     this.setUserChallengeId(userChallengeId);
-    this.setFinishedAt(finished_at);
+    this.setTemplateDate(templateDate);
     this.setComplete(complete);
   }
 
@@ -40,8 +40,8 @@ export class UserTemplate extends BaseEntity{
   @Column("int", { name: "user_challenge_id" })
   user_challenge_id: number;
 
-  @Column("date", { name: "finished_at", nullable: true })
-  finished_at: Date | null;
+  @Column("date", { name: "template_date", nullable: true })
+  templateDate: Date | null;
 
   @Column("tinyint", { name: "complete", nullable: true, width: 1 })
   complete: boolean | null;
@@ -82,9 +82,9 @@ export class UserTemplate extends BaseEntity{
   }
 
 
-  private setFinishedAt(finishedAt:Date){
-    if(finishedAt === null) throw new InternalServerErrorException (`${__dirname} : finishedAt 값이 존재하지 않습니다.`);
-    this.finished_at=finishedAt
+  private setTemplateDate(templateDate:Date){
+    if(templateDate === null) throw new InternalServerErrorException (`${__dirname} : templateDate 값이 존재하지 않습니다.`);
+    this.templateDate=templateDate
   }
 
   private setComplete(complete:boolean){
@@ -96,8 +96,8 @@ export class UserTemplate extends BaseEntity{
     return this.user_template_id
   }
 
-  public getFinishedAt(): Date{
-    return this.finished_at;
+  public getTemplateDate(): Date{
+    return this.templateDate;
   }
 
   public getComplete(): boolean{
