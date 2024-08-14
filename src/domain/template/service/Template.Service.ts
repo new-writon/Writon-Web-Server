@@ -283,7 +283,7 @@ export class TemplateService {
                     createdAt: comment.getCreatedAt(),
                     sign: comment.getCheck(),
                     userTemplateId: userTemplate.getId(),
-                    templateName: userTemplate.getFinishedAt(),
+                    templateName: userTemplate.getTemplateDate(),
                     nickname:matchedAffiliation.getNickname(),
                     type: "comment"
                     }
@@ -300,7 +300,7 @@ export class TemplateService {
             createdAt: like.getCreatedAt(),
             sign: like.getCheck(),
             userTemplateId: userTemplate.getId(),
-            templateName: userTemplate.getFinishedAt(),
+            templateName: userTemplate.getTemplateDate(),
             nickname: matchedAffiliation.getNickname(),
             type: "like"
             }

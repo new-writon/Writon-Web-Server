@@ -19,7 +19,7 @@ export class DataMapperService{
         return commentData.map((comment)=>{
             const affiliation = affiliationData.find((affiliation) => affiliation.userChallenges[0].getId() === comment.userTemplate.getUserChallengeId());
             if(checkData(affiliation)){
-                return new MyComment(comment.getId(), comment.getCreatedAt(), comment.getContent(), comment.userTemplate.getFinishedAt(), affiliation.getNickname(), comment.getUserTemplateId());
+                return new MyComment(comment.getId(), comment.getCreatedAt(), comment.getContent(), comment.userTemplate.getTemplateDate(), affiliation.getNickname(), comment.getUserTemplateId());
             }         
         })
     } 
