@@ -1,37 +1,37 @@
 import { Injectable } from "@nestjs/common";
-import { AgoraCommentHelper } from "../helper/SmallTalkComment.Helper.js";
+import { SmallTalkCommentHelper } from "../helper/SmallTalkComment.Helper.js";
 import { UserApi } from "../infrastructure/User.Api.js";
-import { AgoraCommentRead } from "../dto/response/AgoraCommentRead.js";
-import { ParticularAgoraCommentData } from "../dto/ParticularAgoraCommentData.js";
+import { SmallTalkCommentRead } from "../dto/response/SmallTalkCommentRead.js";
+import { ParticularSmallTalkCommentData } from "../dto/ParticularSmallTalkCommentData.js";
 import { Affiliation } from "src/domain/user/domain/entity/Affiliation.js";
 
 
 @Injectable()
-export class AgoraCommentService{
+export class SmallTalkCommentService{
 
     constructor(
-        private readonly agoraCommentHelper: AgoraCommentHelper,
+        private readonly smallTalkCommentHelper: SmallTalkCommentHelper,
         private readonly userApi: UserApi
     ){}
 
 
-    public async penetrateAgoraComment(
+    public async penetrateSmallTalkComment(
         userId: number,
-        agoraId: number,
+        smallTalkId: number,
         organization: string,
         agoraComment: string
     ):Promise<void>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-        await this.agoraCommentHelper.executeInsertAgoraComment(agoraId, affiliationData.getId(), agoraComment);
+        await this.smallTalkCommentHelper.executeInsertSmallTalkComment(smallTalkId, affiliationData.getId(), agoraComment);
     }
 
 
-    public async bringAgoraCommentRead(
+    public async bringSmallTalkCommentRead(
         userId: number,
-        agoraId: number
-    ):Promise<AgoraCommentRead[]>{
-        const agoraCommentData = await this.agoraCommentHelper.giveAgoraCommentByAgoraId(agoraId);
-        return agoraCommentData.length === 0 ? []:this.proccessAgoraCommentData(agoraCommentData, userId);
+        smallTalkId: number
+    ):Promise<SmallTalkCommentRead[]>{
+        const agoraCommentData = await this.smallTalkCommentHelper.giveSmallTalkCommentBySmallTalkId(smallTalkId);
+        return agoraCommentData.length === 0 ? []:this.proccessSmallTalkCommentData(agoraCommentData, userId);
 
         // const extractedAffiliationId = this.extractAffiliationId(agoraCommentData);
         // const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
@@ -40,24 +40,24 @@ export class AgoraCommentService{
 
     }
 
-    private async proccessAgoraCommentData(agoraCommentData:ParticularAgoraCommentData[], userId:number){
-        const extractedAffiliationId = this.extractAffiliationId(agoraCommentData);
+    private async proccessSmallTalkCommentData(smallTalkCommentData:ParticularSmallTalkCommentData[], userId:number){
+        const extractedAffiliationId = this.extractAffiliationId(smallTalkCommentData);
         const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
-        const mergedParticularAgoraComment = this.mergeParticularAgoraComment(agoraCommentData, affiliationData, userId);
-        return AgoraCommentRead.of(mergedParticularAgoraComment);
+        const mergedParticularSmallTalkComment = this.mergeParticularSmallTalkComment(smallTalkCommentData, affiliationData, userId);
+        return SmallTalkCommentRead.of(mergedParticularSmallTalkComment);
     }
 
-    private extractAffiliationId(particularCommentData: ParticularAgoraCommentData[]){
+    private extractAffiliationId(particularCommentData: ParticularSmallTalkCommentData[]){
         return particularCommentData.map((particularCommentData)=> particularCommentData.getAffiliationId())
     }
 
-    private mergeParticularAgoraComment(particularCommentData: ParticularAgoraCommentData[], affiliationData:Affiliation[], userId:number):AgoraCommentRead[]{
+    private mergeParticularSmallTalkComment(particularCommentData: ParticularSmallTalkCommentData[], affiliationData:Affiliation[], userId:number):SmallTalkCommentRead[]{
         return affiliationData.flatMap((affiliationData) => {
             return particularCommentData.filter((particularCommentData) => affiliationData.getId() === particularCommentData.getAffiliationId())
             .map((particularCommentData) => {
                 const distinguishedUser = this.distinguishUser(affiliationData.user.getId(), userId);
-                return new AgoraCommentRead(
-                    particularCommentData.getAgoraCommentId(),
+                return new SmallTalkCommentRead(
+                    particularCommentData.getSmallTalkCommentId(),
                     particularCommentData.getContent(),
                     affiliationData.getNickname(),
                     affiliationData.user.getProfileImage(),

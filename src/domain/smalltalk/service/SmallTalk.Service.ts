@@ -1,51 +1,50 @@
 import { Injectable } from "@nestjs/common";
-import { AgoraHelper } from "../helper/SmallTalk.Helper.js";
+import { SmallTalkHelper } from "../helper/SmallTalk.Helper.js";
 import { UserApi } from "../infrastructure/User.Api.js";
-import { ParticularAgoraData } from "../dto/ParticularAgoraData.js";
+import { ParticularSmallTalkData } from "../dto/ParticularSmallTalkData.js";
 import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
-import { AgoraAddResult } from "../dto/response/AgoraAddResult.js";
-import { AgoraDataResult } from "../dto/response/\bAgoraDataResult.js";
-import { AgoraException } from "../exception/AgoraException.js";
-import { AgoraErrorCode } from "../exception/AgoraErrorCode.js";
-import {  getTodayDateString } from "../util/date.js";
+import { SmallTalkResult } from "../dto/response/SmallTalkAddResult.js";
+import { SmallTalkDataResult } from "../dto/response/SmallTalkDataResult.js";
+import { SmallTalkException } from "../exception/SmallTalkException.js";
+import { SmallTalkErrorCode } from "../exception/SmallTalkErrorCode.js";
+import { getTodayDateString } from "../util/date.js";
 import { SmallTalk } from "../domain/entity/SmallTalk.js";
 import { MutexAlgorithm } from "../../../global/decorator/mutex.js";
 
 
 @Injectable()
-export class AgoraService{
+export class SmallTalkService{
 
     constructor(
-        private readonly agoraHelper: AgoraHelper,
+        private readonly smallTalkHelper: SmallTalkHelper,
         private readonly userApi: UserApi
     ){}
 
 
-    public async checkAgora(challengeId:number, date:Date):Promise<AgoraAddResult>{
-        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date, false);
-        const agoraLimitResult = this.checkAgoraLimit(particularAgoraData);
-        return AgoraAddResult.of(null);
+    public async checkSmallTalk(challengeId:number, date:Date):Promise<SmallTalkResult>{
+        const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, false);
+        const smallTalkLimitResult = this.checkSmallTalkLimit(particularSmallTalkData);
+        return SmallTalkResult.of(null);
     }
 
     @MutexAlgorithm()
-    public async penetrateAgora(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
-        await this.validateAgoraCount(challengeId,getTodayDateString())
+    public async penetrateSmallTalk(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
+        await this.validateSmallTalkCount(challengeId,getTodayDateString())
         const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
-        await this.agoraHelper.executeInsertAgora(challengeId, userChallengeData.getId(), question);
+        await this.smallTalkHelper.executeInsertSmallTalk(challengeId, userChallengeData.getId(), question);
     }
 
-    private async validateAgoraCount(challengeId:number, date:string){
-        const agoraData = await this.agoraHelper.giveAgoraByChallengeIdAndDate(challengeId, date);
-        if(!this.checkAgoraLimit(agoraData)){
-            throw new AgoraException(AgoraErrorCode.CANT_ADD_AGORA);
+    private async validateSmallTalkCount(challengeId:number, date:string){
+        const smallTalkData = await this.smallTalkHelper.giveSmallTalkByChallengeIdAndDate(challengeId, date);
+        if(!this.checkSmallTalkLimit(smallTalkData)){
+            throw new SmallTalkException(SmallTalkErrorCode.CANT_ADD_AGORA);
         }
     }
 
-    public async bringAgora(userId:number, challengeId:number, date:Date){
+    public async bringSmallTalk(userId:number, challengeId:number, date:Date){
         // 1. 특정 아고라 정보 조회
-        const particularAgoraData = await this.agoraHelper.giveParticularAgoraByChallengeIdAndDate(challengeId, date, true);
-        console.log(particularAgoraData)
-        return particularAgoraData.length === 0 ? []:this.proccessAgoraData(particularAgoraData, userId, challengeId)
+        const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, true);
+        return particularSmallTalkData.length === 0 ? []:this.proccessSmallTalkData(particularSmallTalkData, userId, challengeId)
         // // 2. 1번 데이터에서 userChallengeId를 추출
         // const userChallengeId = this.sortUserChallengeId(particularAgoraData);
         // // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
@@ -54,31 +53,31 @@ export class AgoraService{
         // return AgoraDataResult.of(mergedAgoraData);
     }
 
-    private async proccessAgoraData(particularAgoraData:ParticularAgoraData[], userId:number, challengeId:number){
+    private async proccessSmallTalkData(particularSmallTalkData:ParticularSmallTalkData[], userId:number, challengeId:number){
         // 2. 1번 데이터에서 userChallengeId를 추출
-        const userChallengeId = this.sortUserChallengeId(particularAgoraData);
+        const userChallengeId = this.sortUserChallengeId(particularSmallTalkData);
         // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
         const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
-        const mergedAgoraData = this.mergeUserChallenge(particularAgoraData, userChallengeData, userId);
-        return AgoraDataResult.of(mergedAgoraData);
+        const mergedSmallTalkData = this.mergeUserChallenge(particularSmallTalkData, userChallengeData, userId);
+        return SmallTalkDataResult.of(mergedSmallTalkData);
     }
 
-    private sortUserChallengeId(agora: ParticularAgoraData[]){
-        return agora.map((agoraData) => agoraData.getUserChallengeId())
+    private sortUserChallengeId(smallTalk: ParticularSmallTalkData[]){
+        return smallTalk.map((smallTalkData) => smallTalkData.getUserChallengeId())
     }
 
-    private mergeUserChallenge(particularAgoraData: ParticularAgoraData[], userChallenge: UserChallenge[], userId:number):AgoraDataResult[]{
+    private mergeUserChallenge(particularSmallTalkData: ParticularSmallTalkData[], userChallenge: UserChallenge[], userId:number):SmallTalkDataResult[]{
         return userChallenge.flatMap((userChallenge) => {
-            return particularAgoraData.filter((particularAgoraData) => userChallenge.getId() === particularAgoraData.getUserChallengeId())
-            .map((particularAgoraData) => {
+            return particularSmallTalkData.filter((particularSmallTalkData) => userChallenge.getId() === particularSmallTalkData.getUserChallengeId())
+            .map((particularSmallTalkData) => {
                 const distinguishedUser = this.distinguishUser(userChallenge.affiliation.user.getId(), userId);
-                return new AgoraDataResult(
-                    particularAgoraData.getAgoraId(),
-                    particularAgoraData.getQuestion(),
-                    particularAgoraData.getParticipateCount(),
+                return new SmallTalkDataResult(
+                    particularSmallTalkData.getSmallTalkId(),
+                    particularSmallTalkData.getQuestion(),
+                    particularSmallTalkData.getParticipateCount(),
                     userChallenge.affiliation.getNickname(),
-                    particularAgoraData.getCreatedTime(),
-                    particularAgoraData.getCreatedDate(),
+                    particularSmallTalkData.getCreatedTime(),
+                    particularSmallTalkData.getCreatedDate(),
                     userChallenge.affiliation.user.getProfileImage(),
                     distinguishedUser,
                 )
@@ -93,8 +92,8 @@ export class AgoraService{
         return '0'
     }
 
-    private checkAgoraLimit(agora:ParticularAgoraData[] | SmallTalk[]){
-        if(agora.length >= 3){
+    private checkSmallTalkLimit(smallTalk:ParticularSmallTalkData[] | SmallTalk[]){
+        if(smallTalk.length >= 3){
             return false;
         }
         return true;

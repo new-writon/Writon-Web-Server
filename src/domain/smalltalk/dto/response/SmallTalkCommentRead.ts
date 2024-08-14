@@ -5,43 +5,43 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-export class AgoraCommentRead{
+export class SmallTalkCommentRead{
 
-    private agora_comment_id: number;
+    private smallTalkCommentId: number;
     private content: string;
     private nickname: string;
     private profile: string;
-    private created_time: string;
+    private createdTime: string;
     private myCommentSign:string;
 
 
     constructor(
-        agora_comment_id: number,
+        smallTalkCommentId: number,
         content: string,
         nickname: string,
         profile: string,
-        created_time: string,
+        createdTime: string,
         myCommentSign:string
     ){
-        this.setAgoraCommentId(agora_comment_id);
+        this.setSmallTalkCommentId(smallTalkCommentId);
         this.setContent(content);
         this.setNickname(nickname);
         this.setProfile(profile);
-        this.setCreatedTime(created_time);
+        this.setCreatedTime(createdTime);
         this.setMyCommentSign(myCommentSign);
     }
 
 
-    public static of(agoraCommentRead: AgoraCommentRead[]){
-        return agoraCommentRead.map((data)=> new AgoraCommentRead(data.agora_comment_id, data.content, data.nickname, data.profile, data.created_time, data.myCommentSign)); 
+    public static of(smallTalkCommentRead: SmallTalkCommentRead[]){
+        return smallTalkCommentRead.map((data)=> new SmallTalkCommentRead(data.smallTalkCommentId, data.content, data.nickname, data.profile, data.createdTime, data.myCommentSign)); 
     }
 
 
-    private setAgoraCommentId(agoraCommentId: number) {
-        if (agoraCommentId === undefined || agoraCommentId === null) {
-            throw new InternalServerErrorException(`${__dirname} : agoraCommentId 값이 존재하지 않습니다.`);
+    private setSmallTalkCommentId(smallTalkCommentId: number) {
+        if (smallTalkCommentId === undefined || smallTalkCommentId === null) {
+            throw new InternalServerErrorException(`${__dirname} : smallTalkCommentId 값이 존재하지 않습니다.`);
         }
-        this.agora_comment_id = agoraCommentId;
+        this.smallTalkCommentId =smallTalkCommentId;
     }
 
     private setContent(content: string) {
@@ -66,7 +66,7 @@ export class AgoraCommentRead{
         if (!createdTime) {
             throw new InternalServerErrorException(`${__dirname} : createdTime 값이 존재하지 않습니다.`);
         }
-        this.created_time = createdTime;
+        this.createdTime = createdTime;
     }
 
     private setMyCommentSign(myCommentSign: string) {

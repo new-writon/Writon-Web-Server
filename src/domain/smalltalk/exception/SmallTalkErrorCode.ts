@@ -1,6 +1,6 @@
 
 
-export enum AgoraErrorCode  {
+export enum SmallTalkErrorCode  {
     
     NOT_FOUND_PARTICULAR_AGORA = 600,
     CANT_ADD_AGORA=601,
@@ -16,6 +16,6 @@ const ErrorMessages: { [key: number]: string } = {
     602: "특정 아고라 댓글 데이터가 존재하지 않습니다."
 };
 
-export function errorMessage(code: AgoraErrorCode): string {
+export function errorMessage(code: SmallTalkErrorCode): string {
     return ErrorMessages[code] || "알 수 없는 오류가 발생하였습니다.";
 }

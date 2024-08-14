@@ -4,41 +4,41 @@ import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.
 import { User } from "../../user/domain/entity/User.js";
 import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
 import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { AgoraService } from "../service/SmallTalk.Service.js";
-import { AgoraAddResult } from "../dto/response/AgoraAddResult.js";
-import { AgoraAdd } from "../dto/request/AgoraAdd.js";
+import { SmallTalkService } from "../service/SmallTalk.Service.js";
+import { SmallTalkResult } from "../dto/response/SmallTalkAddResult.js";
+import { SmallTalkAdd } from "../dto/request/SmallTalkAdd.js";
 
 
 
 
-@Controller("/api/agora")
-export class AgoraController{
-    private readonly logger = new Logger(AgoraController.name);
+@Controller("/api/small-talk")
+export class SmallTalkController{
+    private readonly logger = new Logger(SmallTalkController.name);
     constructor(
-        private readonly agoraService:AgoraService
+        private readonly smallTalkService:SmallTalkService
     ){}
 
 
     @Get('/:challengeId/:date')
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async bringAgora(
+    public async bringSmallTalk(
         @Param('challengeId') challengeId: number,
         @Param('date') date: Date,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<any>>{
-        const result = await this.agoraService.bringAgora(user.user_id, challengeId, date);
-        this.logger.log("아고라 조회 완료");
+        const result = await this.smallTalkService.bringSmallTalk(user.user_id, challengeId, date);
+        this.logger.log("스몰톡 조회 완료");
         return SuccessResponseDto.of(result);
     }
 
     @Get('/check/:challengeId/:date')
     @HttpCode(200)
-    public async checkAgora(
+    public async checkSmallTalk(
         @Param('challengeId') challengeId: number,
         @Param('date') date: Date,
-    ): Promise<SuccessResponseDto<AgoraAddResult>>{
-        const result = await this.agoraService.checkAgora(challengeId, date)
+    ): Promise<SuccessResponseDto<SmallTalkResult>>{
+        const result = await this.smallTalkService.checkSmallTalk(challengeId, date)
         this.logger.log("아고라 추가 여부 조회 완료");
         return SuccessResponseDto.of(result);
     }
@@ -47,12 +47,12 @@ export class AgoraController{
     @HttpCode(200)
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
-    public async penetrateAgora(
-        @Body() agoraAdd: AgoraAdd,
+    public async penetrateSmallTalk(
+        @Body() smallTalkAdd: SmallTalkAdd,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.agoraService.penetrateAgora(user.user_id, agoraAdd.getChallengeId(), agoraAdd.getOrganization(), agoraAdd.getAgoraQuestion());
-        this.logger.log("아고라 추가 완료");
+        await this.smallTalkService.penetrateSmallTalk(user.user_id, smallTalkAdd.getChallengeId(), smallTalkAdd.getOrganization(), smallTalkAdd    .getAgoraQuestion());
+        this.logger.log("스몰톡 추가 완료");
         return SuccessResponseDto.of();
     }
 

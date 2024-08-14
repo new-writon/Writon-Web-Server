@@ -1,35 +1,35 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { SmallTalkRepository } from "../domain/repository/SmallTalk.Repository.js";
 import { SmallTalk } from "../domain/entity/SmallTalk.js";
-import { ParticularAgoraData } from "../dto/ParticularAgoraData.js";
-import { AgoraVerifyService } from "../domain/service/AgoraVerify.Service.js";
+import { ParticularSmallTalkData } from "../dto/ParticularSmallTalkData.js";
+import { SmallTalkVerifyService } from "../domain/service/SmallTalkVerify.Service.js";
 
 
 
 @Injectable()
-export class AgoraHelper{
+export class SmallTalkHelper{
 
     constructor(
-        @Inject("agoraImpl")
-        private readonly agoraRepository: SmallTalkRepository,
-        private readonly agoraVerifyService: AgoraVerifyService
+        @Inject("smallTalkImpl")
+        private readonly smallTalkRepository: SmallTalkRepository,
+        private readonly smallTalkVerifyService: SmallTalkVerifyService
     ){}
 
 
-    public async giveParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date, verifyChecking:boolean):Promise<ParticularAgoraData[]>{
-        const particularAgoraData = await this.agoraRepository.findParticularAgoraByChallengeIdAndDate(challengeId, date);
+    public async giveParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:Date, verifyChecking:boolean):Promise<ParticularSmallTalkData[]>{
+        const particularSmallTalkData = await this.smallTalkRepository.findParticularSmallTalkByChallengeIdAndDate(challengeId, date);
         // if(verifyChecking)
         //     this.agoraVerifyService.verifyParticularAgora(particularAgoraData);
-        return particularAgoraData;
+        return particularSmallTalkData;
     }
 
-    public async executeInsertAgora(challengeId: number, userChallengeId: number, question:string):Promise<void>{
-        return this.agoraRepository.insertAgora(challengeId, userChallengeId, question);
+    public async executeInsertSmallTalk(challengeId: number, userChallengeId: number, question:string):Promise<void>{
+        return this.smallTalkRepository.insertSmallTalk(challengeId, userChallengeId, question);
     }
     
 
-    public async giveAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
-        return this.agoraRepository.findAgoraByChallengeIdAndDate(challengeId, date);
+    public async giveSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
+        return this.smallTalkRepository.findSmallTalkByChallengeIdAndDate(challengeId, date);
     }
 
 

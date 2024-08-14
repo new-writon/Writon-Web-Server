@@ -3,40 +3,40 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export class ParticularAgoraData{
+export class ParticularSmallTalkData{
 
 
-    public agoraId: number;
+    public smallTalkId: number;
     public question: string;
     public participateCount: number;
     public createdTime: Date;
     public createdDate:Date;
-    public user_challenge_id:number;
+    public userChallengeId:number;
 
 
     constructor(
-        agoraId: number,
+        smallTalkId: number,
         question: string,
         participateCount: number,
         createdTime: Date,
         createdDate:Date,
-        user_challenge_id:number
+        userChallengeId:number
     ){
-        this.setAgoraId(agoraId);
+        this.setSmallTalkId(smallTalkId);
         this.setQuestion(question);
         this.setParticipateCount(participateCount);
         this.setCreatedTime(createdTime);
         this.setCreatedDate(createdDate);
-        this.setUserChallengeId(user_challenge_id);
+        this.setUserChallengeId(userChallengeId);
     }
 
 
-    private setAgoraId(agora_id: number): void {
-        this.agoraId = agora_id;
+    private setSmallTalkId(smallTalkId: number): void {
+        this.smallTalkId=smallTalkId;
     }
 
-    public getAgoraId(): number {
-        return this.agoraId;
+    public getSmallTalkId(): number {
+        return this.smallTalkId;
     }
 
     private setQuestion(question: string): void {
@@ -71,11 +71,11 @@ export class ParticularAgoraData{
         return this.createdDate;
     }
 
-    private setUserChallengeId(user_challenge_id: number): void {
-        this.user_challenge_id = user_challenge_id;
+    private setUserChallengeId(userChallengeId: number): void {
+        this.userChallengeId=userChallengeId;
     }
 
     public getUserChallengeId(): number {
-        return this.user_challenge_id;
+        return this.userChallengeId;
     }
 }

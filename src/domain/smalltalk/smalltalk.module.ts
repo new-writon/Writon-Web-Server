@@ -3,17 +3,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SmallTalk } from './domain/entity/SmallTalk.js';
 import { SmallTalkComment } from './domain/entity/SmallTalkComment.js';
-import { AgoraController } from './presentation/Agora.Controller.js';
-import { AgoraCommentController } from './presentation/AgoraComment.Controller.js';
-import { AgoraService } from './service/SmallTalk.Service.js';
-import { AgoraCommentService } from './service/SmallTalkComment.Service.js';
-import { AgoraHelper } from './helper/SmallTalk.Helper.js';
-import { AgoraCommentHelper } from './helper/SmallTalkComment.Helper.js';
+import { SmallTalkController } from './presentation/SmallTalk.Controller.js';
+import { SmallTalkCommentController } from './presentation/SmallTalkComment.Controller.js';
+import { SmallTalkService } from './service/SmallTalk.Service.js';
+import { SmallTalkCommentService } from './service/SmallTalkComment.Service.js';
+import { SmallTalkHelper } from './helper/SmallTalk.Helper.js';
+import { SmallTalkCommentHelper } from './helper/SmallTalkComment.Helper.js';
 import { UserModule } from '../user/user.module.js';
-import { AgoraDao } from './domain/repository/dao/SmallTalk.Dao.js';
-import { AgoraCommentDao } from './domain/repository/dao/SmallTalkComment.Dao.js';
+import { SmallTalkDao } from './domain/repository/dao/SmallTalk.Dao.js';
+import { SmallTalkCommentDao } from './domain/repository/dao/SmallTalkComment.Dao.js';
 import { UserApi } from './infrastructure/User.Api.js';
-import { AgoraVerifyService } from './domain/service/AgoraVerify.Service.js';
+import { SmallTalkVerifyService } from './domain/service/SmallTalkVerify.Service.js';
 
 
 
@@ -27,17 +27,17 @@ import { AgoraVerifyService } from './domain/service/AgoraVerify.Service.js';
   
   ],
   providers:[
-    {provide: 'agoraImpl',  useClass: AgoraDao},
-    {provide: 'agoraCommentImpl',  useClass: AgoraCommentDao},
-    AgoraService,
-    AgoraCommentService,
-    AgoraHelper,
-    AgoraCommentHelper,
+    {provide: 'smallTalkImpl',  useClass: SmallTalkDao},
+    {provide: 'smallTalkCommentImpl',  useClass: SmallTalkCommentDao},
+    SmallTalkService,
+    SmallTalkCommentService,
+    SmallTalkHelper,
+    SmallTalkCommentHelper,
     UserApi,
-    AgoraVerifyService
+    SmallTalkVerifyService
     
   ],
-  controllers: [AgoraController, AgoraCommentController],
-  exports:[AgoraHelper, AgoraCommentHelper]
+  controllers: [SmallTalkController, SmallTalkCommentController],
+  exports:[SmallTalkHelper, SmallTalkCommentHelper]
 })
 export class SmallTalkModule {}

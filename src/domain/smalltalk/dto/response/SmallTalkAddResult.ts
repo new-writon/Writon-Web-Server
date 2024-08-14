@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export class AgoraAddResult{
+export class SmallTalkResult {
 
     private status: boolean;
 
@@ -13,7 +13,7 @@ export class AgoraAddResult{
     }
 
     public static of(status:boolean){
-        return new AgoraAddResult(status);
+        return new SmallTalkResult(status);
     }
 
 

@@ -3,16 +3,16 @@ import { SmallTalkRepository} from "../SmallTalk.Repository.js";
 import { SmallTalk } from "../../entity/SmallTalk.js";
 import { Injectable } from "@nestjs/common";
 import { SmallTalkComment } from "../../entity/SmallTalkComment.js";
-import { ParticularAgoraData } from "../../../dto/ParticularAgoraData.js";
+import { ParticularSmallTalkData } from "../../../dto/ParticularSmallTalkData.js";
 
 
 @Injectable()
-export class AgoraDao extends Repository<SmallTalk> implements SmallTalkRepository{
+export class SmallTalkDao extends Repository<SmallTalk> implements SmallTalkRepository{
 
     constructor(private dataSource: DataSource) { super(SmallTalk, dataSource.createEntityManager()); }
 
-    async findParticularAgoraByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularAgoraData[]>{
-        const particularAgoraData :ParticularAgoraData[] = await this.dataSource.createQueryBuilder()
+    async findParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularSmallTalkData[]>{
+        const particularSmallTalkData :ParticularSmallTalkData[] = await this.dataSource.createQueryBuilder()
             .select([
                 'ag.agora_id AS agoraId',
                 'ag.question AS question',
@@ -29,17 +29,17 @@ export class AgoraDao extends Repository<SmallTalk> implements SmallTalkReposito
             .orderBy('ag.createdAt', 'DESC')
             .getRawMany();
     
-        return particularAgoraData.map((data)=> new ParticularAgoraData(data.agoraId, data.question, data.participateCount, data.createdTime, data.createdDate, data.user_challenge_id))
+        return particularSmallTalkData.map((data)=> new ParticularSmallTalkData(data.smallTalkId, data.question, data.participateCount, data.createdTime, data.createdDate, data.userChallengeId))
         
         }
 
-    async insertAgora(challengeId: number, userChallengeId: number, question:string):Promise<void>{
+    async insertSmallTalk(challengeId: number, userChallengeId: number, question:string):Promise<void>{
         const newAgora = SmallTalk.createSmallTalk(challengeId, userChallengeId, question);
         await this.save(newAgora);
     }
     
 
-    async findAgoraByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
+    async findSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
         return this.dataSource.createQueryBuilder()
         .select('ag')
         .from(SmallTalk, 'ag')
