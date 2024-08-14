@@ -26,7 +26,7 @@ const __dirname = path.dirname(__filename);
   ["user_challenge_id"],
   {}
 )
-@Entity("SatisfactionSubjectiveResult", { schema: "nest" })
+@Entity("satisfaction_subjective_result", { schema: "nest" })
 export class SatisfactionSubjectiveResult extends BaseEntity{
 
   constructor(

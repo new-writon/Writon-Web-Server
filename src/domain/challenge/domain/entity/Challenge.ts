@@ -23,7 +23,7 @@ const __dirname = path.dirname(__filename);
 
 @Index("Challenge_challenge_id_key", ["challenge_id"], { unique: true })
 @Index("Challenge_affiliation_id_fkey", ["affiliation_id"], {})
-@Entity("Challenge", { schema: "nest" })
+@Entity("challenges", { schema: "nest" })
 export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })
   challenge_id: number;

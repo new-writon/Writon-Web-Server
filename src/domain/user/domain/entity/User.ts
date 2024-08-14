@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 
 @Index("User_identifier_key", ["identifier"], { unique: true })
 @Index("User_email_key", ["email"], { unique: true })
-@Entity("User", { schema: "nest" })
+@Entity("user", { schema: "nest" })
 export class User extends BaseEntity{
 
 

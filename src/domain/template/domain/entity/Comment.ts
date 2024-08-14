@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 @Index("Comment_user_template_id_fkey", ["user_template_id"], {})
 @Index("Comment_comment_group_fkey", ["comment_group"], {})
 @Index("Comment_affiliation_id_fkey_idx", ["affiliation_id"], {})
-@Entity("Comment")
+@Entity("comments")
 export class Comment extends BaseEntity{
 
   constructor(

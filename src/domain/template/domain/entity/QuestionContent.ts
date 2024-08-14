@@ -23,7 +23,7 @@ const __dirname = path.dirname(__filename);
 })
 @Index("QuestionContent_question_id_fkey", ["question_id"], {})
 @Index("QuestionContent_user_template_id_fkey", ["user_template_id"], {})
-@Entity("QuestionContent", { schema: "nest" })
+@Entity("question_contents", { schema: "nest" })
 export class QuestionContent extends BaseEntity{
 
 

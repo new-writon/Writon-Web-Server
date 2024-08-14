@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 
 @Index("AgoraComment_agora_id_fkey_idx", ["agora_id"], {})
 @Index("AgoraComment_affiliation_id_fkey_idx", ["affiliation_id"], {})
-@Entity("AgoraComment", { schema: "nest" })
+@Entity("agora_comment", { schema: "nest" })
 export class AgoraComment extends BaseEntity{
 
   constructor(

@@ -20,7 +20,7 @@ import { InternalServerErrorException } from "@nestjs/common";
 
 @Index("Agora_user_challenge_id_fkey_idx", ["user_challenge_id"], {})
 @Index("Agora_challenge_id_fkey_idx", ["challenge_id"], {})
-@Entity("Agora", { schema: "nest" })
+@Entity("agora", { schema: "nest" })
 export class Agora extends BaseEntity{
 
   constructor(

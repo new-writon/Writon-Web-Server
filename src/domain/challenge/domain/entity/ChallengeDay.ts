@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 @Index("ChallengeDay_challenge_id_fkey", ["challenge_id"], {})
-@Entity("ChallengeDay", { schema: "nest" })
+@Entity("challenge_day", { schema: "nest" })
 export class ChallengeDay extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_day_id" })
   challenge_day_id: number;

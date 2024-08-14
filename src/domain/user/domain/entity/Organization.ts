@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Entity("Organization", { schema: "nest" })
+@Entity("organization", { schema: "nest" })
 export class Organization extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "organization_id" })
   organization_id: number;

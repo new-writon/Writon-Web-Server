@@ -26,7 +26,7 @@ const __dirname = path.dirname(__filename);
 @Index("Affiliation_affiliation_id_key", ["affiliation_id"], { unique: true })
 @Index("Affiliation_user_id_fkey", ["user_id"], {})
 @Index("Affiliation_organization_id_fkey", ["organization_id"], {})
-@Entity("Affiliation", { schema: "nest" })
+@Entity("affiliations", { schema: "nest" })
 export class Affiliation extends BaseEntity{
 
 

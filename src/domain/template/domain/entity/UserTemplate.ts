@@ -20,7 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 @Index("UserTemplate_user_challenge_id_fkey", ["user_challenge_id"], {})
-@Entity("UserTemplate")
+@Entity("user_templates")
 export class UserTemplate extends BaseEntity{
 
   constructor(   

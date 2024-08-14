@@ -28,7 +28,7 @@ const __dirname = path.dirname(__filename);
 })
 @Index("UserChallenge_affiliation_id_fkey", ["affiliation_id"], {})
 @Index("UserChallenge_challenge_id_fkey", ["challenge_id"], {})
-@Entity("UserChallenge", { schema: "nest" })
+@Entity("user_challenges", { schema: "nest" })
 export class UserChallenge extends BaseEntity{
 
   constructor(   

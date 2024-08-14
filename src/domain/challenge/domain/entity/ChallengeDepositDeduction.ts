@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 @Index("ChallengeDepositDeduction_challenge_id_fkey", ["challenge_id"], {})
-@Entity("ChallengeDepositDeduction", { schema: "nest" })
+@Entity("challenge_deposit_deduction", { schema: "nest" })
 export class ChallengeDepositDeduction extends BaseEntity{
   @PrimaryGeneratedColumn({
     type: "int",
