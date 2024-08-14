@@ -26,11 +26,11 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
     
     async findUserChallengeByUserIdAndOrganizationAndChallengeId(userId: number, organization: string, challengeId: number): Promise<UserChallenge[]> {
         return await this.dataSource.query(`
-            SELECT uc.*  FROM UserChallenge as uc
-            WHERE uc.affiliation_id = ( SELECT a.affiliation_id FROM Affiliation as a
+            SELECT uc.*  FROM user_challenges as uc
+            WHERE uc.affiliation_id = ( SELECT a.affiliation_id FROM affiliations as a
                 WHERE a.user_id = ${userId} 
                 AND a.organization_id = (
-                    SELECT o.organization_id FROM Organization as o
+                    SELECT o.organization_id FROM organizations as o
                     WHERE o.name = '${organization}' ))
             AND uc.challenge_id = ${challengeId};
         

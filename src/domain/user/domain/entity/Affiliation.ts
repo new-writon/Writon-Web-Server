@@ -33,8 +33,8 @@ export class Affiliation extends BaseEntity{
     userId: number,
     organizationId:number,
     nickname: string,
-    job: string,
-    jobIntroduce: string,
+    position: string,
+    positionIntroduce: string,
     hireDate: string,
     company: string,
     companyPublic: boolean,
@@ -44,8 +44,8 @@ export class Affiliation extends BaseEntity{
     this.setUserId(userId)
     this.setOrganizationId(organizationId)
     this.setNickname(nickname)
-    this.setJob(job)
-    this.setJobIntroduce(jobIntroduce)
+    this.setPosition(position)
+    this.setPositionIntroduce(positionIntroduce)
     this.setHireDate(hireDate)
     this.setCompany(company)
     this.setCompanyPublic(companyPublic)
@@ -64,11 +64,11 @@ export class Affiliation extends BaseEntity{
   @Column("date", { name: "hire_date", nullable: true })
   hire_date: string | null;
 
-  @Column("varchar", { name: "job", nullable: true, length: 20 })
-  job: string | null;
+  @Column("varchar", { name: "position", nullable: true, length: 20 })
+  position: string | null;
 
-  @Column("varchar", { name: "job_introduce", nullable: true, length: 300 })
-  job_introduce: string | null;
+  @Column("varchar", { name: "position_introduce", nullable: true, length: 300 })
+  position_introduce: string | null;
 
   @Column("varchar", { name: "nickname", length: 191 })
   nickname: string;
@@ -126,14 +126,14 @@ export class Affiliation extends BaseEntity{
     this.nickname=nickname;
   }
 
-  private setJob(job:string){
-    if(job === null) throw new InternalServerErrorException (`${__dirname} : job 값이 존재하지 않습니다.`);
-    this.job=job;
+  private setPosition(position:string){
+    if(position=== null) throw new InternalServerErrorException (`${__dirname} : position 값이 존재하지 않습니다.`);
+    this.position=position;
   }
 
-  private setJobIntroduce(jobIntroduce:string){
-    if(jobIntroduce === null) throw new InternalServerErrorException (`${__dirname} : jobIntroduce 값이 존재하지 않습니다.`);
-    this.job_introduce=jobIntroduce;
+  private setPositionIntroduce(positionIntroduce:string){
+    if(positionIntroduce === null) throw new InternalServerErrorException (`${__dirname} : positionIntroduce 값이 존재하지 않습니다.`);
+    this.position_introduce=positionIntroduce;
   }
 
   private setHireDate(hireDate:string){
@@ -156,8 +156,8 @@ export class Affiliation extends BaseEntity{
     userId: number,
     organizationId:number,
     nickname: string,
-    job: string,
-    jobIntroduce: string,
+    position: string,
+    positionIntroduce: string,
     hireDate: string,
     company: string,
     companyPublic: boolean
@@ -166,8 +166,8 @@ export class Affiliation extends BaseEntity{
       userId,
       organizationId,
       nickname,
-      job,
-      jobIntroduce,
+      position,
+      positionIntroduce,
       hireDate,
       company,
       companyPublic
@@ -192,12 +192,12 @@ export class Affiliation extends BaseEntity{
     return this.company_public;
   }
 
-  public getJob(): string{
-    return this.job;
+  public getPosition(): string{
+    return this.position;
   }
 
-  public getJobIntroduce(): string{
-    return this.job_introduce;
+  public getPositionIntroduce(): string{
+    return this.position_introduce;
   }
 
   public getHireDate(): string{

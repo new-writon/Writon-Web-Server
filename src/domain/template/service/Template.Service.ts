@@ -112,7 +112,7 @@ export class TemplateService {
             const commentCount = userTemplateData.getComments().length;
             const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
             return TemplateContent.of(   
-                userChallengeData.getAffiliation().getJob(), 
+                userChallengeData.getAffiliation().getPosition(), 
                 userChallengeData.getAffiliation().getNickname(),
                 userChallengeData.getAffiliation().getCompany(),
                 userChallengeData.getAffiliation().getCompanyPublic(),
@@ -142,7 +142,7 @@ export class TemplateService {
                 const commentCount = userTemplateData.getComments().length;
                 const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
                 return TemplateContent.of(
-                    userChallengeData.getAffiliation().getJob(),
+                    userChallengeData.getAffiliation().getPosition(),
                     userChallengeData.getAffiliation().getNickname(),
                     userChallengeData.getAffiliation().getCompany(),
                     userChallengeData.getAffiliation().getCompanyPublic(),

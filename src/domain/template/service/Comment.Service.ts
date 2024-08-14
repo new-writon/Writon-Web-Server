@@ -112,7 +112,7 @@ export class CommentService{
         return commentDatas.map((commentData)=>{
             const matchedAffiliationData = affiliationDatas.find((affiliationData)=> affiliationData.getAffiliationId() === commentData.getAffiliationId());
             const myAffiliationId = Number(myAffiliationData.getAffiliationId() === commentData.getAffiliationId());
-            return CommentInformation.of(matchedAffiliationData.getJob(), matchedAffiliationData.getCompany(), matchedAffiliationData.getCompanyPublic(),
+            return CommentInformation.of(matchedAffiliationData.getPosition(), matchedAffiliationData.getCompany(), matchedAffiliationData.getCompanyPublic(),
                     matchedAffiliationData.getUser().getProfileImage(),commentData.getId(), matchedAffiliationData.getNickname(),
                     commentData.getUserTemplateId(), commentData.getContent(), this.commentDateFormat(String(commentData.getCreatedAt())), myAffiliationId, String(commentData.getCommentGroup())
         )});

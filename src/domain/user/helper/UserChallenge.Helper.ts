@@ -15,7 +15,6 @@ export class UserChallengeHelper{
     ){}
 
     public async giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId: number){
-
         return this.userChallengeRepository.findUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
     }
 
