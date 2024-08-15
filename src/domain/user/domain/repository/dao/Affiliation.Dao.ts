@@ -59,7 +59,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
     return this.dataSource.createQueryBuilder()
             .select([
               'o.name AS organization',
-              'uc.challenge_id AS challenge_id',
+              'uc.challenge_id AS challengeId',
               'c.name AS challenge',
               "CASE WHEN c.finish_at < CURDATE() THEN '1' ELSE '0' END AS challengeFinishSign"
             ])
@@ -68,7 +68,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
             .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
             .innerJoin(Challenge, 'c', 'c.challenge_id = uc.challenge_id') // 수정
             .where('a.user_id = :userId',{userId})
-            .orderBy('uc.createdAt', 'DESC')
+            .orderBy('uc.created_at', 'DESC')
             .getRawMany();
   }
 
@@ -166,14 +166,14 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
     const myInformation:Participant = await this.dataSource.createQueryBuilder()
           .select([
             'u.profile AS profile',
-            'a.job AS job', 
-            'a.job_introduce AS job_introduce',
+            'a.position AS position', 
+            'a.position_introduce AS positionIntroduce',
             'a.nickname AS nickname',
-            'a.company_public AS company_public',
+            'a.company_public AS companyPublic',
             'a.company AS company',
             'u.email AS email',
-            'uc.cheering_phrase AS cheering_phrase',
-            'uc.cheering_phrase_date AS cheering_phrase_date ' 
+            'uc.cheering_phrase AS cheeringPhrase',
+            'uc.cheering_phrase_date AS cheeringPhraseDate ' 
           ])
           .from(Affiliation, 'a')
           .leftJoin(User, 'u', 'u.user_id = a.user_id')
@@ -188,14 +188,14 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
     const participants:Participant[] = await this.dataSource.createQueryBuilder()
           .select([
             'u.profile AS profile',
-            'a.job AS job', 
-            'a.job_introduce AS job_introduce',
+            'a.position AS position', 
+            'a.position_introduce AS positionIntroduce',
             'a.nickname AS nickname',
-            'a.company_public AS company_public',
+            'a.company_public AS companyPublic',
             'a.company AS company',
             'u.email AS email',
-            'uc.cheering_phrase AS cheering_phrase',
-            'uc.cheering_phrase_date AS cheering_phrase_date ' 
+            'uc.cheering_phrase AS cheeringPhrase',
+            'uc.cheering_phrase_date AS cheeringPhraseDate ' 
           ])
           .from(Affiliation, 'a')
           .leftJoin(User, 'u', 'u.user_id = a.user_id')

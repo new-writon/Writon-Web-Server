@@ -147,7 +147,7 @@ export class CommentService{
     
     private createMainComment = (comment: CommentInformation): CommentWithReplies => {
         return {
-            job: comment.getJob(),
+            position: comment.getJob(),
             company: comment.getCompany(),
             companyPublic: Number(comment.getCompanyPublic()),
             profile: comment.getProfile(),
@@ -164,7 +164,7 @@ export class CommentService{
     
     private createCommentReply = (comment: CommentInformation): CommentWithReplies => {
         return {
-            job: comment.getJob(),
+            position: comment.getJob(),
             company: comment.getCompany(),
             companyPublic: Number(comment.getCompanyPublic()),
             profile: comment.getProfile(),

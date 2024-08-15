@@ -80,13 +80,13 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         'qc.user_template_id AS userTemplateId',
         'qc.question_content_id AS questionContentId',
         'qc.content AS content',
-        'ut.finished_at AS createdAt',
+        'ut.template_date AS createdAt',
         'qc.visibility AS visibility',
         'q.category AS category ',
         'q.question AS question',
         'a.affiliation_id AS affiliationId'
       ])
-      .addSelect('a.job', 'job')
+      .addSelect('a.position', 'position')
       .addSelect('a.company', 'company')
       .addSelect('a.company_public', 'companyPublic')
       .addSelect('a.nickname', 'nickname')
@@ -111,17 +111,17 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         'qc.content',
         'q.category',
         'q.question',
-        'ut.finished_at',
-        'a.job',
+        'ut.template_date',
+        'a.position',
         'a.company',
         'a.company_public',
         'a.nickname',
         'u.profile'
       ].join(','))
       .orderBy({
-        'ut.finished_at': 'ASC',
-        'qc.createdAt': 'ASC',
-        'q.createdAt': 'ASC',
+        'ut.template_date': 'ASC',
+        'qc.created_at': 'ASC',
+        'q.created_at': 'ASC',
       })
       .getRawMany()
   }
@@ -147,7 +147,7 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
       .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
       .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_template_id AND qc.visibility = 1')
       .where('ut.user_challenge_id IN (:...userChallengeId)',{userChallengeId})
-      .andWhere("ut.finished_at = :date", {date})
+      .andWhere("ut.template_date = :date", {date})
       .getMany();
   }
 

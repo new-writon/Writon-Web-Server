@@ -27,7 +27,7 @@ export class UserTemplateTransaction {
 
     public async updateTemplateTransaction(userTemplateId:number,templateContent:Array<WriteTemplateContent>){
         await this.dataSource.transaction(async (transactionalEntityManager) => {
-            await transactionalEntityManager.delete(QuestionContent, {user_template_id: userTemplateId });
+            await transactionalEntityManager.delete(QuestionContent, {userTemplateId: userTemplateId });
             const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateId);
             const questionContents = changedTemplate.map(this.createQuestionContentObject);
             await transactionalEntityManager.save(questionContents)

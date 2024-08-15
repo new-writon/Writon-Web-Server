@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 export class ChallengesPerOrganization {
 
     private organization:string;
-    private challenge_id:number;
+    private challengeId:number;
     private challenge:string;
     private challengeFinishSign: string
 
@@ -28,7 +28,7 @@ export class ChallengesPerOrganization {
 
     public static of(challengesPerOrganization: ChallengesPerOrganization[]):ChallengesPerOrganization[]{
         return challengesPerOrganization.map((cpo)=>{
-            return new ChallengesPerOrganization(cpo.organization, cpo.challenge_id, cpo.challenge, cpo.challengeFinishSign);
+            return new ChallengesPerOrganization(cpo.organization, cpo.challengeId, cpo.challenge, cpo.challengeFinishSign);
         })
 
     }
@@ -47,7 +47,7 @@ export class ChallengesPerOrganization {
 
     private setChallengeId(challengeId:number){
         if(challengeId === null)throw new InternalServerErrorException (`${__dirname} : challengeId 값이 존재하지 않습니다.`);
-        this.challenge_id=challengeId;
+        this.challengeId=challengeId;
     }
 
     private setChallengeFinishSign(challengeFinishSign:string){

@@ -6,16 +6,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export class SatisfactionQuestion{
-    private satisfaction_id: number;
+    private satisfactionId: number;
     private type:string;
     private question:string;
 
     constructor(
-        satisfaction_id: number,
+        satisfactionId: number,
         type:string,
         question:string
     ){
-        this.setSatisfactionId(satisfaction_id);
+        this.setSatisfactionId(satisfactionId);
         this.setType(type);
         this.setQuestion(question);
     }
@@ -29,7 +29,7 @@ export class SatisfactionQuestion{
 
     private setSatisfactionId(satisfaction_id:number){
         if(satisfaction_id === null)throw new InternalServerErrorException (`${__dirname} : satisfaction_id 값이 존재하지 않습니다.`);
-        this.satisfaction_id=satisfaction_id;
+        this.satisfactionId=satisfaction_id;
     }
 
     private setType(type:string){

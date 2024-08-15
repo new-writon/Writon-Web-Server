@@ -5,7 +5,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export class TemplateContent {
-    private job: string;
+    private position: string;
     private nickname: string;
     private company: string;
     private companyPublic: boolean;
@@ -24,7 +24,7 @@ export class TemplateContent {
     private myLikeSign: string;
 
     constructor(
-        job: string,
+        position: string,
         nickname: string,
         company: string,
         companyPublic: boolean,
@@ -42,7 +42,7 @@ export class TemplateContent {
         commentCount: string,
         myLikeSign: string
     ) {
-        this.setJob(job);
+        this.setPosition(position);
         this.setNickname(nickname);
         this.setCompany(company);
         this.setCompanyPublic(companyPublic);
@@ -62,7 +62,7 @@ export class TemplateContent {
     }
 
     public static of(
-        job: string,
+        position: string,
         nickname: string,
         company: string,
         companyPublic: boolean,
@@ -89,15 +89,15 @@ export class TemplateContent {
         //     templateContents.visibility, templateContents.category, templateContents.question, templateContents.likeCount, templateContents.commentCount, templateContents.myLikeSign
         // )
 
-        return new TemplateContent(job, nickname, company, companyPublic, profile,
+        return new TemplateContent(position, nickname, company, companyPublic, profile,
             questionId, userTempleteId, questionContentId, content, createdAt,
             visibility, category, question, affiliationId, likeCount, commentCount, myLikeSign
         )
     }
 
-    private setJob(job: string): void {
-        if (job === null) throw new InternalServerErrorException(`${__dirname} : job 값이 존재하지 않습니다.`);
-        this.job = job;
+    private setPosition(position: string): void {
+        if (position === null) throw new InternalServerErrorException(`${__dirname} : position 값이 존재하지 않습니다.`);
+        this.position = position;
     }
 
     private setNickname(nickname: string): void {

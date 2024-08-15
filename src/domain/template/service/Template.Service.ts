@@ -79,6 +79,7 @@ export class TemplateService {
         
         // 유저 챌린지 Id 추출
         const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
+        console.log(userChallengeIds)
         // 유저챌린지와 날짜에 따른 템플릿 배열 조회
         const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date);
         return userTemplateData.length === 0 ? []:this.proccessTemplateAccordingToDateData(userTemplateData,affiliationData,userChallengeDatas)

@@ -1,5 +1,5 @@
 interface SelectComment {
-    job: string,
+    position: string,
     company: string,
     companyPublic: number,
     profile: string,
