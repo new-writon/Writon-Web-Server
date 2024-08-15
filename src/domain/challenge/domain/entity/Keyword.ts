@@ -4,6 +4,7 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
@@ -20,16 +21,19 @@ export class Keyword {
   @PrimaryGeneratedColumn({ type: "int", name: "keyword_id" })
   keywordId: number;
 
-  @Column("int", { name: "question_id" })
-  questionId: number;
+  // @Column("int", { name: "question_id" })
+  // questionId: number;
 
-  @Column("varchar", { name: "category", length: 10 })
-  category: string;
+  @Column("varchar", { name: "keyword", length: 10 })
+  keyword: string;
 
-  @ManyToOne(() => Question, (question) => question.keywords, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
-  @JoinColumn([{ name: "question_id", referencedColumnName: "question_id" }])
-  question: Relation<Question>;
+  @OneToMany(() => Question, (questions) => questions.keyword)
+  questions: Relation<Question>[];
+
+  // @ManyToOne(() => Question, (question) => question.keywords, {
+  //   onDelete: "CASCADE",
+  //   onUpdate: "CASCADE",
+  // })
+  // @JoinColumn([{ name: "question_id", referencedColumnName: "question_id" }])
+  // question: Relation<Question>;
 }

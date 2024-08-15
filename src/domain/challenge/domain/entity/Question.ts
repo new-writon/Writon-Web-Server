@@ -32,6 +32,9 @@ export class Question extends BaseEntity{
   @Column("varchar", { name: "category", length: 10 })
   category: string;
 
+  @Column("int", { name: "keyword_id" })
+  keywordId: number;
+
   @ManyToOne(() => Challenge, (challenge) => challenge.questions, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
@@ -39,14 +42,21 @@ export class Question extends BaseEntity{
   @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
   challenge: Relation<Challenge>;
 
+  @ManyToOne(() => Keyword, (keyword) => keyword.questions, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([{ name: "keyword_id", referencedColumnName: "keywordId" }])
+  keyword: Relation<Keyword>;
+
   @OneToMany(
     () => QuestionContent,
     (questionContent) => questionContent.question
   )
   questionContents: Relation<QuestionContent>[];
 
-  @OneToMany(() => Keyword, (keywords) => keywords.question)
-  keywords: Relation<Keyword>[];
+  // @OneToMany(() => Keyword, (keywords) => keywords.question)
+  // keywords: Relation<Keyword>[];
 
   public getId(){
     return this.question_id;
