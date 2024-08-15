@@ -6,7 +6,7 @@ import { IsNotEmpty } from "class-validator";
 export class WriteTemplateContent{
 
     @IsNotEmpty()
-    private question_id: number;
+    private questionId: number;
 
     @IsNotEmpty()
     private content: string
@@ -15,7 +15,7 @@ export class WriteTemplateContent{
     private visibility: boolean
 
     public getQuestionId(){
-        return this.question_id;
+        return this.questionId;
     }
 
     public getContent(){

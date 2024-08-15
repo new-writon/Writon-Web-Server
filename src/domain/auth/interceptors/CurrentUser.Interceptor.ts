@@ -17,7 +17,7 @@ export class CurrentUserInterceptor implements NestInterceptor {
       >();
  
     if (this.isObject(request.body) && request.user) {
-      Object.assign(request.body, { userId: request.user.user_id });
+      Object.assign(request.body, { userId: request.user.userId });
     }
 
     return next.handle();

@@ -44,6 +44,7 @@ export class UserChallengeHelper{
 
     public async giveUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>{
         const userChallengeData = await this.userChallengeRepository.findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
+        console.log(userId)
         this.userVerifyService.verifyUserChallenge(userChallengeData)
         return userChallengeData
     }
