@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 @Entity("organizations", { schema: "nest" })
 export class Organization extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "organization_id" })
-  organization_id: number;
+  organizationId: number;
 
   @Column("varchar", { name: "name", length: 30 })
   name: string;
@@ -19,6 +19,6 @@ export class Organization extends BaseEntity{
 
 
   public getId(){
-    return this.organization_id;
+    return this.organizationId;
   }
 }

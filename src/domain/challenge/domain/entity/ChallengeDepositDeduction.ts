@@ -14,32 +14,32 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Index("ChallengeDepositDeduction_challenge_id_fkey", ["challenge_id"], {})
+//@Index("ChallengeDepositDeduction_challenge_id_fkey", ["challengeId"], {})
 @Entity("challenge_deposit_deduction", { schema: "nest" })
 export class ChallengeDepositDeduction extends BaseEntity{
   @PrimaryGeneratedColumn({
     type: "int",
     name: "challenge_deposit_deduction_id",
   })
-  challenge_deposit_deduction_id: number;
+  challengeDepositDeductionId: number;
 
   @Column("int", { name: "challenge_id" })
-  challenge_id: number;
+  challengeId: number;
 
   @Column("int", { name: "start_count" })
-  start_count: number;
+  startCount: number;
   
   @Column("int", { name: "deduction_amount" })
-  deduction_amount: number;
+  deductionAmount: number;
 
   @Column("int", { name: "end_count" })
-  end_count: number;
+  endCount: number;
 
   @ManyToOne(
     () => Challenge,
     (challenge) => challenge.challengeDepositDeductions,
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
   challenge: Relation<Challenge>;
 }

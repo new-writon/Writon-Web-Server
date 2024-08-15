@@ -14,14 +14,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Index("ChallengeDay_challenge_id_fkey", ["challenge_id"], {})
+//@Index("ChallengeDay_challenge_id_fkey", ["challengeId"], {})
 @Entity("challenge_day", { schema: "nest" })
 export class ChallengeDay extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_day_id" })
-  challenge_day_id: number;
+  challengeDayId: number;
 
   @Column("int", { name: "challenge_id" })
-  challenge_id: number;
+  challengeId: number;
 
   @Column("date", { name: "day" })
   day: Date;
@@ -30,7 +30,7 @@ export class ChallengeDay extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
   challenge: Relation<Challenge>;
 
 

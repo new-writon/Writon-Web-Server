@@ -60,7 +60,7 @@ export class SmallTalkComment extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
+    { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
   affiliation: Relation<Affiliation>;
 

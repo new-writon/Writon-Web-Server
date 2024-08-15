@@ -23,11 +23,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-@Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
-  unique: true,
-})
-@Index("UserChallenge_affiliation_id_fkey", ["affiliation_id"], {})
-@Index("UserChallenge_challenge_id_fkey", ["challenge_id"], {})
+// @Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
+//   unique: true,
+// })
+// @Index("UserChallenge_affiliation_id_fkey", ["affiliation_id"], {})
+// @Index("UserChallenge_challenge_id_fkey", ["challengeId"], {})
 @Entity("user_challenges", { schema: "nest" })
 export class UserChallenge extends BaseEntity{
 
@@ -47,31 +47,31 @@ export class UserChallenge extends BaseEntity{
 
 
   @PrimaryGeneratedColumn({ type: "int", name: "user_challenge_id" })
-  user_challenge_id: number;
+  userChallengeId: number;
 
   @Column("int", { name: "affiliation_id" })
-  affiliation_id: number;
+  affiliationId: number;
 
   @Column("int", { name: "challenge_id" })
-  challenge_id: number;
+  challengeId: number;
 
   @Column("int", { name: "user_deposit" })
-  user_deposit: number;
+  userDeposit: number;
 
   @Column("varchar", { name: "cheering_phrase", nullable: true, length: 255 })
-  cheering_phrase: string | null;
+  cheeringPhrase: string | null;
 
   @Column("date", { name: "cheering_phrase_date", nullable: true })
-  cheering_phrase_date: string | null;
+  cheeringPhraseDate: string | null;
 
   @Column("tinyint", { name: "review" })
   review: number;
 
   @Column("int", { name: "check_count", nullable: true })
-  check_count: number | null;
+  checkCount: number | null;
 
   @Column("tinyint", { name: "re_engagement", nullable: true })
-  re_engagement: number | null;
+  reEngagement: number | null;
 
   @OneToMany(() => SmallTalk, (smallTalk) => smallTalk.userChallenge)
   smallTalks: Relation<SmallTalk>[];
@@ -93,7 +93,7 @@ export class UserChallenge extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
+    { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
   affiliation: Relation<Affiliation>;
 
@@ -101,7 +101,7 @@ export class UserChallenge extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
   challenge: Relation<Challenge>;
 
   @OneToMany(() => UserTemplate, (userTemplate) => userTemplate.userChallenge)
@@ -110,17 +110,17 @@ export class UserChallenge extends BaseEntity{
 
   private setAffiliationId(affiliationId: number){
     if(affiliationId === null) throw new InternalServerErrorException (`${__dirname} : affiliationId 값이 존재하지 않습니다.`);
-    this.affiliation_id=affiliationId;
+    this.affiliationId=affiliationId;
   }
 
   private setChallengeId(challengeId: number){
     if(challengeId === null) throw new InternalServerErrorException (`${__dirname} : challengeId 값이 존재하지 않습니다.`);
-    this.challenge_id=challengeId;
+    this.challengeId=challengeId;
   }
 
   private setDeposit(deposit: number){
     if(deposit === null) throw new InternalServerErrorException (`${__dirname} : deposit 값이 존재하지 않습니다.`);
-    this.user_deposit=deposit;
+    this.userDeposit=deposit;
   }
 
   private setReview(review: number){
@@ -129,15 +129,15 @@ export class UserChallenge extends BaseEntity{
   }
 
   public getUserDeposit(){
-    return this.user_deposit;
+    return this.userDeposit;
   }
 
   public getId(){
-    return this.user_challenge_id;
+    return this.userChallengeId;
   }
 
   public getCheckCount(){
-    return this.check_count;
+    return this.checkCount;
   }
 
   public getReview(){

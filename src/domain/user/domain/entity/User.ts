@@ -46,7 +46,7 @@ export class User extends BaseEntity{
   // }
 
   @PrimaryGeneratedColumn({ type: "int", name: "user_id" })
-  user_id: number;
+  userId: number;
 
   @Column("varchar", { name: "role", length: 20 })
   role: string;
@@ -64,7 +64,7 @@ export class User extends BaseEntity{
   profile: string | null;
 
   @Column("varchar", { name: "account_number", nullable: true, length: 40 })
-  account_number: string | null;
+  accountNumber: string | null;
 
   @Column("varchar", { name: "bank", nullable: true, length: 20 })
   bank: string | null;
@@ -137,7 +137,7 @@ export class User extends BaseEntity{
   }
 
   public getId(): number{
-    return this.user_id
+    return this.userId
   }
 
   public getPassword(): string{

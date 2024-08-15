@@ -65,7 +65,7 @@ export class AccountController {
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
   
-      await this.accountService.changePassword(user.user_id, passwordChange.getOldPassword(), passwordChange.getNewPassword());
+      await this.accountService.changePassword(user.userId, passwordChange.getOldPassword(), passwordChange.getNewPassword());
       return SuccessResponseDto.of();
     }
 

@@ -41,7 +41,7 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
     async findChallengeById(challengeId: number): Promise<Challenge>{
         return this.findOne({
             where:{
-                challenge_id: challengeId
+                challengeId: challengeId
             }
         })
     }

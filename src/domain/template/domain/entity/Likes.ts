@@ -16,9 +16,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-@Index("Like_like_id_key", ["like_id"], { unique: true })
-@Index("Like_user_template_id_fkey", ["user_template_id"], {})
-@Index("Like_affiliation_id_fkey_idx", ["affiliation_id"], {})
+// @Index("Like_like_id_key", ["like_id"], { unique: true })
+// @Index("Like_user_template_id_fkey", ["user_template_id"], {})
+// @Index("Like_affiliation_id_fkey_idx", ["affiliation_id"], {})
 @Entity("likes", { schema: "nest" })
 export class Likes extends BaseEntity{
 
@@ -33,13 +33,13 @@ export class Likes extends BaseEntity{
 
 
   @PrimaryGeneratedColumn({ type: "int", name: "like_id" })
-  like_id: number;
+  likeId: number;
 
   @Column("int", { name: "affiliation_id" })
-  affiliation_id: number;
+  affiliationId: number;
 
   @Column("int", { name: "user_template_id" })
-  user_template_id: number;
+  userTemplateId: number;
 
   @Column("tinyint", { name: "check", nullable: true })
   check: number | null;
@@ -49,7 +49,7 @@ export class Likes extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
+    { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
   affiliation: Relation<Affiliation>;
 
@@ -58,7 +58,7 @@ export class Likes extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "user_template_id", referencedColumnName: "user_template_id" },
+    { name: "user_template_id", referencedColumnName: "userTemplateId" },
   ])
   userTemplate: Relation<UserTemplate>;
 
@@ -67,11 +67,11 @@ export class Likes extends BaseEntity{
   }
 
   private setAffilationId(affiliation:number){
-    this.affiliation_id=affiliation;
+    this.affiliationId=affiliation;
   }
 
   private setUserTemplateId(userTemplateId:number){
-    this.user_template_id=userTemplateId;
+    this.userTemplateId=userTemplateId;
   }
 
   public getCreatedAt(){
@@ -83,10 +83,10 @@ export class Likes extends BaseEntity{
   }
 
   public getId(){
-    return this.like_id;
+    return this.likeId;
   }
 
   public getAffiliationId(){
-    return this.affiliation_id;
+    return this.affiliationId;
   }
 }

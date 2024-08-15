@@ -19,7 +19,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Index("UserTemplate_user_challenge_id_fkey", ["user_challenge_id"], {})
+//@Index("UserTemplate_user_challenge_id_fkey", ["user_challenge_id"], {})
 @Entity("user_templates")
 export class UserTemplate extends BaseEntity{
 
@@ -35,10 +35,10 @@ export class UserTemplate extends BaseEntity{
   }
 
   @PrimaryGeneratedColumn({ type: "int", name: "user_template_id" })
-  user_template_id: number;
+  userTemplateId: number;
 
   @Column("int", { name: "user_challenge_id" })
-  user_challenge_id: number;
+  userChallengeId: number;
 
   @Column("date", { name: "template_date", nullable: true })
   templateDate: Date | null;
@@ -64,7 +64,7 @@ export class UserTemplate extends BaseEntity{
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
-    { name: "user_challenge_id", referencedColumnName: "user_challenge_id" },
+    { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
   userChallenge: Relation<UserChallenge>;
 
@@ -78,7 +78,7 @@ export class UserTemplate extends BaseEntity{
 
   private setUserChallengeId(userChallengeId:number){
     if(userChallengeId === null) throw new InternalServerErrorException (`${__dirname} : userChallengeId 값이 존재하지 않습니다.`);
-    this.user_challenge_id=userChallengeId
+    this.userChallengeId=userChallengeId
   }
 
 
@@ -93,7 +93,7 @@ export class UserTemplate extends BaseEntity{
   }
 
   public getId(){
-    return this.user_template_id
+    return this.userTemplateId
   }
 
   public getTemplateDate(): Date{
@@ -105,7 +105,7 @@ export class UserTemplate extends BaseEntity{
   }
 
   public getUserChallengeId(){
-    return this.user_challenge_id
+    return this.userChallengeId
   }
 
   public getQuestionContents(){

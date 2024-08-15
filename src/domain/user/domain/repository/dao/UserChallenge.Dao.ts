@@ -16,8 +16,8 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
     async findUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
         return this.findOne({
             where:{
-                affiliation_id: affiliationId,
-                challenge_id: challengeId
+                affiliationId: affiliationId,
+                challengeId: challengeId
             }
         })
     }

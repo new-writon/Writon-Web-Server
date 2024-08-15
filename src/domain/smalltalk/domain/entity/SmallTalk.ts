@@ -55,7 +55,7 @@ export class SmallTalk extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
   challenge: Relation<Challenge>;
 
   @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.smallTalks, {
@@ -63,7 +63,7 @@ export class SmallTalk extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "user_challenge_id", referencedColumnName: "user_challenge_id" },
+    { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
   userChallenge: Relation<UserChallenge>;
 

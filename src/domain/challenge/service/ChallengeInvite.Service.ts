@@ -16,7 +16,7 @@ export class ChallengeInviteService{
         const challengeData = await this.challengeHelper.giveChallengeByChallengeName(challenge);
         await Promise.all(
             email.map(async (e) => {
-              await this.mailManager.sendInvitationEmail(organization, challengeData.challenge_id, e, challenge);
+              await this.mailManager.sendInvitationEmail(organization, challengeData.challengeId, e, challenge);
             })
           );    
     }

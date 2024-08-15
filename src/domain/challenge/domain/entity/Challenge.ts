@@ -18,33 +18,33 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Index("Challenge_challenge_id_key", ["challenge_id"], { unique: true })
-@Index("Challenge_affiliation_id_fkey", ["affiliation_id"], {})
+// @Index("Challenge_challenge_id_key", ["challengeId"], { unique: true })
+// @Index("Challenge_affiliation_id_fkey", ["affiliationId"], {})
 @Entity("challenges", { schema: "nest" })
 export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })
-  challenge_id: number;
+  challengeId: number;
 
-  @Column("int", { name: "affiliation_id" })
-  affiliation_id: number;
+  // @Column("int", { name: "affiliation_id" })
+  // affiliationId: number;
 
   @Column("varchar", { name: "name", length: 40 })
   name: string;
 
   @Column("date", { name: "start_at" })
-  start_at: string;
+  startAt: string;
 
   @Column("date", { name: "finish_at" })
-  finish_at: string;
+  finishAt: string;
 
   @Column("int", { name: "deposit" })
   deposit: number;
 
   @Column("longtext", { name: "refund_conditions", nullable: true })
-  refund_conditions: string | null;
+  refundConditions: string | null;
 
   @Column("longtext", { name: "review_url", nullable: true })
-  review_url: string | null;
+  reviewUrl: string | null;
 
   @Column("tinyint", { name: "restart", nullable: true })
   restart: number | null;
@@ -86,7 +86,7 @@ export class Challenge extends BaseEntity{
   }
 
   public getRefundCondition(){
-    return this.refund_conditions;
+    return this.refundConditions;
   }
 
   public getDeposit(){
@@ -94,7 +94,7 @@ export class Challenge extends BaseEntity{
   }
 
   public getId(){
-    return this.challenge_id;
+    return this.challengeId;
   }
 
   public getRestart(){
@@ -102,6 +102,6 @@ export class Challenge extends BaseEntity{
   }
 
   public getReviewUrl(){
-    return this.review_url;
+    return this.reviewUrl;
   }
 }

@@ -13,7 +13,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> implements Challen
 
     async findChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
         return this.findOneBy({
-             challenge_id: challengeId,
+             challengeId: challengeId,
              day: date
         })
     };

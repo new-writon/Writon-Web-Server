@@ -17,17 +17,17 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Index("Satiscation_challenge_id_fkey_idx", ["challenge_id"], {})
+//@Index("Satiscation_challenge_id_fkey_idx", ["challenge_id"], {})
 @Entity("satisfaction", { schema: "nest" })
 export class Satisfaction extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "satisfaction_id" })
-  satisfaction_id: number;
+  satisfactionId: number;
 
   @Column("varchar", { name: "question", length: 70 })
   question: string;
 
   @Column("int", { name: "challenge_id" })
-  challenge_id: number;
+  challengeId: number;
 
   @Column("varchar", { name: "type", length: 6 })
   type: string;
@@ -36,7 +36,7 @@ export class Satisfaction extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
   challenge: Relation<Challenge>;
 
   @OneToMany(
@@ -53,7 +53,7 @@ export class Satisfaction extends BaseEntity{
 
 
   public getId(){
-    return this.satisfaction_id;
+    return this.satisfactionId;
   }
 
   public getType(){
