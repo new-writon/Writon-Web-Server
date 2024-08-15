@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
 import { Question } from "../../entity/Question.js";
 import { QuestionRepository } from "../Question.Repository.js";
-import { QuestionTag } from "../../entity/QuestionTag.js";
+import { Keyword } from "../../entity/Keyword.js";
 import { SpecialQuestion } from "../../../dto/response/SpecialQuestion.js";
 import { BasicQuestion } from "../../../dto/response/BasicQuestion.js";
 
@@ -36,7 +36,7 @@ export class QuestionDao extends Repository<Question> implements QuestionReposit
             'qt.category AS category'
         ])
         .from(Question, 'q')
-        .innerJoin(QuestionTag, 'qt','qt.question_id = q.question_id')
+        .innerJoin(Keyword, 'qt','qt.question_id = q.question_id')
         .where('q.challenge_id = :challengeId',{challengeId})
         .andWhere('q.category LIKE :category', { category: '%스페셜%' })
         .orderBy('qt.category')

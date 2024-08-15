@@ -14,19 +14,19 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-@Index("QuestionTag_question_id_fkey", ["question_id"], {})
-@Entity("question_tag", { schema: "nest" })
-export class QuestionTag {
-  @PrimaryGeneratedColumn({ type: "int", name: "question_tag_id" })
-  question_tag_id: number;
+//@Index("QuestionTag_question_id_fkey", ["question_id"], {})
+@Entity("keyword", { schema: "nest" })
+export class Keyword {
+  @PrimaryGeneratedColumn({ type: "int", name: "keyword_id" })
+  keywordId: number;
 
   @Column("int", { name: "question_id" })
-  question_id: number;
+  questionId: number;
 
   @Column("varchar", { name: "category", length: 10 })
   category: string;
 
-  @ManyToOne(() => Question, (question) => question.questionTags, {
+  @ManyToOne(() => Question, (question) => question.keywords, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })

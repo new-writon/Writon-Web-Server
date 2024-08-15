@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
 import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
-import { QuestionTag } from "./QuestionTag.js";
+import { Keyword } from "./Keyword.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -45,8 +45,8 @@ export class Question extends BaseEntity{
   )
   questionContents: Relation<QuestionContent>[];
 
-  @OneToMany(() => QuestionTag, (questionTag) => questionTag.question)
-  questionTags: Relation<QuestionTag>[];
+  @OneToMany(() => Keyword, (keywords) => keywords.question)
+  keywords: Relation<Keyword>[];
 
   public getId(){
     return this.question_id;
