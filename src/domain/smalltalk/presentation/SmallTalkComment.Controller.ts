@@ -26,7 +26,7 @@ export class SmallTalkCommentController{
         @Param('smallTalkId') smallTalkId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<SmallTalkCommentRead[]>>{
-       const result = await this.smallTalkCommentService.bringSmallTalkCommentRead(user.user_id, smallTalkId);
+       const result = await this.smallTalkCommentService.bringSmallTalkCommentRead(user.userId, smallTalkId);
         this.logger.log("스몰톡 댓글 읽기 완료");
         return SuccessResponseDto.of(result);
     }
@@ -38,7 +38,7 @@ export class SmallTalkCommentController{
         @Body() smallTalkCommentInsert: SmallTalkCommentInsert,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.smallTalkCommentService.penetrateSmallTalkComment(user.user_id, smallTalkCommentInsert.getSmallTalkId(), smallTalkCommentInsert.getOragnization(), smallTalkCommentInsert.getSmallTalkComment());
+        await this.smallTalkCommentService.penetrateSmallTalkComment(user.userId, smallTalkCommentInsert.getSmallTalkId(), smallTalkCommentInsert.getOragnization(), smallTalkCommentInsert.getSmallTalkComment());
         this.logger.log("스몰톡 댓글 쓰기 완료");
         return SuccessResponseDto.of();
     }

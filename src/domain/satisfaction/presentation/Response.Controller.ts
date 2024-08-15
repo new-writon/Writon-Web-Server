@@ -24,7 +24,7 @@ export class ResponseController{
     @Body() reEngagementCheck: ReEngagementCheck,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.responseService.checkReEngagement(user.user_id, reEngagementCheck.getOrganization(), reEngagementCheck.getChallengeId(), reEngagementCheck.getCheck());
+    await this.responseService.checkReEngagement(user.userId, reEngagementCheck.getOrganization(), reEngagementCheck.getChallengeId(), reEngagementCheck.getCheck());
     this.logger.log("재참여 여부 응답 완료")
     return SuccessResponseDto.of();
   }
@@ -37,7 +37,7 @@ export class ResponseController{
     @Body() objectiveQuestionAnswer:ObjectiveQuestionAnswer,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>{
-    await this.responseService.penetrateObjectiveQuestion(user.user_id, objectiveQuestionAnswer.getOrganization(), objectiveQuestionAnswer.getChallengeId(), objectiveQuestionAnswer.getSatisfactionAnswer())
+    await this.responseService.penetrateObjectiveQuestion(user.userId, objectiveQuestionAnswer.getOrganization(), objectiveQuestionAnswer.getChallengeId(), objectiveQuestionAnswer.getSatisfactionAnswer())
     this.logger.log("객관식 질문 응답 완료")
     return SuccessResponseDto.of();
   }
@@ -49,7 +49,7 @@ export class ResponseController{
     @Body() subjectiveQuestionAnswer:SubjectiveQuestionAnswer,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.responseService.penetrateSubjectiveQuestion(user.user_id, subjectiveQuestionAnswer.getOrganization(), subjectiveQuestionAnswer.getChallengeId(), subjectiveQuestionAnswer.getSatisfactionAnswer())
+    await this.responseService.penetrateSubjectiveQuestion(user.userId, subjectiveQuestionAnswer.getOrganization(), subjectiveQuestionAnswer.getChallengeId(), subjectiveQuestionAnswer.getSatisfactionAnswer())
     this.logger.log("주관식 질문 응답 완료")
     return SuccessResponseDto.of();
   }

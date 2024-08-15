@@ -17,7 +17,7 @@ export class QuestionDao extends Repository<Question> implements QuestionReposit
     async findBasicQuestionByChallengeId(challengeId:number):Promise<BasicQuestion[]>{
         return this.dataSource.createQueryBuilder()
         .select([ 
-            'q.question_id AS question_id', 
+            'q.question_id AS questionId', 
             'q.question AS question'
         ])
         .from(Question, 'q')
@@ -31,15 +31,15 @@ export class QuestionDao extends Repository<Question> implements QuestionReposit
     async findSpecialQuestionByChallengeId(challengeId:number):Promise<SpecialQuestion[]>{
         return this.dataSource.createQueryBuilder()
         .select([
-            'q.question_id AS question_id', 
+            'q.question_id AS questionId', 
             'q.question AS question', 
-            'qt.category AS category'
+            'k.keyword AS keyword'
         ])
         .from(Question, 'q')
-        .innerJoin(Keyword, 'qt','qt.question_id = q.question_id')
+        .innerJoin(Keyword, 'k','k.keyword_id = q.keyword_id')
         .where('q.challenge_id = :challengeId',{challengeId})
         .andWhere('q.category LIKE :category', { category: '%스페셜%' })
-        .orderBy('qt.category')
+        .orderBy('k.keyword')
         .addOrderBy('q.question_id')
         .getRawMany()
         

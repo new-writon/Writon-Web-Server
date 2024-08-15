@@ -47,7 +47,7 @@ export class SatisfactionController{
     @Param('challengeId') challengeId: number, 
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<UserChallengeResult>>  {
-    const result = await this.satisfactionService.bringUserChallengeResult(user.user_id, organization, challengeId);
+    const result = await this.satisfactionService.bringUserChallengeResult(user.userId, organization, challengeId);
     this.logger.log("유저가 진행한 챌린지 결과 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -61,7 +61,7 @@ export class SatisfactionController{
     @Param('challengeId') challengeId: number, 
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<SatisfactionStatus>>  {
-    const result = await this.satisfactionService.bringSatisfactionStatus(user.user_id, organization, challengeId);
+    const result = await this.satisfactionService.bringSatisfactionStatus(user.userId, organization, challengeId);
     this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -76,7 +76,7 @@ export class SatisfactionController{
     @Param('challengeId') challengeId: number, 
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.satisfactionService.modifySatisfactionStatus(user.user_id, organization, challengeId);
+    await this.satisfactionService.modifySatisfactionStatus(user.userId, organization, challengeId);
     this.logger.log("유저 챌린지 만족도 조사 완료");
     return SuccessResponseDto.of();
   }

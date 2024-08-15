@@ -5,25 +5,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export class BasicQuestion{
-    private question_id:number;
+    private questionId:number;
     private question: string;
 
     constructor(  
-        question_id:number,
+        questionId:number,
         question: string){
-            this.setQuestionId(question_id);
+            this.setQuestionId(questionId);
             this.setQuestion(question);
     }
 
     public static of(specialQuestion: BasicQuestion[]): BasicQuestion[] {
         return specialQuestion.map((sq) => {
-            return new BasicQuestion(sq.question_id, sq.question);
+            return new BasicQuestion(sq.questionId, sq.question);
         });
     }
 
     private setQuestionId(questionId: number){
         if(questionId === null)throw new InternalServerErrorException (`${__dirname} : questionId값이 존재하지 않습니다.`);
-        this.question_id=questionId
+        this.questionId=questionId
     }
 
     private setQuestion(question: string){

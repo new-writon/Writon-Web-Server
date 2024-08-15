@@ -18,7 +18,7 @@ export class UserDao extends Repository<User> implements UserRepository{
     async selectUserById(userId: number): Promise<User> {
         return await this.findOne({
             where: {
-                user_id: userId
+                userId: userId
             }
         })
     }
@@ -85,7 +85,7 @@ export class UserDao extends Repository<User> implements UserRepository{
     }
 
     async updatePasswordByUserId(userId: number, newPassword: string){
-        await this.update({user_id: userId},{password:newPassword});
+        await this.update({userId: userId},{password:newPassword});
     }
 
     async updateAccount(accountNumber:string, bank:string, userId: number):Promise<void>{

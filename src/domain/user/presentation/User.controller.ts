@@ -21,7 +21,7 @@ export class UserController {
     @Body() accountUpdate:AccountUpdate,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<string>>  {
-    await this.userService.modifyAccount(accountUpdate.getAccountNumber(), accountUpdate.getBank(), user.user_id);
+    await this.userService.modifyAccount(accountUpdate.getAccountNumber(), accountUpdate.getBank(), user.userId);
     this.logger.log("계좌 정보 업데이트 완료");
     return SuccessResponseDto.of();
   }

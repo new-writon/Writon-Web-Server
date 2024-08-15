@@ -20,7 +20,6 @@ export class ChallengeQuestionService{
 
     public async bringBasicQuestion(challengeId: number):Promise<BasicQuestion[]>{ 
         const basicQuestionData = await this.questionHelper.giveBasicQuestionByChallengeId(challengeId);
-        console.log(basicQuestionData)
         return BasicQuestion.of(basicQuestionData);
     }
 

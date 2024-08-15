@@ -27,7 +27,7 @@ export class SmallTalkController{
         @Param('date') date: Date,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<any>>{
-        const result = await this.smallTalkService.bringSmallTalk(user.user_id, challengeId, date);
+        const result = await this.smallTalkService.bringSmallTalk(user.userId, challengeId, date);
         this.logger.log("스몰톡 조회 완료");
         return SuccessResponseDto.of(result);
     }
@@ -51,7 +51,7 @@ export class SmallTalkController{
         @Body() smallTalkAdd: SmallTalkAdd,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.smallTalkService.penetrateSmallTalk(user.user_id, smallTalkAdd.getChallengeId(), smallTalkAdd.getOrganization(), smallTalkAdd    .getAgoraQuestion());
+        await this.smallTalkService.penetrateSmallTalk(user.userId, smallTalkAdd.getChallengeId(), smallTalkAdd.getOrganization(), smallTalkAdd    .getAgoraQuestion());
         this.logger.log("스몰톡 추가 완료");
         return SuccessResponseDto.of();
     }

@@ -33,7 +33,7 @@ export class LikeController{
         @Body() likeCheck : LikeClick,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<LikeCount>>  {
-      const result = await this.likeService.penetrateLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization());
+      const result = await this.likeService.penetrateLike(user.userId, likeCheck.getUserTemplateId(), likeCheck.getOrganization());
       this.logger.log("좋아요 추가 완료");
       return SuccessResponseDto.of(result);
     }
@@ -46,7 +46,7 @@ export class LikeController{
         @Body() likeCheck : LikeClick,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<LikeCount>>  {
-        const result = await this.likeService.eraseLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization());   
+        const result = await this.likeService.eraseLike(user.userId, likeCheck.getUserTemplateId(), likeCheck.getOrganization());   
         this.logger.log("좋아요 취소 완료");
       return SuccessResponseDto.of(result);
     }

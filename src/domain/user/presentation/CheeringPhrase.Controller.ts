@@ -27,7 +27,7 @@ export class CheeringPhraseController{
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<Participant>> {
-        const result = await this.cheeringPhraseService.bringParticipant(user.user_id, challengeId);
+        const result = await this.cheeringPhraseService.bringParticipant(user.userId, challengeId);
         this.logger.log("나의 정보 조회 완료");
         return SuccessResponseDto.of(result);
     }
@@ -39,7 +39,7 @@ export class CheeringPhraseController{
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<ParticipantComponent>> {
-        const result = await this.cheeringPhraseService.bringParticipantComponent(user.user_id, challengeId);
+        const result = await this.cheeringPhraseService.bringParticipantComponent(user.userId, challengeId);
         this.logger.log("챌린지 참여자 정보 조회 완료");
         return SuccessResponseDto.of(result);
     }
@@ -51,7 +51,7 @@ export class CheeringPhraseController{
         @Body() cheeringPhraseInsert:CheeringPhraseInsert,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.cheeringPhraseService.penetrateCheeringPhrase(user.user_id, cheeringPhraseInsert.getOrganization(), cheeringPhraseInsert.getChallengeId(), cheeringPhraseInsert.getContent());
+        await this.cheeringPhraseService.penetrateCheeringPhrase(user.userId, cheeringPhraseInsert.getOrganization(), cheeringPhraseInsert.getChallengeId(), cheeringPhraseInsert.getContent());
         this.logger.log("오늘의 한마디 추가 완료");
         return SuccessResponseDto.of();
     }

@@ -28,7 +28,7 @@ export class CommentController{
       @Param('challengeId') challengeId: number,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<MyComment[]>>  {
-      const result = await this.commentService.bringMyComment(user.user_id, organization, challengeId);
+      const result = await this.commentService.bringMyComment(user.userId, organization, challengeId);
       this.logger.log("챌린지에 따른 내가 단 댓글 조회 완료");
       return SuccessResponseDto.of(result);
     }
@@ -42,7 +42,7 @@ export class CommentController{
       @Param('organization') organization: string,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CommentWithReplies[]>> {
-      const result = await this.commentService.bringCommentInformation(user.user_id, organization, userTemplateId)
+      const result = await this.commentService.bringCommentInformation(user.userId, organization, userTemplateId)
       this.logger.log("템플릿 댓글 조회 완료");
       return SuccessResponseDto.of(result);
     }
@@ -68,7 +68,7 @@ export class CommentController{
       @Body() commentUpdate: CommentUpdate,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.commentService.modifyComment(user.user_id, commentUpdate.getOrganization(), commentUpdate.getCommentId(), commentUpdate.getContent());
+      await this.commentService.modifyComment(user.userId, commentUpdate.getOrganization(), commentUpdate.getCommentId(), commentUpdate.getContent());
       this.logger.log("댓글 수정 완료");
       return SuccessResponseDto.of();
     }
@@ -80,7 +80,7 @@ export class CommentController{
       @Body() commentInsert: CommentInsert,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CommentId>>  {
-      const result = await this.commentService.penetrateComment(user.user_id, commentInsert.getOrganization(), commentInsert.getUserTemplateId(), commentInsert.getContent(), commentInsert.getCommentGroup());
+      const result = await this.commentService.penetrateComment(user.userId, commentInsert.getOrganization(), commentInsert.getUserTemplateId(), commentInsert.getContent(), commentInsert.getCommentGroup());
       this.logger.log("댓글 추가 완료");
       return SuccessResponseDto.of(result);
     }
@@ -93,7 +93,7 @@ export class CommentController{
       @Body() commentDelete: CommentDelete,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.commentService.eraseComment(user.user_id, commentDelete.getOrganization(), commentDelete.getCommentId());
+      await this.commentService.eraseComment(user.userId, commentDelete.getOrganization(), commentDelete.getCommentId());
       this.logger.log("댓글 삭제 완료");
       return SuccessResponseDto.of();
     }

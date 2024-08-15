@@ -45,7 +45,7 @@ export class AuthController{
     public async logout(
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.authService.logout(String(user.user_id));
+      await this.authService.logout(String(user.userId));
       this.logger.log("로그아웃 완료");
       return SuccessResponseDto.of();
     }

@@ -5,28 +5,28 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export class SpecialQuestion{
-    private question_id:number;
+    private questionId:number;
     private question: string;
-    private category:string
+    private keyword:string
 
     constructor(  
-        question_id:number,
+        questionId:number,
         question: string,
-        category:string){
-            this.setQuestionId(question_id);
+        keyword:string){
+            this.setQuestionId(questionId);
             this.setQuestion(question);
-            this.setCategory(category);
+            this.setKeyword(keyword);
     }
 
     public static of(specialQuestion: SpecialQuestion[]): SpecialQuestion[] {
         return specialQuestion.map((sq) => {
-            return new SpecialQuestion(sq.question_id, sq.question, sq.category);
+            return new SpecialQuestion(sq.questionId, sq.question, sq.keyword);
         });
     }
 
     private setQuestionId(questionId: number){
         if(questionId === null)throw new InternalServerErrorException (`${__dirname} : questionId값이 존재하지 않습니다.`);
-        this.question_id=questionId
+        this.questionId=questionId
     }
 
     private setQuestion(question: string){
@@ -34,9 +34,9 @@ export class SpecialQuestion{
         this.question=question
     }
 
-    private setCategory(category: string){
-        if(category === null)throw new InternalServerErrorException (`${__dirname} : category 값이 존재하지 않습니다.`);
-        this.category=category
+    private setKeyword(keyword: string){
+        if(keyword === null)throw new InternalServerErrorException (`${__dirname} : keyword값이 존재하지 않습니다.`);
+        this.keyword=keyword
     }
     
 

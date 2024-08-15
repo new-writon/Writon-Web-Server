@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 //@Index("QuestionTag_question_id_fkey", ["question_id"], {})
-@Entity("keyword", { schema: "nest" })
+@Entity("keywords", { schema: "nest" })
 export class Keyword {
   @PrimaryGeneratedColumn({ type: "int", name: "keyword_id" })
   keywordId: number;
