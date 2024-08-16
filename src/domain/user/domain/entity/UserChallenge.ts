@@ -73,6 +73,9 @@ export class UserChallenge extends BaseEntity{
   @Column("tinyint", { name: "re_engagement", nullable: true })
   reEngagement: number | null;
 
+  @Column("tinyint", { name: "withdrawn", nullable: false, default:false})
+  withdrawn : boolean;
+
   @OneToMany(() => SmallTalk, (smallTalk) => smallTalk.userChallenge)
   smallTalks: Relation<SmallTalk>[];
 
