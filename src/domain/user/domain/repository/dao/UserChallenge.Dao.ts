@@ -73,7 +73,7 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         await this.dataSource.createQueryBuilder()
             .update(UserChallenge)
             .set({
-                check_count: checkCount
+                checkCount: checkCount
             })
             .where('user_challenge_id = :userChallengeId',{userChallengeId})
             .execute();
@@ -103,7 +103,7 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         await this.dataSource.createQueryBuilder()
                 .update(UserChallenge)
                 .set({
-                    re_engagement: check
+                    reEngagement: check
                 })
                 .where('user_challenge_id = :userChallengeId',{userChallengeId})
                 .execute();
@@ -130,8 +130,8 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         await this.dataSource.createQueryBuilder()
         .update(UserChallenge)
         .set({
-          cheering_phrase: content,
-          cheering_phrase_date: () => 'CURDATE()' 
+            cheeringPhrase: content,
+            cheeringPhraseDate: () => 'CURDATE()' 
         })
         .where('affiliation_id = :affiliationId', { affiliationId })
         .andWhere('challenge_id = :challengeId', { challengeId })

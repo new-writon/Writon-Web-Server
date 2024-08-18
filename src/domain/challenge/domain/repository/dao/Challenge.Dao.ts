@@ -19,7 +19,7 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
     async findChallengeByIdAndOngoing(challengeId: number): Promise<Challenge[]>{
         return this.query(`
             SELECT *
-            FROM Challenge as c
+            FROM challenges as c
             WHERE c.challenge_id = ${challengeId}
             AND curdate() <= c.finish_at ;
         `)
@@ -78,7 +78,7 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
     async findAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>{
     
         const rawResults : ChallengeAndOrganization[] = await this.dataSource.createQueryBuilder()
-            .select(['o.name AS organization', 'c.name AS challenge'])
+            .select(['o.name AS organizations', 'c.name AS challenges'])
             .from(Challenge, 'c')
             .innerJoin(Affiliation,'a', 'a.affiliation_id = c.affiliation_id')
             .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')

@@ -41,7 +41,7 @@ export class Likes extends BaseEntity{
   @Column("int", { name: "user_template_id" })
   userTemplateId: number;
 
-  @Column("tinyint", { name: "check", nullable: true })
+  @Column("tinyint", { name: "check", default:false })
   check: number | null;
 
   @ManyToOne(() => Affiliation, (affiliation) => affiliation.likes, {

@@ -94,8 +94,8 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
           'a.nickname AS nickname',
           'a.hire_date AS hiredate',
           'a.company AS company',
-          'a.job AS job',
-          'a.job_introduce AS jobIntroduce',
+          'a.position AS position',
+          'a.position_introduce AS positionIntroduce',
           'a.company_public AS companyPublic'
         ])
         .from(Affiliation,'a')
@@ -108,7 +108,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
 
 
 async updateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
-  hireDate:Date, job:string, jobIntroduce:string, companyPublic:boolean):Promise<void>{
+  hireDate:Date,position:string, positionIntroduce:string,companyPublic:boolean):Promise<void>{
 
     const subQuery = this.dataSource.createQueryBuilder()
     .select('o.organization_id')
@@ -119,10 +119,10 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
     .update(Affiliation)
     .set({
       nickname: nickname,
-      hire_date: hireDate,
-      job: job,
-      job_introduce: jobIntroduce,
-      company_public: companyPublic,
+      hireDate: hireDate,
+      position: position,
+      positionIntroduce: positionIntroduce,
+      companyPublic: companyPublic,
       company: company
     })
     .where(`organization_id = (${subQuery})`)

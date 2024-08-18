@@ -92,7 +92,7 @@ export class UserDao extends Repository<User> implements UserRepository{
         await this.dataSource.createQueryBuilder()
             .update(User)
             .set({
-                account_number: accountNumber,
+                accountNumber: accountNumber,
                 bank
             })
             .where("user_id = :userId",{userId})

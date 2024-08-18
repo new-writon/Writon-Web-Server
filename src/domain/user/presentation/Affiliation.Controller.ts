@@ -40,7 +40,7 @@ export class AffiliationController {
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
     await this.affiliationService.modifyProfileUpdate(user.userId, organization, profileUpdate.getNickname(),
-    profileUpdate.getCompany(), profileUpdate.getHireDate(), profileUpdate.getJob(), profileUpdate.getJobIntroduce(), profileUpdate.getComanyPublic()
+    profileUpdate.getCompany(), profileUpdate.getHireDate(), profileUpdate.getPosition(), profileUpdate.getPositionIntroduce(), profileUpdate.getComanyPublic()
   );
    this.logger.log("소속 프로필 업데이트 완료");
     return SuccessResponseDto.of();

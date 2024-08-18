@@ -20,7 +20,7 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
           .innerJoin(UserChallenge, 'uc', 'ut.user_challenge_id = uc.user_challenge_id')
           .where('uc.affiliation_id = :affiliationId', { affiliationId })
           .andWhere('uc.challenge_id = :challengeId', { challengeId })
-          .orderBy("DATE_FORMAT(ut.finished_at, '%Y-%m')")
+          .orderBy("DATE_FORMAT(ut.template_date, '%Y-%m')")
           .getMany();
     
         
@@ -44,11 +44,11 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
   async findChallengeSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>{
 
     const data = await this.query(`
-        select count(*) as count from UserTemplate as ut
+        select count(*) as count from user_templates as ut
         where ut.complete = 1
         and
         ut.user_challenge_id = (select uc.user_challenge_id
-        from UserChallenge as uc 
+        from user_challenges as uc 
             where uc.affiliation_id = ${affiliationId}
                 and uc.challenge_id = ${challengeId});
     `)

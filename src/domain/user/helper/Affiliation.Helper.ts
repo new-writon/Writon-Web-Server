@@ -47,8 +47,8 @@ export class AffiliationHelper {
     }
 
     public async executeUpdateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
-        hireDate:Date, job:string, jobIntroduce:string, companyPublic:boolean):Promise<void>{
-            await this.affiliationRepository.updateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,job,jobIntroduce,companyPublic);
+        hireDate:Date,position:string, positionIntroduce:string, companyPublic:boolean):Promise<void>{
+            await this.affiliationRepository.updateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,position, positionIntroduce,companyPublic);
         }
 
     public async giveAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>{

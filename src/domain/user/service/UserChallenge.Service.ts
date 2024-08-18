@@ -83,7 +83,6 @@ export class UserChallengeService {
 
 
    public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
-      
         const [affiliationData, challengeDayData] = await Promise.all([
             this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
             this.challengeApi.requestChallengeDayByChallengeId(challengeId) 

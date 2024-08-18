@@ -43,11 +43,11 @@ export class AffiliationService{
         nickname:string,
         company:string,
         hireDate:Date,
-        job:string,
-        jobIntroduce:string,
+        position:string,
+        positionIntroduce:string,
         companyPublic:boolean
     ){
         
-        await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,job,jobIntroduce,companyPublic);
+        await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,position,positionIntroduce,companyPublic);
     }
 }

@@ -34,7 +34,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> implements Challen
             .select('cd')
             .from(ChallengeDay, 'cd')
             .where('cd.challenge_id= :challengeId', {challengeId:challengeId})
-            .andWhere('cd.day BETWEEN (SELECT c.start_at FROM Challenge as c WHERE c.challenge_id = :challengeId) AND CURDATE()')
+            .andWhere('cd.day BETWEEN (SELECT c.start_at FROM challenges as c WHERE c.challenge_id = :challengeId) AND CURDATE()')
             .getMany()
     }
 }
