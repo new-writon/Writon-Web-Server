@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation
@@ -15,6 +17,8 @@ import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { Organization } from "../../../../domain/user/domain/entity/Organization.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -25,8 +29,8 @@ export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })
   challengeId: number;
 
-  // @Column("int", { name: "affiliation_id" })
-  // affiliationId: number;
+  @Column("int", { name: "organization_id" })
+  organizationId: number;
 
   @Column("varchar", { name: "name", length: 40 })
   name: string;
@@ -80,6 +84,13 @@ export class Challenge extends BaseEntity{
   @OneToMany(() => UserChallenge, (userChallenge) => userChallenge.challenge)
   userChallenges: Relation<UserChallenge>[];
 
+  @ManyToOne(() => Organization, (organization) => organization.challenges, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([{ name: "orgnization_id", referencedColumnName: "organizationId" }])
+  organization: Relation<Organization>;
+
 
   public getName(){
     return this.name;
@@ -103,5 +114,9 @@ export class Challenge extends BaseEntity{
 
   public getReviewUrl(){
     return this.reviewUrl;
+  }
+
+  public getOrganization(){
+    return this.organization;
   }
 }

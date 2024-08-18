@@ -5,41 +5,41 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export class ChallengeAndOrganization{
-    private organization: string;
-    private challenge: string;
+    private organizations: string;
+    private challenges: string;
 
 
-    constructor(organization:string, challenge:string){
-        this.setOrganization(organization);
-        this.setChallenge(challenge);
+    constructor(organizations:string, challenges:string){
+        this.setOrganization(organizations);
+        this.setChallenge(challenges);
     }
 
 
     public static of(challengeAndOrganizationArrayData:ChallengeAndOrganization[]){
         return challengeAndOrganizationArrayData.map((data)=>{
-            return new ChallengeAndOrganization(data.organization, data.challenge);
+            return new ChallengeAndOrganization(data.organizations, data.challenges);
         });
     }
 
 
 
     public getOrganization(){
-        return this.organization;
+        return this.organizations;
     }
 
     public getChallenge(){
-        return this.challenge;
+        return this.challenges;
     }
 
 
     private setOrganization(organization: string) {
         if(organization === null)throw new InternalServerErrorException (`${__dirname} : organization 값이 존재하지 않습니다.`);
-        this.organization = organization;
+        this.organizations = organization;
     }
 
     private setChallenge(challenge: string) {
         if(challenge === null)throw new InternalServerErrorException (`${__dirname} : challenge 값이 존재하지 않습니다.`);
-        this.challenge = challenge;
+        this.challenges = challenge;
     }
 
 }

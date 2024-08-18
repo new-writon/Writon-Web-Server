@@ -16,12 +16,4 @@ export class OrganizationDao extends Repository<Organization> implements Organiz
                 }
             });
         }
-
-        
-
-
-
-
-
-
-    }
+}

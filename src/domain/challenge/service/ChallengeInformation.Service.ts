@@ -1,6 +1,4 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ChallengeRepository } from "../domain/repository/Challenge.Repository.js";
-import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Repository.js";
 import { ChallengeDay } from "../domain/entity/ChallengeDay.js";
 import { ChallengeException } from "../exception/ChallengeException.js";
 import { ChallengeErrorCode } from "../exception/ChallengeErrorCode.js";
@@ -68,17 +66,15 @@ export class ChallengeInformationService{
     }
 
     private sortChallengePerOrganization(array : ChallengeAndOrganization[]):ChallengeAccordingToOrganization[]{
-        
         const groupOrganization : {
             [organization: string]: string[];
-            } = {};
+        } = {};
         array.forEach(item => {
         if (!groupOrganization[item.getOrganization()]) {
             groupOrganization[item.getOrganization()] = [];
         }
         groupOrganization[item.getOrganization()].push(item.getChallenge());
         });
-        
         const sortData : ChallengeAccordingToOrganization[] = Object.entries(groupOrganization).map(([organization, challenges]) => {   
             return new ChallengeAccordingToOrganization(organization, challenges);
         });
