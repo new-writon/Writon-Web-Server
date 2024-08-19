@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { UserTemplate } from "../entity/UserTemplate.js";
-import { checkData } from "../../util/checker.js";
-import { TemplateException } from "../../exception/TemplateException.js";
-import { TemplateErrorCode } from "../../exception/TemplateErrorCode.js";
-import { Comment } from "../entity/Comment.js";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
+import { UserTemplate } from "../entity/UserTemplate";
+import { checkData } from "../../util/checker";
+import { TemplateException } from "../../exception/TemplateException";
+import { TemplateErrorCode } from "../../exception/TemplateErrorCode";
+import { Comment } from "../entity/Comment";
+
 
 
 @Injectable()

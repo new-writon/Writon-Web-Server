@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { CommentHelper } from "../helper/Comment.Helper.js";
-import { UserApi } from "../infrastructure/User.Api.js";
-import { DataMapperService } from "../domain/service/DataMappper.Service.js";
-import { MyComment } from "../dto/response/MyComment.js";
-import { CommentId } from "../dto/response/CommentId.js";
-import { Comment } from "../domain/entity/Comment.js";
-import { Affiliation } from "src/domain/user/domain/entity/Affiliation.js";
-import { CommentInformation } from "../dto/response/CommentInformation.js";
-import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service.js";
-import { sortCompanyPublic } from "../util/data.js";
-import { formatDate } from "../util/date.js";
+import { CommentHelper } from "../helper/Comment.Helper";
+import { UserApi } from "../infrastructure/User.Api";
+import { DataMapperService } from "../domain/service/DataMappper.Service";
+import { MyComment } from "../dto/response/MyComment";
+import { CommentId } from "../dto/response/CommentId";
+import { Comment } from "../domain/entity/Comment";
+import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
+import { CommentInformation } from "../dto/response/CommentInformation";
+import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service";
+import { sortCompanyPublic } from "../util/data";
+import { formatDate } from "../util/date";
 
 @Injectable()
 export class CommentService{

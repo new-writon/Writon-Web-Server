@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { Likes } from "../entity/Likes.js";
+import { Likes } from "../entity/Likes";
 
 
 

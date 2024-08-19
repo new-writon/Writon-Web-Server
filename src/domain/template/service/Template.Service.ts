@@ -1,20 +1,20 @@
 import {  Injectable } from '@nestjs/common';
-import { TemplateContent } from '../dto/response/TemplateContent.js';
-import { UserApi } from '../infrastructure/User.Api.js';
-import { WriteTemplateContent } from '../dto/TemplateContent.js';
-import { ChallengeApi } from '../infrastructure/Challenge.Api.js';
-import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction.js';
-import { UserTemplateHelper } from '../helper/UserTemplate.Helper.js';
-import { UserTemplate } from '../domain/entity/UserTemplate.js';
-import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
-import { Affiliation } from '../../user/domain/entity/Affiliation.js';
-import { Transactional } from '../../../global/decorator/transaction.js';
+import { TemplateContent } from '../dto/response/TemplateContent';
+import { UserApi } from '../infrastructure/User.Api';
+import { WriteTemplateContent } from '../dto/values/TemplateContent';
+import { ChallengeApi } from '../infrastructure/Challenge.Api';
+import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction';
+import { UserTemplateHelper } from '../helper/UserTemplate.Helper';
+import { UserTemplate } from '../domain/entity/UserTemplate';
+import { UserChallenge } from '../../user/domain/entity/UserChallenge';
+import { Affiliation } from '../../user/domain/entity/Affiliation';
+import { Transactional } from '../../../global/decorator/transaction';
 import {  DataSource } from 'typeorm';
-import { Question } from 'src/domain/challenge/domain/entity/Question.js';
-import { formatDate } from '../util/date.js';
-import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data.js';
-import { TemplateVerifyService } from '../domain/service/TemplateVerify.Service.js';
-import { TemplateInformation } from '../dto/response/TemplateInformation.js';
+import { Question } from 'src/domain/challenge/domain/entity/Question';
+import { formatDate } from '../util/date';
+import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data';
+import { TemplateVerifyService } from '../domain/service/TemplateVerify.Service';
+import { TemplateInformation } from '../dto/response/TemplateInformation';
 
 
 

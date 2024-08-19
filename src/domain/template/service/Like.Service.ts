@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { LikeHelper } from "../helper/Like.Helper.js";
-import { UserApi } from "../infrastructure/User.Api.js";
-import { LikeCheck } from "../dto/request/LikeCheck.js";
-import { LikeCount } from "../dto/response/LikeCount.js";
+import { LikeHelper } from "../helper/Like.Helper";
+import { UserApi } from "../infrastructure/User.Api";
+import { LikeCount } from "../dto/response/LikeCount";
 
 @Injectable()
 export class LikeServie{

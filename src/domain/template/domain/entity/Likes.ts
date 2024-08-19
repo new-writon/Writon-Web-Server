@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { UserTemplate } from "./UserTemplate.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Affiliation } from "../../../user/domain/entity/Affiliation";
+import { UserTemplate } from "./UserTemplate";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
 

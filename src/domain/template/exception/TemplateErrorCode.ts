@@ -8,7 +8,7 @@ export enum TemplateErrorCode  {
     
 }
 
-// 각 에러 코드에 대한 메시지 정의
+
 const ErrorMessages: { [key: number]: string } = {
     700:"유저 템플릿이 존재하지 않습니다.",
     701:"해당 댓글이 존재하지 않습니다.",

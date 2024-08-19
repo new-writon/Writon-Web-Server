@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { Likes } from "../../entity/Likes.js";
-import { LikeRepository } from "../Like.Repository.js";
+import { Likes } from "../../entity/Likes";
+import { LikeRepository } from "../Like.Repository";
 
 
 @Injectable()

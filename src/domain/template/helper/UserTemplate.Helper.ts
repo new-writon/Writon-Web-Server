@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { UserTemplateRepository } from "../domain/repository/UserTemplate.Repository.js";
-import { UserTemplate } from "../domain/entity/UserTemplate.js";
-import { TemplateContent } from "../dto/response/TemplateContent.js";
-import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service.js";
+import { UserTemplateRepository } from "../domain/repository/UserTemplate.Repository";
+import { UserTemplate } from "../domain/entity/UserTemplate";
+import { TemplateContent } from "../dto/response/TemplateContent";
+import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service";
 
 @Injectable()
 export class UserTemplateHelper{

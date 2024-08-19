@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { CommentRepository } from "../domain/repository/Comment.Repository.js";
-import { Comment } from "../domain/entity/Comment.js";
-import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service.js";
+import { CommentRepository } from "../domain/repository/Comment.Repository";
+import { Comment } from "../domain/entity/Comment";
+import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service";
 
 
 @Injectable()

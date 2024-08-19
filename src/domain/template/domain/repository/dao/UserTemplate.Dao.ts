@@ -1,9 +1,9 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { UserTemplate } from '../../entity/UserTemplate.js';
-import { UserChallenge } from '../../../../user/domain/entity/UserChallenge.js';
-import { TemplateContent } from '../../../dto/response/TemplateContent.js';
-import { UserTemplateRepository } from '../UserTemplate.Repository.js';
+import { UserTemplate } from '../../entity/UserTemplate';
+import { UserChallenge } from '../../../../user/domain/entity/UserChallenge';
+import { TemplateContent } from '../../../dto/response/TemplateContent';
+import { UserTemplateRepository } from '../UserTemplate.Repository';
 
 
 /**

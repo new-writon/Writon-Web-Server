@@ -5,7 +5,7 @@
 */
 export const checkData = (data: any): boolean => {
     let result = true
-    if (!data) {   // 데이터가 없을 경우
+    if (data===undefined || data===null) {   // 데이터가 없을 경우
         return result = false;
     }
     return result;

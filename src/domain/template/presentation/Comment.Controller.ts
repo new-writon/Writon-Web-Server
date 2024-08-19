@@ -1,16 +1,16 @@
 import { Body, Controller, Delete, Get, HttpCode, Logger, Param, Patch, Post, UseGuards } from "@nestjs/common";
-import { CommentService } from "../service/Comment.Service.js";
-import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
-import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { User } from "../../user/domain/entity/User.js";
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { MyComment } from "../dto/response/MyComment.js";
-import { CommentCheck } from "../dto/request/CommentCheck.js";
-import { CommentInsert } from "../dto/request/CommentInsert.js";
-import { CommentId } from "../dto/response/CommentId.js";
-import { CommentUpdate } from "../dto/request/CommentUpdate.js";
-import { CommentDelete } from "../dto/request/CommentDelete.js";
-import { CommentInformation } from "../dto/response/CommentInformation.js";
+import { CommentService } from "../service/Comment.Service";
+import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard";
+import { CurrentUser } from "../../auth/decorators/Auth.Decorator";
+import { User } from "../../user/domain/entity/User";
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { MyComment } from "../dto/response/MyComment";
+import { CommentCheck } from "../dto/request/CommentCheck";
+import { CommentInsert } from "../dto/request/CommentInsert";
+import { CommentId } from "../dto/response/CommentId";
+import { CommentUpdate } from "../dto/request/CommentUpdate";
+import { CommentDelete } from "../dto/request/CommentDelete";
+
 
 
 @Controller("/api/template/comment")

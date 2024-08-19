@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { LikeRepository } from "../domain/repository/Like.Repository.js";
-import { Likes } from "../domain/entity/Likes.js";
+import { LikeRepository } from "../domain/repository/Like.Repository";
+import { Likes } from "../domain/entity/Likes";
 
 @Injectable()
 export class LikeHelper{

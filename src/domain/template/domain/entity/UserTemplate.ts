@@ -8,11 +8,11 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Comment } from "./Comment.js";
-import { Likes } from "./Likes.js";
-import { QuestionContent } from "./QuestionContent.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Comment } from "./Comment";
+import { Likes } from "./Likes";
+import { QuestionContent } from "./QuestionContent";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
 
 

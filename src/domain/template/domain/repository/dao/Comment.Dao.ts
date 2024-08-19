@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { CommentRepository } from "../Comment.Repository.js";
-import { Comment } from "../../entity/Comment.js";
-import { UserChallenge } from "../../../../user/domain/entity/UserChallenge.js";
-import { UserTemplate } from "../../entity/UserTemplate.js";
+import { CommentRepository } from "../Comment.Repository";
+import { Comment } from "../../entity/Comment";
+import { UserChallenge } from "../../../../user/domain/entity/UserChallenge";
+
 
 
 @Injectable()

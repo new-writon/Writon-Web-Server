@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { UserTemplate } from "./UserTemplate.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Affiliation } from "../../../user/domain/entity/Affiliation";
+import { UserTemplate } from "./UserTemplate";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 // @Index("Comment_comment_id_key", ["comment_id"], { unique: true })
 // @Index("Comment_user_template_id_fkey", ["user_template_id"], {})
