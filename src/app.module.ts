@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { configuration } from './global/config/configuration.js';
-import { dataSource } from './global/config/database.js';
-import { UserModule } from './domain/user/user.module.js';
-import { AuthModule } from './domain/auth/auth.module.js';
-import { SmallTalkModule } from './domain/smalltalk/smalltalk.module.js';
-import { ErrorModule } from './domain/error/error.module.js';
-import { SatisfactionModule } from './domain/satisfaction/satisfaction.module.js';
-import { ChallengeModule } from './domain/challenge/challenge.module.js';
-import { TemplateModule } from './domain/template/template.module.js';
+import { configuration } from './global/config/configuration';
+import { dataSource } from './global/config/database';
+import { UserModule } from './domain/user/user.module';
+import { AuthModule } from './domain/auth/auth.module';
+import { SmallTalkModule } from './domain/smalltalk/smalltalk.module';
+import { ErrorModule } from './domain/error/error.module';
+import { SatisfactionModule } from './domain/satisfaction/satisfaction.module';
+import { ChallengeModule } from './domain/challenge/challenge.module';
+import { TemplateModule } from './domain/template/template.module';
 import { CacheModule } from '@nestjs/cache-manager';
-import { RedisConfig } from './global/config/RedisConfig.js';
+import { RedisConfig } from './global/config/RedisConfig';
 import { MailerModule } from '@nestjs-modules/mailer';
 
 

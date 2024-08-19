@@ -2,11 +2,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
-import { AppModule } from './app.module.js';
-import type { ConfigObject } from './global/config/configuration.js';
-import { HttpExceptionFilter } from './global/exception/HttpExceptionFilter.js';
+import { AppModule } from './app.module';
+import type { ConfigObject } from './global/config/configuration';
+import { HttpExceptionFilter } from './global/exception/HttpExceptionFilter';
 import { JwtService } from '@nestjs/jwt';
-import { TokenInterceptor } from './domain/auth/interceptors/Token.Interceptor.js';
+import { TokenInterceptor } from './domain/auth/interceptors/Token.Interceptor';
 
 
 
