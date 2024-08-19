@@ -18,4 +18,7 @@ export interface ChallengeRepository extends Repository<Challenge>{
 
     findAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>;
 
+    findAllChallengingInformation():Promise<ChallengeAllInformation[]>;
+
+
 }

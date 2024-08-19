@@ -17,6 +17,7 @@ import { UserHelper } from '../helper/User.Helper.js';
 import { UserChallengeHelper } from '../helper/UserChallenge.Helper.js';
 import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
 import { UserVerifyService } from '../domain/service/UserVerify.Service.js';
+import { ChallengeDeposit } from '../dto/ChallengeDeposit.js';
 
 
 @Injectable()
@@ -81,16 +82,82 @@ export class UserChallengeService {
         await this.userChallengeHelper.executeInsertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(), caculateDepositResult, 0);
     }
 
+    public async initializeDeposit(): Promise<void>{
+        const challengeData = await this.challengeApi.requestAllChallengingInformation();
+        const sortedChallengeData = this.sortChallengeDataByChallengeId(challengeData);
+        for (const challengeId in sortedChallengeData) {
+            const userChallenges = await this.userChallengeHelper.giveUserChallengeByChallengeId(Number(challengeId));
+            const extractedUserChallengeIds = this.extractUserChallengeIds(userChallenges);
+            const userChallengeSuccessData = await this.templateApi.requestUserTemplateSuccessCountByUserChallengeIds(extractedUserChallengeIds);
+            const userDepositInformation = this.calculateAllUserDeposits(sortedChallengeData, userChallengeSuccessData, Number(challengeId));
+            await this.userChallengeHelper.executeUpdateUserChallengeDeposit(userDepositInformation);
+        }  
+    }
 
-   public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
+    private calculateAllUserDeposits (
+        sortedChallengeData: ChallengeAllInformationCustom,
+        userChallengeSuccessData: { count: number, userChallengeId: number }[],
+        challengeId: number
+      ){
+        return userChallengeSuccessData.map(({ count, userChallengeId }) => {
+           const mappedData = this.calculateUserDeposit(sortedChallengeData, count, userChallengeId, challengeId)
+           return ChallengeDeposit.of(mappedData.userChallengeId, mappedData.calculatedDeposit);
+        });
+      }
+      
+    private calculateUserDeposit(
+        sortedChallengeData: ChallengeAllInformationCustom,
+        successCount: number,
+        userChallengeId: number,
+        challengeId: number
+      ){
+        const failCount = sortedChallengeData[challengeId].challengeDayCount - successCount;
+        const deduction = this.findDeduction(sortedChallengeData[challengeId].deductions, failCount);
+        return {
+          userChallengeId: userChallengeId,
+          calculatedDeposit: Math.floor(sortedChallengeData[challengeId].deposit - (deduction?.deduction_amount || 0))
+        };
+    }
+
+    private findDeduction(
+        deductions: { start_count: number, end_count: number, deduction_amount: number }[],
+        failCount: number
+    ){
+        return deductions.find(({ start_count, end_count }) => failCount >= start_count && failCount <= end_count);
+    }
+      
+    private sortChallengeDataByChallengeId(
+        challengeData: ChallengeAllInformation[]
+      ){
+        return challengeData.reduce((acc, item) => {
+          if (!acc[item.getChallengeId()]) {
+            acc[item.getChallengeId()] = {
+                challengeId: item.getChallengeId(),         
+                deposit: item.getDeposit(),                 
+                challengeDayCount: item.getChallengeDayCount(),
+                deductions: []
+            };
+          }
+          acc[item.getChallengeId()].deductions.push({
+            start_count: item.getStartCount(),
+            end_count: item.getEndCount(),
+            deduction_amount: item.getDeductionAmount()
+          });
+          return acc;
+        }, {} as ChallengeAllInformationCustom);
+      }
+
+    public extractUserChallengeIds(userChallenges:UserChallenge[]){
+        return userChallenges.map((data)=> data.getId());
+    }
+
+    public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
         const [affiliationData, challengeDayData] = await Promise.all([
             this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
             this.challengeApi.requestChallengeDayByChallengeId(challengeId) 
         ]);
        
         const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
-        console.log(userTemplateData )
-
         const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
         return CalendarData.of(calendarData);                           
     };

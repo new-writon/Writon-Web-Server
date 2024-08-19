@@ -15,7 +15,7 @@ export interface UserTemplateRepository extends Repository<UserTemplate> {
    findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplate[]>;
    findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplate[]>;
    findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId:number, visibility:boolean):Promise<UserTemplate>;
- 
+   findUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]);
 
   
 }

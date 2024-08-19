@@ -74,6 +74,14 @@ export class UserChallengeController {
         return SuccessResponseDto.of();
     }
 
+    @Post('/initialization/deposit')
+    @HttpCode(200)
+    public async initializeDeposit(): Promise<SuccessResponseDto<void>>{
+        await this.userChallengeService.initializeDeposit();
+        this.logger.log("챌린지 보증금 초기화 완료");
+        return SuccessResponseDto.of();
+    }
+
 
     @Get()
     @HttpCode(200)

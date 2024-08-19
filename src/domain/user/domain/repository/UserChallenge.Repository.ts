@@ -1,5 +1,6 @@
 import { DataSource, EntityRepository, Repository } from 'typeorm';
 import { UserChallenge } from '../entity/UserChallenge.js';
+import { ChallengeDeposit } from '../../dto/ChallengeDeposit.js';
 
 
 export interface UserChallengeRepository extends Repository<UserChallenge> {
@@ -18,5 +19,7 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
     insertCheeringPhrase(affiliationId: number, challengeId: number, content: string):Promise<void>;
     findUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number):Promise<UserChallenge[]>;
     findUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>;
+    findUserChallengeByChallengeId(challengeId: number): Promise<UserChallenge[]>;
+    updateUserChallengeDeposit(challengeDeposit:ChallengeDeposit[]):Promise<void>;
 
 }   

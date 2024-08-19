@@ -84,5 +84,28 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
         return ChallengeAndOrganization.of(rawResults);
     }
 
+    async findAllChallengingInformation():Promise<ChallengeAllInformation[]>{
+        const results = await this.createQueryBuilder('c')
+        .select([
+          'c.challenge_id AS challengeId',
+          'c.deposit AS deposit',
+          'CONVERT(COUNT(cd.day), CHAR) AS challengeDayCount',
+          'cdd.start_count AS startCount',
+          'cdd.end_count AS endCount',
+          'cdd.deduction_amount AS deductionAmount'
+        ])
+        .innerJoin(ChallengeDay, 'cd', 'cd.challenge_id = c.challenge_id')
+        .innerJoin(ChallengeDepositDeduction, 'cdd', 'cdd.challenge_id = c.challenge_id')
+        .where('CURDATE() <= c.finish_at')
+        .andWhere('cd.day < CURDATE()')
+        .groupBy('c.challenge_id')
+        .addGroupBy('c.deposit')
+        .addGroupBy('cdd.start_count')
+        .addGroupBy('cdd.end_count')
+        .addGroupBy('cdd.deduction_amount')
+        .getRawMany();
+        return results.map((data)=> {return ChallengeAllInformation.of(data.challengeId, data.deposit, data.challengeDayCount, data.startCount, data.endCount, data.deductionAmout)});
+    }
+
 
 }

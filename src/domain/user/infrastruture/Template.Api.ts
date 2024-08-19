@@ -24,4 +24,10 @@ export class TemplateApi{
     public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
         return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
     }
+
+
+    public async requestUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
+        return this.userTemplateHelper.giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds);
+      
+    }
 }

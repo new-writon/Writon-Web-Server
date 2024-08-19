@@ -162,6 +162,18 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         .getOne();
 }
 
+  async findUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
+      return this.dataSource.createQueryBuilder()
+      .select('ut.user_challenge_id', 'userChallengeId')
+      .addSelect('CAST(COUNT(ut.user_challenge_id) AS CHAR)', 'count')
+      .from(UserTemplate, 'ut')
+      .where('ut.user_challenge_id IN (:...userChallengeIds)', { userChallengeIds })
+      .andWhere('ut.complete = 1')
+      .groupBy('ut.user_challenge_id')
+      .getRawMany();
+     
+  }
+
 
 
 

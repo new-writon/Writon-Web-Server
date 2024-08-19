@@ -48,4 +48,8 @@ export class UserTemplateHelper{
         return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility);
     }
 
+    public async giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
+        return this.userTemplateRepository.findUserTemplateSuccessCountByUserChallengeIds(userChallengeIds);
+    }
+
 }

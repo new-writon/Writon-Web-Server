@@ -3,6 +3,7 @@ import { UserChallenge } from "../domain/entity/UserChallenge.js";
 import { UserChallengeRepository } from "../domain/repository/UserChallenge.Repository.js";
 import { DataMapperService } from "../domain/service/DataMapper.Service.js";
 import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
+import { ChallengeDeposit } from "../dto/ChallengeDeposit.js";
 
 @Injectable()
 export class UserChallengeHelper{
@@ -82,6 +83,14 @@ export class UserChallengeHelper{
 
     async giveUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>{
         return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserById(userChallengeId);
+    }
+
+    async giveUserChallengeByChallengeId(challengeId: number){
+        return this.userChallengeRepository.findUserChallengeByChallengeId(challengeId);
+    }
+
+    async executeUpdateUserChallengeDeposit(challengeDeposit:ChallengeDeposit[]):Promise<void>{
+        return this.userChallengeRepository.updateUserChallengeDeposit(challengeDeposit);
     }
 
 

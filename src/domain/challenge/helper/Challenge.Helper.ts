@@ -41,6 +41,10 @@ export class ChallengeHelper{
         return this.challengeRepository.findAllChallengeAccordingToOrganization();
     }
 
+    public async giveAllChallengingInformation():Promise<ChallengeAllInformation[]>{
+        return this.challengeRepository.findAllChallengingInformation();
+    }
+
 
 
 }

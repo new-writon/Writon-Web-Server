@@ -33,6 +33,11 @@ export class ChallengeApi{
         return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
     }
 
+    public async requestAllChallengingInformation():Promise<ChallengeAllInformation[]>{
+        return this.challengeHelper.giveAllChallengingInformation();
+
+    }
+
 
 
 }

@@ -5,6 +5,7 @@ import { UserChallenge } from '../../entity/UserChallenge.js';
 import { UserChallengeRepository } from '../UserChallenge.Repository.js';
 import { Affiliation } from '../../entity/Affiliation.js';
 import { Organization } from '../../entity/Organization.js';
+import { ChallengeDeposit } from '../../../../../domain/user/dto/ChallengeDeposit.js';
 
 /**
  * User DAO Class
@@ -159,4 +160,25 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         .getOne();
     }
 
+    async findUserChallengeByChallengeId(challengeId: number): Promise<UserChallenge[]>{
+        return this
+          .createQueryBuilder()
+          .select('uc')
+          .from(UserChallenge, 'uc')
+          .where('uc.challenge_id = :challengeId', { challengeId })
+          .groupBy('uc.user_challenge_id')
+          .getMany();
+    };
+
+    async updateUserChallengeDeposit(challengeDeposit:ChallengeDeposit[]):Promise<void>{
+        const updatePromises = challengeDeposit.map(async (depositInfo) => {
+            return this.dataSource
+                .createQueryBuilder()
+                .update(UserChallenge)
+                .set({ userDeposit: depositInfo.getCalculatedDeposit() })
+                .where('user_challenge_id = :userChallengeId', { userChallengeId: depositInfo.getUserChallengeId() })  
+                .execute();
+        });
+        await Promise.all(updatePromises);
+    }
 }
