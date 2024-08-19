@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, Logger, Param, Query } from "@nestjs/common";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { DuplicationCheckService } from "../service/DuplicationCheck.Service.js";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { DuplicationCheckService } from "../service/DuplicationCheck.Service";
 
 
 

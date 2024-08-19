@@ -1,13 +1,13 @@
 import {  Injectable } from "@nestjs/common";
-import { JwtManager } from "../util/JwtManager.js";
-import { TokenManager } from "../../../global/util/TokenManager.js";
-import { AuthException } from "../exception/AuthException.js";
-import { AuthErrorCode } from "../exception/AuthErrorCode.js";
-import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
-import random from "../util/random.js";
-import { MailManager } from "../../../global/util/MailManager.js";
-import { Token } from "../dto/response/Token.js";
-import { verifyCode } from "../util/checker.js";
+import { JwtManager } from "../util/JwtManager";
+import { TokenManager } from "../../../global/util/TokenManager";
+import { AuthException } from "../exception/AuthException";
+import { AuthErrorCode } from "../exception/AuthErrorCode";
+import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse";
+import random from "../util/random";
+import { MailManager } from "../../../global/util/MailManager";
+import { Token } from "../dto/response/Token";
+import { verifyCode } from "../util/checker";
 
 @Injectable()
 export class VerificationService{

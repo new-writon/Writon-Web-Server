@@ -1,17 +1,16 @@
 
-import { User } from "../../user/domain/entity/User.js";
-import { TokenManager } from "../../../global/util/TokenManager.js";
-import bcrypt from 'bcrypt';
-import { MailManager } from "../../../global/util/MailManager.js";
-import { UserIdentifier } from "../dto/response/UserIdentifier.js";
-import { generateRandomPassword } from "../util/temporaryPassword.js";
-import { UserHelper } from "../../user/helper/User.Helper.js";
-import { AuthErrorCode } from "../exception/AuthErrorCode.js";
-import { checkData } from "../util/checker.js";
-import { AuthException } from "../exception/AuthException.js";
-import { verifyCode, verifyPassword, vefifyIdentifier } from "../util/checker.js";
+import { User } from "../../user/domain/entity/User";
+import { TokenManager } from "../../../global/util/TokenManager";
+import * as bcrypt from 'bcrypt';
+import { MailManager } from "../../../global/util/MailManager";
+import { UserIdentifier } from "../dto/response/UserIdentifier";
+import { generateRandomPassword } from "../util/temporaryPassword";
+import { AuthErrorCode } from "../exception/AuthErrorCode";
+import { checkData } from "../util/checker";
+import { AuthException } from "../exception/AuthException";
+import { verifyCode, verifyPassword, vefifyIdentifier } from "../util/checker";
 import { Injectable } from "@nestjs/common";
-import { UserApi } from "../intrastructure/User.Api.js";
+import { UserApi } from "../intrastructure/User.Api";
 
 @Injectable()
 export class AccountService {

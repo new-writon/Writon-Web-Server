@@ -1,12 +1,12 @@
 
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { AuthenticationCodeRequest } from "../dto/request/AuthenticationCodeRequest.js";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { AuthenticationCodeRequest } from "../dto/request/AuthenticationCodeRequest";
 import { Body, Controller,  HttpCode,  Logger,  Post, Req} from "@nestjs/common";
-import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
-import { VerifyAuthenticationCode } from "../dto/request/VerifyAuthenticationCode.js";
-import { Token } from "../dto/response/Token.js";
+import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse";
+import { VerifyAuthenticationCode } from "../dto/request/VerifyAuthenticationCode";
+import { Token } from "../dto/response/Token";
 import { Request } from "express";
-import { VerificationService } from "../service/Verifiaction.Service.js";
+import { VerificationService } from "../service/Verifiaction.Service";
 
 @Controller("/api/auth/verification")
 export class VerificationController{

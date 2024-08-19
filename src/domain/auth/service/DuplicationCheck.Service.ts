@@ -1,11 +1,11 @@
 
-import { User } from "../../user/domain/entity/User.js";
-import { AuthException } from "../exception/AuthException.js";
-import { AuthErrorCode } from "../exception/AuthErrorCode.js";
-import { checkData } from "../util/checker.js";
+import { User } from "../../user/domain/entity/User";
+import { AuthException } from "../exception/AuthException";
+import { AuthErrorCode } from "../exception/AuthErrorCode";
+import { checkData } from "../util/checker";
 import { Injectable } from "@nestjs/common";
-import { Affiliation } from "../../user/domain/entity/Affiliation.js";
-import { UserApi } from "../intrastructure/User.Api.js";
+import { Affiliation } from "../../user/domain/entity/Affiliation";
+import { UserApi } from "../intrastructure/User.Api";
 
 
 @Injectable()

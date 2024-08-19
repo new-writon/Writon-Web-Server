@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import * as jwt from 'jsonwebtoken';
 import type { JwtPayload } from "jsonwebtoken"
-import { TokenManager } from "../../../global/util/TokenManager.js";
+import { TokenManager } from "../../../global/util/TokenManager";
 
 
 @Injectable()

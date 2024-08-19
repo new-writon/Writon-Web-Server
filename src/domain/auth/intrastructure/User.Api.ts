@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { Affiliation } from "../../../domain/user/domain/entity/Affiliation.js";
-import { AffiliationHelper } from "../../../domain/user/helper/Affiliation.Helper.js";
-import { UserHelper } from "../../user/helper/User.Helper.js";
-import { UserChallengeHelper } from "../../../domain/user/helper/UserChallenge.Helper.js";
+import { Affiliation } from "../../../domain/user/domain/entity/Affiliation";
+import { AffiliationHelper } from "../../../domain/user/helper/Affiliation.Helper";
+import { UserHelper } from "../../user/helper/User.Helper";
+import { UserChallengeHelper } from "../../../domain/user/helper/UserChallenge.Helper";
 
 @Injectable()
 export class UserApi{

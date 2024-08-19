@@ -1,6 +1,6 @@
-import { User } from "../../user/domain/entity/User.js";
-import { AuthErrorCode } from "../exception/AuthErrorCode.js";
-import { AuthException } from "../exception/AuthException.js";
+import { User } from "../../user/domain/entity/User";
+import { AuthErrorCode } from "../exception/AuthErrorCode";
+import { AuthException } from "../exception/AuthException";
 import * as bcrypt from 'bcrypt';
 
 

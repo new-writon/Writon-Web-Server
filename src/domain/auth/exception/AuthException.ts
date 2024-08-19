@@ -1,5 +1,5 @@
 import {HttpException, HttpStatus} from "@nestjs/common";
-import { AuthErrorCode, errorMessage } from "./AuthErrorCode.js";
+import { AuthErrorCode, errorMessage } from "./AuthErrorCode";
 
 export class AuthException extends HttpException {
     code: AuthErrorCode; 

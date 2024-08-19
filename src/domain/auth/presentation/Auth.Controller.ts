@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, HttpCode, Logger, Post, Req, UseGuards } from "@nestjs/common";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { AuthService } from "../service/Auth.Service.js";
-import { KakaoLogin } from "../dto/request/KakaoLogin.js";
-import { LoginResponse } from "../dto/response/loginResponse.js";
-import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
-import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
-import { User } from "../../user/domain/entity/User.js";
-import { LocalLogin } from "../dto/request/LocalLogin.js";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { AuthService } from "../service/Auth.Service";
+import { KakaoLogin } from "../dto/request/KakaoLogin";
+import { LoginResponse } from "../dto/response/loginResponse";
+import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
+import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
+import { User } from "../../user/domain/entity/User";
+import { LocalLogin } from "../dto/request/LocalLogin";
 import { Request } from "express";
 
 
