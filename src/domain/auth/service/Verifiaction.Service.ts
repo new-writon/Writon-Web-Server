@@ -12,7 +12,6 @@ import { verifyCode } from "../util/checker.js";
 @Injectable()
 export class VerificationService{
     constructor(
-
         private readonly jwtManager: JwtManager,
         private readonly tokenManager: TokenManager,
         private readonly mailManager: MailManager,
@@ -20,7 +19,6 @@ export class VerificationService{
     ) { }
     
     public async reissueToken(accessToken: string, refreshToken: string): Promise<Token>{
-
         const accessTokenVerifyResult = this.jwtManager.verify(accessToken.split('Bearer ')[1]);
         const accessTokenDecodedData = this.jwtManager.decode(accessToken.split('Bearer ')[1]);
         const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken.split('Bearer ')[1], accessTokenDecodedData.userId);
@@ -37,11 +35,9 @@ export class VerificationService{
     }
 
     public async verifyAuthenticationCode(email: string, code: string): Promise<void> {
-
         const authenticationCode: string = await this.tokenManager.getToken(email);
         verifyCode(code, authenticationCode);
     }
-
 
     private signVerifyToken(accessTokenVerifyResult: boolean, refreshTokenVerifyesult: boolean){
         this.signVerifyAccessToken(accessTokenVerifyResult);

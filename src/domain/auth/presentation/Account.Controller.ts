@@ -32,7 +32,6 @@ export class AccountController {
       return SuccessResponseDto.of();
     }
 
-
     @Get("/retrieve-idenfitier")
     @HttpCode(200)
     public async findIdentifier(
@@ -44,7 +43,6 @@ export class AccountController {
       return SuccessResponseDto.of(result);
     }
   
-  
     @Patch("/reset-password")
     @HttpCode(200)
     public async generateTemporaryPassword(
@@ -55,8 +53,6 @@ export class AccountController {
       return SuccessResponseDto.of();
     }
   
-  
-  
     @Patch("/change-password")
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
@@ -64,7 +60,6 @@ export class AccountController {
       @Body() passwordChange: PasswordChange,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-  
       await this.accountService.changePassword(user.userId, passwordChange.getOldPassword(), passwordChange.getNewPassword());
       return SuccessResponseDto.of();
     }

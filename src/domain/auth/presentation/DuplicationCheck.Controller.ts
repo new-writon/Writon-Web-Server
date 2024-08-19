@@ -40,5 +40,4 @@ export class DuplicationCheckController {
       this.logger.log("닉네임 중복 체크 완료");
       return SuccessResponseDto.of();
     }
-
 }

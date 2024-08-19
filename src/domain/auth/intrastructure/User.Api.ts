@@ -43,7 +43,6 @@ export class UserApi{
         return this.userHelper.executeKakaoSignUp(email, kakaoId, profileImage);
     }
 
-
     public async requestAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
         return this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
     }
@@ -55,7 +54,4 @@ export class UserApi{
     public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId: number){
         return this.userChallengeHelper.giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
     }
-
-
-    
 }

@@ -18,7 +18,6 @@ export class Token{
         return new Token(accessToken, refreshToken);
     }
 
-
     private setAccessToken(accessToken: string){
         if(accessToken === null)
             throw new InternalServerErrorException (`${__dirname} : AccessToken 값이 존재하지 않습니다.`);

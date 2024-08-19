@@ -12,7 +12,6 @@ export class AuthenticationCodeResponse {
         this.setCode(code);
      }
 
-     
     public static of(code: number):AuthenticationCodeResponse{
         return new AuthenticationCodeResponse(code);
     }

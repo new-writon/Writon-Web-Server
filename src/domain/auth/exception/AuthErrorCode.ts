@@ -11,10 +11,7 @@ export enum AuthErrorCode  {
     INVALIDATE_EMAIL=406,
     NOT_VERIFY_CODE=407,
     NOT_VERIFY_EMAIL=408,
-    INVALIDATE_NICKNAME=409
-    
-    
-    
+    INVALIDATE_NICKNAME=409  
 }
 
 // 각 에러 코드에 대한 메시지 정의

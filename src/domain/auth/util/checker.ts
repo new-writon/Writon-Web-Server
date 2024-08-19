@@ -17,12 +17,10 @@ const checkData = (data: any): boolean => {
     return result;
 }
 
-
 const verifyCode = (code: string, certifyCode: string) => {
     if (code !== certifyCode)
         throw new AuthException(AuthErrorCode.NOT_VERIFY_CODE);
 }
-
 
 const vefifyIdentifier = (userData: User) => {
     if (!checkData(userData))
@@ -41,7 +39,6 @@ const verifyPassword = async (comparingPassword: string, comparedPassword: strin
         throw new AuthException(AuthErrorCode.PASSWORD_IS_INCOREECT);
     }
 }
-
 
 export {
     checkData, verifyCode, vefifyIdentifier, verifyPassword

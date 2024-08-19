@@ -11,10 +11,7 @@ import { UserApi } from "../intrastructure/User.Api.js";
 @Injectable()
 export class DuplicationCheckService {
     constructor(
-
-     //   private readonly userHelper: UserHelper,
         private readonly userApi: UserApi
-     //   private readonly affiliatinApi: AffiliationApi
     ) {}
 
     public async checkDuplicateIdentifier(identifier: string): Promise<void> {

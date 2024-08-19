@@ -13,13 +13,10 @@ export class VerificationController{
     private readonly logger = new Logger(VerificationController.name);
     constructor(private readonly verificationService: VerificationService) {}
 
-
-
     @Post("/email-code")
     @HttpCode(200)
     public async issueAuthenticationCode(
         @Body() auththenticationCode: AuthenticationCodeRequest
-
     ): Promise<SuccessResponseDto<AuthenticationCodeResponse>> {
       const result = await this.verificationService.issueAuthenticationCode(auththenticationCode.getEmail());
       this.logger.log("인증코드 발급 완료");
@@ -30,13 +27,11 @@ export class VerificationController{
     @HttpCode(200)
     public async verifyAuthenticationCode(
         @Body() auththenticationCode: VerifyAuthenticationCode
-
     ): Promise<SuccessResponseDto<void>> {
       await this.verificationService.verifyAuthenticationCode(auththenticationCode.getEmail(), auththenticationCode.getCode());
       this.logger.log("인증코드 검증 완료");
       return SuccessResponseDto.of();
     }
-
 
     @Post("/token-reissue")
     @HttpCode(200)
@@ -49,5 +44,4 @@ export class VerificationController{
       this.logger.log("토큰 재발급 완료");
       return SuccessResponseDto.of(result);
     }
-
 }

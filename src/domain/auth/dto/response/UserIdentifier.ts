@@ -12,7 +12,6 @@ export class UserIdentifier{
         this.setIdentifier(identifier);
      }
 
-     
     public static of(idenfitier:string):UserIdentifier{
         return new UserIdentifier(idenfitier);
     }

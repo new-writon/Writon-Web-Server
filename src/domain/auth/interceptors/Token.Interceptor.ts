@@ -16,12 +16,7 @@ import type { User } from '../../user/domain/entity/User.js';
 export class TokenInterceptor implements NestInterceptor {
 
 
-  constructor(
-    private readonly jwtService: JwtService,
-   
-  ) {
-   
-  }
+  constructor(private readonly jwtService: JwtService) {}
 
   intercept(
     context: ExecutionContext,
@@ -31,17 +26,8 @@ export class TokenInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       map((user) => {
-     //   const token = this.generateToken(user);
         return user as User;
       }),
     );
   }
-
-  // public generateToken(user_id: number, userRole: string): string {
-  //   const payload = {
-  //       user_id: user_id,
-  //       role: userRole,
-  //     };
-  //   return "Bearer " +this.jwtService.sign(payload);
-  // }
 }

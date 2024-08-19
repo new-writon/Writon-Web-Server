@@ -17,19 +17,15 @@ import { UserApi } from "../intrastructure/User.Api.js";
 export class AccountService {
 
     constructor(
-
         private readonly tokenManager: TokenManager,
         private readonly mailManager: MailManager,
         private readonly userApi: UserApi
     ) {}
 
-
-
     public async penetratelocalUser(identifier: string, password: string, email: string,): Promise<void> {
         const encryptedPassword = await bcrypt.hash(password, 10);
         await this.userApi.requestLocalSignUp(identifier, encryptedPassword, email);
     }
-
 
     public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
         const userData : User = await this.userApi.requestUserByEmail(email);
@@ -37,10 +33,7 @@ export class AccountService {
         const certifyCode :string = await this.tokenManager.getToken(email);
         verifyCode(code, certifyCode);
         return UserIdentifier.of(userData.getIdentifier());
-  
     }
-
-
 
     public async generateTemporaryPassword(idenfitier:string, email:string): Promise<void> {
         const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(idenfitier);
@@ -66,9 +59,5 @@ export class AccountService {
         if(userData.getEmail() !== email)
             throw new AuthException(AuthErrorCode.NOT_VERIFY_EMAIL);
     }
-
-
-
-
 
 }

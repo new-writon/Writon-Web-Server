@@ -38,7 +38,6 @@ export class AuthController{
      return SuccessResponseDto.of(result);
     }
 
-
     @Delete("/logout")
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)

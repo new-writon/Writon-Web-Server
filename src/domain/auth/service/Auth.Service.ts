@@ -18,15 +18,11 @@ export class AuthService {
         private readonly socialLogin: SocialLogin,
         private readonly jwtManager: JwtManager,
         private readonly tokenManager: TokenManager,
-     //   private readonly userHelper: UserHelper,
         private readonly userApi: UserApi,
-      //  private readonly affiliationHelper: AffiliationHelper,
-      //  private readonly userChallengeHelper: UserChallengeHelper
     ) { }
 
 
     public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<LoginResponse> {
-
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
@@ -43,7 +39,6 @@ export class AuthService {
     }
 
     public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
-
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
         vefifyIdentifier(userData);
         await verifyPassword(password, userData.getPassword())
@@ -79,7 +74,6 @@ export class AuthService {
         organization: string,
         userId: number
     ): Promise<boolean | null> {
-
         const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         const affiliatedConfirmation: boolean = checkData(checkAffiliation);
         return affiliatedConfirmation;
@@ -90,13 +84,8 @@ export class AuthService {
         userId: number,
         challengeId: number
     ): Promise<boolean | null> {
-
         const checkChallenge: UserChallenge[] = await this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
         const challengedConfirmation: boolean = checkData(checkChallenge[0]);
         return challengedConfirmation;
     }
-
-
-
-
 }
