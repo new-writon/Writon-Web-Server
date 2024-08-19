@@ -1,14 +1,14 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { ChallengeDay } from "../domain/entity/ChallengeDay.js";
-import { ChallengeException } from "../exception/ChallengeException.js";
-import { ChallengeErrorCode } from "../exception/ChallengeErrorCode.js";
-import { Challenge } from "../domain/entity/Challenge.js";
-import { checkData } from "../util/checker.js";
-import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
-import { ChallengeAndOrganization } from "../dto/ChallengeAndOrganization.js";
-import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization.js";
-import { ChallengeHelper } from "../helper/Challenge.Helper.js";
-import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper.js";
+import { Injectable } from "@nestjs/common";
+import { ChallengeDay } from "../domain/entity/ChallengeDay";
+import { ChallengeException } from "../exception/ChallengeException";
+import { ChallengeErrorCode } from "../exception/ChallengeErrorCode";
+import { Challenge } from "../domain/entity/Challenge";
+import { checkData } from "../util/checker";
+import { ChallengeStatus } from "../dto/response/ChallengeStatus";
+import { ChallengeAndOrganization } from "../dto/values/ChallengeAndOrganization";
+import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization";
+import { ChallengeHelper } from "../helper/Challenge.Helper";
+import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper";
 
 
 

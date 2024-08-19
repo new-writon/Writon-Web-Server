@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Challenge } from "./Challenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Challenge } from "./Challenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
 //@Index("ChallengeDepositDeduction_challenge_id_fkey", ["challengeId"], {})

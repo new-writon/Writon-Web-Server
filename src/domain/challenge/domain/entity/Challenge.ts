@@ -8,14 +8,14 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { SmallTalk} from "../../../smalltalk/domain/entity/SmallTalk.js";
-import { ChallengeDay } from "./ChallengeDay.js";
-import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction.js";
-import { Question } from "./Question.js";
-import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import { Organization } from "../../../../domain/user/domain/entity/Organization.js";
+import { SmallTalk} from "../../../smalltalk/domain/entity/SmallTalk";
+import { ChallengeDay } from "./ChallengeDay";
+import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction";
+import { Question } from "./Question";
+import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
+import { Organization } from "../../../../domain/user/domain/entity/Organization";
 
 
 // @Index("Challenge_challenge_id_key", ["challengeId"], { unique: true })

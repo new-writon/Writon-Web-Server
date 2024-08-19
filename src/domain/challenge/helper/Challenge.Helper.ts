@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ChallengeRepository } from "../domain/repository/Challenge.Repository.js";
-import { Challenge } from "../domain/entity/Challenge.js";
-import { ChallengeInformation } from "../dto/ChallengeInformation.js";
-import { ChallengeAndOrganization } from "../dto/ChallengeAndOrganization.js";
-import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service.js";
+import { ChallengeRepository } from "../domain/repository/Challenge.Repository";
+import { Challenge } from "../domain/entity/Challenge";
+import { ChallengeInformation } from "../dto/values/ChallengeInformation";
+import { ChallengeAndOrganization } from "../dto/values/ChallengeAndOrganization";
+import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service";
 
 @Injectable()
 export class ChallengeHelper{

@@ -1,8 +1,8 @@
 import { Inject } from "@nestjs/common";
-import { QuestionRepository } from "../domain/repository/Question.Repository.js";
-import { BasicQuestion } from "../dto/response/BasicQuestion.js";
-import { SpecialQuestion } from "../dto/response/SpecialQuestion.js";
-import { Question } from "../domain/entity/Question.js";
+import { QuestionRepository } from "../domain/repository/Question.Repository";
+import { BasicQuestion } from "../dto/response/BasicQuestion";
+import { SpecialQuestion } from "../dto/response/SpecialQuestion";
+import { Question } from "../domain/entity/Question";
 
 
 export class QuestionHelper{

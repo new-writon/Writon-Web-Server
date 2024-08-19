@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Challenge } from "./Challenge.js";
-import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
-import { Keyword } from "./Keyword.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Challenge } from "./Challenge";
+import { QuestionContent } from "../../../template/domain/entity/QuestionContent";
+import { Keyword } from "./Keyword";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
 //@Index("Question_challenge_id_fkey", ["challengeId"], {})

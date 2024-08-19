@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { Challenge } from "../entity/Challenge.js";
-import { ChallengeInformation } from "../../dto/ChallengeInformation.js";
-import { ChallengeAndOrganization } from "../../dto/ChallengeAndOrganization.js";
+import { ChallengeInformation } from "../../dto/values/ChallengeInformation.js";
+import { ChallengeAndOrganization } from "../../dto/values/ChallengeAndOrganization.js";
 
 
 export interface ChallengeRepository extends Repository<Challenge>{

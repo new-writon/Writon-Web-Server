@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Repository.js";
-import { ChallengeDay } from "../domain/entity/ChallengeDay.js";
+import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Repository";
+import { ChallengeDay } from "../domain/entity/ChallengeDay";
 
 @Injectable()
 export class ChallengeDayHelper{

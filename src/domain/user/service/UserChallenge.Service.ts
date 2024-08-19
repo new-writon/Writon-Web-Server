@@ -7,7 +7,7 @@ import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.j
 import { sortCallendarDateBadge } from '../util/badge.js'
 import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeApi } from '../infrastruture/Challenge.Api.js';
-import { ChallengeInformation } from '../../challenge/dto/ChallengeInformation.js';
+import { ChallengeInformation } from '../../challenge/dto/values/ChallengeInformation.js';
 import { TemplateApi } from '../infrastruture/Template.Api.js';
 import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
 import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';

@@ -1,6 +1,6 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { MailManager } from "../../../global/util/MailManager.js";
-import { ChallengeHelper } from "../helper/Challenge.Helper.js";
+import { Injectable } from "@nestjs/common";
+import { MailManager } from "../../../global/util/MailManager";
+import { ChallengeHelper } from "../helper/Challenge.Helper";
 
 @Injectable()
 export class ChallengeInviteService{

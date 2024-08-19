@@ -1,8 +1,7 @@
-import { Inject, Injectable } from "@nestjs/common";
-
-import { BasicQuestion } from "../dto/response/BasicQuestion.js";
-import { SpecialQuestion } from "../dto/response/SpecialQuestion.js";
-import { QuestionHelper } from "../helper/Question.Helper.js";
+import { Injectable } from "@nestjs/common";
+import { BasicQuestion } from "../dto/response/BasicQuestion";
+import { SpecialQuestion } from "../dto/response/SpecialQuestion";
+import { QuestionHelper } from "../helper/Question.Helper";
 
 
 
@@ -12,8 +11,6 @@ import { QuestionHelper } from "../helper/Question.Helper.js";
 export class ChallengeQuestionService{
 
     constructor(
-        // @Inject('questionImpl')
-        // private readonly questionRepository: QuestionRepository
         private readonly questionHelper:QuestionHelper
     ){}
 

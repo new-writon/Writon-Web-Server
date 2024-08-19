@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Question } from "./Question.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Question } from "./Question";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
 //@Index("QuestionTag_question_id_fkey", ["question_id"], {})

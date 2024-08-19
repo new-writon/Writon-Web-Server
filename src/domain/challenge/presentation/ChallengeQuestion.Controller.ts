@@ -1,10 +1,8 @@
 import { Body, Controller, Get, HttpCode, Logger, Param } from "@nestjs/common";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { ChallengeInformationService } from "../service/ChallengeInformation.Service.js";
-import { Question } from "../domain/entity/Question.js";
-import { ChallengeQuestionService } from "../service/ChallengeQuestion.Service.js";
-import { SpecialQuestion } from "../dto/response/SpecialQuestion.js";
-import { BasicQuestion } from "../dto/response/BasicQuestion.js";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { ChallengeQuestionService } from "../service/ChallengeQuestion.Service";
+import { SpecialQuestion } from "../dto/response/SpecialQuestion";
+import { BasicQuestion } from "../dto/response/BasicQuestion";
 
 
 

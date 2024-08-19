@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { Challenge } from "../entity/Challenge.js";
-import { checkData } from "../../util/checker.js";
-import { ChallengeException } from "../../exception/ChallengeException.js";
-import { ChallengeErrorCode } from "../../exception/ChallengeErrorCode.js";
+import { Challenge } from "../entity/Challenge";
+import { checkData } from "../../util/checker";
+import { ChallengeException } from "../../exception/ChallengeException";
+import { ChallengeErrorCode } from "../../exception/ChallengeErrorCode";
 
 
 
