@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { SatisfactionObjectiveResultRepository } from "../domain/repository/SatisfactionObjectiveResult.Repository.js";
-import { ObjectiveAnswerType } from "../dto/ObjectiveAnswerType.js";
+import { SatisfactionObjectiveResultRepository } from "../domain/repository/SatisfactionObjectiveResult.Repository";
+import { ObjectiveAnswerType } from "../dto/values/ObjectiveAnswerType";
 
 
 @Injectable()

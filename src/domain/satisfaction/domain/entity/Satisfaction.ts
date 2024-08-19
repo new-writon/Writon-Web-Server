@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
-import { SatisfactionObjectiveResult } from "./SatisfactionObjectiveResult.js";
-import { SatisfactionSubjectiveResult } from "./SatisfactionSubjectiveResult.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Challenge } from "../../../challenge/domain/entity/Challenge";
+import { SatisfactionObjectiveResult } from "./SatisfactionObjectiveResult";
+import { SatisfactionSubjectiveResult } from "./SatisfactionSubjectiveResult";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
 //@Index("Satiscation_challenge_id_fkey_idx", ["challenge_id"], {})

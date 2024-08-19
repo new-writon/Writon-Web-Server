@@ -1,5 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
-import { Satisfaction } from "../../domain/entity/Satisfaction.js";
+import { Satisfaction } from "../../domain/entity/Satisfaction";
 
 
 export class SatisfactionQuestion{

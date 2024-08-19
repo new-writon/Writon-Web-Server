@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { UserTemplateHelper } from "../../template/helper/UserTemplate.Helper.js";
+import { UserTemplateHelper } from "../../template/helper/UserTemplate.Helper";
 
 @Injectable()
 export class TemplateApi{

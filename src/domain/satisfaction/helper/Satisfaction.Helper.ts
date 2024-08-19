@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { SatisfactionRepository } from "../domain/repository/Satisfaction.Repository.js";
-import { SatisfactionVerifyService } from "../domain/service/SatisfactionVerify.Service.js";
-import { Satisfaction } from "../domain/entity/Satisfaction.js";
+import { SatisfactionRepository } from "../domain/repository/Satisfaction.Repository";
+import { SatisfactionVerifyService } from "../domain/service/SatisfactionVerify.Service";
+import { Satisfaction } from "../domain/entity/Satisfaction";
 
 
 @Injectable()

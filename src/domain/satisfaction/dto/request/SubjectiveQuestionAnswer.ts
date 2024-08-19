@@ -1,7 +1,6 @@
 import { IsNotEmpty } from "class-validator";
-import { ObjectiveAnswer } from "../ObjectiveAnswer.js";
 import { Type } from 'class-transformer';
-import { SubjectiveAnswer } from "../SubjectiveAnswer.js";
+import { SubjectiveAnswer } from "../values/SubjectiveAnswer";
 
 export class SubjectiveQuestionAnswer{
 

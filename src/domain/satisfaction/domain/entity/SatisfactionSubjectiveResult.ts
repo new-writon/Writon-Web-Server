@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Satisfaction } from "./Satisfaction.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Satisfaction } from "./Satisfaction";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
 // @Index(

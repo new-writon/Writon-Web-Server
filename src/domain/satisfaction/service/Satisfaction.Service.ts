@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { UserApi } from "../infrastructure/User.Api.js";
-import { SatisfactionStatus } from "../dto/response/SatisfactionSatus.js";
-import { ChallengeApi } from "../infrastructure/Challenge.Api.js";
-import { Restart } from "../dto/response/Restart.js";
-import { TemplateApi } from "../infrastructure/Template.Api.js";
-import { UserChallengeResult } from "../dto/response/UserChallengeResult.js";
-import { SatisfactionHelper } from "../helper/Satisfaction.Helper.js";
-import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion.js";
+import { UserApi } from "../infrastructure/User.Api";
+import { SatisfactionStatus } from "../dto/response/SatisfactionSatus";
+import { ChallengeApi } from "../infrastructure/Challenge.Api";
+import { Restart } from "../dto/response/Restart";
+import { TemplateApi } from "../infrastructure/Template.Api";
+import { UserChallengeResult } from "../dto/response/UserChallengeResult";
+import { SatisfactionHelper } from "../helper/Satisfaction.Helper";
+import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion";
 
 
 @Injectable()

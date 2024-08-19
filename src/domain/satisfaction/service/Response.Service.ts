@@ -1,12 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { UserApi } from "../infrastructure/User.Api.js";
-import { ObjectiveAnswer } from "../dto/ObjectiveAnswer.js";
-import { ObjectiveAnswerType } from "../dto/ObjectiveAnswerType.js";
-
-import { SatisfactionObjectiveResultHelper } from "../helper/SatisfactionObjectiveResult.Helper.js";
-import { SubjectiveAnswer } from "../dto/SubjectiveAnswer.js";
-import { SubjectiveAnswerType } from "../dto/SubjectiveAnswerType.js";
-import { SatisfactionSubjectiveResultHelper } from "../helper/SatisfactionSubjectiveResult.Helper.js";
+import { Injectable } from "@nestjs/common";
+import { UserApi } from "../infrastructure/User.Api";
+import { ObjectiveAnswer } from "../dto/values/ObjectiveAnswer";
+import { ObjectiveAnswerType } from "../dto/values/ObjectiveAnswerType";
+import { SatisfactionObjectiveResultHelper } from "../helper/SatisfactionObjectiveResult.Helper";
+import { SubjectiveAnswer } from "../dto/values/SubjectiveAnswer";
+import { SubjectiveAnswerType } from "../dto/values/SubjectiveAnswerType";
+import { SatisfactionSubjectiveResultHelper } from "../helper/SatisfactionSubjectiveResult.Helper";
 
 
 @Injectable()
