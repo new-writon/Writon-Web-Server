@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { SmallTalkCommentRepository} from "../domain/repository/SmallTalkComment.Repository.js";
-import { ParticularSmallTalkCommentData } from "../dto/ParticularSmallTalkCommentData.js";
-import { SmallTalkVerifyService } from "../domain/service/SmallTalkVerify.Service.js";
+import { SmallTalkCommentRepository} from "../domain/repository/SmallTalkComment.Repository";
+import { ParticularSmallTalkCommentData } from "../dto/values/ParticularSmallTalkCommentData";
+import { SmallTalkVerifyService } from "../domain/service/SmallTalkVerify.Service";
 
 @Injectable()
 export class SmallTalkCommentHelper{

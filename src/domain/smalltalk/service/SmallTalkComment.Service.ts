@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { SmallTalkCommentHelper } from "../helper/SmallTalkComment.Helper.js";
-import { UserApi } from "../infrastructure/User.Api.js";
-import { SmallTalkCommentRead } from "../dto/response/SmallTalkCommentRead.js";
-import { ParticularSmallTalkCommentData } from "../dto/ParticularSmallTalkCommentData.js";
-import { Affiliation } from "src/domain/user/domain/entity/Affiliation.js";
+import { SmallTalkCommentHelper } from "../helper/SmallTalkComment.Helper";
+import { UserApi } from "../infrastructure/User.Api";
+import { SmallTalkCommentRead } from "../dto/response/SmallTalkCommentRead";
+import { ParticularSmallTalkCommentData } from "../dto/values/ParticularSmallTalkCommentData";
+import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
 
 
 @Injectable()

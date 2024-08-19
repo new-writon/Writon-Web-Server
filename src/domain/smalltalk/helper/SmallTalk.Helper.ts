@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { SmallTalkRepository } from "../domain/repository/SmallTalk.Repository.js";
-import { SmallTalk } from "../domain/entity/SmallTalk.js";
-import { ParticularSmallTalkData } from "../dto/ParticularSmallTalkData.js";
-import { SmallTalkVerifyService } from "../domain/service/SmallTalkVerify.Service.js";
+import { SmallTalkRepository } from "../domain/repository/SmallTalk.Repository";
+import { SmallTalk } from "../domain/entity/SmallTalk";
+import { ParticularSmallTalkData } from "../dto/values/ParticularSmallTalkData";
+import { SmallTalkVerifyService } from "../domain/service/SmallTalkVerify.Service";
 
 
 

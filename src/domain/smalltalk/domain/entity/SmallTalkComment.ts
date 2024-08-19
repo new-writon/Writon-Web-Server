@@ -7,9 +7,9 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { SmallTalk } from "./SmallTalk.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Affiliation } from "../../../user/domain/entity/Affiliation";
+import { SmallTalk } from "./SmallTalk";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
 
 

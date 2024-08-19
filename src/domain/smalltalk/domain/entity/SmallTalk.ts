@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
-import { SmallTalkComment } from "./SmallTalkComment.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Challenge } from "../../../challenge/domain/entity/Challenge";
+import { SmallTalkComment } from "./SmallTalkComment";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
 
 // @Index("Agora_user_challenge_id_fkey_idx", ["user_challenge_id"], {})

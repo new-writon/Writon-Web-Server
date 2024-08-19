@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { SmallTalk } from "../entity/SmallTalk.js";
-import { ParticularSmallTalkData } from "../../dto/ParticularSmallTalkData.js";
+import { SmallTalk } from "../entity/SmallTalk";
+import { ParticularSmallTalkData } from "../../dto/values/ParticularSmallTalkData";
 
 
 export interface SmallTalkRepository extends Repository<SmallTalk>{

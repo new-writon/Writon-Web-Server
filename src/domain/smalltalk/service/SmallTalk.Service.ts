@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { SmallTalkHelper } from "../helper/SmallTalk.Helper.js";
-import { UserApi } from "../infrastructure/User.Api.js";
-import { ParticularSmallTalkData } from "../dto/ParticularSmallTalkData.js";
-import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge.js";
-import { SmallTalkResult } from "../dto/response/SmallTalkAddResult.js";
-import { SmallTalkDataResult } from "../dto/response/SmallTalkDataResult.js";
-import { SmallTalkException } from "../exception/SmallTalkException.js";
-import { SmallTalkErrorCode } from "../exception/SmallTalkErrorCode.js";
-import { getTodayDateString } from "../util/date.js";
-import { SmallTalk } from "../domain/entity/SmallTalk.js";
-import { MutexAlgorithm } from "../../../global/decorator/mutex.js";
+import { SmallTalkHelper } from "../helper/SmallTalk.Helper";
+import { UserApi } from "../infrastructure/User.Api";
+import { ParticularSmallTalkData } from "../dto/values/ParticularSmallTalkData";
+import { UserChallenge } from "src/domain/user/domain/entity/UserChallenge";
+import { SmallTalkResult } from "../dto/response/SmallTalkAddResult";
+import { SmallTalkDataResult } from "../dto/response/SmallTalkDataResult";
+import { SmallTalkException } from "../exception/SmallTalkException";
+import { SmallTalkErrorCode } from "../exception/SmallTalkErrorCode";
+import { getTodayDateString } from "../util/date";
+import { SmallTalk } from "../domain/entity/SmallTalk";
+import { MutexAlgorithm } from "../../../global/decorator/mutex";
 
 
 @Injectable()

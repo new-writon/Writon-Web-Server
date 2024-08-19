@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { Affiliation } from "../../user/domain/entity/Affiliation.js";
-import { AffiliationHelper } from "../../user/helper/Affiliation.Helper.js";
-import { UserChallengeHelper } from "../../user/helper/UserChallenge.Helper.js";
-import { UserChallenge } from "../../user/domain/entity/UserChallenge.js";
+import { Affiliation } from "../../user/domain/entity/Affiliation";
+import { AffiliationHelper } from "../../user/helper/Affiliation.Helper";
+import { UserChallengeHelper } from "../../user/helper/UserChallenge.Helper";
+import { UserChallenge } from "../../user/domain/entity/UserChallenge";
 
 
 @Injectable()

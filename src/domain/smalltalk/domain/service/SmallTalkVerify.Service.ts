@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { checkData } from "../../util/checker.js";
-import { ParticularSmallTalkData } from "../../dto/ParticularSmallTalkData.js";
-import { SmallTalkException } from "../../exception/SmallTalkException.js";
-import { SmallTalkErrorCode } from "../../exception/SmallTalkErrorCode.js";
-import { ParticularSmallTalkCommentData } from "../../dto/ParticularSmallTalkCommentData.js";
+import { checkData } from "../../util/checker";
+import { ParticularSmallTalkData } from "../../dto/values/ParticularSmallTalkData";
+import { SmallTalkException } from "../../exception/SmallTalkException";
+import { SmallTalkErrorCode } from "../../exception/SmallTalkErrorCode";
+import { ParticularSmallTalkCommentData } from "../../dto/values/ParticularSmallTalkCommentData";
 
 @Injectable()
 export class SmallTalkVerifyService{
