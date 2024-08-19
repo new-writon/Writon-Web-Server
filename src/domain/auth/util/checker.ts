@@ -1,7 +1,8 @@
 import { User } from "../../user/domain/entity/User.js";
 import { AuthErrorCode } from "../exception/AuthErrorCode.js";
 import { AuthException } from "../exception/AuthException.js";
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
+
 
 
 /**
@@ -11,7 +12,7 @@ import bcrypt from 'bcrypt';
 */
 const checkData = (data: any): boolean => {
     let result = true
-    if (!data) {   // 데이터가 없을 경우
+    if (data==undefined || data==null) {   // 데이터가 없을 경우
         return result = false;
     }
     return result;
@@ -35,6 +36,8 @@ const vefifyIdentifier = (userData: User) => {
 * @returns 
 */
 const verifyPassword = async (comparingPassword: string, comparedPassword: string) => {
+    console.log(comparedPassword)
+    console.log(comparingPassword)
     if (! await bcrypt.compare(comparingPassword, comparedPassword)) {
         throw new AuthException(AuthErrorCode.PASSWORD_IS_INCOREECT);
     }
