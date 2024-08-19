@@ -1,11 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
 import { Affiliation } from "./Affiliation.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { Challenge } from "../../../../domain/challenge/domain/entity/Challenge.js";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 @Entity("organizations", { schema: "nest" })
 export class Organization extends BaseEntity{

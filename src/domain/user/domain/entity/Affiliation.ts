@@ -16,10 +16,7 @@ import { Likes } from "../../../template/domain/entity/Likes.js";
 import { UserChallenge } from "./UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 
 // @Index("Affiliation_affiliation_id_key", ["affiliation_id"], { unique: true })

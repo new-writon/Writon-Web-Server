@@ -9,10 +9,7 @@ import {
 } from "typeorm";
 import { Challenge } from "./Challenge.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 //@Index("ChallengeDepositDeduction_challenge_id_fkey", ["challengeId"], {})
 @Entity("challenge_deposit_deduction", { schema: "nest" })

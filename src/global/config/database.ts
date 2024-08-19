@@ -22,9 +22,10 @@ import { QuestionContent } from '../../domain/template/domain/entity/QuestionCon
 import { Keyword } from '../../domain/challenge/domain/entity/Keyword.js';
 import { UserTemplate } from '../../domain/template/domain/entity/UserTemplate.js';
 import { Comment } from '../../domain/template/domain/entity/Comment.js';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+import * as path from 'path';
+//import path from 'path';
 
 const dataSourceOptions: DataSourceOptions = {
   type: "mysql",
@@ -33,15 +34,7 @@ const dataSourceOptions: DataSourceOptions = {
   username: "root",
   password: "Cn37rqww@@!",
   database: "Writon-Data",
-  entities: [
-  //  `${join(__dirname, '../../')}/domain/**/*.{js,ts}`,
-    User, Organization, Affiliation,  UserChallenge,
-    Challenge, ChallengeDay, ChallengeDepositDeduction,
-    ErrorLog, SmallTalk, SmallTalkComment,  Likes,
-    Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
-    Keyword, UserTemplate, Comment, UserChallenge, Question, QuestionContent,
-
-  ],
+  entities:[path.join(__dirname, '../entity/*.{js,ts}')],
   synchronize: false,
 };
 
@@ -58,13 +51,7 @@ export const dataSource = registerAs('data-source', () => {
     database: process.env.DATABASE_SCHEMA,
     synchronize: false,
     autoLoadEntities: true,
-    entities: [
-      User, Organization, Affiliation,  UserChallenge,
-      Challenge, ChallengeDay, ChallengeDepositDeduction,
-      ErrorLog, SmallTalk, SmallTalkComment,  Likes,
-      Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult, 
-      Keyword, UserTemplate, Comment, UserChallenge, Question, QuestionContent,
-    ],
+    entities:[path.join(__dirname, '../../domain/**/entity/*.{js,ts}')],
     logging: ['query', 'error']
   } as TypeOrmModuleOptions;
 });

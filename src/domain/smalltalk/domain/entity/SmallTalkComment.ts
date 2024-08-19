@@ -11,10 +11,7 @@ import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
 import { SmallTalk } from "./SmallTalk.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 
 //@Index("AgoraComment_agora_id_fkey_idx", ["small_talk_id"], {})

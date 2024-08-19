@@ -9,10 +9,6 @@ import {
   Relation
 } from "typeorm";
 import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 import { SmallTalkComment } from "./SmallTalkComment.js";
 import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";

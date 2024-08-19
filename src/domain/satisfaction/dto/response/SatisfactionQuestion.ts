@@ -1,9 +1,6 @@
 import { InternalServerErrorException } from "@nestjs/common";
 import { Satisfaction } from "../../domain/entity/Satisfaction.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 export class SatisfactionQuestion{
     private satisfactionId: number;

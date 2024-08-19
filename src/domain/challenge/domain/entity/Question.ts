@@ -12,10 +12,7 @@ import { Challenge } from "./Challenge.js";
 import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
 import { Keyword } from "./Keyword.js";
 import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 //@Index("Question_challenge_id_fkey", ["challengeId"], {})
 @Entity("questions", { schema: "nest" })
