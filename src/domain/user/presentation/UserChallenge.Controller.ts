@@ -8,7 +8,7 @@ import { TemplateStatus } from '../dto/response/TemplateStatus.js';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
 import { CalendarData } from '../dto/response/CalendarData.js';
 import { ChallengeStart } from '../dto/request/ChallegeStart.js';
-import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
+import { ChallengesPerOrganization } from '../dto/values/ChallengesPerOrganization.js';
 import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';
 import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
 import { UserChallengeCheckCountUpdate } from '../dto/request/UserChallengeCheckCountUpdate.js';

@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { UserChallenge } from "../entity/UserChallenge.js";
-import { UserException } from "../../exception/UserException.js";
-import { UserErrorCode } from "../../exception/UserErrorCode.js";
-import { checkData } from "../../util/checker.js";
-import { Affiliation } from "../entity/Affiliation.js";
+import { UserChallenge } from "../entity/UserChallenge";
+import { UserException } from "../../exception/UserException";
+import { UserErrorCode } from "../../exception/UserErrorCode";
+import { checkData } from "../../util/checker";
+import { Affiliation } from "../entity/Affiliation";
 
 @Injectable()
 export class UserVerifyService{

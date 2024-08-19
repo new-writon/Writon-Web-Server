@@ -1,13 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Organization } from "../domain/entity/Organization.js";
-import { UserProfile } from "../dto/response/UserProfile.js";
-import { OrganizationHelper } from "../helper/Organization.Helper.js";
-import { AffiliationHelper } from "../helper/Affiliation.Helper.js";
-import { isSameDate } from "../util/checker.js";
-import { Participant } from "../dto/response/Participant.js";
-import { UserChallengeHelper } from "../helper/UserChallenge.Helper.js";
-import { ChallengeApi } from "../infrastruture/Challenge.Api.js";
-import { ParticipantComponent } from "../dto/response/ParticipantComponent.js";
+import { Injectable } from "@nestjs/common";
+import { Organization } from "../domain/entity/Organization";
+import { UserProfile } from "../dto/response/UserProfile";
+import { OrganizationHelper } from "../helper/Organization.Helper";
+import { AffiliationHelper } from "../helper/Affiliation.Helper";
+import { UserChallengeHelper } from "../helper/UserChallenge.Helper";
+import { ChallengeApi } from "../infrastruture/Challenge.Api";
+
 
 @Injectable()
 export class AffiliationService{

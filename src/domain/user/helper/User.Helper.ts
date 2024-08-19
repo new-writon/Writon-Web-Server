@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
-import { UserRepository } from "../domain/repository/User.Repository.js";
-import { UserAffiliationOrganization } from "../../interface/UserAffilatiionOrganization.interface.js";
-import { User } from "../domain/entity/User.js";
+import { UserRepository } from "../domain/repository/User.Repository";
+import { UserAffiliationOrganization } from "../../interface/UserAffilatiionOrganization.interface";
+import { User } from "../domain/entity/User";
 
 
 export class UserHelper {

@@ -1,8 +1,8 @@
 import { Repository } from 'typeorm';
-import { Affiliation } from '../entity/Affiliation.js';
-import { ChallengesPerOrganization } from '../../dto/ChallengesPerOrganization.js';
-import { UserProfile } from '../../dto/response/UserProfile.js';
-import { Participant } from '../../dto/response/Participant.js';
+import { Affiliation } from '../entity/Affiliation';
+import { ChallengesPerOrganization } from '../../dto/values/ChallengesPerOrganization';
+import { UserProfile } from '../../dto/response/UserProfile';
+import { Participant } from '../../dto/response/Participant';
 
 
 export interface AffiliationRepository extends Repository<Affiliation> {

@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { AffiliationRepository } from "../domain/repository/Affiliation.Repository.js";
-import { Affiliation } from "../domain/entity/Affiliation.js";
-import { ChallengesPerOrganization } from "../dto/ChallengesPerOrganization.js";
-import { UserProfile } from "../dto/response/UserProfile.js";
-import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
-import { Participant } from "../dto/response/Participant.js";
+import { AffiliationRepository } from "../domain/repository/Affiliation.Repository";
+import { Affiliation } from "../domain/entity/Affiliation";
+import { ChallengesPerOrganization } from "../dto/values/ChallengesPerOrganization";
+import { UserProfile } from "../dto/response/UserProfile";
+import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { Participant } from "../dto/response/Participant";
 
 @Injectable()
 export class AffiliationHelper {

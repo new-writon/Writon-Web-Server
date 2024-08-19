@@ -1,13 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { UserHelper } from "../helper/User.Helper.js";
-import { TemplateApi } from "../infrastruture/Template.Api.js";
-import { UserChallengeHelper } from "../helper/UserChallenge.Helper.js";
-import { ChallengeApi } from "../infrastruture/Challenge.Api.js";
-import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
-import { AffiliationHelper } from "../helper/Affiliation.Helper.js";
-import { Participant } from "../dto/response/Participant.js";
-import { ParticipantComponent } from "../dto/response/ParticipantComponent.js";
-import { isSameDate } from "../util/checker.js";
+import { UserChallengeHelper } from "../helper/UserChallenge.Helper";
+import { ChallengeApi } from "../infrastruture/Challenge.Api";
+import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { AffiliationHelper } from "../helper/Affiliation.Helper";
+import { Participant } from "../dto/response/Participant";
+import { ParticipantComponent } from "../dto/response/ParticipantComponent";
+import { isSameDate } from "../util/checker";
 
 @Injectable()
 export class CheeringPhraseService{

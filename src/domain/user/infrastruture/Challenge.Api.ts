@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { ChallengeHelper } from "../../../domain/challenge/helper/Challenge.Helper.js";
-import { ChallengeDayHelper } from "../../../domain/challenge/helper/ChallengeDay.Helper.js";
-import { ChallengeDay } from "../../../domain/challenge/domain/entity/ChallengeDay.js";
+import { ChallengeHelper } from "../../../domain/challenge/helper/Challenge.Helper";
+import { ChallengeDayHelper } from "../../../domain/challenge/helper/ChallengeDay.Helper";
+import { ChallengeDay } from "../../../domain/challenge/domain/entity/ChallengeDay";
 
 
 @Injectable()

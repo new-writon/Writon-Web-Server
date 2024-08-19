@@ -1,9 +1,9 @@
 import {  Injectable } from '@nestjs/common';
-import { User } from '../domain/entity/User.js';
-import { checkData } from '../../auth/util/checker.js';
-import { UserErrorCode } from '../exception/UserErrorCode.js';
-import { UserException } from '../exception/UserException.js';
-import { UserHelper } from '../helper/User.Helper.js';
+import { User } from '../domain/entity/User';
+import { checkData } from '../../auth/util/checker';
+import { UserErrorCode } from '../exception/UserErrorCode';
+import { UserException } from '../exception/UserException';
+import { UserHelper } from '../helper/User.Helper';
 
 
 @Injectable()

@@ -1,9 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { UserChallenge } from "../domain/entity/UserChallenge.js";
-import { UserChallengeRepository } from "../domain/repository/UserChallenge.Repository.js";
-import { DataMapperService } from "../domain/service/DataMapper.Service.js";
-import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
-import { ChallengeDeposit } from "../dto/ChallengeDeposit.js";
+import { UserChallenge } from "../domain/entity/UserChallenge";
+import { UserChallengeRepository } from "../domain/repository/UserChallenge.Repository";
+import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { ChallengeDeposit } from "../dto/values/ChallengeDeposit";
 
 @Injectable()
 export class UserChallengeHelper{

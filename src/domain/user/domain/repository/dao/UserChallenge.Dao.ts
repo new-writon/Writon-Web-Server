@@ -5,7 +5,7 @@ import { UserChallenge } from '../../entity/UserChallenge.js';
 import { UserChallengeRepository } from '../UserChallenge.Repository.js';
 import { Affiliation } from '../../entity/Affiliation.js';
 import { Organization } from '../../entity/Organization.js';
-import { ChallengeDeposit } from '../../../../../domain/user/dto/ChallengeDeposit.js';
+import { ChallengeDeposit } from '../../../dto/values/ChallengeDeposit.js';
 
 /**
  * User DAO Class

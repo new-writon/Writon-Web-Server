@@ -1,5 +1,5 @@
-import { ChallengeDay } from "../../challenge/domain/entity/ChallengeDay.js";
-import { UserTemplate } from "../../template/domain/entity/UserTemplate.js";
+import { ChallengeDay } from "../../challenge/domain/entity/ChallengeDay";
+import { UserTemplate } from "../../template/domain/entity/UserTemplate";
 
 
 const sortCallendarDateBadge = (

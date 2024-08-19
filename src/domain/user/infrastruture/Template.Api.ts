@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { UserTemplate } from "src/domain/template/domain/entity/UserTemplate.js";
-import { UserTemplateHelper } from "../../../domain/template/helper/UserTemplate.Helper.js";
+import { UserTemplate } from "src/domain/template/domain/entity/UserTemplate";
+import { UserTemplateHelper } from "../../../domain/template/helper/UserTemplate.Helper";
 
 
 @Injectable()

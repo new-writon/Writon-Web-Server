@@ -8,13 +8,13 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Organization } from "./Organization.js";
-import { User } from "./User.js";
-import { SmallTalkComment } from "../../../smalltalk/domain/entity/SmallTalkComment.js";
-import { Comment } from "../../../template/domain/entity/Comment.js";
-import { Likes } from "../../../template/domain/entity/Likes.js";
-import { UserChallenge } from "./UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Organization } from "./Organization";
+import { User } from "./User";
+import { SmallTalkComment } from "../../../smalltalk/domain/entity/SmallTalkComment";
+import { Comment } from "../../../template/domain/entity/Comment";
+import { Likes } from "../../../template/domain/entity/Likes";
+import { UserChallenge } from "./UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
 
 

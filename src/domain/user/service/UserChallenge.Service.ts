@@ -1,23 +1,23 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { UserTemplate } from '../../template/domain/entity/UserTemplate.js';
-import { Affiliation } from '../domain/entity/Affiliation.js';
-import { checkData } from '../../auth/util/checker.js';
-import { TemplateStatus } from '../dto/response/TemplateStatus.js';
-import { UserChallengeSituation } from '../dto/response/UserChallengeSituation.js';
-import { sortCallendarDateBadge } from '../util/badge.js'
-import { CalendarData } from '../dto/response/CalendarData.js';
-import { ChallengeApi } from '../infrastruture/Challenge.Api.js';
-import { ChallengeInformation } from '../../challenge/dto/values/ChallengeInformation.js';
-import { TemplateApi } from '../infrastruture/Template.Api.js';
-import { ChallengesPerOrganization } from '../dto/ChallengesPerOrganization.js';
-import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation.js';
-import { UserChallenge } from '../domain/entity/UserChallenge.js';
-import { AffiliationHelper } from '../helper/Affiliation.Helper.js';
-import { UserHelper } from '../helper/User.Helper.js';
-import { UserChallengeHelper } from '../helper/UserChallenge.Helper.js';
-import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount.js';
-import { UserVerifyService } from '../domain/service/UserVerify.Service.js';
-import { ChallengeDeposit } from '../dto/ChallengeDeposit.js';
+import { Injectable } from '@nestjs/common';
+import { UserTemplate } from '../../template/domain/entity/UserTemplate';
+import { Affiliation } from '../domain/entity/Affiliation';
+import { checkData } from '../../auth/util/checker';
+import { TemplateStatus } from '../dto/response/TemplateStatus';
+import { UserChallengeSituation } from '../dto/response/UserChallengeSituation';
+import { sortCallendarDateBadge } from '../util/badge'
+import { CalendarData } from '../dto/response/CalendarData';
+import { ChallengeApi } from '../infrastruture/Challenge.Api';
+import { ChallengeInformation } from '../../challenge/dto/values/ChallengeInformation';
+import { TemplateApi } from '../infrastruture/Template.Api';
+import { ChallengesPerOrganization } from '../dto/values/ChallengesPerOrganization';
+import { ParticipationInChallengePerAffiliation } from '../dto/response/ParticipationInChallengePerAffiliation';
+import { UserChallenge } from '../domain/entity/UserChallenge';
+import { AffiliationHelper } from '../helper/Affiliation.Helper';
+import { UserHelper } from '../helper/User.Helper';
+import { UserChallengeHelper } from '../helper/UserChallenge.Helper';
+import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount';
+import { UserVerifyService } from '../domain/service/UserVerify.Service';
+import { ChallengeDeposit } from '../dto/values/ChallengeDeposit';
 
 
 @Injectable()

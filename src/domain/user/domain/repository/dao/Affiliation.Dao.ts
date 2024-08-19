@@ -5,7 +5,7 @@ import { Affiliation } from '../../entity/Affiliation.js';
 import { AffiliationRepository } from '../Affiliation.Repository.js';
 import { Organization } from '../../entity/Organization.js';
 import { Challenge } from '../../../../challenge/domain/entity/Challenge.js';
-import { ChallengesPerOrganization } from '../../../../user/dto/ChallengesPerOrganization.js';
+import { ChallengesPerOrganization } from '../../../dto/values/ChallengesPerOrganization.js';
 import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
 import { User } from '../../entity/User.js';
 import { Participant } from '../../../dto/response/Participant.js';

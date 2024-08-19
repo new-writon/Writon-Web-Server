@@ -1,7 +1,7 @@
-import { DataSource, EntityRepository, Repository } from 'typeorm';
-import { User } from '../entity/User.js';
-import { UserAffiliationOrganization } from '../../../interface/UserAffilatiionOrganization.interface.js';
-import { UserProfile } from '../../dto/response/UserProfile.js';
+import { Repository } from 'typeorm';
+import { User } from '../entity/User';
+import { UserAffiliationOrganization } from '../../../interface/UserAffilatiionOrganization.interface';
+
 
 
 export interface UserRepository extends Repository<User> {
