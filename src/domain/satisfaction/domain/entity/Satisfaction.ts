@@ -14,7 +14,7 @@ import { SatisfactionSubjectiveResult } from "./SatisfactionSubjectiveResult";
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
-//@Index("Satiscation_challenge_id_fkey_idx", ["challenge_id"], {})
+@Index("satisfaction_challenges_fkey", ["challengeId"], {})
 @Entity("satisfaction", { schema: "nest" })
 export class Satisfaction extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "satisfaction_id" })

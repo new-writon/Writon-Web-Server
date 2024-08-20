@@ -12,16 +12,8 @@ import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
-// @Index(
-//   "SatisfactionSubjectiveResult_satisfaction_id_fkey_idx",
-//   ["satisfaction_id"],
-//   {}
-// )
-// @Index(
-//   "SatisfactionSubjectiveResult_user_challenge_id_fkey_idx",
-//   ["user_challenge_id"],
-//   {}
-// )
+@Index("satisfaction_subjective_result_satisfaction_fkey",["satisfactionId"],{})
+@Index("satisfaction_subjective_result_user_challenges_fkey",["userChallengeId"],{})
 @Entity("satisfaction_subjective_result", { schema: "nest" })
 export class SatisfactionSubjectiveResult extends BaseEntity{
 

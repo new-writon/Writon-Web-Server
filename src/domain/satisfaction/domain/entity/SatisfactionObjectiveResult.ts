@@ -13,16 +13,8 @@ import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
 
-// @Index(
-//   "SatisfactionObjectiveResult_satisfaction_id_fkey_idx",
-//   ["satisfaction_id"],
-//   {}
-// )
-// @Index(
-//   "SatisfactionObjectiveResult_user_challenge_id_fkey_idx",
-//   ["user_challenge_id"],
-//   {}
-// )
+@Index("satisfaction_objective_result_satisfaction_fkey",["satisfactionId"],{})
+@Index("satisfaction_objective_result_user_challenges_fkey",["userChallengeId"],{})
 @Entity("satisfaction_objective_result", { schema: "nest" })
 export class SatisfactionObjectiveResult extends BaseEntity{
 

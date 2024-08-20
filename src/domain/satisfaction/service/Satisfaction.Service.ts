@@ -55,9 +55,6 @@ export class SatisfactionService{
         return SatisfactionQuestion.of(satisfactionData);
     }
 
-
-
-
     public async bringReEngagement(challengeId:number){
         const challengeData = await this.challengeApi.requestChallengeById(challengeId);
         return Restart.of(challengeData.getRestart());     

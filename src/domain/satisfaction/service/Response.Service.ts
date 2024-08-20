@@ -17,9 +17,6 @@ export class ResponseService{
         private readonly satisfactionSubjectiveHelper:SatisfactionSubjectiveResultHelper
     ){}
 
-
-
-
     public async checkReEngagement(userId:number,  organization:string, challengeId:number, check:boolean){
         await this.userApi.requestUpdateUserChallengeReEngagement(userId,organization, challengeId, check);
     }
@@ -40,8 +37,8 @@ export class ResponseService{
 
 
     private convertObjectiveAnswerType(
-    satisfationAnswer: Array<ObjectiveAnswer>,
-    userChallengeId: number): ObjectiveAnswerType[]{
+        satisfationAnswer: Array<ObjectiveAnswer>,
+        userChallengeId: number): ObjectiveAnswerType[]{
         return satisfationAnswer.map((answer) => new ObjectiveAnswerType(
             answer.getSatisfactionId(),
             answer.getScore(),
