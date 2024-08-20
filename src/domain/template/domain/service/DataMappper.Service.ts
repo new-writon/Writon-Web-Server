@@ -23,6 +23,12 @@ export class DataMapperService{
             }         
         })
     } 
+
+    public extractAffiliationId(commentDatas: Comment[]){
+        return commentDatas.map((data)=>data.getAffiliationId());
+    }
+
+    
     
 
 

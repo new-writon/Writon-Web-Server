@@ -7,7 +7,6 @@ import { CommentId } from "../dto/response/CommentId";
 import { Comment } from "../domain/entity/Comment";
 import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
 import { CommentInformation } from "../dto/response/CommentInformation";
-import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service";
 import { sortCompanyPublic } from "../util/data";
 import { formatDate } from "../util/date";
 
@@ -34,15 +33,14 @@ export class CommentService{
         return MyComment.of(myComment);
     }
 
-    public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>
-    {
+    public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>{
         const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
         return commentDatas.length === 0 ? []:this.proccessCommentInformationData(userId, organization, commentDatas)
     }
 
     private async proccessCommentInformationData(userId:number, organization:string, commentDatas:Comment[]){
         const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-        const extractedAffiliationIds = this.extractAffiliationId(commentDatas)
+        const extractedAffiliationIds = this.dataMapperService.extractAffiliationId(commentDatas)
         const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
         const mergedCommentInformation = this.mergeCommentAndAffiliationForCommentInformation(commentDatas, affiliationDatas, myAffiliationData);
         const sortedCompanyData = sortCompanyPublic(mergedCommentInformation) as CommentInformation[];
@@ -70,9 +68,7 @@ export class CommentService{
         await this.commentHelper.executeDeleteComment(affiliationData.getAffiliationId(), commentId);
     }
 
-    private extractAffiliationId(commentDatas: Comment[]){
-        return commentDatas.map((data)=>data.getAffiliationId());
-    }
+
 
     private mergeCommentAndAffiliationForCommentInformation(commentDatas:Comment[], affiliationDatas:Affiliation[], myAffiliationData:Affiliation){
         return commentDatas.map((commentData)=>{
