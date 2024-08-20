@@ -14,8 +14,8 @@ import { InternalServerErrorException } from "@nestjs/common";
 
 
 
-//@Index("AgoraComment_agora_id_fkey_idx", ["small_talk_id"], {})
-//@Index("AgoraComment_affiliation_id_fkey_idx", ["affiliation_id"], {})
+@Index("small_talk_comment_small_talk_fkey", ["smallTalkId"], {})
+@Index("small_talk_comment_affiliations_fkey", ["affiliationId"], {})
 @Entity("small_talk_comment", { schema: "nest" })
 export class SmallTalkComment extends BaseEntity{
 

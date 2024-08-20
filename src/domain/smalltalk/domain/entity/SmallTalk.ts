@@ -14,8 +14,8 @@ import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
 
-// @Index("Agora_user_challenge_id_fkey_idx", ["user_challenge_id"], {})
-// @Index("Agora_challenge_id_fkey_idx", ["challenge_id"], {})
+@Index("small_talk_challenges_fkey", ["challengeId"], {})
+@Index("small_talk_user_challenges_fkey", ["userChallengeId"], {})
 @Entity("small_talk", { schema: "nest" })
 export class SmallTalk extends BaseEntity{
 

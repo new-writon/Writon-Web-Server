@@ -42,15 +42,8 @@ export class SmallTalkService{
     }
 
     public async bringSmallTalk(userId:number, challengeId:number, date:Date){
-        // 1. 특정 아고라 정보 조회
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, true);
         return particularSmallTalkData.length === 0 ? []:this.proccessSmallTalkData(particularSmallTalkData, userId, challengeId)
-        // // 2. 1번 데이터에서 userChallengeId를 추출
-        // const userChallengeId = this.sortUserChallengeId(particularAgoraData);
-        // // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
-        // const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
-        // const mergedAgoraData = this.mergeUserChallenge(particularAgoraData, userChallengeData, userId);
-        // return AgoraDataResult.of(mergedAgoraData);
     }
 
     private async proccessSmallTalkData(particularSmallTalkData:ParticularSmallTalkData[], userId:number, challengeId:number){
@@ -98,11 +91,4 @@ export class SmallTalkService{
         }
         return true;
     }
-
-
-
-
-
-
-
 }

@@ -32,12 +32,6 @@ export class SmallTalkCommentService{
     ):Promise<SmallTalkCommentRead[]>{
         const agoraCommentData = await this.smallTalkCommentHelper.giveSmallTalkCommentBySmallTalkId(smallTalkId);
         return agoraCommentData.length === 0 ? []:this.proccessSmallTalkCommentData(agoraCommentData, userId);
-
-        // const extractedAffiliationId = this.extractAffiliationId(agoraCommentData);
-        // const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
-        // const mergedParticularAgoraComment = this.mergeParticularAgoraComment(agoraCommentData, affiliationData, userId);
-        // return AgoraCommentRead.of(mergedParticularAgoraComment);
-
     }
 
     private async proccessSmallTalkCommentData(smallTalkCommentData:ParticularSmallTalkCommentData[], userId:number){
