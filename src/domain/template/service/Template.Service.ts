@@ -27,40 +27,23 @@ export class TemplateService {
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,
         private readonly userTemplateTransaction: UserTemplateTransaction,
-        private readonly templateVerifyService: TemplateVerifyService
       ) {}
 
 
     public async bringTemplateContent(userId:number, userTemplateId:number, organization:string, visibility: boolean):Promise<TemplateContent[]>{
-        // 1. 유저템플릿과 좋아요, 댓글, 대답 조회
-        // 2. 질문 id, 질문 내용 조회
         const [affiliationData, userTemplateData] = await Promise.all([
             this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
             this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility)
         ]);
         return userTemplateData === null? []:this.proccessTemplateContent(userTemplateData, affiliationData);
-    
-
-    //   //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
-    //     const questionIds = this.extractQuestionId(userTemplateData);
-    //     const [questionData, userChallengeData]= await Promise.all([
-    //         this.challengeApi.requestQuestionById(questionIds),
-    //         this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
-    //     ]);    
-    //     // 3. 데이터 결합
-    //     const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
-    //     const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
-    //     return sortedCompanyData;
     }
 
     private async proccessTemplateContent(userTemplateData:UserTemplate, affiliationData:Affiliation){
-        //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
         const questionIds = this.extractQuestionId(userTemplateData);
         const [questionData, userChallengeData]= await Promise.all([
             this.challengeApi.requestQuestionById(questionIds),
             this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
         ]);    
-        // 3. 데이터 결합
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
         const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
         return sortedCompanyData;
@@ -70,33 +53,17 @@ export class TemplateService {
 
 
     public async bringTemplateAccordingToDate(userId:number, organization:string, challengeId:number, date:Date):Promise<TemplateInformation | []>{
-        // 내 조직 정보 가져오기
-        // 챌린지에 따른 유저 챌린지배열 조회 
         const [affiliationData, userChallengeDatas] = await Promise.all([
             this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
             this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId)
         ]);
-        
-        // 유저 챌린지 Id 추출
         const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
-        console.log(userChallengeIds)
-        // 유저챌린지와 날짜에 따른 템플릿 배열 조회
         const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date);
         return userTemplateData.length === 0 ? []:this.proccessTemplateAccordingToDateData(userTemplateData,affiliationData,userChallengeDatas)
-
-    //    this.templateVerifyService.verifyUserTemplates(userTemplateData)
-        // const questionIds = this.extractQuestionIds(userTemplateData);
-        // // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
-        // const questionData = await this.challengeApi.requestQuestionById(questionIds);
-        // const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
-        // const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
-        // const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
-        // return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
     }
 
     private async proccessTemplateAccordingToDateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeDatas:UserChallenge[]){
         const questionIds = this.extractQuestionIds(userTemplateData);
-        // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
         const questionData = await this.challengeApi.requestQuestionById(questionIds);
         const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
         const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
@@ -218,47 +185,22 @@ export class TemplateService {
         userId: number,
         organization: string,
         challengeId: number): Promise<(GetCommentNotify | GetLikeNotify)[]>{
-
-        
-            // 1. 챌린지 id, 조직, 유저id를 통해 userChallenge, affiliation을 가져온다.
             const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
-
-            // 2. userChallengeId를 통해 userTemplate데이터, comment, like 를 모두 가져온다.
             const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId());
-
             return userTemplateAndCommentAndLikeData.length === 0 ? []: this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData)
-            // // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
-            // const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
-            // // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
-            // let [commentAffiliationData, likeAffiliationData] = await Promise.all([
-            //     this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
-            //     this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
-            // ]);
-            // // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
-            // const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
-            // const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
-            // // 6. comment, like의 데이터를 시간 순으로 나열한다.
-            // const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
-            // return mergedCommentAndLike;
     } 
 
     private async proccessNotifyData(userTemplateAndCommentAndLikeData:UserTemplate[], userChallengeAndAffiliationData:UserChallenge){
-          // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
           const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
-          // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
           let [commentAffiliationData, likeAffiliationData] = await Promise.all([
               this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
               this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
           ]);
-          // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
           const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
           const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
-          // 6. comment, like의 데이터를 시간 순으로 나열한다.
           const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
           return mergedCommentAndLike;
     }
-
-
 
     private extractAffiliationIdAccordingToCommentAndLike(userTemplate:UserTemplate[]){
         const commentAffiliationIds: number[] = userTemplate.flatMap(userTemplate => userTemplate.comments.map(comment => comment.getAffiliationId()));

@@ -16,7 +16,7 @@ import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
 
 
-//@Index("UserTemplate_user_challenge_id_fkey", ["user_challenge_id"], {})
+@Index("user_templates_user_challenges_fkey", ["userChallengeId"], {})
 @Entity("user_templates")
 export class UserTemplate extends BaseEntity{
 

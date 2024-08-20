@@ -18,24 +18,13 @@ export class CommentService{
         private readonly commentHelper: CommentHelper,
         private readonly userApi: UserApi,
         private readonly dataMapperService: DataMapperService,
-        private readonly templateVerifyService:TemplateVerifyService
     ){}
 
 
     public async bringMyComment(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
-        // 댓글 작성자 정보 조회
         const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-        // 댓글 정보, 해당 템플릿 정보 조회
         const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId);
         return commentData.length === 0 ? [] : this.processCommentData(commentData)
-        
-        // // 댓글 정보를 통해 유저 챌린지 id 배열 조회
-        // const userChallengeIdArray = this.dataMapperService.getUserChallengeIdMapper(commentData);
-        // // 유저 챌린지 id를 통해 글 작성자 정보 조회
-        // const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
-        // // 함수 매핑
-        // const myComment = this.dataMapperService.makeMyCommentMapper(templateWriteAffiliationData, commentData);
-        // return MyComment.of(myComment);
     }
 
     private async processCommentData(commentData: Comment[]): Promise<MyComment[]> {
@@ -47,46 +36,23 @@ export class CommentService{
 
     public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>
     {
-        // userTemplateId에 있는 댓글 정보 모두 조회
         const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
         return commentDatas.length === 0 ? []:this.proccessCommentInformationData(userId, organization, commentDatas)
-    //     // 내 정보 가져오기
-    //     const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-    //     // 댓글 개수 검증하기
-    //   //  this.templateVerifyService.verifyCommentCount(commentDatas)
-    //     console.log(2)
-    //     // affiliationId 추출
-    //     const extractedAffiliationIds = this.extractAffiliationId(commentDatas)
-    //     // affiliationId 기반 데이터 조회
-    //     const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
-    //     // 같은 affiliationId끼리 묶기
-    //     const mergedCommentInformation = this.mergeCommentAndAffiliationForCommentInformation(commentDatas, affiliationDatas, myAffiliationData);
-    //     const sortedCompanyData = sortCompanyPublic(mergedCommentInformation) as CommentInformation[];
-    //     const customedCommentData = this.commentDataCustom(sortedCompanyData);
-    //     return customedCommentData 
     }
 
     private async proccessCommentInformationData(userId:number, organization:string, commentDatas:Comment[]){
-        // 내 정보 가져오기
         const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-        // 댓글 개수 검증하기
-      //  this.templateVerifyService.verifyCommentCount(commentDatas)
-        // affiliationId 추출
         const extractedAffiliationIds = this.extractAffiliationId(commentDatas)
-        // affiliationId 기반 데이터 조회
         const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
-        // 같은 affiliationId끼리 묶기
         const mergedCommentInformation = this.mergeCommentAndAffiliationForCommentInformation(commentDatas, affiliationDatas, myAffiliationData);
         const sortedCompanyData = sortCompanyPublic(mergedCommentInformation) as CommentInformation[];
         const customedCommentData = this.commentDataCustom(sortedCompanyData);
         return customedCommentData 
     }
 
-
     public async checkComment(commentId:number){
         await this.commentHelper.executeUpdateCommentCheck(commentId);
     }
-
 
     public async penetrateComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number):Promise<CommentId>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
