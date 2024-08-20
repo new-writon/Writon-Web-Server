@@ -4,28 +4,30 @@ import { Injectable } from "@nestjs/common";
 import { Affiliation } from "../../user/domain/entity/Affiliation";
 import { UserApi } from "../intrastructure/User.Api";
 import { AuthVerifyService } from "../domain/service/AuthVerify.Service";
+import { AuthValidateService } from "../domain/service/AuthValidate.Service";
 
 
 @Injectable()
 export class DuplicationCheckService {
     constructor(
         private readonly userApi: UserApi,
-        private readonly authVerifyService: AuthVerifyService
+        private readonly authVerifyService: AuthVerifyService,
+        private readonly authValidateService: AuthValidateService
     ) {}
 
     public async checkDuplicateIdentifier(identifier: string): Promise<void> {
         const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
-        this.authVerifyService.validateIdentifier(userData);   
+        this.authValidateService.validateIdentifier(userData);   
     }
 
     public async checkDuplicateEmail(email: string): Promise<void> {
         const userData : User = await this.userApi.requestUserByEmail(email);
-        this.authVerifyService.validateEmail(userData);   
+        this.authValidateService.validateEmail(userData);   
     }
 
     public async checkDuplicateNickname(nickname: string, organization:string): Promise<void> {
         const affiliationData : Affiliation = await this.userApi.requestAffiliationByNicknameAndOrganization(nickname, organization);
-        this.authVerifyService.validateNickname(affiliationData);   
+        this.authValidateService.validateNickname(affiliationData);   
     }
 
 
