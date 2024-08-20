@@ -16,9 +16,7 @@ export class AffiliationHelper {
     ){}
 
     public async giveAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-        const affiliationData =  await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
-       // this.userVerifyService.verifyAffiliation(affiliationData);
-        return affiliationData;
+        return this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
     }
 
     public async giveAffiliationByNicknameAndOrganization(nickname:string, organization: string): Promise<Affiliation>{

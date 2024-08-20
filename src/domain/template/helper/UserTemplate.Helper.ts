@@ -11,7 +11,6 @@ export class UserTemplateHelper{
     constructor(
         @Inject('usertemplateImpl')
         private readonly userTemplateRepository: UserTemplateRepository,
-        private readonly templateVerifyService: TemplateVerifyService
     ){}
 
     public async giveUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplate[]>{
@@ -35,9 +34,7 @@ export class UserTemplateHelper{
     }
 
     public async giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplate[]>{
-        const userTemplate = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId);
-       // this.templateVerifyService.verifyUserTemplates(userTemplate);
-        return userTemplate;
+        return this.userTemplateRepository.findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId);
     }
 
     public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplate[]>{
