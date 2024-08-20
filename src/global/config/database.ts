@@ -4,18 +4,16 @@ import {type DataSourceOptions } from 'typeorm';
 import * as path from 'path';
 
 
-const dataSourceOptions: DataSourceOptions = {
-  type: "mysql",
-  host: "127.0.0.1",
-  port: 3306,
-  username: "root",
-  password: "Cn37rqww@@!",
-  database: "Writon-Data",
-  entities:[path.join(__dirname, '../entity/*.{js,ts}')],
-  synchronize: false,
-};
-
-
+// const dataSourceLocal: DataSourceOptions = {
+//   type: "mysql",
+//   host: "127.0.0.1",
+//   port: 3306,
+//   username: "root",
+//   password: "Cn37rqww@@!",
+//   database: "Writon-Data",
+//   entities:[path.join(__dirname, '../entity/*.{js,ts}')],
+//   synchronize: false,
+// };
 
 
 export const dataSource = registerAs('data-source', () => {
@@ -33,10 +31,3 @@ export const dataSource = registerAs('data-source', () => {
   } as TypeOrmModuleOptions;
 });
 
-// export const AppDataSource = new DataSource(dataSourceOptions);
-
-// export async function initializeDataSource() {
-//     await AppDataSource.initialize();  
-// }
-
-//export default new DataSource(dataSourceOptions);
