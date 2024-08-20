@@ -18,6 +18,7 @@ import { UserChallengeHelper } from '../helper/UserChallenge.Helper';
 import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount';
 import { UserVerifyService } from '../domain/service/UserVerify.Service';
 import { ChallengeDeposit } from '../dto/values/ChallengeDeposit';
+import { DataMapperService } from '../domain/service/DataMapper.Service';
 
 
 @Injectable()
@@ -28,7 +29,8 @@ export class UserChallengeService {
         private readonly templateApi: TemplateApi,
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
-        private readonly userVerifyService: UserVerifyService 
+        private readonly userVerifyService: UserVerifyService ,
+        private readonly dataMapperService:DataMapperService
     ) {}
 
     public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
@@ -85,7 +87,7 @@ export class UserChallengeService {
         const sortedChallengeData = this.sortChallengeDataByChallengeId(challengeData);
         for (const challengeId in sortedChallengeData) {
             const userChallenges = await this.userChallengeHelper.giveUserChallengeByChallengeId(Number(challengeId));
-            const extractedUserChallengeIds = this.extractUserChallengeIds(userChallenges);
+            const extractedUserChallengeIds = this.dataMapperService.extractUserChallengeIds(userChallenges);
             const userChallengeSuccessData = await this.templateApi.requestUserTemplateSuccessCountByUserChallengeIds(extractedUserChallengeIds);
             const userDepositInformation = this.calculateAllUserDeposits(sortedChallengeData, userChallengeSuccessData, Number(challengeId));
             await this.userChallengeHelper.executeUpdateUserChallengeDeposit(userDepositInformation);
@@ -145,9 +147,7 @@ export class UserChallengeService {
         }, {} as ChallengeAllInformationCustom);
       }
 
-    public extractUserChallengeIds(userChallenges:UserChallenge[]){
-        return userChallenges.map((data)=> data.getId());
-    }
+
 
     public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
         const [affiliationData, challengeDayData] = await Promise.all([

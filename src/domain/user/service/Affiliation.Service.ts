@@ -42,7 +42,6 @@ export class AffiliationService{
         positionIntroduce:string,
         companyPublic:boolean
     ){
-        
         await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,position,positionIntroduce,companyPublic);
     }
 }
