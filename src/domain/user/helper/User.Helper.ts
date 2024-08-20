@@ -1,6 +1,6 @@
 import { Inject } from "@nestjs/common";
 import { UserRepository } from "../domain/repository/User.Repository";
-import { UserAffiliationOrganization } from "../../interface/UserAffilatiionOrganization.interface";
+import { UserAffiliationOrganization } from "../dto/values/UserAffilatiionOrganization.interface";
 import { User } from "../domain/entity/User";
 
 

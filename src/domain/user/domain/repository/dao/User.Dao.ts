@@ -1,8 +1,8 @@
 import { DataSource, Repository } from 'typeorm';
-import { User } from '../../entity/User.js';
+import { User } from '../../entity/User';
 import { Injectable } from '@nestjs/common';
-import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiionOrganization.interface.js';
-import { UserRepository } from '../User.Repository.js';
+import { UserAffiliationOrganization } from '../../../dto/values/UserAffilatiionOrganization.interface';
+import { UserRepository } from '../User.Repository';
 
 
 

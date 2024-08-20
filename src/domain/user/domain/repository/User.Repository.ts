@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { User } from '../entity/User';
-import { UserAffiliationOrganization } from '../../../interface/UserAffilatiionOrganization.interface';
+import { UserAffiliationOrganization } from '../../dto/values/UserAffilatiionOrganization.interface';
 
 
 
