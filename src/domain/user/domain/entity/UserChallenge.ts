@@ -19,11 +19,9 @@ import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
 
 
-// @Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
-//   unique: true,
-// })
-// @Index("UserChallenge_affiliation_id_fkey", ["affiliation_id"], {})
-// @Index("UserChallenge_challenge_id_fkey", ["challengeId"], {})
+
+@Index("user_challenges_affiliations_fkey", ["affiliationId"], {})
+@Index("user_challenges_challenges_fkey", ["challengeId"], {})
 @Entity("user_challenges", { schema: "nest" })
 export class UserChallenge extends BaseEntity{
 

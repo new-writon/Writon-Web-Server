@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { UserChallengeHelper } from "../helper/UserChallenge.Helper";
 import { ChallengeApi } from "../infrastruture/Challenge.Api";
-import { UserVerifyService } from "../domain/service/UserVerify.Service";
 import { AffiliationHelper } from "../helper/Affiliation.Helper";
 import { Participant } from "../dto/response/Participant";
 import { ParticipantComponent } from "../dto/response/ParticipantComponent";
 import { isSameDate } from "../util/checker";
+
 
 @Injectable()
 export class CheeringPhraseService{
@@ -14,7 +14,6 @@ export class CheeringPhraseService{
         private readonly affiliationHelper: AffiliationHelper,
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
-        private readonly userVerifyService: UserVerifyService 
     ) {}
 
 

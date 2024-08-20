@@ -32,7 +32,6 @@ export class UserChallengeService {
     ) {}
 
     public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
-
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
         const userTemplateData : UserTemplate[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
         const todayTemplateStatus : boolean = this.verifyTodayTemplateStatus(userTemplateData);
@@ -40,7 +39,6 @@ export class UserChallengeService {
     }
 
     public async bringUserChallengeSituation(userId: number, organization: string, challengeId: number): Promise<UserChallengeSituation>{
-      
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
         const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
             this.userHelper.giveUserById(userId),    
@@ -188,9 +186,6 @@ export class UserChallengeService {
         await this.userChallengeHelper.executeUpdateUserChallengeCheckCount(userChallengeData.getId(), checkCount);
     }
 
-
-  
-
     private verifyTodayTemplateStatus(userTemplete: UserTemplate[]): boolean{
         if(!checkData(userTemplete[0]))
             return true;
@@ -198,7 +193,6 @@ export class UserChallengeService {
     }
 
     private async makeChallengeUserDeposit(challengeData: ChallengeInformation[]){
-
         const sortedChallengeData = this.sortChallengeData(challengeData);
         const challengeIdKeys = Object.keys(sortedChallengeData); 
         for (const challengeIdKey of challengeIdKeys) {

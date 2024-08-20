@@ -3,8 +3,7 @@ import { Organization } from "../domain/entity/Organization";
 import { UserProfile } from "../dto/response/UserProfile";
 import { OrganizationHelper } from "../helper/Organization.Helper";
 import { AffiliationHelper } from "../helper/Affiliation.Helper";
-import { UserChallengeHelper } from "../helper/UserChallenge.Helper";
-import { ChallengeApi } from "../infrastruture/Challenge.Api";
+
 
 
 @Injectable()
@@ -13,8 +12,6 @@ export class AffiliationService{
     constructor(
         private readonly organizationHelper: OrganizationHelper,
         private readonly affiliationHelper: AffiliationHelper,
-        private readonly userChallengeHelper: UserChallengeHelper,
-        private readonly challengeApi: ChallengeApi
     ){}
 
     public async penetrateAffiliation(userId:number, organization:string,     

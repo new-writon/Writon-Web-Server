@@ -19,9 +19,9 @@ import { InternalServerErrorException } from "@nestjs/common";
 
 
 
-// @Index("Affiliation_affiliation_id_key", ["affiliation_id"], { unique: true })
-// @Index("Affiliation_user_id_fkey", ["user_id"], {})
-// @Index("Affiliation_organization_id_fkey", ["organization_id"], {})
+
+@Index("affiliations_users_fkey", ["userId"], {})
+@Index("affiliations_organizations_fkey", ["organizationId"], {})
 @Entity("affiliations", { schema: "nest" })
 export class Affiliation extends BaseEntity{
 
