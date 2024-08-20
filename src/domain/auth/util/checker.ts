@@ -1,7 +1,7 @@
 import { User } from "../../user/domain/entity/User";
 import { AuthErrorCode } from "../exception/AuthErrorCode";
 import { AuthException } from "../exception/AuthException";
-import * as bcrypt from 'bcrypt';
+
 
 
 
@@ -18,31 +18,9 @@ const checkData = (data: any): boolean => {
     return result;
 }
 
-const verifyCode = (code: string, certifyCode: string) => {
-    if (code !== certifyCode)
-        throw new AuthException(AuthErrorCode.NOT_VERIFY_CODE);
-}
-
-const vefifyIdentifier = (userData: User) => {
-    if (!checkData(userData))
-        throw new AuthException(AuthErrorCode.IDENTIFIER_IS_INCOREECT);
-}
 
 
-/**
-* 
-* @param comparingPassword 비교할 패스워드
-* @param comparedPassword  비교 당할 패스워드
-* @returns 
-*/
-const verifyPassword = async (comparingPassword: string, comparedPassword: string) => {
-    console.log(comparedPassword)
-    console.log(comparingPassword)
-    if (! await bcrypt.compare(comparingPassword, comparedPassword)) {
-        throw new AuthException(AuthErrorCode.PASSWORD_IS_INCOREECT);
-    }
-}
 
 export {
-    checkData, verifyCode, vefifyIdentifier, verifyPassword
+    checkData
 }

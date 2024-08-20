@@ -18,6 +18,7 @@ import { AccountService } from './service/Account.Service';
 import { DuplicationCheckService } from './service/DuplicationCheck.Service';
 import { VerificationService } from './service/Verifiaction.Service';
 import { UserApi } from './intrastructure/User.Api';
+import { AuthVerifyService } from './domain/service/AuthVerify.Service';
 
 @Module({
   imports: [
@@ -33,13 +34,14 @@ import { UserApi } from './intrastructure/User.Api';
     
   ],
   providers: [
-    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager,
+    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager, AuthVerifyService,
     MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi
   ],
   controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
   exports:[
     SocialLogin,
-    JwtManager
+    JwtManager,
+    AuthVerifyService
   ]
 })
 export class AuthModule {}

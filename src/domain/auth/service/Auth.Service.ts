@@ -8,8 +8,8 @@ import { TokenManager } from "../../../global/util/TokenManager";
 import { UserChallenge } from "../../user/domain/entity/UserChallenge";
 import { checkData } from "../util/checker.js";
 import { Affiliation } from "../../user/domain/entity/Affiliation";
-import { verifyPassword, vefifyIdentifier } from "../util/checker";
 import { UserApi } from "../intrastructure/User.Api";
+import { AuthVerifyService } from "../domain/service/AuthVerify.Service";
 
 @Injectable()
 export class AuthService {
@@ -19,6 +19,7 @@ export class AuthService {
         private readonly jwtManager: JwtManager,
         private readonly tokenManager: TokenManager,
         private readonly userApi: UserApi,
+        private readonly authVerifyService: AuthVerifyService
     ) { }
 
 
@@ -40,8 +41,8 @@ export class AuthService {
 
     public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
-        vefifyIdentifier(userData);
-        await verifyPassword(password, userData.getPassword())
+        this.authVerifyService.vefifyIdentifier(userData);
+        await this.authVerifyService.verifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(userData.getId()), refreshToken);
