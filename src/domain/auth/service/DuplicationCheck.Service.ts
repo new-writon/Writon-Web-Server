@@ -11,7 +11,6 @@ import { AuthValidateService } from "../domain/service/AuthValidate.Service";
 export class DuplicationCheckService {
     constructor(
         private readonly userApi: UserApi,
-        private readonly authVerifyService: AuthVerifyService,
         private readonly authValidateService: AuthValidateService
     ) {}
 

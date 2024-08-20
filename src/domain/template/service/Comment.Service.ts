@@ -9,6 +9,7 @@ import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
 import { CommentInformation } from "../dto/response/CommentInformation";
 import { sortCompanyPublic } from "../util/data";
 import { formatDate } from "../util/date";
+import { checkData } from "../util/checker";
 
 @Injectable()
 export class CommentService{
@@ -27,11 +28,20 @@ export class CommentService{
     }
 
     private async processCommentData(commentData: Comment[]): Promise<MyComment[]> {
-        const userChallengeIdArray = this.dataMapperService.getUserChallengeIdMapper(commentData);
+        const userChallengeIdArray = this.dataMapperService.extractUserChallengeId(commentData);
         const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
-        const myComment = this.dataMapperService.makeMyCommentMapper(templateWriteAffiliationData, commentData);
+        const myComment = this.makeMyCommentMapper(templateWriteAffiliationData, commentData);
         return MyComment.of(myComment);
     }
+
+    public makeMyCommentMapper(affiliationData:Affiliation[], commentData:Comment[]){
+        return commentData.map((comment)=>{
+            const affiliation = affiliationData.find((affiliation) => affiliation.userChallenges[0].getId() === comment.userTemplate.getUserChallengeId());
+            if(checkData(affiliation)){
+                return new MyComment(comment.getId(), comment.getCreatedAt(), comment.getContent(), comment.userTemplate.getTemplateDate(), affiliation.getNickname(), comment.getUserTemplateId());
+            }         
+        })
+    } 
 
     public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>{
         const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
