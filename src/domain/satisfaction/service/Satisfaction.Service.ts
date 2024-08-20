@@ -29,7 +29,6 @@ export class SatisfactionService{
         return SatisfactionStatus.of(userChallengeData.getReview());
     }
 
-
     public async modifySatisfactionStatus(
         userId:number,
         organization:string,

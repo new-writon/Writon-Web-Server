@@ -75,7 +75,7 @@ export class Challenge extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "orgnization_id", referencedColumnName: "organizationId" }])
+  @JoinColumn([{ name: "organization_id", referencedColumnName: "organizationId" }])
   organization: Relation<Organization>;
 
 
