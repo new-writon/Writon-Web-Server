@@ -56,15 +56,6 @@ export class Challenge extends BaseEntity{
   @OneToMany(() => SmallTalk, (smallTalk) => smallTalk.challenge)
   smallTalks: Relation<SmallTalk>[];
 
-  // @ManyToOne(() => Affiliation, (affiliation) => affiliation.challenges, {
-  //   onDelete: "CASCADE",
-  //   onUpdate: "CASCADE",
-  // })
-  // @JoinColumn([
-  //   { name: "affiliation_id", referencedColumnName: "affiliation_id" },
-  // ])
-  // affiliation: Relation<Affiliation>;
-
   @OneToMany(
     () => ChallengeDepositDeduction,
     (challengeDepositDeduction) => challengeDepositDeduction.challenge

@@ -24,6 +24,5 @@ export class ChallengeQuestionService{
     public async bringSpecialQuestion(challengeId: number):Promise<SpecialQuestion[]>{
         const specialQuestionData = await this.questionHelper.giveSpecialQuestionByChallengeId(challengeId);
         return SpecialQuestion.of(specialQuestionData)
-
     }
 }

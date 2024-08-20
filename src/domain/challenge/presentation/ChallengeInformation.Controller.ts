@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Logger, Param } from "@nestjs/common";
+import { Controller, Get, HttpCode, Logger, Param } from "@nestjs/common";
 import { ChallengeStatus } from "../dto/response/ChallengeStatus";
 import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
 import { ChallengeInformationService } from "../service/ChallengeInformation.Service";

@@ -8,7 +8,8 @@ import { ChallengeStatus } from "../dto/response/ChallengeStatus";
 import { ChallengeAndOrganization } from "../dto/values/ChallengeAndOrganization";
 import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization";
 import { ChallengeHelper } from "../helper/Challenge.Helper";
-import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper";
+import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper.js";
+import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service";
 
 
 
@@ -18,13 +19,14 @@ export class ChallengeInformationService{
 
     constructor(
         private readonly challengeHelper: ChallengeHelper,
-        private readonly challengeDayHelper: ChallengeDayHelper
+        private readonly challengeDayHelper: ChallengeDayHelper,
+        private readonly challengeVerifyService: ChallengeVerifyService
     ){}
 
 
     public async checkChallengeDay(challengeId: number, date: Date){ 
         const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date);
-        this.verifyChallengeDay(challengeDayData)
+        this.challengeVerifyService.verifyChallengeDay(challengeDayData)
     }
 
     public async bringChallengeStatus(challengeId: number): Promise<ChallengeStatus> { 
@@ -59,11 +61,7 @@ export class ChallengeInformationService{
     }
 
 
-    private verifyChallengeDay(challengeDay : ChallengeDay){
-        if(!checkData(challengeDay))
-            throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE_DAY);
-        
-    }
+
 
     private sortChallengePerOrganization(array : ChallengeAndOrganization[]):ChallengeAccordingToOrganization[]{
         const groupOrganization : {
