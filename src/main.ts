@@ -22,10 +22,6 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalPipes(new ValidationPipe(config.get('validation')));
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-  const jwtService = app.get(JwtService);
-  const tokenInterceptor = new TokenInterceptor(jwtService);
-  //console.log(tokenInterceptor.generateToken(1, "USER"))
   await app.listen(config.get('port'));
 }
 void bootstrap();
