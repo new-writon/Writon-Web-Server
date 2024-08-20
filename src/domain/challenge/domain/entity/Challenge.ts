@@ -18,8 +18,8 @@ import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { Organization } from "../../../../domain/user/domain/entity/Organization";
 
 
-// @Index("Challenge_challenge_id_key", ["challengeId"], { unique: true })
-// @Index("Challenge_affiliation_id_fkey", ["affiliationId"], {})
+
+@Index("challenges_organizations_fkey", ["organizationId"], {})
 @Entity("challenges", { schema: "nest" })
 export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })

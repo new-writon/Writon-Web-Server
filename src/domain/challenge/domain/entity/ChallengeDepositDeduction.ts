@@ -11,7 +11,7 @@ import { Challenge } from "./Challenge";
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
-//@Index("ChallengeDepositDeduction_challenge_id_fkey", ["challengeId"], {})
+@Index("challenge_deposit_deduction_challenges_fkey", ["challengeId"], {})
 @Entity("challenge_deposit_deduction", { schema: "nest" })
 export class ChallengeDepositDeduction extends BaseEntity{
   @PrimaryGeneratedColumn({

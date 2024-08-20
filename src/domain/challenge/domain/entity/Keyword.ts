@@ -12,9 +12,8 @@ import { Question } from "./Question";
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
-//@Index("QuestionTag_question_id_fkey", ["question_id"], {})
 @Entity("keywords", { schema: "nest" })
-export class Keyword {
+export class Keyword extends BaseEntity{
   
   @PrimaryGeneratedColumn({ type: "int", name: "keyword_id" })
   keywordId: number;
