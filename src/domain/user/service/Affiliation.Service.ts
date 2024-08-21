@@ -16,13 +16,13 @@ export class AffiliationService{
 
     public async penetrateAffiliation(userId:number, organization:string,     
         nickname: string,
-        job: string,
-        jobIntroduce: string,
+        position: string,
+        positionIntroduce: string,
         hireDate: string,
         company: string,
         companyPublic: boolean): Promise<void>{
         const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(organization);
-        await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(), nickname, job, jobIntroduce, hireDate, company, companyPublic)
+        await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(), nickname, position, positionIntroduce, hireDate, company, companyPublic)
     }
 
 

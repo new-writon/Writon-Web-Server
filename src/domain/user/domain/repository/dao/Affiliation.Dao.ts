@@ -47,9 +47,9 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
 
 
 
-  async insertAffiliation(userId:number, organizationId:number, nickname: string, job: string,
-    jobIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
-    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, nickname, job, jobIntroduce, hireDate, company, companyPublic);
+  async insertAffiliation(userId:number, organizationId:number, nickname: string, position: string,
+    positionIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
+    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, nickname, position, positionIntroduce, hireDate, company, companyPublic);
     this.save(newAffiliation);
   }
 

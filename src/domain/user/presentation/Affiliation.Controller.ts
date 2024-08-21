@@ -25,7 +25,7 @@ export class AffiliationController {
   ): Promise<SuccessResponseDto<void>>  {
 
     await this.affiliationService.penetrateAffiliation(user.userId, affiliationStartDto.getOrganization(), affiliationStartDto.getNickname(),
-     affiliationStartDto.getJob(), affiliationStartDto.getJobIntroduce(), String(affiliationStartDto.getHireDate()), affiliationStartDto.getCompany(),
+     affiliationStartDto.getPosition(), affiliationStartDto.getPositionIntroduce(), String(affiliationStartDto.getHireDate()), affiliationStartDto.getCompany(),
      affiliationStartDto.getCompanyPublic())
     this.logger.log("소속 참여 완료");
     return SuccessResponseDto.of();
