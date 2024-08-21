@@ -4,7 +4,9 @@ export enum TemplateErrorCode  {
     
     NOT_FOUND_USERTEMPLATE=700,
     NOT_FOUND_COMMENT=701,
-    NO_COUNT_COMMENT=702
+    NO_COUNT_COMMENT=702,
+    NOT_FOUND_LIKE=703,
+    NOT_FOUND_TEMPLATE_CONTENT=704
     
 }
 
@@ -12,7 +14,9 @@ export enum TemplateErrorCode  {
 const ErrorMessages: { [key: number]: string } = {
     700:"유저 템플릿이 존재하지 않습니다.",
     701:"해당 댓글이 존재하지 않습니다.",
-    702:"댓글이 존재하지 않습니다."
+    702:"댓글이 존재하지 않습니다.",
+    703:"좋아요가 존재하지 않습니다",
+    704:"템플릿 내용 데이터가 존재하지 않습니다."
 
 };
 

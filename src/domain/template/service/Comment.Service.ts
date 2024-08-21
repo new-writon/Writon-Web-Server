@@ -24,8 +24,7 @@ export class CommentService{
     public async bringMyComment(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
          // 검증 x
         const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-         // 검증 x
-        const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId);
+        const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId, false);
         return commentData.length === 0 ? [] : this.processCommentData(commentData)
     }
 
@@ -47,8 +46,7 @@ export class CommentService{
     } 
 
     public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>{
-         // 검증 x
-        const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
+        const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId, false);
         return commentDatas.length === 0 ? []:this.proccessCommentInformationData(userId, organization, commentDatas)
     }
 

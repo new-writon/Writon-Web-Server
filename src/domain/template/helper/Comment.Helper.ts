@@ -14,21 +14,26 @@ export class CommentHelper{
     ){}
 
 
-    public async giveCommentByAffiliationIdWithChallengeId(affilationId:number,challengeId:number):Promise<Comment[]>{
-        const commentData = await this.commentRepository.findCommentByAffiliationIdWithChallengeId(affilationId, challengeId);
-        return commentData;
+    public async giveCommentByAffiliationIdWithChallengeId(affilationId:number,challengeId:number, verifyFlag:boolean):Promise<Comment[]>{
+        const datas = await this.commentRepository.findCommentByAffiliationIdWithChallengeId(affilationId, challengeId);
+        if(verifyFlag) this.templateVerifyService.verifyComments(datas);
+        return datas;
     }
 
     public async executeUpdateCommentCheck(commentId: number):Promise<void>{
         return this.commentRepository.updateCommentCheck(commentId);
     }
 
-    public async giveCommentWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Comment[]>{
-        return this.commentRepository.findCommentWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
+    public async giveCommentWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number, verifyFlag:boolean): Promise<Comment[]>{
+        const datas = await this.commentRepository.findCommentWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
+        if(verifyFlag) this.templateVerifyService.verifyComments(datas);
+        return datas;
     }
 
-    public async giveCommentById(commentId:number):Promise<Comment>{
-        return this.commentRepository.findCommentById(commentId);
+    public async giveCommentById(commentId:number, verifyFlag:boolean):Promise<Comment>{
+        const data = await this.commentRepository.findCommentById(commentId);
+        if(verifyFlag) this.templateVerifyService.verifyComment(data);
+        return data;
     }
 
     public async executeInsertComment(affiliationId:number, content:string, userTemplateId:number, commentGroup:number):Promise<Comment>{
@@ -47,7 +52,9 @@ export class CommentHelper{
         return this.commentRepository.deleteComment(affilationId, commentId);
     }
 
-    public async giveCommentByUserTemplateId(userTemplateId:number):Promise<Comment[]>{
-        return this.commentRepository.findCommentByUserTemplateId(userTemplateId);
+    public async giveCommentByUserTemplateId(userTemplateId:number, verifyFlag:boolean):Promise<Comment[]>{
+        const datas = await this.commentRepository.findCommentByUserTemplateId(userTemplateId);
+        if(verifyFlag) this.templateVerifyService.verifyComments(datas);
+        return datas;
     }
 }

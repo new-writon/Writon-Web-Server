@@ -11,38 +11,51 @@ export class UserTemplateHelper{
     constructor(
         @Inject('usertemplateImpl')
         private readonly userTemplateRepository: UserTemplateRepository,
+        private readonly templateVerifyService:TemplateVerifyService
     ){}
 
-    public async giveUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplate[]>{
-        return this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
+    public async giveUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
+        if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
+        return datas;
     };
 
     public async giveChallengeSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
         return this.userTemplateRepository.findChallengeSuccessChallengeCount(affiliationId, challengeId);
     };
 
-    public async giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
-        return this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
+    public async giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
+        if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
+        return datas;
     }
 
-    public async giveUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]>{
-        return this.userTemplateRepository.findUserTemplateByChallengeIdForAffiliationId(affiliationId, challengeId);
+    public async giveUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<TemplateContent[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateByChallengeIdForAffiliationId(affiliationId, challengeId);
+        if(verifyFlag) this.templateVerifyService.verifyTemplateContents (datas);
+        return datas;
     }
 
     public async exexuteInsertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate>{
         return this.userTemplateRepository.insertUserTemplate(userChallnegeId, date, complete);
     }
 
-    public async giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplate[]>{
-        return this.userTemplateRepository.findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId);
+    public async giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number, verifyFlag:boolean):Promise<UserTemplate[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId);
+        if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
+        return datas;
     }
 
-    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplate[]>{
-        return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId, date);
+    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date, verifyFlag:boolean):Promise<UserTemplate[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId, date);
+        if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
+        return datas;
     }
 
-    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId:number, visibility:boolean):Promise<UserTemplate>{
-        return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility);
+    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId:number, visibility:boolean, verifyFlag:boolean):Promise<UserTemplate>{
+        const data = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility);
+        if(verifyFlag) this.templateVerifyService.verifyUserTemplate(data);
+        return data;
     }
 
     public async giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
