@@ -1,16 +1,16 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { UserChallenge } from '../../entity/UserChallenge.js';
-import { Affiliation } from '../../entity/Affiliation.js';
-import { AffiliationRepository } from '../Affiliation.Repository.js';
-import { Organization } from '../../entity/Organization.js';
-import { Challenge } from '../../../../challenge/domain/entity/Challenge.js';
-import { ChallengesPerOrganization } from '../../../dto/values/ChallengesPerOrganization.js';
-import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
-import { User } from '../../entity/User.js';
-import { Participant } from '../../../dto/response/Participant.js';
+import { UserChallenge } from '../../entity/UserChallenge';
+import { Affiliation } from '../../entity/Affiliation';
+import { AffiliationRepository } from '../Affiliation.Repository';
+import { Organization } from '../../entity/Organization';
+import { Challenge } from '../../../../challenge/domain/entity/Challenge';
+import { ChallengesPerOrganization } from '../../../dto/values/ChallengesPerOrganization';
+import { UserProfile } from '../../../../user/dto/response/UserProfile';
+import { User } from '../../entity/User';
+import { Participant } from '../../../dto/response/Participant';
 import { AffiliationStart } from '../../../dto/request/AffiliationStart';
-import { ProfileUpdate } from 'src/domain/user/dto/request/ProfileUpdate.js';
+import { ProfileUpdate } from 'src/domain/user/dto/request/ProfileUpdate';
 
 
 /**

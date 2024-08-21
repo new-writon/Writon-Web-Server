@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { Organization } from "../../entity/Organization.js";
-import { OrganizationRepository } from "../Organization.Repository.js";
+import { Organization } from "../../entity/Organization";
+import { OrganizationRepository } from "../Organization.Repository";
 
 
 @Injectable()

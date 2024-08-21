@@ -1,11 +1,10 @@
 import { DataSource, Repository } from 'typeorm';
-import { User } from '../../entity/User.js';
 import { Injectable } from '@nestjs/common';
-import { UserChallenge } from '../../entity/UserChallenge.js';
-import { UserChallengeRepository } from '../UserChallenge.Repository.js';
-import { Affiliation } from '../../entity/Affiliation.js';
-import { Organization } from '../../entity/Organization.js';
-import { ChallengeDeposit } from '../../../dto/values/ChallengeDeposit.js';
+import { UserChallenge } from '../../entity/UserChallenge';
+import { UserChallengeRepository } from '../UserChallenge.Repository';
+import { Affiliation } from '../../entity/Affiliation';
+import { Organization } from '../../entity/Organization';
+import { ChallengeDeposit } from '../../../dto/values/ChallengeDeposit';
 
 /**
  * User DAO Class
