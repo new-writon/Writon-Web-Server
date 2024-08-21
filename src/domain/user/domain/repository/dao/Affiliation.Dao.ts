@@ -18,18 +18,6 @@ import { Participant } from '../../../dto/response/Participant.js';
 export class AffiliationDao extends Repository<Affiliation> implements AffiliationRepository{
     constructor(private dataSource: DataSource) { super(Affiliation, dataSource.createEntityManager()); }
 
-    async findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-
-      return this.dataSource
-        .createQueryBuilder()
-        .select('a')
-        .from(Affiliation,'a')
-        .innerJoin('a.organization', 'o')
-        .where("a.user_id = :userId", {userId:userId})
-        .andWhere('o.name = :organization', { organization: organization })
-        .getOne();
-    }
-
     async findAffiliationByNicknameAndOrganization(nickname: string, organization: string): Promise<Affiliation | null> {
       return this.dataSource
           .createQueryBuilder(Affiliation, 'a')

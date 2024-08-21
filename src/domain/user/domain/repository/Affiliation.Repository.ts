@@ -7,12 +7,12 @@ import { Participant } from '../../dto/response/Participant';
 
 export interface AffiliationRepository extends Repository<Affiliation> {
 
-    findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>;
+    findAffiliationByUserIdWithOrganization(userId: number, organization: string): Promise<Affiliation>;
     findAffiliationByNicknameAndOrganization(nickname:string, organization:string):Promise<Affiliation>;
     insertAffiliation(userId:number, organizationId:number, nickname: string, position: string,
         positionIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>;
     findChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>;
-    findAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>;
+   // findAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>;
     findUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>;
     updateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
         hireDate:Date,position:string,positionIntroduce:string,companyPublic:boolean):Promise<void>;

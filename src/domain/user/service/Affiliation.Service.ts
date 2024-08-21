@@ -21,8 +21,7 @@ export class AffiliationService{
         hireDate: string,
         company: string,
         companyPublic: boolean): Promise<void>{
-             // 검증 x
-        const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(organization);
+        const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(organization, false);
         await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(), nickname, position, positionIntroduce, hireDate, company, companyPublic)
     }
 

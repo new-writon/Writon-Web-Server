@@ -5,12 +5,18 @@ import { UserErrorCode } from "../../exception/UserErrorCode";
 import { checkData } from "../../util/checker";
 import { Affiliation } from "../entity/Affiliation";
 import { User } from "../entity/User";
+import { Organization } from "../entity/Organization";
 
 @Injectable()
 export class UserVerifyService{
 
     public verifyUserChallenge(userChallenge:UserChallenge){
         if(!checkData(userChallenge))
+            throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
+    }
+
+    public verifyUserChallenges(userChallenges:UserChallenge[]){
+        if(!checkData(userChallenges))
             throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
     }
 
@@ -22,6 +28,11 @@ export class UserVerifyService{
     public verifyAffiliations(affiliations:Affiliation[]){
         if(!checkData(affiliations))
             throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
+    }
+
+    public verifyOrganization(organization:Organization){
+        if(!checkData(organization))
+            throw new UserException(UserErrorCode.NOT_FOUND_ORGANIZATION);
     }
 
     /**

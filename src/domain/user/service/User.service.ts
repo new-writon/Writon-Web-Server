@@ -13,9 +13,7 @@ export class UserService {
 
 
     public async modifyAccount(accountNumber:string, bank:string, userId:number):Promise<void>{
-         // 검증 x
-        const userData:User = await this.userHelper.giveUserById(userId);
-        this.userVerifyService.verifyUser(userData);
+        await this.userHelper.giveUserById(userId,true);
         await this.userHelper.executeUpdateAccount(accountNumber, bank, userId);
     }
 

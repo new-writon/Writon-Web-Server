@@ -14,38 +14,42 @@ export class UserChallengeHelper{
 
     ){}
 
-    public async giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId: number){
-        return this.userChallengeRepository.findUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
+    public async giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId: number, verifyFlag:boolean){
+        const datas = await this.userChallengeRepository.findUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
+        if(verifyFlag) this.userVerifyService.verifyUserChallenges(datas);
+        return datas;
     }
 
-    public async giveUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
-        const userChallengeData = await this.userChallengeRepository.findUserChallengeByAffiliationIdAndChallengeId(affiliationId,challengeId);
-        this.userVerifyService.verifyUserChallenge(userChallengeData)
-        return userChallengeData;
+    public async giveUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number, verifyFlag:boolean):Promise<UserChallenge>{
+        const data = await this.userChallengeRepository.findUserChallengeByAffiliationIdAndChallengeId(affiliationId,challengeId);
+        if(verifyFlag)this.userVerifyService.verifyUserChallenge(data)
+        return data;
     }
 
     public async executeInsertUserChallenge(affiliationId:number, challengeId: number, deposit:number, review: number): Promise<void>{
         return this.userChallengeRepository.insertUserChallenge(affiliationId,challengeId, deposit, review);
     }
 
-    public async giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId:number, organization:string, challengeId:number):Promise<UserChallenge>{
-        const userChallengeData = await this.userChallengeRepository.findUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
-        this.userVerifyService.verifyUserChallenge(userChallengeData)
-        return userChallengeData
+    public async giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId:number, organization:string, challengeId:number, verifyFlag:boolean):Promise<UserChallenge>{
+        const data = await this.userChallengeRepository.findUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
+        if(verifyFlag) this.userVerifyService.verifyUserChallenge(data)
+        return data
     }
 
-    public async giveUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
-        return this.userChallengeRepository.findUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId, challengeId);
+    public async giveUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number, verifyFlag:boolean):Promise<UserChallenge[]>{
+        const datas = await this.userChallengeRepository.findUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId, challengeId);
+        if(verifyFlag) this.userVerifyService.verifyUserChallenges(datas);
+        return datas;
     }
 
     public async executeUpdateUserChallengeCheckCount(userChallengeId:number, checkCount:number):Promise<void>{
         await this.userChallengeRepository.updateUserChallengeCheckCount(userChallengeId, checkCount);
     }
 
-    public async giveUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>{
-        const userChallengeData = await this.userChallengeRepository.findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
-        this.userVerifyService.verifyUserChallenge(userChallengeData)
-        return userChallengeData
+    public async giveUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string, verifyFlag:boolean):Promise<UserChallenge>{
+        const data = await this.userChallengeRepository.findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
+        if(verifyFlag) this.userVerifyService.verifyUserChallenge(data)
+        return data
     }
 
     public async executeUpdateUserChallengeReview(userId:number, organization:string, challengeId:number): Promise<void>{
@@ -60,8 +64,10 @@ export class UserChallengeHelper{
         await this.userChallengeRepository.updateUserChallengeReEngagement(userChallengeData.getId(), check);
     }
 
-    public async giveUserChallengeAndAffiliationAndUserByUserChallengeIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
-       return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
+    public async giveUserChallengeAndAffiliationAndUserByUserChallengeIdArrayAndChallengeId(userChallengeId:number[], challengeId:number, verifyFlag:boolean):Promise<UserChallenge[]>{
+       const datas = await this.userChallengeRepository.findUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
+       if(verifyFlag) this.userVerifyService.verifyUserChallenges(datas);
+       return datas;
     }
 
     async giveUserChallengePaticipantCount(challengeId:number):Promise<number>{
@@ -75,12 +81,16 @@ export class UserChallengeHelper{
     }
 
 
-    async giveUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number):Promise<UserChallenge[]>{
-        return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserByChallengeId(challengeId);
+    async giveUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number, verifyFlag:boolean):Promise<UserChallenge[]>{
+        const datas = await this.userChallengeRepository.findUserChallengeAndAffiliationAndUserByChallengeId(challengeId);
+        if(verifyFlag) this.userVerifyService.verifyUserChallenges(datas);
+        return datas;
     }
 
-    async giveUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>{
-        return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserById(userChallengeId);
+    async giveUserChallengeAndAffiliationAndUserById(userChallengeId:number, verifyFlag:boolean):Promise<UserChallenge>{
+        const data = await this.userChallengeRepository.findUserChallengeAndAffiliationAndUserById(userChallengeId);
+        if(verifyFlag) this.userVerifyService.verifyUserChallenge(data);
+        return data;
     }
 
     async giveUserChallengeByChallengeId(challengeId: number){

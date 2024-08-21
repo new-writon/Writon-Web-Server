@@ -30,16 +30,7 @@ export class UserDao extends Repository<User> implements UserRepository{
             }
         })
     }
-
-    async selectUserDataByEmail(email: string): Promise<User> {
-        return await this.findOne({
-            where: {
-                email:email
-            }
-        })
-    }
     
-
     async kakaoSignUp(
         email: string,
         kakaoNumber: string,

@@ -16,7 +16,7 @@ export class AffiliationHelper {
     ){}
 
     public async giveAffiliationByUserIdWithOrganization(userId: number, organization: string, verifyFlag:boolean): Promise<Affiliation>{
-        const data = await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
+        const data = await this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
         if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
         return data;
     }

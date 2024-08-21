@@ -44,16 +44,15 @@ export class UserChallengeService {
     public async bringUserChallengeSituation(userId: number, organization: string, challengeId: number): Promise<UserChallengeSituation>{
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization,false);
         const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
-           // 검증 x
-            this.userHelper.giveUserById(userId),    
+          
+            this.userHelper.giveUserById(userId,false),    
              // 검증 x
             this.challengeApi.requestOverlapPeriod(challengeId),
              // 검증 x
             this.challengeApi.requestChallengeOverlapCount(challengeId),
              // 검증 x
             this.templateApi.requestChallengeSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
-             // 검증 0
-            this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId),
+            this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId,true),
              // 검증 o
             this.challengeApi.requestChallengeById(challengeId)  
           ]);
@@ -183,8 +182,7 @@ export class UserChallengeService {
     public async bringParticipationInChallengePerAffiliation(userId:number,organization:string,challengeId:number):Promise<ParticipationInChallengePerAffiliation>{
         let [affiliationData, userChallengeData] = await Promise.all([
             this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, true), 
-             // 검증 o
-            this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId)
+            this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId,true)
         ]);
         const affiliatedConfirmation = this.checkAffiliation(affiliationData)
         const challengedConfirmation = this.checkUserChallenge(userChallengeData) 
@@ -192,14 +190,12 @@ export class UserChallengeService {
     }
 
     public async bringUserChallengeCheckCount(userId:number,organization:string,challengeId:number):Promise<UserChallengeCheckCount>{
-       // 검증 o
-        const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId);
+        const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId,true);
         return UserChallengeCheckCount.of(userChallengeData.getCheckCount())
     }
 
     public async modifyUserChallengeCheckCount(userId:number,organization:string,challengeId:number, checkCount:number):Promise<void>{
-       // 검증 o
-        const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId);
+        const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId,true);
         this.userVerifyService.verifyUserChallenge(userChallengeData);
         await this.userChallengeHelper.executeUpdateUserChallengeCheckCount(userChallengeData.getId(), checkCount);
     }

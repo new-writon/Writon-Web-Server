@@ -13,27 +13,25 @@ export class UserApi{
         private readonly userChallengeHelper: UserChallengeHelper
     ){}
 
-    // 검증 x
     public async requestUserDataBySocialNumberOrIdentifier(idenfitier: string){
-        return this.userHelper.giveUserDataBySocialNumberOrIdentifier(idenfitier);
+        return this.userHelper.giveUserDataBySocialNumberOrIdentifier(idenfitier, false);
     }
 
     public async requestLocalSignUp(identifier: string, password: string, email: string){
         return this.userHelper.executeLocalSignUp(identifier, password, email);
     }
 
-    // 검증 x
     public async requestUserByEmail(email: string){
-        return this.userHelper.giveUserByEmail(email);
+        return this.userHelper.giveUserByEmail(email, false);
     }
 
     public async requestUpdatePassword(idenfitier: string, email:string, password:string){
         return  this.userHelper.executeUpdatePassword(idenfitier, email, password);
 
     }
-    // 검증 x
+  
     public async giveUserById(userId: number){
-        return this.userHelper.giveUserById(userId);
+        return this.userHelper.giveUserById(userId,false);
     }
 
     public async executeUpdatePasswordByUserId(userId: number, password: string){
@@ -51,8 +49,8 @@ export class UserApi{
     public async requestAffiliationByNicknameAndOrganization(nickname:string, organization: string): Promise<Affiliation>{
         return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization, false);
     }
-    // 검증 x
+ 
     public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId: number){
-        return this.userChallengeHelper.giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
+        return this.userChallengeHelper.giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId,false);
     }
 }
