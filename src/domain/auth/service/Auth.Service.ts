@@ -75,7 +75,7 @@ export class AuthService {
         organization: string,
         userId: number
     ): Promise<boolean | null> {
-        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,true);
+        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         const affiliatedConfirmation: boolean = checkData(checkAffiliation);
         return affiliatedConfirmation;
     }
