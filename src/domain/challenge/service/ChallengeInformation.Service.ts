@@ -35,7 +35,6 @@ export class ChallengeInformationService{
     }
 
     public async bringChallengeAccordingToOrganization(): Promise<ChallengeAccordingToOrganization[]> { 
-            // 검증 x
         const allChallengeAccordingToOrganizationData = await this.challengeHelper.giveAllChallengeAccordingToOrganization();
         const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(allChallengeAccordingToOrganizationData);
         return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData); 

@@ -17,12 +17,10 @@ export class ChallengeApi{
     }
 
     public async requestChallengeWithCondition(challengeId: number){
-         // 검증 x
         return this.challengeHelper.giveChallengeWithCondition(challengeId);
     }
 
     public async requestOverlapPeriod(challengeId: number): Promise<number>{
-         // 검증 x
         return this.challengeHelper.giveOverlapPeriod(challengeId);
     }
 
@@ -37,9 +35,7 @@ export class ChallengeApi{
     }
 
     public async requestAllChallengingInformation():Promise<ChallengeAllInformation[]>{
-         // 검증 x
         return this.challengeHelper.giveAllChallengingInformation();
-
     }
 
 

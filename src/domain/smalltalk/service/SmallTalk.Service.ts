@@ -37,8 +37,7 @@ export class SmallTalkService{
     }
 
     private async validateSmallTalkCount(challengeId:number, date:string){
-         // 검증 x
-        const smallTalkData = await this.smallTalkHelper.giveSmallTalkByChallengeIdAndDate(challengeId, date);
+        const smallTalkData = await this.smallTalkHelper.giveSmallTalkByChallengeIdAndDate(challengeId, date, false);
         if(!this.checkSmallTalkLimit(smallTalkData)){
             throw new SmallTalkException(SmallTalkErrorCode.CANT_ADD_SMALL_TALK);
         }
