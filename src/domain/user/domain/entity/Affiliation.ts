@@ -16,6 +16,7 @@ import { Likes } from "../../../template/domain/entity/Likes";
 import { UserChallenge } from "./UserChallenge";
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
+import { AffiliationStart } from "../../dto/request/AffiliationStart";
 
 
 
@@ -46,6 +47,13 @@ export class Affiliation extends BaseEntity{
     this.setHireDate(hireDate)
     this.setCompany(company)
     this.setCompanyPublic(companyPublic)
+    // this.setNickname(affiliationStartDto.getNickname())
+    // this.setPosition(affiliationStartDto.getPosition())
+    // this.setPositionIntroduce(affiliationStartDto.getPositionIntroduce())
+    // this.setHireDate(String(affiliationStartDto.getHireDate()))
+    // this.setCompany(affiliationStartDto.getCompany())
+    // this.setCompanyPublic(affiliationStartDto.getCompanyPublic())
+   
   }
 
 

@@ -3,6 +3,7 @@ import { Organization } from "../domain/entity/Organization";
 import { UserProfile } from "../dto/response/UserProfile";
 import { OrganizationHelper } from "../helper/Organization.Helper";
 import { AffiliationHelper } from "../helper/Affiliation.Helper";
+import { AffiliationStart } from "../dto/request/AffiliationStart";
 
 
 
@@ -14,15 +15,9 @@ export class AffiliationService{
         private readonly affiliationHelper: AffiliationHelper,
     ){}
 
-    public async penetrateAffiliation(userId:number, organization:string,     
-        nickname: string,
-        position: string,
-        positionIntroduce: string,
-        hireDate: string,
-        company: string,
-        companyPublic: boolean): Promise<void>{
-        const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(organization, false);
-        await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(), nickname, position, positionIntroduce, hireDate, company, companyPublic)
+    public async penetrateAffiliation(userId:number, affiliationStartDto: AffiliationStart): Promise<void>{
+        const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(affiliationStartDto.getOrganization(), false);
+        await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(),affiliationStartDto)
     }
 
 

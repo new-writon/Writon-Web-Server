@@ -23,10 +23,7 @@ export class AffiliationController {
     @Body() affiliationStartDto: AffiliationStart,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-
-    await this.affiliationService.penetrateAffiliation(user.userId, affiliationStartDto.getOrganization(), affiliationStartDto.getNickname(),
-     affiliationStartDto.getPosition(), affiliationStartDto.getPositionIntroduce(), String(affiliationStartDto.getHireDate()), affiliationStartDto.getCompany(),
-     affiliationStartDto.getCompanyPublic())
+    await this.affiliationService.penetrateAffiliation(user.userId, affiliationStartDto)
     this.logger.log("소속 참여 완료");
     return SuccessResponseDto.of();
   }

@@ -9,6 +9,7 @@ import { ChallengesPerOrganization } from '../../../dto/values/ChallengesPerOrga
 import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
 import { User } from '../../entity/User.js';
 import { Participant } from '../../../dto/response/Participant.js';
+import { AffiliationStart } from '../../../dto/request/AffiliationStart';
 
 
 /**
@@ -35,9 +36,10 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
 
 
 
-  async insertAffiliation(userId:number, organizationId:number, nickname: string, position: string,
-    positionIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
-    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, nickname, position, positionIntroduce, hireDate, company, companyPublic);
+  async insertAffiliation(userId:number, organizationId:number, affiliationStartDto: AffiliationStart):Promise<void>{
+    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, affiliationStartDto.getNickname(), affiliationStartDto.getPosition(), affiliationStartDto.getPositionIntroduce(),
+    affiliationStartDto.getHireDate(), affiliationStartDto.getCompany(), affiliationStartDto.getCompanyPublic()
+  );
     this.save(newAffiliation);
   }
 
