@@ -16,15 +16,13 @@ export class ChallengeQuestionService{
 
 
     public async bringBasicQuestion(challengeId: number):Promise<BasicQuestion[]>{ 
-            // 검증 x
-        const basicQuestionData = await this.questionHelper.giveBasicQuestionByChallengeId(challengeId);
+        const basicQuestionData = await this.questionHelper.giveBasicQuestionByChallengeId(challengeId, false);
         return BasicQuestion.of(basicQuestionData);
     }
 
 
     public async bringSpecialQuestion(challengeId: number):Promise<SpecialQuestion[]>{
-            // 검증 x
-        const specialQuestionData = await this.questionHelper.giveSpecialQuestionByChallengeId(challengeId);
+        const specialQuestionData = await this.questionHelper.giveSpecialQuestionByChallengeId(challengeId, false);
         return SpecialQuestion.of(specialQuestionData)
     }
 }

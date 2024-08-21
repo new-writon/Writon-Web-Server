@@ -13,8 +13,7 @@ export class ChallengeApi{
 
 
     public async requestChallengeById(challengeId: number){
-         // 검증 o
-        return this.challengeHelper.giveChallengeById(challengeId);
+        return this.challengeHelper.giveChallengeById(challengeId, true);
     }
 
     public async requestChallengeWithCondition(challengeId: number){
@@ -34,8 +33,7 @@ export class ChallengeApi{
     }
 
     public async requestChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
-         // 검증 x
-        return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
+        return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId, false);
     }
 
     public async requestAllChallengingInformation():Promise<ChallengeAllInformation[]>{

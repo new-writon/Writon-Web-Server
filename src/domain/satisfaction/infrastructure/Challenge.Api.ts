@@ -13,8 +13,7 @@ export class ChallengeApi{
     ){}
 
     public async requestChallengeById(challengeId: number): Promise<Challenge>{
-         // 검증 0
-        return this.challengeHelper.giveChallengeById(challengeId);
+        return this.challengeHelper.giveChallengeById(challengeId, true);
     }
 
 

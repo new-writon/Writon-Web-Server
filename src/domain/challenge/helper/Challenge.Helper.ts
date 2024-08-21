@@ -19,9 +19,9 @@ export class ChallengeHelper{
         return this.challengeRepository.findOverlapPeriod(challengeId);
     }
 
-    public async giveChallengeById(challengeId: number): Promise<Challenge>{
+    public async giveChallengeById(challengeId: number, verifyFlag:boolean): Promise<Challenge>{
         const challengeData = await this.challengeRepository.findChallengeById(challengeId);
-        this.challengeVerifyService.verifyChallenge(challengeData);
+        if(verifyFlag) this.challengeVerifyService.verifyChallenge(challengeData);
         return challengeData;
     }
 
@@ -29,12 +29,16 @@ export class ChallengeHelper{
         return this.challengeRepository.findChallengeWithCondition(challengeId);
     }
 
-    public async giveChallengeByIdAndOngoing(challengeId: number): Promise<Challenge[]>{
-        return this.challengeRepository.findChallengeByIdAndOngoing(challengeId);
+    public async giveChallengeByIdAndOngoing(challengeId: number, verifyFlag:boolean): Promise<Challenge[]>{
+        const challengeDatas = await this.challengeRepository.findChallengeByIdAndOngoing(challengeId);
+        if(verifyFlag) this.challengeVerifyService.verifyChallenges(challengeDatas);
+        return challengeDatas;
     }
 
-    public async giveChallengeByChallengeName(challenge:string):Promise<Challenge>{
-        return this.challengeRepository.findChallengeByChallengeName(challenge);
+    public async giveChallengeByChallengeName(challenge:string, verifyFlag:boolean):Promise<Challenge>{
+        const challengeData = await this.challengeRepository.findChallengeByChallengeName(challenge);
+        if(verifyFlag) this.challengeVerifyService.verifyChallenge(challengeData);
+        return challengeData;
     }
 
     public async giveAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>{

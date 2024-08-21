@@ -23,14 +23,12 @@ export class ChallengeInformationService{
 
 
     public async checkChallengeDay(challengeId: number, date: Date){ 
-            // 검증 x
-        const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date);
+        const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date, false);
         this.challengeVerifyService.verifyChallengeDay(challengeDayData)
     }
 
     public async bringChallengeStatus(challengeId: number): Promise<ChallengeStatus> { 
-            // 검증 x
-        const challengeData : Challenge[] = await this.challengeHelper.giveChallengeByIdAndOngoing(challengeId);
+        const challengeData : Challenge[] = await this.challengeHelper.giveChallengeByIdAndOngoing(challengeId, false);
         const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
         return ChallengeStatus.of(challengeStatus);
        
@@ -44,8 +42,7 @@ export class ChallengeInformationService{
     }
 
     public async bringChallengeDay(challengeId:number):Promise<Date[]>{ 
-            // 검증 x
-       const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
+       const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId, false);
        const challengeDays = this.sortChallnegeDay(challengeDay);
        return challengeDays;
     }
