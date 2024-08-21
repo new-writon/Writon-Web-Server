@@ -10,6 +10,7 @@ import { CommentInformation } from "../dto/response/CommentInformation";
 import { sortCompanyPublic } from "../util/data";
 import { formatDate } from "../util/date";
 import { checkData } from "../util/checker";
+import { CommentInsert } from "../dto/request/CommentInsert";
 
 @Injectable()
 export class CommentService{
@@ -63,9 +64,9 @@ export class CommentService{
         await this.commentHelper.executeUpdateCommentCheck(commentId);
     }
 
-    public async penetrateComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number):Promise<CommentId>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
-        const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), content, userTemplateId, commentGroup);
+    public async penetrateComment(userId: number, commentInsert: CommentInsert):Promise<CommentId>{
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, commentInsert.getOrganization(), false);
+        const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), commentInsert.getContent(), commentInsert.getUserTemplateId(), commentInsert.getCommentGroup());
         return CommentId.of(commentData.getId());   
     }
 
