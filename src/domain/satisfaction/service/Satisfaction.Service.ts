@@ -54,8 +54,7 @@ export class SatisfactionService{
     }
 
     public async bringSatisfactionQuestion(challengeId:number):Promise<SatisfactionQuestion[]>{
-         // 검증 0
-        const satisfactionData = await this.satisfactionHelper.giveSatisfactionByChallengeId(challengeId);
+        const satisfactionData = await this.satisfactionHelper.giveSatisfactionByChallengeId(challengeId, true);
         return SatisfactionQuestion.of(satisfactionData);
     }
 

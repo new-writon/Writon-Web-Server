@@ -13,10 +13,10 @@ export class SatisfactionHelper{
         private readonly satisfactionVerifyService:SatisfactionVerifyService
     ){}
 
-    public async giveSatisfactionByChallengeId(challengeId:number):Promise<Satisfaction[]>{
-        const satisfactionData = await this.satisfactionRepository.findSatisfactionByChallengeId(challengeId);
-        this.satisfactionVerifyService.verifySatisfaction(satisfactionData)
-        return satisfactionData;
+    public async giveSatisfactionByChallengeId(challengeId:number, verifyFlag:boolean):Promise<Satisfaction[]>{
+        const satisfactionDatas = await this.satisfactionRepository.findSatisfactionByChallengeId(challengeId);
+        if(verifyFlag) this.satisfactionVerifyService.verifySatisfaction(satisfactionDatas)
+        return satisfactionDatas;
     }
 
 }
