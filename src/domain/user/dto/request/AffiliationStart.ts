@@ -17,7 +17,7 @@ export class AffiliationStart {
     private positionIntroduce: string;
 
     @IsNotEmpty()
-    private hireDate: Date;
+    private hireDate:string;
 
     @IsNotEmpty()
     private company: string;

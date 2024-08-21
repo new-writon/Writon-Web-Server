@@ -23,10 +23,7 @@ export class AffiliationController {
     @Body() affiliationStartDto: AffiliationStart,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-
-    await this.affiliationService.penetrateAffiliation(user.userId, affiliationStartDto.getOrganization(), affiliationStartDto.getNickname(),
-     affiliationStartDto.getPosition(), affiliationStartDto.getPositionIntroduce(), String(affiliationStartDto.getHireDate()), affiliationStartDto.getCompany(),
-     affiliationStartDto.getCompanyPublic())
+    await this.affiliationService.penetrateAffiliation(user.userId, affiliationStartDto)
     this.logger.log("소속 참여 완료");
     return SuccessResponseDto.of();
   }
@@ -39,9 +36,7 @@ export class AffiliationController {
     @Param('organization') organization: string,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.affiliationService.modifyProfileUpdate(user.userId, organization, profileUpdate.getNickname(),
-    profileUpdate.getCompany(), profileUpdate.getHireDate(), profileUpdate.getPosition(), profileUpdate.getPositionIntroduce(), profileUpdate.getComanyPublic()
-  );
+    await this.affiliationService.modifyProfileUpdate(user.userId, organization, profileUpdate);
    this.logger.log("소속 프로필 업데이트 완료");
     return SuccessResponseDto.of();
   }

@@ -80,7 +80,7 @@ export class CommentController{
       @Body() commentInsert: CommentInsert,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CommentId>>  {
-      const result = await this.commentService.penetrateComment(user.userId, commentInsert.getOrganization(), commentInsert.getUserTemplateId(), commentInsert.getContent(), commentInsert.getCommentGroup());
+      const result = await this.commentService.penetrateComment(user.userId, commentInsert);
       this.logger.log("댓글 추가 완료");
       return SuccessResponseDto.of(result);
     }

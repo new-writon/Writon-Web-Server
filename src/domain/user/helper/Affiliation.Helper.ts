@@ -5,6 +5,8 @@ import { ChallengesPerOrganization } from "../dto/values/ChallengesPerOrganizati
 import { UserProfile } from "../dto/response/UserProfile";
 import { UserVerifyService } from "../domain/service/UserVerify.Service";
 import { Participant } from "../dto/response/Participant";
+import { AffiliationStart } from "../dto/request/AffiliationStart";
+import { ProfileUpdate } from "../dto/request/ProfileUpdate";
 
 @Injectable()
 export class AffiliationHelper {
@@ -27,11 +29,8 @@ export class AffiliationHelper {
         return data;
     }
 
-    public async insertAffiliation(userId:number, organizationId:number, nickname: string, position: string,
-        positionIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
-            return this.affiliationRepository.insertAffiliation(userId, organizationId, nickname, position,
-                positionIntroduce, hireDate, company, companyPublic
-            );
+    public async insertAffiliation(userId:number, organizationId:number, affiliationStartDto: AffiliationStart):Promise<void>{
+            return this.affiliationRepository.insertAffiliation(userId, organizationId, affiliationStartDto);
     }
 
     public async giveChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>{
@@ -43,9 +42,8 @@ export class AffiliationHelper {
         return this.affiliationRepository.findUserProfileByUserIdAndOrganization(userId, organization);
     }
 
-    public async executeUpdateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
-        hireDate:Date,position:string, positionIntroduce:string, companyPublic:boolean):Promise<void>{
-            await this.affiliationRepository.updateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,position, positionIntroduce,companyPublic);
+    public async executeUpdateUserProfileByUserIdAndOrganization(userId:number,organization:string,profileUpdate: ProfileUpdate):Promise<void>{
+            await this.affiliationRepository.updateUserProfileByUserIdAndOrganization(userId,organization,profileUpdate);
         }
 
     public async giveAffilaitonWithChallengeIdArray(userChallengeId:number[], verifyFlag:boolean):Promise<Affiliation[]>{

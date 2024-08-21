@@ -80,7 +80,7 @@ export class TemplateController {
     @Body() templateWrite: TemplateWrite,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.templateService.penetrateTemplate(user.userId,templateWrite.getChallengeId(), templateWrite.getOrganization(), templateWrite.getDate(), templateWrite.getTemplateContent());
+    await this.templateService.penetrateTemplate(user.userId, templateWrite);
     this.logger.log("템플릿 작성 완료");
     return SuccessResponseDto.of();
   }

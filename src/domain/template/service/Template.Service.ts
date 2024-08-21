@@ -14,6 +14,7 @@ import { Question } from 'src/domain/challenge/domain/entity/Question';
 import { formatDate } from '../util/date';
 import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data';
 import { TemplateInformation } from '../dto/response/TemplateInformation';
+import { TemplateWrite } from '../dto/request/TemplateWrite';
 
 
 
@@ -162,15 +163,12 @@ export class TemplateService {
     @Transactional()
     public async penetrateTemplate(  
         userId: number,
-        challengeId: number,
-        organization: string,
-        date: string,
-        templateContent: Array<WriteTemplateContent>): Promise<void>{
+        templateWrite: TemplateWrite): Promise<void>{
             const [userChallengeData, userTemplateComplete] = await Promise.all([
-                this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization,true),
-                this.signUserChallengeComplete(challengeId, date)
+                this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(templateWrite.getChallengeId(), userId, templateWrite.getOrganization(),true),
+                this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate())
             ]);
-            await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData.getId(), new Date(date), userTemplateComplete, templateContent)
+            await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData.getId(), new Date(templateWrite.getDate()), userTemplateComplete, templateWrite.getTemplateContent())
     } 
 
 

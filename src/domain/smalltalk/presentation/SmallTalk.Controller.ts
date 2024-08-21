@@ -51,7 +51,7 @@ export class SmallTalkController{
         @Body() smallTalkAdd: SmallTalkAdd,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.smallTalkService.penetrateSmallTalk(user.userId, smallTalkAdd.getChallengeId(), smallTalkAdd.getOrganization(), smallTalkAdd    .getAgoraQuestion());
+        await this.smallTalkService.penetrateSmallTalk(user.userId, smallTalkAdd.getChallengeId(), smallTalkAdd.getOrganization(), smallTalkAdd.getAgoraQuestion());
         this.logger.log("스몰톡 추가 완료");
         return SuccessResponseDto.of();
     }
