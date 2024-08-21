@@ -12,8 +12,8 @@ export class ChallengeApi{
     ){}
 
 
-    public async requestChallengeById(challengeId: number){
-        return this.challengeHelper.giveChallengeById(challengeId, true);
+    public async requestChallengeById(challengeId: number, verifyFlag:boolean){
+        return this.challengeHelper.giveChallengeById(challengeId, verifyFlag);
     }
 
     public async requestChallengeWithCondition(challengeId: number){
@@ -30,8 +30,8 @@ export class ChallengeApi{
         return this.challengeDayHelper.giveChallengeOverlapCount(challengeId);
     }
 
-    public async requestChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
-        return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId, false);
+    public async requestChallengeDayByChallengeId(challengeId: number, verifyFlag:boolean): Promise<ChallengeDay[]>{
+        return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId, verifyFlag);
     }
 
     public async requestAllChallengingInformation():Promise<ChallengeAllInformation[]>{

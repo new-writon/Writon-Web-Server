@@ -11,24 +11,22 @@ export class TemplateApi{
         private readonly userTemplateHelper: UserTemplateHelper
     ){}
 
-    public async requestUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplate[]>{
-        return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId, false);
+    public async requestUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
+        return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId, verifyFlag);
     }
 
     public async requestChallengeSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
-         // 검증 x
         return this.userTemplateHelper.giveChallengeSuccessChallengeCount(affiliationId, challengeId);
         
     }
 
 
-    public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
-        return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId, false);
+    public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
+        return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId, verifyFlag);
     }
 
 
     public async requestUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
-         // 검증 x
         return this.userTemplateHelper.giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds);
       
     }

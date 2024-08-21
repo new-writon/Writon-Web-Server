@@ -22,16 +22,14 @@ export class CommentService{
 
 
     public async bringMyComment(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
-         // 검증 x
-        const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization, false);
         const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId, false);
         return commentData.length === 0 ? [] : this.processCommentData(commentData)
     }
 
     private async processCommentData(commentData: Comment[]): Promise<MyComment[]> {
         const userChallengeIdArray = this.dataMapperService.extractUserChallengeId(commentData);
-         // 검증 x
-        const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
+        const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray,false);
         const myComment = this.makeMyCommentMapper(templateWriteAffiliationData, commentData);
         return MyComment.of(myComment);
     }
@@ -51,8 +49,7 @@ export class CommentService{
     }
 
     private async proccessCommentInformationData(userId:number, organization:string, commentDatas:Comment[]){
-         // 검증 x
-        const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         const extractedAffiliationIds = this.dataMapperService.extractAffiliationId(commentDatas);
          // 검증 x
         const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
@@ -67,21 +64,18 @@ export class CommentService{
     }
 
     public async penetrateComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number):Promise<CommentId>{
-         // 검증 x
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), content, userTemplateId, commentGroup);
         return CommentId.of(commentData.getId());   
     }
 
     public async modifyComment(userId: number, organization: string, commentId: number, content: string):Promise<void>{
-         // 검증 x
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         await this.commentHelper.executeUpdateComment(affiliationData.getAffiliationId(), commentId, content);
     }
 
     public async eraseComment(userId: number, organization: string, commentId: number):Promise<void>{
-         // 검증 x
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         await this.commentHelper.executeDeleteComment(affiliationData.getAffiliationId(), commentId);
     }
 

@@ -35,8 +35,7 @@ export class UserChallengeService {
 
     public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false);
-         // 검증 x
-        const userTemplateData : UserTemplate[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
+        const userTemplateData : UserTemplate[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId, false);
         const todayTemplateStatus : boolean = this.verifyTodayTemplateStatus(userTemplateData);
         return TemplateStatus.of(todayTemplateStatus);
     }
@@ -53,8 +52,7 @@ export class UserChallengeService {
              // 검증 x
             this.templateApi.requestChallengeSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
             this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId,true),
-             // 검증 o
-            this.challengeApi.requestChallengeById(challengeId)  
+            this.challengeApi.requestChallengeById(challengeId, true)  
           ]);
         return UserChallengeSituation.of(
             affiliationData.getNickname(),
@@ -81,8 +79,7 @@ export class UserChallengeService {
            // 검증 x
             this.challengeApi.requestChallengeWithCondition(challengeId),
             this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false),
-             // 검증 o
-            this.challengeApi.requestChallengeById(challengeId)
+            this.challengeApi.requestChallengeById(challengeId, true)
         ]);
         if(checkData(challengeAllData))
             return this.userChallengeHelper.executeInsertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(),challengeData.getDeposit(), 0); // 미리 챌린지에 참여 시
@@ -162,13 +159,10 @@ export class UserChallengeService {
 
     public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
         const [affiliationData, challengeDayData] = await Promise.all([
-       
             this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization,false),
-             // 검증 x
-            this.challengeApi.requestChallengeDayByChallengeId(challengeId) 
+            this.challengeApi.requestChallengeDayByChallengeId(challengeId,false) 
         ]);
-        // 검증 x
-        const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId);
+        const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId, false);
         const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
         return CalendarData.of(calendarData);                           
     };

@@ -14,12 +14,12 @@ export class ChallengeApi{
         private readonly questionHelper: QuestionHelper
     ){}
 
-    public async requestChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
-        return this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId,date,false);
+    public async requestChallengeDayByChallengeIdAndDate(challengeId:number, date:Date, verifyFlag:boolean):Promise<ChallengeDay>{
+        return this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId,date,verifyFlag);
     }
 
-    public async requestQuestionById(questionId:number[]):Promise<Question[]>{
-        return this.questionHelper.giveQuestionById(questionId, false)  
+    public async requestQuestionById(questionId:number[], verifyFlag:boolean):Promise<Question[]>{
+        return this.questionHelper.giveQuestionById(questionId, verifyFlag)  
     }
 
    
