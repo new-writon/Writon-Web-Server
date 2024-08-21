@@ -38,8 +38,7 @@ export class CheeringPhraseService{
     }
 
     public async penetrateCheeringPhrase(userId: number, organization: string, challengeId: number, content: string){
-         // 검증 o
-        const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
+        const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, true);
         await this.userChallengeHelper.executeInsertCheeringPhrase(affiliationData.getAffiliationId(), challengeId, content);
     }
 

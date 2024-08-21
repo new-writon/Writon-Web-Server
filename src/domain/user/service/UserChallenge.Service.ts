@@ -34,8 +34,7 @@ export class UserChallengeService {
     ) {}
 
     public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
-       // 검증 x
-        const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false);
          // 검증 x
         const userTemplateData : UserTemplate[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(affiliationData.getAffiliationId(), challengeId );
         const todayTemplateStatus : boolean = this.verifyTodayTemplateStatus(userTemplateData);
@@ -43,8 +42,7 @@ export class UserChallengeService {
     }
 
     public async bringUserChallengeSituation(userId: number, organization: string, challengeId: number): Promise<UserChallengeSituation>{
-       // 검증 x
-        const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization,false);
         const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
            // 검증 x
             this.userHelper.giveUserById(userId),    
@@ -83,8 +81,7 @@ export class UserChallengeService {
         const [challengeAllData, userAffiliation, challengeData] = await Promise.all([
            // 검증 x
             this.challengeApi.requestChallengeWithCondition(challengeId),
-             // 검증 x
-            this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
+            this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false),
              // 검증 o
             this.challengeApi.requestChallengeById(challengeId)
         ]);
@@ -166,8 +163,8 @@ export class UserChallengeService {
 
     public async bringCalendarData(userId: number, organization: string, challengeId: number): Promise<CalendarData >{
         const [affiliationData, challengeDayData] = await Promise.all([
-           // 검증 x
-            this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization),
+       
+            this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization,false),
              // 검증 x
             this.challengeApi.requestChallengeDayByChallengeId(challengeId) 
         ]);
@@ -185,8 +182,7 @@ export class UserChallengeService {
 
     public async bringParticipationInChallengePerAffiliation(userId:number,organization:string,challengeId:number):Promise<ParticipationInChallengePerAffiliation>{
         let [affiliationData, userChallengeData] = await Promise.all([
-           // 검증 0
-            this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization), 
+            this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, true), 
              // 검증 o
             this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId)
         ]);

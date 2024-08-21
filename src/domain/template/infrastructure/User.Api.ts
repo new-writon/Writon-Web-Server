@@ -14,13 +14,11 @@ export class UserApi {
     ){}
 
     public async requestAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-         // 검증 x
-        return this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
+        return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization,false);
     }
 
     public async requestAffiliationByNicknameAndOrganization(nickname:string, organization: string): Promise<Affiliation>{
-         // 검증 x
-        return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization);
+        return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization, false);
     }
 
     public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId: number, organization: string, challengeId: number): Promise<UserChallenge[]>{
@@ -34,13 +32,11 @@ export class UserApi {
     }
 
     public async requestAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>{
-         // 검증 x
-        return this.affiliationHelper.giveAffilaitonWithChallengeIdArray(userChallengeId)
+        return this.affiliationHelper.giveAffilaitonWithChallengeIdArray(userChallengeId,false)
     }
 
     public async requestAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>{
-         // 검증 x
-        return this.affiliationHelper.giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId);
+        return this.affiliationHelper.giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId,false);
     }
 
     public async requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>{
@@ -49,8 +45,7 @@ export class UserApi {
     }
 
     public async requestAffiliationById(affiliationId: number[]):Promise<Affiliation[]>{
-         // 검증 x
-        return this.affiliationHelper.giveAffiliationById(affiliationId)
+        return this.affiliationHelper.giveAffiliationById(affiliationId,false)
     }
 
     public async requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number):Promise<UserChallenge[]>{
@@ -59,8 +54,7 @@ export class UserApi {
     }
 
     public async requestAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string):Promise<Affiliation>{
-         // 검증 x
-        return this.affiliationHelper.giveAffiliationAndUserByUserIdAndOrganization(userId, organization);
+        return this.affiliationHelper.giveAffiliationAndUserByUserIdAndOrganization(userId, organization,false);
     }
 
     public async requestAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>{

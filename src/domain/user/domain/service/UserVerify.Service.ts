@@ -19,6 +19,11 @@ export class UserVerifyService{
             throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
     }
 
+    public verifyAffiliations(affiliations:Affiliation[]){
+        if(!checkData(affiliations))
+            throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
+    }
+
     /**
      * 
      * @param user 

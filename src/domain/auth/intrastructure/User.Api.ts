@@ -43,13 +43,13 @@ export class UserApi{
     public async executeKakaoSignUp(email: string, kakaoId: string, profileImage: string){
         return this.userHelper.executeKakaoSignUp(email, kakaoId, profileImage);
     }
-    // 검증 x
+
     public async requestAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-        return this.affiliationHelper.giveAffiliationByUserIdAndOrganization(userId, organization);
+        return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false);
     }
-    // 검증 x
+
     public async requestAffiliationByNicknameAndOrganization(nickname:string, organization: string): Promise<Affiliation>{
-        return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization);
+        return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization, false);
     }
     // 검증 x
     public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId: number){
