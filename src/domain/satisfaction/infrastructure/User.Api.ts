@@ -15,8 +15,8 @@ export class UserApi{
 
     ){}
 
-    public async requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId:number, organization:string, challengeId:number):Promise<UserChallenge>{
-        return this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId, true);
+    public async requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId:number, organization:string, challengeId:number, verifyFlag:boolean):Promise<UserChallenge>{
+        return this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId, verifyFlag);
     }
 
     public async requestUpdateUserChallengeReview(userId:number, organization:string, challengeId:number): Promise<void>{
@@ -27,12 +27,12 @@ export class UserApi{
         return this.userChallengeHelper.executeUpdateUserChallengeReEngagement(userId, organization, challengeId, check);
     }
 
-    public async requestAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>{
+    public async requestAffiliationByUserIdWithOrganization(userId:number, organization:string, verifyFlag:boolean):Promise<Affiliation>{
          // 검증 0
-        return this.affiliatinHelper.giveAffiliationByUserIdWithOrganization(userId, organization, true);
+        return this.affiliatinHelper.giveAffiliationByUserIdWithOrganization(userId, organization, verifyFlag);
     }
 
-    public async requestUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
-        return this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationId, challengeId,true)
+    public async requestUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number, verifyFlag:boolean):Promise<UserChallenge>{
+        return this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationId, challengeId,verifyFlag)
     }
 }

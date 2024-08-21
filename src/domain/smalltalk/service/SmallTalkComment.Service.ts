@@ -21,8 +21,7 @@ export class SmallTalkCommentService{
         organization: string,
         agoraComment: string
     ):Promise<void>{
-         // 검증 x
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         await this.smallTalkCommentHelper.executeInsertSmallTalkComment(smallTalkId, affiliationData.getId(), agoraComment);
     }
 

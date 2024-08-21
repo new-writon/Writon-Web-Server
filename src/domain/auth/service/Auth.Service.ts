@@ -25,9 +25,9 @@ export class AuthService {
 
     public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<LoginResponse> {
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
-        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
+        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id,false);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
-        const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
+        const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id, false);
         const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.tokenManager.setToken(String(checkedUserData.getId()), refreshToken);
@@ -40,7 +40,7 @@ export class AuthService {
     }
 
     public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
-        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
+        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier,false);
         this.authVerifyService.vefifyIdentifier(userData);
         await this.authVerifyService.verifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
@@ -75,7 +75,7 @@ export class AuthService {
         organization: string,
         userId: number
     ): Promise<boolean | null> {
-        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,true);
         const affiliatedConfirmation: boolean = checkData(checkAffiliation);
         return affiliatedConfirmation;
     }
@@ -85,7 +85,7 @@ export class AuthService {
         userId: number,
         challengeId: number
     ): Promise<boolean | null> {
-        const checkChallenge: UserChallenge[] = await this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
+        const checkChallenge: UserChallenge[] = await this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId,false);
         const challengedConfirmation: boolean = checkData(checkChallenge[0]);
         return challengedConfirmation;
     }

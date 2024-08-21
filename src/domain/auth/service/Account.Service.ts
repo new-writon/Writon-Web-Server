@@ -25,24 +25,21 @@ export class AccountService {
     }
 
     public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
-        const userData : User = await this.userApi.requestUserByEmail(email);
-        this.authVerifyService.verifyUser(userData);
+        const userData : User = await this.userApi.requestUserByEmail(email,true);
         const certifyCode :string = await this.tokenManager.getToken(email);
         this.authVerifyService.verifyCode(code, certifyCode);
         return UserIdentifier.of(userData.getIdentifier());
     }
 
     public async generateTemporaryPassword(idenfitier:string, email:string): Promise<void> {
-        const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(idenfitier);
-        this.authVerifyService.vefifyIdentifier(userData);
-        this.authVerifyService.verifyEmail(userData, email);
+        const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(idenfitier,true);
         const newPassword = generateRandomPassword();
         await this.userApi.requestUpdatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
         this.mailManager.randomPasswordsmtpSender(email, newPassword);
     }
 
     public async changePassword(userId: number, oldPassword: string, newPassword:string): Promise<void> {
-        const userData : User = await this.userApi.giveUserById(userId);
+        const userData : User = await this.userApi.giveUserById(userId,true);
         await this.authVerifyService.verifyPassword(oldPassword, userData.getPassword());
         await this.userApi.executeUpdatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))
     }

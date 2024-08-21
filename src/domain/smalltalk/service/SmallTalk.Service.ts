@@ -31,8 +31,7 @@ export class SmallTalkService{
     @MutexAlgorithm()
     public async penetrateSmallTalk(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
         await this.validateSmallTalkCount(challengeId,getTodayDateString());
-         // 검증 x
-        const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
+        const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization,false);
         await this.smallTalkHelper.executeInsertSmallTalk(challengeId, userChallengeData.getId(), question);
     }
 
@@ -53,8 +52,7 @@ export class SmallTalkService{
         // 2. 1번 데이터에서 userChallengeId를 추출
         const userChallengeId = this.sortUserChallengeId(particularSmallTalkData);
         // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
-         // 검증 x
-        const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
+        const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId,false);
         const mergedSmallTalkData = this.mergeUserChallenge(particularSmallTalkData, userChallengeData, userId);
         return SmallTalkDataResult.of(mergedSmallTalkData);
     }

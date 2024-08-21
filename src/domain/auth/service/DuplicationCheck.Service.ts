@@ -15,17 +15,17 @@ export class DuplicationCheckService {
     ) {}
 
     public async checkDuplicateIdentifier(identifier: string): Promise<void> {
-        const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
+        const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier, false);
         this.authValidateService.validateIdentifier(userData);   
     }
 
     public async checkDuplicateEmail(email: string): Promise<void> {
-        const userData : User = await this.userApi.requestUserByEmail(email);
+        const userData : User = await this.userApi.requestUserByEmail(email,false);
         this.authValidateService.validateEmail(userData);   
     }
 
     public async checkDuplicateNickname(nickname: string, organization:string): Promise<void> {
-        const affiliationData : Affiliation = await this.userApi.requestAffiliationByNicknameAndOrganization(nickname, organization);
+        const affiliationData : Affiliation = await this.userApi.requestAffiliationByNicknameAndOrganization(nickname, organization,false);
         this.authValidateService.validateNickname(affiliationData);   
     }
 

@@ -25,8 +25,7 @@ export class SatisfactionService{
         organization:string,
         challengeId:number
     ){
-        // 검증 0
-        const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
+        const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId,true);
         return SatisfactionStatus.of(userChallengeData.getReview());
     }
 
@@ -39,14 +38,11 @@ export class SatisfactionService{
     }
 
     public async bringUserChallengeResult(userId:number, organization:string, challengeId:number):Promise<UserChallengeResult>{
-         // 검증 0
-        const affiliationData = await this.userApi.requestAffiliationByUserIdWithOrganization(userId, organization);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdWithOrganization(userId, organization,true);
         let [challengeData, challengeOverlapCount, userChallengeData, challengeSuccessCount] = await Promise.all([
-             // 검증 0
-            this.challengeApi.requestChallengeById(challengeId),
+            this.challengeApi.requestChallengeById(challengeId,true),
             this.challengeApi.requestChallengeOverlapCount(challengeId),
-             // 검증 0
-            this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId),
+            this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId,true),
             this.templateApi.reqeustChallengeSuccessChallengeCount(affiliationData.getId(), challengeId)
         ]);
         return UserChallengeResult.of(affiliationData.getNickname(), organization, challengeData.getName(), challengeOverlapCount,
@@ -59,8 +55,7 @@ export class SatisfactionService{
     }
 
     public async bringReEngagement(challengeId:number){
-         // 검증 0
-        const challengeData = await this.challengeApi.requestChallengeById(challengeId);
+        const challengeData = await this.challengeApi.requestChallengeById(challengeId,true);
         return Restart.of(challengeData.getRestart());     
     }
 
