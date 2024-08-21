@@ -12,21 +12,25 @@ export class TemplateApi{
     ){}
 
     public async requestUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplate[]>{
+         // 검증 x
         return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
     }
 
     public async requestChallengeSuccessChallengeCount(affiliationId:number, challengeId: number): Promise<number>{
+         // 검증 x
         return this.userTemplateHelper.giveChallengeSuccessChallengeCount(affiliationId, challengeId);
         
     }
 
 
     public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
+         // 검증 x
         return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
     }
 
 
     public async requestUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
+         // 검증 x
         return this.userTemplateHelper.giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds);
       
     }

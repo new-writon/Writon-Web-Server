@@ -17,21 +17,26 @@ export class LikeServie{
     }
 
     public async penetrateLike(userId: number, userTemplateId: number,organization: string):Promise<LikeCount>{
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.likeHelper.executeInsertLike(affiliationData.getAffiliationId(), userTemplateId);
+         // 검증 x
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);
     }
 
 
     public async eraseLike(userId: number, userTemplateId: number,organization: string):Promise<LikeCount>{
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.likeHelper.executeDeleteLike(affiliationData.getAffiliationId(), userTemplateId);
+         // 검증 x
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);
     }
 
     public async bringLikeCount(userTemplateId: number):Promise<LikeCount>{
+         // 검증 x
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);
     }

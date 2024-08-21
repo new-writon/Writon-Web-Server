@@ -22,6 +22,7 @@ export class SmallTalkService{
 
 
     public async checkSmallTalk(challengeId:number, date:Date):Promise<SmallTalkResult>{
+         // 검증 x
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, false);
         const smallTalkLimitResult = this.checkSmallTalkLimit(particularSmallTalkData);
         return SmallTalkResult.of(smallTalkLimitResult);
@@ -29,12 +30,14 @@ export class SmallTalkService{
 
     @MutexAlgorithm()
     public async penetrateSmallTalk(userId:number, challengeId: number, organization: string, question: string):Promise<void>{
-        await this.validateSmallTalkCount(challengeId,getTodayDateString())
+        await this.validateSmallTalkCount(challengeId,getTodayDateString());
+         // 검증 x
         const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
         await this.smallTalkHelper.executeInsertSmallTalk(challengeId, userChallengeData.getId(), question);
     }
 
     private async validateSmallTalkCount(challengeId:number, date:string){
+         // 검증 x
         const smallTalkData = await this.smallTalkHelper.giveSmallTalkByChallengeIdAndDate(challengeId, date);
         if(!this.checkSmallTalkLimit(smallTalkData)){
             throw new SmallTalkException(SmallTalkErrorCode.CANT_ADD_SMALL_TALK);
@@ -42,6 +45,7 @@ export class SmallTalkService{
     }
 
     public async bringSmallTalk(userId:number, challengeId:number, date:Date){
+         // 검증 x
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, true);
         return particularSmallTalkData.length === 0 ? []:this.proccessSmallTalkData(particularSmallTalkData, userId, challengeId)
     }
@@ -50,6 +54,7 @@ export class SmallTalkService{
         // 2. 1번 데이터에서 userChallengeId를 추출
         const userChallengeId = this.sortUserChallengeId(particularSmallTalkData);
         // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
+         // 검증 x
         const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId);
         const mergedSmallTalkData = this.mergeUserChallenge(particularSmallTalkData, userChallengeData, userId);
         return SmallTalkDataResult.of(mergedSmallTalkData);

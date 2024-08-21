@@ -25,6 +25,7 @@ export class SatisfactionService{
         organization:string,
         challengeId:number
     ){
+        // 검증 0
         const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
         return SatisfactionStatus.of(userChallengeData.getReview());
     }
@@ -38,10 +39,13 @@ export class SatisfactionService{
     }
 
     public async bringUserChallengeResult(userId:number, organization:string, challengeId:number):Promise<UserChallengeResult>{
+         // 검증 0
         const affiliationData = await this.userApi.requestAffiliationByUserIdWithOrganization(userId, organization);
         let [challengeData, challengeOverlapCount, userChallengeData, challengeSuccessCount] = await Promise.all([
+             // 검증 0
             this.challengeApi.requestChallengeById(challengeId),
             this.challengeApi.requestChallengeOverlapCount(challengeId),
+             // 검증 0
             this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId),
             this.templateApi.reqeustChallengeSuccessChallengeCount(affiliationData.getId(), challengeId)
         ]);
@@ -50,11 +54,13 @@ export class SatisfactionService{
     }
 
     public async bringSatisfactionQuestion(challengeId:number):Promise<SatisfactionQuestion[]>{
+         // 검증 0
         const satisfactionData = await this.satisfactionHelper.giveSatisfactionByChallengeId(challengeId);
         return SatisfactionQuestion.of(satisfactionData);
     }
 
     public async bringReEngagement(challengeId:number){
+         // 검증 0
         const challengeData = await this.challengeApi.requestChallengeById(challengeId);
         return Restart.of(challengeData.getRestart());     
     }

@@ -21,12 +21,14 @@ export class AffiliationService{
         hireDate: string,
         company: string,
         companyPublic: boolean): Promise<void>{
+             // 검증 x
         const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(organization);
         await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(), nickname, position, positionIntroduce, hireDate, company, companyPublic)
     }
 
 
     public async bringUserProfile(userId:number, organization:string):Promise<UserProfile>{
+         // 검증 x
         const userProfileData:UserProfile = await this.affiliationHelper.giveUserProfileByUserIdAndOrganization(userId, organization);
         return UserProfile.of(userProfileData);
     }

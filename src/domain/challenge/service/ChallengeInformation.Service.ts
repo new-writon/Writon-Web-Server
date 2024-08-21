@@ -1,7 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { ChallengeDay } from "../domain/entity/ChallengeDay";
-import { ChallengeException } from "../exception/ChallengeException";
-import { ChallengeErrorCode } from "../exception/ChallengeErrorCode";
 import { Challenge } from "../domain/entity/Challenge";
 import { checkData } from "../util/checker";
 import { ChallengeStatus } from "../dto/response/ChallengeStatus";
@@ -25,11 +23,13 @@ export class ChallengeInformationService{
 
 
     public async checkChallengeDay(challengeId: number, date: Date){ 
+            // 검증 x
         const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date);
         this.challengeVerifyService.verifyChallengeDay(challengeDayData)
     }
 
     public async bringChallengeStatus(challengeId: number): Promise<ChallengeStatus> { 
+            // 검증 x
         const challengeData : Challenge[] = await this.challengeHelper.giveChallengeByIdAndOngoing(challengeId);
         const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
         return ChallengeStatus.of(challengeStatus);
@@ -37,12 +37,14 @@ export class ChallengeInformationService{
     }
 
     public async bringChallengeAccordingToOrganization(): Promise<ChallengeAccordingToOrganization[]> { 
+            // 검증 x
         const allChallengeAccordingToOrganizationData = await this.challengeHelper.giveAllChallengeAccordingToOrganization();
         const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(allChallengeAccordingToOrganizationData);
         return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData); 
     }
 
     public async bringChallengeDay(challengeId:number):Promise<Date[]>{ 
+            // 검증 x
        const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
        const challengeDays = this.sortChallnegeDay(challengeDay);
        return challengeDays;

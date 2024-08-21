@@ -16,6 +16,7 @@ export class UserApi{
     ){}
 
     public async requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId:number, organization:string, challengeId:number):Promise<UserChallenge>{
+         // 검증 0
         return this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
     }
 
@@ -28,10 +29,12 @@ export class UserApi{
     }
 
     public async requestAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>{
+         // 검증 0
         return this.affiliatinHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
     }
 
     public async requestUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
+         // 검증 0
         return this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationId, challengeId)
     }
 }

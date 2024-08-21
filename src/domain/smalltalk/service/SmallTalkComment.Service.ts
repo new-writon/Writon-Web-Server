@@ -21,6 +21,7 @@ export class SmallTalkCommentService{
         organization: string,
         agoraComment: string
     ):Promise<void>{
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.smallTalkCommentHelper.executeInsertSmallTalkComment(smallTalkId, affiliationData.getId(), agoraComment);
     }
@@ -30,12 +31,14 @@ export class SmallTalkCommentService{
         userId: number,
         smallTalkId: number
     ):Promise<SmallTalkCommentRead[]>{
+         // 검증 x
         const agoraCommentData = await this.smallTalkCommentHelper.giveSmallTalkCommentBySmallTalkId(smallTalkId);
         return agoraCommentData.length === 0 ? []:this.proccessSmallTalkCommentData(agoraCommentData, userId);
     }
 
     private async proccessSmallTalkCommentData(smallTalkCommentData:ParticularSmallTalkCommentData[], userId:number){
         const extractedAffiliationId = this.extractAffiliationId(smallTalkCommentData);
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
         const mergedParticularSmallTalkComment = this.mergeParticularSmallTalkComment(smallTalkCommentData, affiliationData, userId);
         return SmallTalkCommentRead.of(mergedParticularSmallTalkComment);

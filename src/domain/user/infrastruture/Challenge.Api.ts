@@ -13,27 +13,33 @@ export class ChallengeApi{
 
 
     public async requestChallengeById(challengeId: number){
+         // 검증 o
         return this.challengeHelper.giveChallengeById(challengeId);
     }
 
     public async requestChallengeWithCondition(challengeId: number){
+         // 검증 x
         return this.challengeHelper.giveChallengeWithCondition(challengeId);
     }
 
     public async requestOverlapPeriod(challengeId: number): Promise<number>{
+         // 검증 x
         return this.challengeHelper.giveOverlapPeriod(challengeId);
     }
 
 
     public async requestChallengeOverlapCount(challengeId: number): Promise<number>{
+         // 검증 x
         return this.challengeDayHelper.giveChallengeOverlapCount(challengeId);
     }
 
     public async requestChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
+         // 검증 x
         return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
     }
 
     public async requestAllChallengingInformation():Promise<ChallengeAllInformation[]>{
+         // 검증 x
         return this.challengeHelper.giveAllChallengingInformation();
 
     }

@@ -13,7 +13,6 @@ import {  DataSource } from 'typeorm';
 import { Question } from 'src/domain/challenge/domain/entity/Question';
 import { formatDate } from '../util/date';
 import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data';
-import { TemplateVerifyService } from '../domain/service/TemplateVerify.Service';
 import { TemplateInformation } from '../dto/response/TemplateInformation';
 
 
@@ -32,7 +31,9 @@ export class TemplateService {
 
     public async bringTemplateContent(userId:number, userTemplateId:number, organization:string, visibility: boolean):Promise<TemplateContent[]>{
         const [affiliationData, userTemplateData] = await Promise.all([
+             // 검증 x
             this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
+             // 검증 x
             this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility)
         ]);
         return userTemplateData === null? []:this.proccessTemplateContent(userTemplateData, affiliationData);
@@ -41,7 +42,9 @@ export class TemplateService {
     private async proccessTemplateContent(userTemplateData:UserTemplate, affiliationData:Affiliation){
         const questionIds = this.extractQuestionId(userTemplateData);
         const [questionData, userChallengeData]= await Promise.all([
+             // 검증 x
             this.challengeApi.requestQuestionById(questionIds),
+             // 검증 x
             this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
         ]);    
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
@@ -54,16 +57,20 @@ export class TemplateService {
 
     public async bringTemplateAccordingToDate(userId:number, organization:string, challengeId:number, date:Date):Promise<TemplateInformation | []>{
         const [affiliationData, userChallengeDatas] = await Promise.all([
+             // 검증 x
             this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
+             // 검증 x
             this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId)
         ]);
         const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
+         // 검증 x
         const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date);
         return userTemplateData.length === 0 ? []:this.proccessTemplateAccordingToDateData(userTemplateData,affiliationData,userChallengeDatas)
     }
 
     private async proccessTemplateAccordingToDateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeDatas:UserChallenge[]){
         const questionIds = this.extractQuestionIds(userTemplateData);
+         // 검증 x
         const questionData = await this.challengeApi.requestQuestionById(questionIds);
         const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
         const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
@@ -154,7 +161,9 @@ export class TemplateService {
     }
 
     public async bringAllTemplateContent(userId: number, organization: string, challengeId:number): Promise<TemplateContent[][]>{
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+         // 검증 x
         const templateContentData : TemplateContent[] = await this.userTemplateHelper.giveUserTemplateByChallengeIdForAffiliationId(affiliationData.getAffiliationId(), challengeId);
         const sortResult = this.sortAccorgindToUserTemplateId(templateContentData);  
         return sortResult;
@@ -168,6 +177,7 @@ export class TemplateService {
         date: string,
         templateContent: Array<WriteTemplateContent>): Promise<void>{
             const [userChallengeData, userTemplateComplete] = await Promise.all([
+                 // 검증 o
                 this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization),
                 this.signUserChallengeComplete(challengeId, date)
             ]);
@@ -265,7 +275,7 @@ export class TemplateService {
         let complete = true;
         if (new Date(date).setHours(0, 0, 0, 0).toLocaleString() !== new Date().setHours(0, 0, 0, 0).toLocaleString()) {
             complete = false;
-        }
+        } // 검증 x
         if (!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date))) {
             complete = false;
         }  

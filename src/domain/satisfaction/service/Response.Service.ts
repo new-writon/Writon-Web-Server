@@ -18,11 +18,13 @@ export class ResponseService{
     ){}
 
     public async checkReEngagement(userId:number,  organization:string, challengeId:number, check:boolean){
+            // 검증 x
         await this.userApi.requestUpdateUserChallengeReEngagement(userId,organization, challengeId, check);
     }
 
 
     public async penetrateObjectiveQuestion(userId:number,  organization:string, challengeId:number, satisfactionAnswer: Array<ObjectiveAnswer>){
+            // 검증 x
         const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
         const convertedObjectiveAnswer = this.convertObjectiveAnswerType(satisfactionAnswer, userChallengeData.getId());
         await this.satisfactionObjectiveHelper.executeInsertSatisfactionObjectiveResult(convertedObjectiveAnswer);
@@ -30,6 +32,7 @@ export class ResponseService{
 
 
     public async penetrateSubjectiveQuestion(userId:number,  organization:string, challengeId:number, satisfactionAnswer: Array<SubjectiveAnswer>){
+            // 검증 x
         const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
         const convertedSubjectiveAnswer = this.convertSubjectiveAnswerType(satisfactionAnswer, userChallengeData.getId());
         await this.satisfactionSubjectiveHelper.executeInsertSatisfactionSubjectiveResult(convertedSubjectiveAnswer);

@@ -22,13 +22,16 @@ export class CommentService{
 
 
     public async bringMyComment(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
+         // 검증 x
         const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+         // 검증 x
         const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId);
         return commentData.length === 0 ? [] : this.processCommentData(commentData)
     }
 
     private async processCommentData(commentData: Comment[]): Promise<MyComment[]> {
         const userChallengeIdArray = this.dataMapperService.extractUserChallengeId(commentData);
+         // 검증 x
         const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
         const myComment = this.makeMyCommentMapper(templateWriteAffiliationData, commentData);
         return MyComment.of(myComment);
@@ -44,13 +47,16 @@ export class CommentService{
     } 
 
     public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>{
+         // 검증 x
         const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
         return commentDatas.length === 0 ? []:this.proccessCommentInformationData(userId, organization, commentDatas)
     }
 
     private async proccessCommentInformationData(userId:number, organization:string, commentDatas:Comment[]){
+         // 검증 x
         const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-        const extractedAffiliationIds = this.dataMapperService.extractAffiliationId(commentDatas)
+        const extractedAffiliationIds = this.dataMapperService.extractAffiliationId(commentDatas);
+         // 검증 x
         const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
         const mergedCommentInformation = this.mergeCommentAndAffiliationForCommentInformation(commentDatas, affiliationDatas, myAffiliationData);
         const sortedCompanyData = sortCompanyPublic(mergedCommentInformation) as CommentInformation[];
@@ -63,17 +69,20 @@ export class CommentService{
     }
 
     public async penetrateComment(userId: number, organization: string, userTemplateId: number, content: string, commentGroup: number):Promise<CommentId>{
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), content, userTemplateId, commentGroup);
         return CommentId.of(commentData.getId());   
     }
 
     public async modifyComment(userId: number, organization: string, commentId: number, content: string):Promise<void>{
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.commentHelper.executeUpdateComment(affiliationData.getAffiliationId(), commentId, content);
     }
 
     public async eraseComment(userId: number, organization: string, commentId: number):Promise<void>{
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.commentHelper.executeDeleteComment(affiliationData.getAffiliationId(), commentId);
     }
