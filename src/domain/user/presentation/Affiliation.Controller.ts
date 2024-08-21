@@ -36,9 +36,7 @@ export class AffiliationController {
     @Param('organization') organization: string,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.affiliationService.modifyProfileUpdate(user.userId, organization, profileUpdate.getNickname(),
-    profileUpdate.getCompany(), profileUpdate.getHireDate(), profileUpdate.getPosition(), profileUpdate.getPositionIntroduce(), profileUpdate.getComanyPublic()
-  );
+    await this.affiliationService.modifyProfileUpdate(user.userId, organization, profileUpdate);
    this.logger.log("소속 프로필 업데이트 완료");
     return SuccessResponseDto.of();
   }

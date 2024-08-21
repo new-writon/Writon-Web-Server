@@ -10,6 +10,7 @@ import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
 import { User } from '../../entity/User.js';
 import { Participant } from '../../../dto/response/Participant.js';
 import { AffiliationStart } from '../../../dto/request/AffiliationStart';
+import { ProfileUpdate } from 'src/domain/user/dto/request/ProfileUpdate.js';
 
 
 /**
@@ -95,9 +96,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
 }
 
 
-async updateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
-  hireDate:Date,position:string, positionIntroduce:string,companyPublic:boolean):Promise<void>{
-
+async updateUserProfileByUserIdAndOrganization(userId:number,organization:string, profileUpdate: ProfileUpdate):Promise<void>{
     const subQuery = this.dataSource.createQueryBuilder()
     .select('o.organization_id')
     .from(Organization, 'o')
@@ -106,12 +105,12 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
   await this.dataSource.createQueryBuilder()
     .update(Affiliation)
     .set({
-      nickname: nickname,
-      hireDate: hireDate,
-      position: position,
-      positionIntroduce: positionIntroduce,
-      companyPublic: companyPublic,
-      company: company
+      nickname: profileUpdate.getNickname(),
+      hireDate: profileUpdate.getHireDate(),
+      position: profileUpdate.getPosition(),
+      positionIntroduce: profileUpdate.getPositionIntroduce(),
+      companyPublic: profileUpdate.getComanyPublic(),
+      company: profileUpdate.getCompany()
     })
     .where(`organization_id = (${subQuery})`)
     .andWhere('user_id = :userId', { userId })

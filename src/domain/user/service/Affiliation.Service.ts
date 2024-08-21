@@ -4,6 +4,7 @@ import { UserProfile } from "../dto/response/UserProfile";
 import { OrganizationHelper } from "../helper/Organization.Helper";
 import { AffiliationHelper } from "../helper/Affiliation.Helper";
 import { AffiliationStart } from "../dto/request/AffiliationStart";
+import { ProfileUpdate } from "../dto/request/ProfileUpdate";
 
 
 
@@ -31,13 +32,8 @@ export class AffiliationService{
     public async modifyProfileUpdate(
         userId:number,
         organization:string,
-        nickname:string,
-        company:string,
-        hireDate:Date,
-        position:string,
-        positionIntroduce:string,
-        companyPublic:boolean
+        profileUpdate: ProfileUpdate
     ){
-        await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,position,positionIntroduce,companyPublic);
+        await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,profileUpdate);
     }
 }
