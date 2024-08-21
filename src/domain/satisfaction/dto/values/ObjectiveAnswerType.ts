@@ -1,19 +1,15 @@
-
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-export class SubjectiveAnswerType{
+
+export class ObjectiveAnswerType{
     private satisfactionId: number;
-    private answer:string;
+    private score: number;
     private userChallengeId: number;
 
 
-    constructor(satisfactionId: number, answer:string, userChallengeId: number) {
+    constructor(satisfactionId: number, score: number, userChallengeId: number) {
         this.setSatisfactionId(satisfactionId);
-        this.setAnswer(answer)
+        this.setScore(score);
         this.setUserChallengeId(userChallengeId);
     }
 
@@ -21,8 +17,8 @@ export class SubjectiveAnswerType{
         return this.satisfactionId;
     }
 
-    public getAnswer(){
-        return this.answer;
+    public getScore(){
+        return this.score;
     }
 
     public getUserChallengeId(){
@@ -33,10 +29,10 @@ export class SubjectiveAnswerType{
         if(satisfactionId=== null)throw new InternalServerErrorException (`${__dirname} : satisfactionId 값이 존재하지 않습니다.`);
         this.satisfactionId = satisfactionId;
     }
-s
-    private setAnswer(answer: string) {
-        if(answer === null)throw new InternalServerErrorException (`${__dirname} : answer 값이 존재하지 않습니다.`);
-        this.answer=answer;
+
+    private setScore(score: number) {
+        if(score === null)throw new InternalServerErrorException (`${__dirname} : score값이 존재하지 않습니다.`);
+        this.score = score;
     }
 
     private setUserChallengeId(userChallengeId: number) {

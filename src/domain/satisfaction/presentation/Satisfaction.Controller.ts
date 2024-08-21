@@ -1,13 +1,13 @@
 import { Controller, Get, HttpCode, Logger, Param, Patch, Post, Put, UseGuards } from "@nestjs/common";
-import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { User } from "../../user/domain/entity/User.js";
-import { SatisfactionService } from "../service/Satisfaction.Service.js";
-import { SatisfactionStatus } from "../dto/response/SatisfactionSatus.js";
-import { Restart } from "../dto/response/Restart.js";
-import { UserChallengeResult } from "../dto/response/UserChallengeResult.js";
-import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion.js";
+import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { CurrentUser } from "../../auth/decorators/Auth.Decorator";
+import { User } from "../../user/domain/entity/User";
+import { SatisfactionService } from "../service/Satisfaction.Service";
+import { SatisfactionStatus } from "../dto/response/SatisfactionSatus";
+import { Restart } from "../dto/response/Restart";
+import { UserChallengeResult } from "../dto/response/UserChallengeResult";
+import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion";
 
 @Controller('/api/satisfaction')
 export class SatisfactionController{

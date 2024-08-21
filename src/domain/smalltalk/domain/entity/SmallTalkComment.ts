@@ -7,18 +7,15 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { SmallTalk } from "./SmallTalk.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Affiliation } from "../../../user/domain/entity/Affiliation";
+import { SmallTalk } from "./SmallTalk";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 
-//@Index("AgoraComment_agora_id_fkey_idx", ["small_talk_id"], {})
-//@Index("AgoraComment_affiliation_id_fkey_idx", ["affiliation_id"], {})
+
+@Index("small_talk_comment_small_talk_fkey", ["smallTalkId"], {})
+@Index("small_talk_comment_affiliations_fkey", ["affiliationId"], {})
 @Entity("small_talk_comment", { schema: "nest" })
 export class SmallTalkComment extends BaseEntity{
 

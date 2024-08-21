@@ -8,23 +8,20 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Organization } from "./Organization.js";
-import { User } from "./User.js";
-import { SmallTalkComment } from "../../../smalltalk/domain/entity/SmallTalkComment.js";
-import { Comment } from "../../../template/domain/entity/Comment.js";
-import { Likes } from "../../../template/domain/entity/Likes.js";
-import { UserChallenge } from "./UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Organization } from "./Organization";
+import { User } from "./User";
+import { SmallTalkComment } from "../../../smalltalk/domain/entity/SmallTalkComment";
+import { Comment } from "../../../template/domain/entity/Comment";
+import { Likes } from "../../../template/domain/entity/Likes";
+import { UserChallenge } from "./UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 
-// @Index("Affiliation_affiliation_id_key", ["affiliation_id"], { unique: true })
-// @Index("Affiliation_user_id_fkey", ["user_id"], {})
-// @Index("Affiliation_organization_id_fkey", ["organization_id"], {})
+
+
+@Index("affiliations_users_fkey", ["userId"], {})
+@Index("affiliations_organizations_fkey", ["organizationId"], {})
 @Entity("affiliations", { schema: "nest" })
 export class Affiliation extends BaseEntity{
 

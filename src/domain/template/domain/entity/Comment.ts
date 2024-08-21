@@ -7,18 +7,13 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { UserTemplate } from "./UserTemplate.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Affiliation } from "../../../user/domain/entity/Affiliation";
+import { UserTemplate } from "./UserTemplate";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
-// @Index("Comment_comment_id_key", ["comment_id"], { unique: true })
-// @Index("Comment_user_template_id_fkey", ["user_template_id"], {})
-// @Index("Comment_comment_group_fkey", ["comment_group"], {})
-// @Index("Comment_affiliation_id_fkey_idx", ["affiliation_id"], {})
+
+@Index("comments_user_templates_fkeyComment_user_template_id_fkey", ["userTemplateId"], {})
+@Index("comments_affiliations_fkey", ["affiliationId"], {})
 @Entity("comments")
 export class Comment extends BaseEntity{
 

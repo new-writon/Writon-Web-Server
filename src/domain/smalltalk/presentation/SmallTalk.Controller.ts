@@ -1,12 +1,12 @@
 
 import { Body, Controller, Get, HttpCode, Logger, Param, Post, UseGuards } from "@nestjs/common";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { User } from "../../user/domain/entity/User.js";
-import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
-import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { SmallTalkService } from "../service/SmallTalk.Service.js";
-import { SmallTalkResult } from "../dto/response/SmallTalkAddResult.js";
-import { SmallTalkAdd } from "../dto/request/SmallTalkAdd.js";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { User } from "../../user/domain/entity/User";
+import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard";
+import { CurrentUser } from "../../auth/decorators/Auth.Decorator";
+import { SmallTalkService } from "../service/SmallTalk.Service";
+import { SmallTalkResult } from "../dto/response/SmallTalkAddResult";
+import { SmallTalkAdd } from "../dto/request/SmallTalkAdd";
 
 
 

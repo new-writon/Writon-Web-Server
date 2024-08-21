@@ -1,20 +1,19 @@
 import {  Injectable } from '@nestjs/common';
-import { TemplateContent } from '../dto/response/TemplateContent.js';
-import { UserApi } from '../infrastructure/User.Api.js';
-import { WriteTemplateContent } from '../dto/TemplateContent.js';
-import { ChallengeApi } from '../infrastructure/Challenge.Api.js';
-import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction.js';
-import { UserTemplateHelper } from '../helper/UserTemplate.Helper.js';
-import { UserTemplate } from '../domain/entity/UserTemplate.js';
-import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
-import { Affiliation } from '../../user/domain/entity/Affiliation.js';
-import { Transactional } from '../../../global/decorator/transaction.js';
+import { TemplateContent } from '../dto/response/TemplateContent';
+import { UserApi } from '../infrastructure/User.Api';
+import { WriteTemplateContent } from '../dto/values/TemplateContent';
+import { ChallengeApi } from '../infrastructure/Challenge.Api';
+import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction';
+import { UserTemplateHelper } from '../helper/UserTemplate.Helper';
+import { UserTemplate } from '../domain/entity/UserTemplate';
+import { UserChallenge } from '../../user/domain/entity/UserChallenge';
+import { Affiliation } from '../../user/domain/entity/Affiliation';
+import { Transactional } from '../../../global/decorator/transaction';
 import {  DataSource } from 'typeorm';
-import { Question } from 'src/domain/challenge/domain/entity/Question.js';
-import { formatDate } from '../util/date.js';
-import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data.js';
-import { TemplateVerifyService } from '../domain/service/TemplateVerify.Service.js';
-import { TemplateInformation } from '../dto/response/TemplateInformation.js';
+import { Question } from 'src/domain/challenge/domain/entity/Question';
+import { formatDate } from '../util/date';
+import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data';
+import { TemplateInformation } from '../dto/response/TemplateInformation';
 
 
 
@@ -27,40 +26,23 @@ export class TemplateService {
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,
         private readonly userTemplateTransaction: UserTemplateTransaction,
-        private readonly templateVerifyService: TemplateVerifyService
       ) {}
 
 
     public async bringTemplateContent(userId:number, userTemplateId:number, organization:string, visibility: boolean):Promise<TemplateContent[]>{
-        // 1. 유저템플릿과 좋아요, 댓글, 대답 조회
-        // 2. 질문 id, 질문 내용 조회
         const [affiliationData, userTemplateData] = await Promise.all([
-            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
-            this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility)
+            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false),
+            this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility, false)
         ]);
         return userTemplateData === null? []:this.proccessTemplateContent(userTemplateData, affiliationData);
-    
-
-    //   //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
-    //     const questionIds = this.extractQuestionId(userTemplateData);
-    //     const [questionData, userChallengeData]= await Promise.all([
-    //         this.challengeApi.requestQuestionById(questionIds),
-    //         this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
-    //     ]);    
-    //     // 3. 데이터 결합
-    //     const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
-    //     const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
-    //     return sortedCompanyData;
     }
 
     private async proccessTemplateContent(userTemplateData:UserTemplate, affiliationData:Affiliation){
-        //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
         const questionIds = this.extractQuestionId(userTemplateData);
         const [questionData, userChallengeData]= await Promise.all([
-            this.challengeApi.requestQuestionById(questionIds),
-            this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
+            this.challengeApi.requestQuestionById(questionIds,false),
+            this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId(),false)
         ]);    
-        // 3. 데이터 결합
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
         const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
         return sortedCompanyData;
@@ -70,34 +52,18 @@ export class TemplateService {
 
 
     public async bringTemplateAccordingToDate(userId:number, organization:string, challengeId:number, date:Date):Promise<TemplateInformation | []>{
-        // 내 조직 정보 가져오기
-        // 챌린지에 따른 유저 챌린지배열 조회 
         const [affiliationData, userChallengeDatas] = await Promise.all([
-            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
-            this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId)
+            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false),
+            this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId,false)
         ]);
-        
-        // 유저 챌린지 Id 추출
         const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
-        console.log(userChallengeIds)
-        // 유저챌린지와 날짜에 따른 템플릿 배열 조회
-        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date);
+        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date, false);
         return userTemplateData.length === 0 ? []:this.proccessTemplateAccordingToDateData(userTemplateData,affiliationData,userChallengeDatas)
-
-    //    this.templateVerifyService.verifyUserTemplates(userTemplateData)
-        // const questionIds = this.extractQuestionIds(userTemplateData);
-        // // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
-        // const questionData = await this.challengeApi.requestQuestionById(questionIds);
-        // const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
-        // const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
-        // const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
-        // return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
     }
 
     private async proccessTemplateAccordingToDateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeDatas:UserChallenge[]){
         const questionIds = this.extractQuestionIds(userTemplateData);
-        // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
-        const questionData = await this.challengeApi.requestQuestionById(questionIds);
+        const questionData = await this.challengeApi.requestQuestionById(questionIds,false);
         const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
         const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
@@ -187,8 +153,8 @@ export class TemplateService {
     }
 
     public async bringAllTemplateContent(userId: number, organization: string, challengeId:number): Promise<TemplateContent[][]>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-        const templateContentData : TemplateContent[] = await this.userTemplateHelper.giveUserTemplateByChallengeIdForAffiliationId(affiliationData.getAffiliationId(), challengeId);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
+        const templateContentData : TemplateContent[] = await this.userTemplateHelper.giveUserTemplateByChallengeIdForAffiliationId(affiliationData.getAffiliationId(), challengeId, false);
         const sortResult = this.sortAccorgindToUserTemplateId(templateContentData);  
         return sortResult;
     }
@@ -201,7 +167,7 @@ export class TemplateService {
         date: string,
         templateContent: Array<WriteTemplateContent>): Promise<void>{
             const [userChallengeData, userTemplateComplete] = await Promise.all([
-                this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization),
+                this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization,true),
                 this.signUserChallengeComplete(challengeId, date)
             ]);
             await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData.getId(), new Date(date), userTemplateComplete, templateContent)
@@ -218,47 +184,22 @@ export class TemplateService {
         userId: number,
         organization: string,
         challengeId: number): Promise<(GetCommentNotify | GetLikeNotify)[]>{
-
-        
-            // 1. 챌린지 id, 조직, 유저id를 통해 userChallenge, affiliation을 가져온다.
-            const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
-
-            // 2. userChallengeId를 통해 userTemplate데이터, comment, like 를 모두 가져온다.
-            const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId());
-
+            const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization,false);
+            const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId(), false);
             return userTemplateAndCommentAndLikeData.length === 0 ? []: this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData)
-            // // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
-            // const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
-            // // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
-            // let [commentAffiliationData, likeAffiliationData] = await Promise.all([
-            //     this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
-            //     this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
-            // ]);
-            // // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
-            // const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
-            // const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
-            // // 6. comment, like의 데이터를 시간 순으로 나열한다.
-            // const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
-            // return mergedCommentAndLike;
     } 
 
     private async proccessNotifyData(userTemplateAndCommentAndLikeData:UserTemplate[], userChallengeAndAffiliationData:UserChallenge){
-          // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
           const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
-          // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
           let [commentAffiliationData, likeAffiliationData] = await Promise.all([
-              this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
-              this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
+              this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds,false),
+              this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds,false)
           ]);
-          // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
           const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
           const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
-          // 6. comment, like의 데이터를 시간 순으로 나열한다.
           const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
           return mergedCommentAndLike;
     }
-
-
 
     private extractAffiliationIdAccordingToCommentAndLike(userTemplate:UserTemplate[]){
         const commentAffiliationIds: number[] = userTemplate.flatMap(userTemplate => userTemplate.comments.map(comment => comment.getAffiliationId()));
@@ -323,8 +264,8 @@ export class TemplateService {
         let complete = true;
         if (new Date(date).setHours(0, 0, 0, 0).toLocaleString() !== new Date().setHours(0, 0, 0, 0).toLocaleString()) {
             complete = false;
-        }
-        if (!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date))) {
+        } 
+        if (!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date),false)) {
             complete = false;
         }  
         return complete; 

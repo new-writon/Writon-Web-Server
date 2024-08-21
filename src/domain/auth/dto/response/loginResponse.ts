@@ -1,8 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 export class LoginResponse {
 
@@ -22,9 +19,7 @@ export class LoginResponse {
     }
 
     public static of(accessToken: string, refreshToken: string, role: string, affiliatedConfirmation: boolean | null, challengedConfirmation: boolean | null): LoginResponse{
-
         return new LoginResponse(accessToken, refreshToken, role, affiliatedConfirmation, challengedConfirmation);
- 
     }
 
     private setAccessToken(accessToken:string): void{
@@ -36,6 +31,7 @@ export class LoginResponse {
         if(refreshToken === null) throw new InternalServerErrorException (`${__dirname} : RefreshToken 값이 존재하지 않습니다.`);
         this.refreshToken=refreshToken;
     }
+
     private setRole(role:string): void{
         if(role === null) throw new InternalServerErrorException (`${__dirname} : Role 값이 존재하지 않습니다.`);
         this.role=role;
@@ -44,6 +40,7 @@ export class LoginResponse {
     private setAffiliatedConfirmation(affiliatedConfirmation:boolean): void { 
         this.affiliatedConfirmation=affiliatedConfirmation;
     }
+    
     private setChallengedConfirmation(challengedConfirmation: boolean): void{
         this.challengedConfirmation=challengedConfirmation
     }

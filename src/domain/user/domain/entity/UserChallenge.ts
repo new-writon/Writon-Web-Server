@@ -9,25 +9,19 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Affiliation } from "./Affiliation.js";
-import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
-import { UserTemplate } from "../../../template/domain/entity/UserTemplate.js";
-import { SmallTalk } from "../../../smalltalk/domain/entity/SmallTalk.js";
-import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionObjectiveResult.js";
-import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Affiliation } from "./Affiliation";
+import { Challenge } from "../../../challenge/domain/entity/Challenge";
+import { UserTemplate } from "../../../template/domain/entity/UserTemplate";
+import { SmallTalk } from "../../../smalltalk/domain/entity/SmallTalk";
+import { SatisfactionObjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionObjectiveResult";
+import { SatisfactionSubjectiveResult } from "../../../satisfaction/domain/entity/SatisfactionSubjectiveResult";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 
-// @Index("UserChallenge_user_challenge_id_key", ["user_challenge_id"], {
-//   unique: true,
-// })
-// @Index("UserChallenge_affiliation_id_fkey", ["affiliation_id"], {})
-// @Index("UserChallenge_challenge_id_fkey", ["challengeId"], {})
+
+@Index("user_challenges_affiliations_fkey", ["affiliationId"], {})
+@Index("user_challenges_challenges_fkey", ["challengeId"], {})
 @Entity("user_challenges", { schema: "nest" })
 export class UserChallenge extends BaseEntity{
 

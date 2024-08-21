@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { Satisfaction } from "../entity/Satisfaction.js";
+import { Satisfaction } from "../entity/Satisfaction";
 
 
 export interface SatisfactionRepository extends Repository<Satisfaction>{

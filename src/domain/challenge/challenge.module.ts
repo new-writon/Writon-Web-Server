@@ -1,24 +1,24 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Challenge } from './domain/entity/Challenge.js';
-import { ChallengeDay } from './domain/entity/ChallengeDay.js';
-import { ChallengeDepositDeduction } from './domain/entity/ChallengeDepositDeduction.js';
-import { Question } from './domain/entity/Question.js';
-import { Keyword } from './domain/entity/Keyword.js';
-import { ChallengeInformationController } from './presentation/ChallengeInformation.Controller.js';
-import { ChallengeInformationService } from './service/ChallengeInformation.Service.js';
-import { ChallengeDao } from './domain/repository/dao/Challenge.Dao.js';
-import { ChallengeDayDao } from './domain/repository/dao/ChallengeDay.Dao.js';
-import { ChallengeHelper } from './helper/Challenge.Helper.js';
-import { ChallengeDayHelper } from './helper/ChallengeDay.Helper.js';
-import { ChallengeQuestionService } from './service/ChallengeQuestion.Service.js';
-import { ChallengeQuestionController } from './presentation/ChallengeQuestion.Controller.js';
-import { QuestionDao } from './domain/repository/dao/Question.Dao.js';
-import { ChallengeInviteController } from './presentation/ChallengeInvite.Controller.js';
-import { ChallengeInviteService } from './service/ChallengeInvite.Service.js';
-import { MailManager } from '../../global/util/MailManager.js';
-import { QuestionHelper } from './helper/Question.Helper.js';
-import { ChallengeVerifyService } from './domain/service/ChallengeVerify.Service.js';
+import { Challenge } from './domain/entity/Challenge';
+import { ChallengeDay } from './domain/entity/ChallengeDay';
+import { ChallengeDepositDeduction } from './domain/entity/ChallengeDepositDeduction';
+import { Question } from './domain/entity/Question';
+import { Keyword } from './domain/entity/Keyword';
+import { ChallengeInformationController } from './presentation/ChallengeInformation.Controller';
+import { ChallengeInformationService } from './service/ChallengeInformation.Service';
+import { ChallengeDao } from './domain/repository/dao/Challenge.Dao';
+import { ChallengeDayDao } from './domain/repository/dao/ChallengeDay.Dao';
+import { ChallengeHelper } from './helper/Challenge.Helper';
+import { ChallengeDayHelper } from './helper/ChallengeDay.Helper';
+import { ChallengeQuestionService } from './service/ChallengeQuestion.Service';
+import { ChallengeQuestionController } from './presentation/ChallengeQuestion.Controller';
+import { QuestionDao } from './domain/repository/dao/Question.Dao';
+import { ChallengeInviteController } from './presentation/ChallengeInvite.Controller';
+import { ChallengeInviteService } from './service/ChallengeInvite.Service';
+import { MailManager } from '../../global/util/MailManager';
+import { QuestionHelper } from './helper/Question.Helper';
+import { ChallengeVerifyService } from './domain/service/ChallengeVerify.Service';
 
 
 

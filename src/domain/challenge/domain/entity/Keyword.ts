@@ -8,21 +8,15 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Question } from "./Question.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Question } from "./Question";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
-//@Index("QuestionTag_question_id_fkey", ["question_id"], {})
+
 @Entity("keywords", { schema: "nest" })
-export class Keyword {
+export class Keyword extends BaseEntity{
+  
   @PrimaryGeneratedColumn({ type: "int", name: "keyword_id" })
   keywordId: number;
-
-  // @Column("int", { name: "question_id" })
-  // questionId: number;
 
   @Column("varchar", { name: "keyword", length: 10 })
   keyword: string;
@@ -30,10 +24,4 @@ export class Keyword {
   @OneToMany(() => Question, (questions) => questions.keyword)
   questions: Relation<Question>[];
 
-  // @ManyToOne(() => Question, (question) => question.keywords, {
-  //   onDelete: "CASCADE",
-  //   onUpdate: "CASCADE",
-  // })
-  // @JoinColumn([{ name: "question_id", referencedColumnName: "question_id" }])
-  // question: Relation<Question>;
 }

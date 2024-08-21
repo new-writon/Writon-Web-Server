@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { AffiliationRepository } from "../domain/repository/Affiliation.Repository.js";
-import { Affiliation } from "../domain/entity/Affiliation.js";
-import { ChallengesPerOrganization } from "../dto/ChallengesPerOrganization.js";
-import { UserProfile } from "../dto/response/UserProfile.js";
-import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
-import { Participant } from "../dto/response/Participant.js";
+import { AffiliationRepository } from "../domain/repository/Affiliation.Repository";
+import { Affiliation } from "../domain/entity/Affiliation";
+import { ChallengesPerOrganization } from "../dto/values/ChallengesPerOrganization";
+import { UserProfile } from "../dto/response/UserProfile";
+import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { Participant } from "../dto/response/Participant";
 
 @Injectable()
 export class AffiliationHelper {
@@ -15,20 +15,22 @@ export class AffiliationHelper {
         private readonly userVerifyService: UserVerifyService
     ){}
 
-    public async giveAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-        const affiliationData =  await this.affiliationRepository.findAffiliationByUserIdAndOrganization(userId, organization);
-       // this.userVerifyService.verifyAffiliation(affiliationData);
-        return affiliationData;
+    public async giveAffiliationByUserIdWithOrganization(userId: number, organization: string, verifyFlag:boolean): Promise<Affiliation>{
+        const data = await this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
+        if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
+        return data;
     }
 
-    public async giveAffiliationByNicknameAndOrganization(nickname:string, organization: string): Promise<Affiliation>{
-        return this.affiliationRepository.findAffiliationByNicknameAndOrganization(nickname, organization);
+    public async giveAffiliationByNicknameAndOrganization(nickname:string, organization: string, verifyFlag:boolean): Promise<Affiliation>{
+        const data = await this.affiliationRepository.findAffiliationByNicknameAndOrganization(nickname, organization);
+        if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
+        return data;
     }
 
-    public async insertAffiliation(userId:number, organizationId:number, nickname: string, job: string,
-        jobIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
-            return this.affiliationRepository.insertAffiliation(userId, organizationId, nickname, job,
-                jobIntroduce, hireDate, company, companyPublic
+    public async insertAffiliation(userId:number, organizationId:number, nickname: string, position: string,
+        positionIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
+            return this.affiliationRepository.insertAffiliation(userId, organizationId, nickname, position,
+                positionIntroduce, hireDate, company, companyPublic
             );
     }
 
@@ -36,11 +38,6 @@ export class AffiliationHelper {
         return this.affiliationRepository.findChallengesPerOrganizationByUserId(userId);
     }
 
-    public async giveAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>{
-        const affiliationData = await this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
-        this.userVerifyService.verifyAffiliation(affiliationData);
-        return affiliationData;
-    }
 
     public async giveUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>{
         return this.affiliationRepository.findUserProfileByUserIdAndOrganization(userId, organization);
@@ -51,16 +48,22 @@ export class AffiliationHelper {
             await this.affiliationRepository.updateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,position, positionIntroduce,companyPublic);
         }
 
-    public async giveAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>{
-        return this.affiliationRepository.findAffilaitonWithChallengeIdArray(userChallengeId)
+    public async giveAffilaitonWithChallengeIdArray(userChallengeId:number[], verifyFlag:boolean):Promise<Affiliation[]>{
+        const datas = await this.affiliationRepository.findAffilaitonWithChallengeIdArray(userChallengeId);
+        if(verifyFlag) this.userVerifyService.verifyAffiliations(datas);
+        return datas;
     }
 
-    public async giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>{
-        return this.affiliationRepository.findAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId)
+    public async giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[], verifyFlag:boolean):Promise<Affiliation[]>{
+        const datas = await this.affiliationRepository.findAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId);
+        if(verifyFlag) this.userVerifyService.verifyAffiliations(datas);
+        return datas;
     }
 
-    public async giveAffiliationById(affiliationId: number[]):Promise<Affiliation[]>{
-        return this.affiliationRepository.findAffiliationById(affiliationId);
+    public async giveAffiliationById(affiliationId: number[], verifyFlag:boolean):Promise<Affiliation[]>{
+        const datas = await this.affiliationRepository.findAffiliationById(affiliationId);
+        if(verifyFlag) this.userVerifyService.verifyAffiliations(datas);
+        return datas;
     }
 
     
@@ -76,8 +79,10 @@ export class AffiliationHelper {
         return this.affiliationRepository.findAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId);
     }
 
-    public async giveAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string):Promise<Affiliation>{
-        return this.affiliationRepository.findAffiliationAndUserByUserIdAndOrganization(userId, organization);
+    public async giveAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string, verifyFlag:boolean):Promise<Affiliation>{
+        const data = await this.affiliationRepository.findAffiliationAndUserByUserIdAndOrganization(userId, organization);
+        if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
+        return data;
     }
     
 }

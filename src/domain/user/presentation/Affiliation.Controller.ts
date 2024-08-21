@@ -1,12 +1,12 @@
 import { Body, Controller, Get, HttpCode, Logger, Param, Post, Put, UseGuards} from '@nestjs/common';
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
-import { User } from '../domain/entity/User.js';
-import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
-import { AffiliationService } from '../service/Affiliation.Service.js';
-import { AffiliationStart } from '../dto/request/AffiliationStart.js';
-import { UserProfile } from '../dto/response/UserProfile.js';
-import { ProfileUpdate } from '../dto/request/ProfileUpdate.js';
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
+import { User } from '../domain/entity/User';
+import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
+import { AffiliationService } from '../service/Affiliation.Service';
+import { AffiliationStart } from '../dto/request/AffiliationStart';
+import { UserProfile } from '../dto/response/UserProfile';
+import { ProfileUpdate } from '../dto/request/ProfileUpdate';
 
 
 
@@ -25,7 +25,7 @@ export class AffiliationController {
   ): Promise<SuccessResponseDto<void>>  {
 
     await this.affiliationService.penetrateAffiliation(user.userId, affiliationStartDto.getOrganization(), affiliationStartDto.getNickname(),
-     affiliationStartDto.getJob(), affiliationStartDto.getJobIntroduce(), String(affiliationStartDto.getHireDate()), affiliationStartDto.getCompany(),
+     affiliationStartDto.getPosition(), affiliationStartDto.getPositionIntroduce(), String(affiliationStartDto.getHireDate()), affiliationStartDto.getCompany(),
      affiliationStartDto.getCompanyPublic())
     this.logger.log("소속 참여 완료");
     return SuccessResponseDto.of();

@@ -1,8 +1,8 @@
 import {HttpException} from "@nestjs/common";
-import { SmallTalkErrorCode, errorMessage } from "./SmallTalkErrorCode.js";
+import { SmallTalkErrorCode, errorMessage } from "./SmallTalkErrorCode";
 
 export class SmallTalkException extends HttpException {
-    code: SmallTalkErrorCode // enum 값의 타입을 설정합니다.
+    code: SmallTalkErrorCode 
 
     constructor(code: SmallTalkErrorCode) {
         super(errorMessage(code), code);  

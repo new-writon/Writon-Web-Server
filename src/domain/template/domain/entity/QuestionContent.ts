@@ -7,22 +7,14 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Question } from "../../../challenge/domain/entity/Question.js";
-import { UserTemplate } from "./UserTemplate.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Question } from "../../../challenge/domain/entity/Question";
+import { UserTemplate } from "./UserTemplate";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 
-
-// @Index("QuestionContent_question_content_id_key", ["question_content_id"], {
-//   unique: true,
-// })
-// @Index("QuestionContent_question_id_fkey", ["question_id"], {})
-// @Index("QuestionContent_user_template_id_fkey", ["user_template_id"], {})
+@Index("question_contents_questions_fkey", ["questionId"], {})
+@Index("question_contents_user_templates_fkey", ["userTemplateId"], {})
 @Entity("question_contents", { schema: "nest" })
 export class QuestionContent extends BaseEntity{
 

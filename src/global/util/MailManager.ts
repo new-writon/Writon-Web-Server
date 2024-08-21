@@ -1,9 +1,7 @@
 
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-require('dotenv').config();
+
 
 @Injectable()
 export class MailManager{

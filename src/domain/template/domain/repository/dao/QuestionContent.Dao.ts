@@ -1,7 +1,7 @@
 import { DataSource, Repository } from "typeorm";
-import { InsertUserTemplateContent } from "../../../dto/InsertUserTemplateContent.js";
-import { QuestionContent } from "../../entity/QuestionContent.js";
-import { QuestionContentRepository } from "../QuestionContent.Repository.js";
+import { InsertUserTemplateContent } from "../../../dto/values/InsertUserTemplateContent";
+import { QuestionContent } from "../../entity/QuestionContent";
+import { QuestionContentRepository } from "../QuestionContent.Repository";
 import { Injectable } from "@nestjs/common";
 
 

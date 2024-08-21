@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { SmallTalkComment } from "../entity/SmallTalkComment.js";
-import { ParticularSmallTalkCommentData } from "../../dto/ParticularSmallTalkCommentData.js";
+import { SmallTalkComment } from "../entity/SmallTalkComment";
+import { ParticularSmallTalkCommentData } from "../../dto/values/ParticularSmallTalkCommentData";
 
 
 

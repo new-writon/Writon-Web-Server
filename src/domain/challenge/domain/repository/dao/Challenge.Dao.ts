@@ -1,13 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { Challenge } from "../../entity/Challenge.js";
+import { Challenge } from "../../entity/Challenge";
 import { DataSource, Repository } from "typeorm";
-import { ChallengeRepository } from "../Challenge.Repository.js";
-import { ChallengeInformation } from "../../../dto/ChallengeInformation.js";
-import { ChallengeDay } from "../../entity/ChallengeDay.js";
-import { ChallengeDepositDeduction } from "../../entity/ChallengeDepositDeduction.js";
-import { Affiliation } from "../../../../user/domain/entity/Affiliation.js";
-import { Organization } from "../../../../user/domain/entity/Organization.js";
-import { ChallengeAndOrganization } from "../../../dto/ChallengeAndOrganization.js";
+import { ChallengeRepository } from "../Challenge.Repository";
+import { ChallengeInformation } from "../../../dto/values/ChallengeInformation";
+import { ChallengeDay } from "../../entity/ChallengeDay";
+import { ChallengeDepositDeduction } from "../../entity/ChallengeDepositDeduction";
+import { Organization } from "../../../../user/domain/entity/Organization";
+import { ChallengeAndOrganization } from "../../../dto/values/ChallengeAndOrganization";
 
 
 @Injectable()

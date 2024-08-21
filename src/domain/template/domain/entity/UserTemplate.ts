@@ -8,18 +8,15 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Comment } from "./Comment.js";
-import { Likes } from "./Likes.js";
-import { QuestionContent } from "./QuestionContent.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Comment } from "./Comment";
+import { Likes } from "./Likes";
+import { QuestionContent } from "./QuestionContent";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-//@Index("UserTemplate_user_challenge_id_fkey", ["user_challenge_id"], {})
+
+@Index("user_templates_user_challenges_fkey", ["userChallengeId"], {})
 @Entity("user_templates")
 export class UserTemplate extends BaseEntity{
 

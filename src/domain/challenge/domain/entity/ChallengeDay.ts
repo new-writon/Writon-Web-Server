@@ -7,14 +7,11 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Challenge } from "./Challenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Challenge } from "./Challenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
-//@Index("ChallengeDay_challenge_id_fkey", ["challengeId"], {})
+
+@Index("challenge_day_challenges_fkey", ["challengeId"], {})
 @Entity("challenge_day", { schema: "nest" })
 export class ChallengeDay extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_day_id" })

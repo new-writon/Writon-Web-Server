@@ -5,7 +5,7 @@ import { Affiliation } from '../../entity/Affiliation.js';
 import { AffiliationRepository } from '../Affiliation.Repository.js';
 import { Organization } from '../../entity/Organization.js';
 import { Challenge } from '../../../../challenge/domain/entity/Challenge.js';
-import { ChallengesPerOrganization } from '../../../../user/dto/ChallengesPerOrganization.js';
+import { ChallengesPerOrganization } from '../../../dto/values/ChallengesPerOrganization.js';
 import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
 import { User } from '../../entity/User.js';
 import { Participant } from '../../../dto/response/Participant.js';
@@ -17,18 +17,6 @@ import { Participant } from '../../../dto/response/Participant.js';
 @Injectable()
 export class AffiliationDao extends Repository<Affiliation> implements AffiliationRepository{
     constructor(private dataSource: DataSource) { super(Affiliation, dataSource.createEntityManager()); }
-
-    async findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-
-      return this.dataSource
-        .createQueryBuilder()
-        .select('a')
-        .from(Affiliation,'a')
-        .innerJoin('a.organization', 'o')
-        .where("a.user_id = :userId", {userId:userId})
-        .andWhere('o.name = :organization', { organization: organization })
-        .getOne();
-    }
 
     async findAffiliationByNicknameAndOrganization(nickname: string, organization: string): Promise<Affiliation | null> {
       return this.dataSource
@@ -47,9 +35,9 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
 
 
 
-  async insertAffiliation(userId:number, organizationId:number, nickname: string, job: string,
-    jobIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
-    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, nickname, job, jobIntroduce, hireDate, company, companyPublic);
+  async insertAffiliation(userId:number, organizationId:number, nickname: string, position: string,
+    positionIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
+    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, nickname, position, positionIntroduce, hireDate, company, companyPublic);
     this.save(newAffiliation);
   }
 

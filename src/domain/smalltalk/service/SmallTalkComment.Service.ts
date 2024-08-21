@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { SmallTalkCommentHelper } from "../helper/SmallTalkComment.Helper.js";
-import { UserApi } from "../infrastructure/User.Api.js";
-import { SmallTalkCommentRead } from "../dto/response/SmallTalkCommentRead.js";
-import { ParticularSmallTalkCommentData } from "../dto/ParticularSmallTalkCommentData.js";
-import { Affiliation } from "src/domain/user/domain/entity/Affiliation.js";
+import { SmallTalkCommentHelper } from "../helper/SmallTalkComment.Helper";
+import { UserApi } from "../infrastructure/User.Api";
+import { SmallTalkCommentRead } from "../dto/response/SmallTalkCommentRead";
+import { ParticularSmallTalkCommentData } from "../dto/values/ParticularSmallTalkCommentData";
+import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class SmallTalkCommentService{
         organization: string,
         agoraComment: string
     ):Promise<void>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         await this.smallTalkCommentHelper.executeInsertSmallTalkComment(smallTalkId, affiliationData.getId(), agoraComment);
     }
 
@@ -30,18 +30,14 @@ export class SmallTalkCommentService{
         userId: number,
         smallTalkId: number
     ):Promise<SmallTalkCommentRead[]>{
+         // 검증 x
         const agoraCommentData = await this.smallTalkCommentHelper.giveSmallTalkCommentBySmallTalkId(smallTalkId);
         return agoraCommentData.length === 0 ? []:this.proccessSmallTalkCommentData(agoraCommentData, userId);
-
-        // const extractedAffiliationId = this.extractAffiliationId(agoraCommentData);
-        // const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
-        // const mergedParticularAgoraComment = this.mergeParticularAgoraComment(agoraCommentData, affiliationData, userId);
-        // return AgoraCommentRead.of(mergedParticularAgoraComment);
-
     }
 
     private async proccessSmallTalkCommentData(smallTalkCommentData:ParticularSmallTalkCommentData[], userId:number){
         const extractedAffiliationId = this.extractAffiliationId(smallTalkCommentData);
+         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
         const mergedParticularSmallTalkComment = this.mergeParticularSmallTalkComment(smallTalkCommentData, affiliationData, userId);
         return SmallTalkCommentRead.of(mergedParticularSmallTalkComment);

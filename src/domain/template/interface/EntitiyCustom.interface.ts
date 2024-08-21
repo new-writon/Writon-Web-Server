@@ -1,5 +1,5 @@
-import { Comment } from "../domain/entity/Comment.js";
-import { UserTemplate } from "../domain/entity/UserTemplate.js";
+import { Comment } from "../domain/entity/Comment";
+import { UserTemplate } from "../domain/entity/UserTemplate";
 
 
 export interface CommentAndUserTemplate{

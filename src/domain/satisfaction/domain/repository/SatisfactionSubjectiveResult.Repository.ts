@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { SatisfactionSubjectiveResult } from "../entity/SatisfactionSubjectiveResult.js";
-import { SubjectiveAnswerType } from "../../dto/SubjectiveAnswerType.js";
+import { SatisfactionSubjectiveResult } from "../entity/SatisfactionSubjectiveResult";
+import { SubjectiveAnswerType } from "../../dto/values/SubjectiveAnswerType";
 
 
 

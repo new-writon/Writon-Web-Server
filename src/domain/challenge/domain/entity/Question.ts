@@ -8,16 +8,14 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Challenge } from "./Challenge.js";
-import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
-import { Keyword } from "./Keyword.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Challenge } from "./Challenge";
+import { QuestionContent } from "../../../template/domain/entity/QuestionContent";
+import { Keyword } from "./Keyword";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
-//@Index("Question_challenge_id_fkey", ["challengeId"], {})
+
+@Index("questions_challenges_fkey", ["challengeId"], {})
+@Index("questions_keywords_fkey", ["keywordId"], {})
 @Entity("questions", { schema: "nest" })
 export class Question extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "question_id" })

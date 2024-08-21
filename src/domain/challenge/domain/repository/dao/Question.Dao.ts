@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { Question } from "../../entity/Question.js";
-import { QuestionRepository } from "../Question.Repository.js";
-import { Keyword } from "../../entity/Keyword.js";
-import { SpecialQuestion } from "../../../dto/response/SpecialQuestion.js";
-import { BasicQuestion } from "../../../dto/response/BasicQuestion.js";
+import { Question } from "../../entity/Question";
+import { QuestionRepository } from "../Question.Repository";
+import { Keyword } from "../../entity/Keyword";
+import { SpecialQuestion } from "../../../dto/response/SpecialQuestion";
+import { BasicQuestion } from "../../../dto/response/BasicQuestion";
 
 
 

@@ -1,5 +1,5 @@
-import { Affiliation } from "../user/domain/entity/Affiliation";
-import { User } from "../user/domain/entity/User";
+import { Affiliation } from "../../domain/entity/Affiliation";
+import { User } from "../../domain/entity/User";
 
 
 export interface UserAffiliationOrganization{

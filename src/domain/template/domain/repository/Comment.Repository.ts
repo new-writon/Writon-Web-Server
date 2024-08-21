@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { Comment } from "../entity/Comment.js";
+import { Comment } from "../entity/Comment";
 
 
 

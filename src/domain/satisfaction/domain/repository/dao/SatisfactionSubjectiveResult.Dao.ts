@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { SatisfactionSubjectiveResultRepository } from "../SatisfactionSubjectiveResult.Repository.js";
-import { SatisfactionSubjectiveResult } from "../../entity/SatisfactionSubjectiveResult.js";
-import { SubjectiveAnswerType } from "../../../../satisfaction/dto/SubjectiveAnswerType.js";
+import { SatisfactionSubjectiveResultRepository } from "../SatisfactionSubjectiveResult.Repository";
+import { SatisfactionSubjectiveResult } from "../../entity/SatisfactionSubjectiveResult";
+import { SubjectiveAnswerType } from "../../../dto/values/SubjectiveAnswerType";
 
 
 @Injectable()

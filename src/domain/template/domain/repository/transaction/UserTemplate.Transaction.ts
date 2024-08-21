@@ -1,9 +1,9 @@
-import { DataSource, Repository } from "typeorm";
-import { UserTemplate } from "../../entity/UserTemplate.js";
-import { WriteTemplateContent } from "../../../../template/dto/TemplateContent.js";
+import { DataSource } from "typeorm";
+import { UserTemplate } from "../../entity/UserTemplate";
+import { WriteTemplateContent } from "../../../dto/values/TemplateContent";
 import {Injectable } from "@nestjs/common";
-import { InsertUserTemplateContent } from "../../../dto/InsertUserTemplateContent.js";
-import { QuestionContent } from "../../entity/QuestionContent.js";
+import { InsertUserTemplateContent } from "../../../dto/values/InsertUserTemplateContent";
+import { QuestionContent } from "../../entity/QuestionContent";
 
 @Injectable()
 export class UserTemplateTransaction {

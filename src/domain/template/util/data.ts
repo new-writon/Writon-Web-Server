@@ -1,5 +1,5 @@
-import { CommentInformation } from "../dto/response/CommentInformation.js";
-import { TemplateContent } from "../dto/response/TemplateContent.js";
+import { CommentInformation } from "../dto/response/CommentInformation";
+import { TemplateContent } from "../dto/response/TemplateContent";
 
 export const sortCompanyPublic = (data: TemplateContent[] | CommentInformation[]): TemplateContent[] | CommentInformation[] => {
     return data.map((item) => {

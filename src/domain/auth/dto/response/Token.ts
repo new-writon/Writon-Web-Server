@@ -1,8 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 export class Token{
 
@@ -17,7 +14,6 @@ export class Token{
     public static of(accessToken: string, refreshToken: string){
         return new Token(accessToken, refreshToken);
     }
-
 
     private setAccessToken(accessToken: string){
         if(accessToken === null)

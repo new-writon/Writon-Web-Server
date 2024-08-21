@@ -1,5 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { ObjectiveAnswer } from "../ObjectiveAnswer.js";
+import { ObjectiveAnswer } from "../values/ObjectiveAnswer";
 import { Type } from 'class-transformer';
 
 export class ObjectiveQuestionAnswer{

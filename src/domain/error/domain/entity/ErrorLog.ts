@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+
 
 @Entity("ErrorLog", { schema: "nest" })
 export class ErrorLog {

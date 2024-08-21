@@ -1,16 +1,11 @@
 import { Repository } from 'typeorm';
 import { QuestionContent } from '../entity/QuestionContent';
-import { InsertUserTemplateContent } from '../../dto/InsertUserTemplateContent';
+import { InsertUserTemplateContent } from '../../dto/values/InsertUserTemplateContent';
 
 
 
 
 export interface QuestionContentRepository extends Repository<QuestionContent> {
 
-
-
    insertQuestionContent(templateContent: InsertUserTemplateContent[]):Promise<QuestionContent[]>;
-
-
-
 }

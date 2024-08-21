@@ -1,14 +1,13 @@
-import { User } from "../../user/domain/entity/User.js";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { CurrentUser } from "../decorators/Auth.Decorator.js";
-import { PasswordChange } from "../dto/request/PasswordChange.js";
-import { SiginUp } from "../dto/request/SignUp.js";
-import { TemporaryPassword } from "../dto/request/TemporaryPassword.js";
-import { UserIdentifier } from "../dto/response/UserIdentifier.js";
-import { AuthService } from "../service/Auth.Service.js";
+import { User } from "../../user/domain/entity/User";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { CurrentUser } from "../decorators/Auth.Decorator";
+import { PasswordChange } from "../dto/request/PasswordChange";
+import { SiginUp } from "../dto/request/SignUp";
+import { TemporaryPassword } from "../dto/request/TemporaryPassword";
+import { UserIdentifier } from "../dto/response/UserIdentifier";
 import { Body, Controller, Get, HttpCode, Logger, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
-import { JWTAuthGuard } from "../guards/JwtAuth.Guard.js";
-import { AccountService } from "../service/Account.Service.js";
+import { JWTAuthGuard } from "../guards/JwtAuth.Guard";
+import { AccountService } from "../service/Account.Service";
 
 
 
@@ -32,7 +31,6 @@ export class AccountController {
       return SuccessResponseDto.of();
     }
 
-
     @Get("/retrieve-idenfitier")
     @HttpCode(200)
     public async findIdentifier(
@@ -44,7 +42,6 @@ export class AccountController {
       return SuccessResponseDto.of(result);
     }
   
-  
     @Patch("/reset-password")
     @HttpCode(200)
     public async generateTemporaryPassword(
@@ -55,8 +52,6 @@ export class AccountController {
       return SuccessResponseDto.of();
     }
   
-  
-  
     @Patch("/change-password")
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
@@ -64,7 +59,6 @@ export class AccountController {
       @Body() passwordChange: PasswordChange,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-  
       await this.accountService.changePassword(user.userId, passwordChange.getOldPassword(), passwordChange.getNewPassword());
       return SuccessResponseDto.of();
     }

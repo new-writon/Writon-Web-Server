@@ -1,13 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { UserHelper } from "../helper/User.Helper.js";
-import { TemplateApi } from "../infrastruture/Template.Api.js";
-import { UserChallengeHelper } from "../helper/UserChallenge.Helper.js";
-import { ChallengeApi } from "../infrastruture/Challenge.Api.js";
-import { UserVerifyService } from "../domain/service/UserVerify.Service.js";
-import { AffiliationHelper } from "../helper/Affiliation.Helper.js";
-import { Participant } from "../dto/response/Participant.js";
-import { ParticipantComponent } from "../dto/response/ParticipantComponent.js";
-import { isSameDate } from "../util/checker.js";
+import { UserChallengeHelper } from "../helper/UserChallenge.Helper";
+import { ChallengeApi } from "../infrastruture/Challenge.Api";
+import { AffiliationHelper } from "../helper/Affiliation.Helper";
+import { Participant } from "../dto/response/Participant";
+import { ParticipantComponent } from "../dto/response/ParticipantComponent";
+import { isSameDate } from "../util/checker";
+
 
 @Injectable()
 export class CheeringPhraseService{
@@ -16,12 +14,12 @@ export class CheeringPhraseService{
         private readonly affiliationHelper: AffiliationHelper,
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
-        private readonly userVerifyService: UserVerifyService 
     ) {}
 
 
 
     public async bringParticipant(userId:number, challengeId:number): Promise<Participant>{
+         // 검증 x
         const myInformationData = await this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId, challengeId);
         const sortedMyInformationData = this.sortCheeringAndPublic(new Array(myInformationData))
         return sortedMyInformationData[0]; 
@@ -29,15 +27,18 @@ export class CheeringPhraseService{
 
     public async bringParticipantComponent(userId:number, challengeId:number): Promise<ParticipantComponent>{
         const [participantData, participantCount, challengePeriod] = await Promise.all([
+             // 검증 x
             this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId),
+             // 검증 x
             this.userChallengeHelper.giveUserChallengePaticipantCount(challengeId),
+             // 검증 x
             this.challengeApi.requestOverlapPeriod(challengeId)
         ]);
         return ParticipantComponent.of(challengePeriod, participantCount, participantData);
     }
 
     public async penetrateCheeringPhrase(userId: number, organization: string, challengeId: number, content: string){
-        const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
+        const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, true);
         await this.userChallengeHelper.executeInsertCheeringPhrase(affiliationData.getAffiliationId(), challengeId, content);
     }
 

@@ -1,8 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 
 export class UserProfile{
@@ -13,8 +10,8 @@ export class UserProfile{
     private bank:string | null;
     private hiredate: Date;
     private company:string;
-    private job: string;
-    private jobIntroduce:string;
+    private position: string;
+    private positionIntroduce:string;
 
     constructor(
         nickname:string,
@@ -24,8 +21,8 @@ export class UserProfile{
         bank:string | null,
         hiredate: Date,
         company:string,
-        job: string,
-        jobIntroduce:string
+        position: string,
+        positionIntroduce:string
     ){
         this.setNickname(nickname)
         this.setEmail(email);
@@ -34,8 +31,8 @@ export class UserProfile{
         this.setBank(bank);
         this.setHiredate(hiredate);
         this.setCompany(company);
-        this.setJob(job);
-        this.setJobIntroduce(jobIntroduce);
+        this.setPosition(position);
+        this.setPositionIntroduce(positionIntroduce);
     }
 
     public static of(
@@ -49,8 +46,8 @@ export class UserProfile{
             userProfile.bank,
             userProfile.hiredate,
             userProfile.company,
-            userProfile.job,
-            userProfile.jobIntroduce
+            userProfile.position,
+            userProfile.positionIntroduce
         );
     }
 
@@ -86,14 +83,14 @@ export class UserProfile{
         this.company = company;
     }
 
-    private setJob(job: string): void {
-        if(job === null)throw new InternalServerErrorException (`${__dirname} : job 값이 존재하지 않습니다.`);
-        this.job = job;
+    private setPosition(position: string): void {
+        if(position === null)throw new InternalServerErrorException (`${__dirname} : position 값이 존재하지 않습니다.`);
+        this.position = position;
     }
 
-    private setJobIntroduce(jobIntroduce: string): void {
-        if(jobIntroduce === null)throw new InternalServerErrorException (`${__dirname} : jobIntroduce 값이 존재하지 않습니다.`);
-        this.jobIntroduce = jobIntroduce;
+    private setPositionIntroduce(positionIntroduce: string): void {
+        if(positionIntroduce === null)throw new InternalServerErrorException (`${__dirname} : positionIntroduce 값이 존재하지 않습니다.`);
+        this.positionIntroduce = positionIntroduce;
     }
 
 

@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { ChallengeDayHelper } from "../../challenge/helper/ChallengeDay.Helper.js";
-import { ChallengeDay } from "../../challenge/domain/entity/ChallengeDay.js";
-import { Question } from "../../challenge/domain/entity/Question.js";
-import { QuestionHelper } from "../../challenge/helper/Question.Helper.js";
+import { ChallengeDayHelper } from "../../challenge/helper/ChallengeDay.Helper";
+import { ChallengeDay } from "../../challenge/domain/entity/ChallengeDay";
+import { Question } from "../../challenge/domain/entity/Question";
+import { QuestionHelper } from "../../challenge/helper/Question.Helper";
 
 
 @Injectable()
@@ -14,13 +14,12 @@ export class ChallengeApi{
         private readonly questionHelper: QuestionHelper
     ){}
 
-    public async requestChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
-        return this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId,date);
+    public async requestChallengeDayByChallengeIdAndDate(challengeId:number, date:Date, verifyFlag:boolean):Promise<ChallengeDay>{
+        return this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId,date,verifyFlag);
     }
 
-    public async requestQuestionById(questionId:number[]):Promise<Question[]>{
-        return this.questionHelper.giveQuestionById(questionId)
-        
+    public async requestQuestionById(questionId:number[], verifyFlag:boolean):Promise<Question[]>{
+        return this.questionHelper.giveQuestionById(questionId, verifyFlag)  
     }
 
    

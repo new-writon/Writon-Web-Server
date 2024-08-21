@@ -8,22 +8,18 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { SmallTalk} from "../../../smalltalk/domain/entity/SmallTalk.js";
-import { ChallengeDay } from "./ChallengeDay.js";
-import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction.js";
-import { Question } from "./Question.js";
-import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { Organization } from "../../../../domain/user/domain/entity/Organization.js";
+import { SmallTalk} from "../../../smalltalk/domain/entity/SmallTalk";
+import { ChallengeDay } from "./ChallengeDay";
+import { ChallengeDepositDeduction } from "./ChallengeDepositDeduction";
+import { Question } from "./Question";
+import { Satisfaction } from "../../../satisfaction/domain/entity/Satisfaction";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
+import { Organization } from "../../../../domain/user/domain/entity/Organization";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-// @Index("Challenge_challenge_id_key", ["challengeId"], { unique: true })
-// @Index("Challenge_affiliation_id_fkey", ["affiliationId"], {})
+
+@Index("challenges_organizations_fkey", ["organizationId"], {})
 @Entity("challenges", { schema: "nest" })
 export class Challenge extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "challenge_id" })
@@ -60,15 +56,6 @@ export class Challenge extends BaseEntity{
   @OneToMany(() => SmallTalk, (smallTalk) => smallTalk.challenge)
   smallTalks: Relation<SmallTalk>[];
 
-  // @ManyToOne(() => Affiliation, (affiliation) => affiliation.challenges, {
-  //   onDelete: "CASCADE",
-  //   onUpdate: "CASCADE",
-  // })
-  // @JoinColumn([
-  //   { name: "affiliation_id", referencedColumnName: "affiliation_id" },
-  // ])
-  // affiliation: Relation<Affiliation>;
-
   @OneToMany(
     () => ChallengeDepositDeduction,
     (challengeDepositDeduction) => challengeDepositDeduction.challenge
@@ -88,7 +75,7 @@ export class Challenge extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "orgnization_id", referencedColumnName: "organizationId" }])
+  @JoinColumn([{ name: "organization_id", referencedColumnName: "organizationId" }])
   organization: Relation<Organization>;
 
 

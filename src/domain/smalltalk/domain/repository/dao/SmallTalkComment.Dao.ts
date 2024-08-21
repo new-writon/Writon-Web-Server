@@ -1,8 +1,8 @@
 import { DataSource, Repository } from "typeorm";
-import { SmallTalkComment } from "../../entity/SmallTalkComment.js";
-import { SmallTalkCommentRepository } from "../SmallTalkComment.Repository.js";
+import { SmallTalkComment } from "../../entity/SmallTalkComment";
+import { SmallTalkCommentRepository } from "../SmallTalkComment.Repository";
 import { Injectable } from "@nestjs/common";
-import { ParticularSmallTalkCommentData } from "../../../dto/ParticularSmallTalkCommentData.js";
+import { ParticularSmallTalkCommentData } from "../../../dto/values/ParticularSmallTalkCommentData";
 
 
 @Injectable()

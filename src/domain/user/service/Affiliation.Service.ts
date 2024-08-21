@@ -1,13 +1,10 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Organization } from "../domain/entity/Organization.js";
-import { UserProfile } from "../dto/response/UserProfile.js";
-import { OrganizationHelper } from "../helper/Organization.Helper.js";
-import { AffiliationHelper } from "../helper/Affiliation.Helper.js";
-import { isSameDate } from "../util/checker.js";
-import { Participant } from "../dto/response/Participant.js";
-import { UserChallengeHelper } from "../helper/UserChallenge.Helper.js";
-import { ChallengeApi } from "../infrastruture/Challenge.Api.js";
-import { ParticipantComponent } from "../dto/response/ParticipantComponent.js";
+import { Injectable } from "@nestjs/common";
+import { Organization } from "../domain/entity/Organization";
+import { UserProfile } from "../dto/response/UserProfile";
+import { OrganizationHelper } from "../helper/Organization.Helper";
+import { AffiliationHelper } from "../helper/Affiliation.Helper";
+
+
 
 @Injectable()
 export class AffiliationService{
@@ -15,23 +12,22 @@ export class AffiliationService{
     constructor(
         private readonly organizationHelper: OrganizationHelper,
         private readonly affiliationHelper: AffiliationHelper,
-        private readonly userChallengeHelper: UserChallengeHelper,
-        private readonly challengeApi: ChallengeApi
     ){}
 
     public async penetrateAffiliation(userId:number, organization:string,     
         nickname: string,
-        job: string,
-        jobIntroduce: string,
+        position: string,
+        positionIntroduce: string,
         hireDate: string,
         company: string,
         companyPublic: boolean): Promise<void>{
-        const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(organization);
-        await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(), nickname, job, jobIntroduce, hireDate, company, companyPublic)
+        const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(organization, false);
+        await this.affiliationHelper.insertAffiliation(userId, organizationData.getId(), nickname, position, positionIntroduce, hireDate, company, companyPublic)
     }
 
 
     public async bringUserProfile(userId:number, organization:string):Promise<UserProfile>{
+         // 검증 x
         const userProfileData:UserProfile = await this.affiliationHelper.giveUserProfileByUserIdAndOrganization(userId, organization);
         return UserProfile.of(userProfileData);
     }
@@ -47,7 +43,6 @@ export class AffiliationService{
         positionIntroduce:string,
         companyPublic:boolean
     ){
-        
         await this.affiliationHelper.executeUpdateUserProfileByUserIdAndOrganization(userId,organization,nickname,company,hireDate,position,positionIntroduce,companyPublic);
     }
 }

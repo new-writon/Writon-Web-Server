@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { SatisfactionRepository } from "../domain/repository/Satisfaction.Repository.js";
-import { SatisfactionVerifyService } from "../domain/service/SatisfactionVerify.Service.js";
-import { Satisfaction } from "../domain/entity/Satisfaction.js";
+import { SatisfactionRepository } from "../domain/repository/Satisfaction.Repository";
+import { SatisfactionVerifyService } from "../domain/service/SatisfactionVerify.Service";
+import { Satisfaction } from "../domain/entity/Satisfaction";
 
 
 @Injectable()
@@ -13,10 +13,10 @@ export class SatisfactionHelper{
         private readonly satisfactionVerifyService:SatisfactionVerifyService
     ){}
 
-    public async giveSatisfactionByChallengeId(challengeId:number):Promise<Satisfaction[]>{
-        const satisfactionData = await this.satisfactionRepository.findSatisfactionByChallengeId(challengeId);
-        this.satisfactionVerifyService.verifySatisfaction(satisfactionData)
-        return satisfactionData;
+    public async giveSatisfactionByChallengeId(challengeId:number, verifyFlag:boolean):Promise<Satisfaction[]>{
+        const satisfactionDatas = await this.satisfactionRepository.findSatisfactionByChallengeId(challengeId);
+        if(verifyFlag) this.satisfactionVerifyService.verifySatisfaction(satisfactionDatas)
+        return satisfactionDatas;
     }
 
 }

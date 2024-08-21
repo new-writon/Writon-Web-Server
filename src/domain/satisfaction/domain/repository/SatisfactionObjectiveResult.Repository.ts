@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { SatisfactionObjectiveResult } from "../entity/SatisfactionObjectiveResult.js";
-import { ObjectiveAnswerType } from "../../dto/ObjectiveAnswerType.js";
+import { SatisfactionObjectiveResult } from "../entity/SatisfactionObjectiveResult";
+import { ObjectiveAnswerType } from "../../dto/values/ObjectiveAnswerType";
 
 
 export interface SatisfactionObjectiveResultRepository extends Repository<SatisfactionObjectiveResult>{

@@ -1,12 +1,12 @@
-import { Body, Controller, Get, HttpCode, Logger, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
-import { User } from '../domain/entity/User.js';
-import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
-import { Participant } from '../dto/response/Participant.js';
-import { ParticipantComponent } from '../dto/response/ParticipantComponent.js';
-import { CheeringPhraseService } from '../service/CheeringPhrase.Service.js';
-import { CheeringPhraseInsert } from '../dto/request/CheeringPhraseInsert.js';
+import { Body, Controller, Get, HttpCode, Logger, Param, Post, UseGuards} from '@nestjs/common';
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
+import { User } from '../domain/entity/User';
+import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
+import { Participant } from '../dto/response/Participant';
+import { ParticipantComponent } from '../dto/response/ParticipantComponent';
+import { CheeringPhraseService } from '../service/CheeringPhrase.Service';
+import { CheeringPhraseInsert } from '../dto/request/CheeringPhraseInsert';
 
 
 

@@ -1,13 +1,13 @@
 import { Body, Controller, Get, HttpCode, Logger, Param, Post, Put,  UseGuards } from '@nestjs/common';
-import { TemplateService } from '../service/Template.Service.js';
-import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
-import { User } from '../../user/domain/entity/User.js';
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { JWTAuthGuard } from '../../../domain/auth/guards/JwtAuth.Guard.js';
-import { TemplateContent } from '../dto/response/TemplateContent.js';
-import { TemplateWrite } from '../dto/request/TemplateWrite.js';
-import { TemplateUpdate } from '../dto/request/TemplateUpdate.js';
-import { TemplateInformation } from '../dto/response/TemplateInformation.js';
+import { TemplateService } from '../service/Template.Service';
+import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
+import { User } from '../../user/domain/entity/User';
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { JWTAuthGuard } from '../../../domain/auth/guards/JwtAuth.Guard';
+import { TemplateContent } from '../dto/response/TemplateContent';
+import { TemplateWrite } from '../dto/request/TemplateWrite';
+import { TemplateUpdate } from '../dto/request/TemplateUpdate';
+import { TemplateInformation } from '../dto/response/TemplateInformation';
 
 
 

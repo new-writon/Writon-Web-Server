@@ -1,6 +1,6 @@
-import { DataSource, EntityRepository, Repository } from 'typeorm';
-import { UserChallenge } from '../entity/UserChallenge.js';
-import { ChallengeDeposit } from '../../dto/ChallengeDeposit.js';
+import { Repository } from 'typeorm';
+import { UserChallenge } from '../entity/UserChallenge';
+import { ChallengeDeposit } from '../../dto/values/ChallengeDeposit';
 
 
 export interface UserChallengeRepository extends Repository<UserChallenge> {
