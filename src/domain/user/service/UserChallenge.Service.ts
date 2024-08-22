@@ -19,6 +19,7 @@ import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount
 import { UserVerifyService } from '../domain/service/UserVerify.Service';
 import { ChallengeDeposit } from '../dto/values/ChallengeDeposit';
 import { DataMapperService } from '../domain/service/DataMapper.Service';
+import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 
 
 @Injectable()
@@ -168,9 +169,18 @@ export class UserChallengeService {
     };
 
     public async bringChallengesPerOrganization(userId:number):Promise<ChallengesPerOrganization[]>{
-       // 검증 x
-        const challengesPerOrganization:ChallengesPerOrganization[] = await this.affiliationHelper.giveChallengesPerOrganizationByUserId(userId);
-        return ChallengesPerOrganization.of(challengesPerOrganization);
+      const challengesPerOrganization:ChallengesPerOrganization[] = await this.affiliationHelper.giveChallengesPerOrganizationByUserId(userId);
+      const extractedChallengeIds = this.dataMapperService.extractChallengeIds(challengesPerOrganization);
+      const challengeDatas = await this.challengeApi.requestChallengesByIds(extractedChallengeIds);
+      const mappedChallengesPerOrganization = this.mappingChallengesPerOrganization(challengesPerOrganization, challengeDatas);
+      return mappedChallengesPerOrganization;
+    }
+
+    public mappingChallengesPerOrganization(challengesPerOrganization:ChallengesPerOrganization[], challengeDatas:ChallengesPerOrganization[]){
+      return challengesPerOrganization.map((cpo)=> {
+        const challenge = challengeDatas.find((challenge)=> challenge.getChallengeId() === cpo.getChallengeId());
+        return ChallengesPerOrganization.of(cpo.getOrganization(), cpo.getChallengeId(), challenge.getChallenge(), challenge.getChallengeFinishSign());
+      })
     }
 
     public async bringParticipationInChallengePerAffiliation(userId:number,organization:string,challengeId:number):Promise<ParticipationInChallengePerAffiliation>{

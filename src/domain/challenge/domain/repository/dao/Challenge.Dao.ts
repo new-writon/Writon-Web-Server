@@ -5,8 +5,7 @@ import { ChallengeRepository } from "../Challenge.Repository";
 import { ChallengeInformation } from "../../../dto/values/ChallengeInformation";
 import { ChallengeDay } from "../../entity/ChallengeDay";
 import { ChallengeDepositDeduction } from "../../entity/ChallengeDepositDeduction";
-import { Organization } from "../../../../user/domain/entity/Organization";
-import { ChallengeAndOrganization } from "../../../dto/values/ChallengeAndOrganization";
+import { ChallengesPerOrganization } from "../../../../user/dto/values/ChallengesPerOrganization";
 
 
 @Injectable()
@@ -103,6 +102,20 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
         .addGroupBy('cdd.deduction_amount')
         .getRawMany();
         return results.map((data)=> {return ChallengeAllInformation.of(data.challengeId, data.deposit, data.challengeDayCount, data.startCount, data.endCount, data.deductionAmout)});
+    }
+
+
+    async findChallengesByIds(challengeIds:number[]):Promise<ChallengesPerOrganization[]>{
+        const result = await this.createQueryBuilder()
+            .select([
+                'c.challenge_id AS challengeId',
+                'c.name AS challenge',
+                "CASE WHEN c.finish_at < CURDATE() THEN '1' ELSE '0' END AS challengeFinishSign"
+            ])
+            .from(Challenge, 'c')
+            .where('c.challenge_id IN (:...challengeIds)',{challengeIds})
+            .getRawMany();
+        return result.map((data)=>ChallengesPerOrganization.of(undefined, data.challengeId, data.challenge, data.challengeFinishSign))
     }
 
 

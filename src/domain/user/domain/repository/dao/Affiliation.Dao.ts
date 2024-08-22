@@ -4,7 +4,6 @@ import { UserChallenge } from '../../entity/UserChallenge';
 import { Affiliation } from '../../entity/Affiliation';
 import { AffiliationRepository } from '../Affiliation.Repository';
 import { Organization } from '../../entity/Organization';
-import { Challenge } from '../../../../challenge/domain/entity/Challenge';
 import { ChallengesPerOrganization } from '../../../dto/values/ChallengesPerOrganization';
 import { UserProfile } from '../../../../user/dto/response/UserProfile';
 import { User } from '../../entity/User';
@@ -35,8 +34,6 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
           .getOne();
         }
 
-
-
   async insertAffiliation(userId:number, organizationId:number, affiliationStartDto: AffiliationStart):Promise<void>{
     const newAffiliation = Affiliation.createAffiliation(userId, organizationId, affiliationStartDto.getNickname(), affiliationStartDto.getPosition(), affiliationStartDto.getPositionIntroduce(),
     affiliationStartDto.getHireDate(), affiliationStartDto.getCompany(), affiliationStartDto.getCompanyPublic()
@@ -45,20 +42,19 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
   }
 
   async findChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>{
-    return this.dataSource.createQueryBuilder()
+    const result = await this.dataSource.createQueryBuilder()
             .select([
               'o.name AS organization',
               'uc.challenge_id AS challengeId',
-              'c.name AS challenge',
-              "CASE WHEN c.finish_at < CURDATE() THEN '1' ELSE '0' END AS challengeFinishSign"
             ])
             .from(Affiliation, 'a')
             .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
             .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
-            .innerJoin(Challenge, 'c', 'c.challenge_id = uc.challenge_id') // 수정
             .where('a.user_id = :userId',{userId})
             .orderBy('uc.created_at', 'DESC')
             .getRawMany();
+    return result.map((data)=>ChallengesPerOrganization.of(data.organization, data.challengeId, undefined, undefined));
+    
   }
 
 

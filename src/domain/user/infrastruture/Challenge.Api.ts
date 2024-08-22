@@ -38,6 +38,10 @@ export class ChallengeApi{
         return this.challengeHelper.giveAllChallengingInformation();
     }
 
+    public async requestChallengesByIds(challengeIds:number[]){
+        return this.challengeHelper.giveChallengesByIds(challengeIds);
+    }
+
 
 
 }

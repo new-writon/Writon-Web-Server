@@ -12,20 +12,24 @@ export class ChallengesPerOrganization {
 
     constructor(
         organization:string,
-        challenge_id:number,
+        challengeId:number,
         challenge:string,
         challengeFinishSign: string
     ){
         this.setOrganization(organization);
-        this.setChallengeId(challenge_id);
+        this.setChallengeId(challengeId);
         this.setChallenge(challenge);
         this.setChallengeFinishSign(challengeFinishSign);  
     }
 
-    public static of(challengesPerOrganization: ChallengesPerOrganization[]):ChallengesPerOrganization[]{
-        return challengesPerOrganization.map((cpo)=>{
-            return new ChallengesPerOrganization(cpo.organization, cpo.challengeId, cpo.challenge, cpo.challengeFinishSign);
-        })
+    public static of(
+        organization:string,
+        challengeId:number,
+        challenge:string,
+        challengeFinishSign: string):ChallengesPerOrganization{
+       // return challengesPerOrganization.map((cpo)=>{
+            return new ChallengesPerOrganization(organization, challengeId, challenge, challengeFinishSign);
+     //   })
 
     }
 
@@ -54,6 +58,22 @@ export class ChallengesPerOrganization {
     private setChallenge(challenge:string){
         if(challenge === null)throw new InternalServerErrorException (`${__dirname} : challenge 값이 존재하지 않습니다.`);
         this.challenge=challenge;
+    }
+
+    public getChallengeId(){
+        return this.challengeId;
+    }
+
+    public  getOrganization(){
+        return this.organization;
+    }
+
+    public getChallengeFinishSign(){
+        return this.challengeFinishSign;
+    }
+
+    public getChallenge(){
+        return this.challenge;
     }
 
 }

@@ -49,6 +49,10 @@ export class ChallengeHelper{
         return this.challengeRepository.findAllChallengingInformation();
     }
 
+    public async giveChallengesByIds(challengeIds:number[]){
+        return this.challengeRepository.findChallengesByIds(challengeIds);
+    }
+
 
 
 }
