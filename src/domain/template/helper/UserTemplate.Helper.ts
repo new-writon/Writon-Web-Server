@@ -14,8 +14,8 @@ export class UserTemplateHelper{
         private readonly templateVerifyService:TemplateVerifyService
     ){}
 
-    public async giveUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
-        const datas = await this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeId(affiliationId, challengeId);
+    public async giveUserTemplateByAffiliationAndChallengeId(userChallengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeId(userChallengeId);
         if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
         return datas;
     };
