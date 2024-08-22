@@ -247,10 +247,7 @@ export class TemplateService {
         return mergedArray;
     }
       
-    private async signUserChallengeComplete (
-        challengeId: number,
-        date: string
-    ){
+    private async signUserChallengeComplete (challengeId: number, date: string){
         let complete = true;
         if (new Date(date).setHours(0, 0, 0, 0).toLocaleString() !== new Date().setHours(0, 0, 0, 0).toLocaleString()) {
             complete = false;
