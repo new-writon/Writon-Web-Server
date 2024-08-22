@@ -30,11 +30,11 @@ export class UserTemplateHelper{
     //     return datas;
     // }
 
-    public async giveUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<TemplateContent[]>{
-        const datas = await this.userTemplateRepository.findUserTemplateByChallengeIdForAffiliationId(affiliationId, challengeId);
-        if(verifyFlag) this.templateVerifyService.verifyTemplateContents (datas);
-        return datas;
-    }
+    // public async giveUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<TemplateContent[]>{
+    //     const datas = await this.userTemplateRepository.findUserTemplateByChallengeIdForAffiliationId(affiliationId, challengeId);
+    //     if(verifyFlag) this.templateVerifyService.verifyTemplateContents (datas);
+    //     return datas;
+    // }
 
     public async exexuteInsertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate>{
         return this.userTemplateRepository.insertUserTemplate(userChallnegeId, date, complete);
@@ -52,7 +52,7 @@ export class UserTemplateHelper{
         return datas;
     }
 
-    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeId:number[], verifyFlag:boolean):Promise<UserTemplate[]>{
+    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeId:number, verifyFlag:boolean):Promise<UserTemplate[]>{
         const datas = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeId);
         if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
         return datas;

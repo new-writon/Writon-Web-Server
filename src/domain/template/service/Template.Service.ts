@@ -67,7 +67,7 @@ export class TemplateService {
         const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
         const questionData = await this.challengeApi.requestQuestionById(questionIds,false);
         const challengeCompleteCount = this.dataMapperService.extractCompleteCount(userTemplateData);
-        const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
+        const mergedForManyTemplates = this.mergeForAllManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
         return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
     }
@@ -101,7 +101,38 @@ export class TemplateService {
             )}).filter(item => item !== null);
     }
 
-    private mergeForManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeDatas:UserChallenge[]) {
+    private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeData:UserChallenge) {
+        return userTemplateDatas.map(userTemplateData => {
+            return questionDatas.map(questionData => {
+                const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
+                if (!questionContent) return null;
+                const likeCount = userTemplateData.getLikes().length;
+                const commentCount = userTemplateData.getComments().length;
+                const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+                return TemplateContent.of(
+                    affiliationData.getPosition(),
+                    affiliationData.getNickname(),
+                    affiliationData.getCompany(),
+                    affiliationData.getCompanyPublic(),
+                    affiliationData.getUser().getProfileImage(),
+                    questionData.getId(),
+                    userTemplateData.getId(),
+                    questionContent.getId(),
+                    questionContent.getContent(),
+                    formatDate(userTemplateData.getCreatedAt().toString()),
+                    questionContent.getVisibility(),
+                    questionData.getCategory(),
+                    questionData.getQuestion(),
+                    affiliationData.getId(),
+                    likeCount.toString(),
+                    commentCount.toString(),
+                    myLikeSign
+                );
+            }).filter(item => item !== null);
+        });
+    }
+
+    private mergeForAllManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeDatas:UserChallenge[]) {
         return userTemplateDatas.map(userTemplateData => {
             return questionDatas.map(questionData => {
                 const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
@@ -139,19 +170,16 @@ export class TemplateService {
     }
 
     public async bringAllTemplateContent(userId: number, organization: string, challengeId:number):Promise<TemplateInformation | []>{
-        const [affiliationData, userChallengeDatas] = await Promise.all([
-            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false),
-            this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId,false)
-        ]);
-        const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
-        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeIds, false);
-        return userTemplateData.length === 0 ? []:this.proccessTemplateData(userTemplateData,affiliationData,userChallengeDatas)
+        const affiliationData = await this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false);
+        const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId, true);
+        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeData.getId(), false);
+        return userTemplateData.length === 0 ? []:this.proccessTemplateData(userTemplateData,affiliationData,userChallengeData)
     }
-    
-    private async proccessTemplateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeDatas:UserChallenge[]){
+
+    private async proccessTemplateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeData:UserChallenge){
         const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
         const questionData = await this.challengeApi.requestQuestionById(questionIds,false);
-        const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
+        const mergedForManyTemplates = this.mergeForMyManyTemplates(affiliationData, userTemplateData, questionData, userChallengeData);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
         return TemplateInformation.of(undefined, sortedCompanyData);
     }
@@ -265,15 +293,6 @@ export class TemplateService {
         return complete; 
     }
 
-    private sortAccorgindToUserTemplateId(userTemplates: TemplateContent[]):  TemplateContent[][]{
-        const sortedUserTemplate : TemplateContent[][]= [];
-        const uniqueUserTemplateIds = Array.from(new Set(userTemplates.map((q) => q.userTemplateId)));
-        for (const userTemplateId of uniqueUserTemplateIds) {
-            const filteredQuestions = userTemplates.filter((q) => q.userTemplateId === userTemplateId);
-            sortedUserTemplate.push(filteredQuestions);
-        }
-        return sortedUserTemplate;
-    }
 }
 
 

@@ -67,10 +67,9 @@ export class TemplateController {
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<TemplateInformation | []>>  {
     const result = await this.templateService.bringAllTemplateContent(user.userId, organization, challengeId);
-    this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
+    this.logger.log("내 챌린지 템플릿 조회 완료");
     return SuccessResponseDto.of(result);
   }
-
 
 
   @Post("/write")
