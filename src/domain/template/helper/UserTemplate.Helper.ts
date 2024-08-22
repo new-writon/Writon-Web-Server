@@ -46,11 +46,19 @@ export class UserTemplateHelper{
         return datas;
     }
 
-    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date, verifyFlag:boolean):Promise<UserTemplate[]>{
-        const datas = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId, date);
+    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(userChallengeId:number[], date:Date, verifyFlag:boolean):Promise<UserTemplate[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(userChallengeId, date);
         if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
         return datas;
     }
+
+    public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeId:number[], verifyFlag:boolean):Promise<UserTemplate[]>{
+        const datas = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeId);
+        if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
+        return datas;
+    }
+
+
 
     public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId:number, visibility:boolean, verifyFlag:boolean):Promise<UserTemplate>{
         const data = await this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility);

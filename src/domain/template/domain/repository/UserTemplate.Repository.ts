@@ -13,7 +13,8 @@ export interface UserTemplateRepository extends Repository<UserTemplate> {
    findUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]>;
    insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate>;
    findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplate[]>;
-   findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplate[]>;
+   findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(userChallengeId:number[], date:Date):Promise<UserTemplate[]>;
+   findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeId:number[]):Promise<UserTemplate[]>;
    findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId:number, visibility:boolean):Promise<UserTemplate>;
    findUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]);
 

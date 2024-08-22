@@ -59,6 +59,9 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         'qc.content AS content',
         'ut.template_date AS createdAt',
         'qc.visibility AS visibility',
+
+
+
         'q.category AS category ',
         'q.question AS question',
         'a.affiliation_id AS affiliationId'
@@ -118,13 +121,22 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
       .getMany();
   }
 
-  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeId:number[], date:Date):Promise<UserTemplate[]>{
+  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(userChallengeId:number[], date:Date):Promise<UserTemplate[]>{
     return this.dataSource.createQueryBuilder(UserTemplate, 'ut')
       .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
       .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
       .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_template_id AND qc.visibility = 1')
       .where('ut.user_challenge_id IN (:...userChallengeId)',{userChallengeId})
       .andWhere("ut.template_date = :date", {date})
+      .getMany();
+  }
+
+  async findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeId:number[]):Promise<UserTemplate[]>{
+    return this.dataSource.createQueryBuilder(UserTemplate, 'ut')
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_template_id')
+      .where('ut.user_challenge_id IN (:...userChallengeId)',{userChallengeId})
       .getMany();
   }
 

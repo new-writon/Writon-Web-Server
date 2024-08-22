@@ -65,7 +65,7 @@ export class TemplateController {
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateContent[][]>>  {
+  ): Promise<SuccessResponseDto<TemplateInformation | []>>  {
     const result = await this.templateService.bringAllTemplateContent(user.userId, organization, challengeId);
     this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
     return SuccessResponseDto.of(result);
