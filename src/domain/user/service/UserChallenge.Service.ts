@@ -30,7 +30,7 @@ export class UserChallengeService {
         private readonly templateApi: TemplateApi,
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
-        private readonly userVerifyService: UserVerifyService ,
+        private readonly userVerifyService: UserVerifyService,
         private readonly dataMapperService:DataMapperService
     ) {}
 
@@ -43,18 +43,14 @@ export class UserChallengeService {
 
     public async bringUserChallengeSituation(userId: number, organization: string, challengeId: number): Promise<UserChallengeSituation>{
         const affiliationData: Affiliation = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization,false);
-        const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, overlapDeposit, challengeData] = await Promise.all([
-          
-            this.userHelper.giveUserById(userId,false),    
-             // 검증 x
-            this.challengeApi.requestOverlapPeriod(challengeId),
-             // 검증 x
-            this.challengeApi.requestChallengeOverlapCount(challengeId),
-             // 검증 x
-            this.templateApi.requestChallengeSuccessChallengeCount(affiliationData.getAffiliationId(), challengeId),
-            this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId,true),
-            this.challengeApi.requestChallengeById(challengeId, true)  
-          ]);
+        const userChallengeData: UserChallenge = await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId,true)
+        const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, challengeData] = await Promise.all([
+          this.userHelper.giveUserById(userId,false),    
+          this.challengeApi.requestOverlapPeriod(challengeId),
+          this.challengeApi.requestChallengeOverlapCount(challengeId),
+          this.templateApi.requestChallengeSuccessChallengeCount(userChallengeData.getId()),
+          this.challengeApi.requestChallengeById(challengeId, true)  
+        ]);
         return UserChallengeSituation.of(
             affiliationData.getNickname(),
             userData.getProfileImage(),
@@ -64,7 +60,7 @@ export class UserChallengeService {
             challengeData.getRefundCondition(),
             challengeOverlapCount,
             challengeSuccessCount,
-            overlapDeposit.getUserDeposit(),
+            userChallengeData.getUserDeposit(),
             challengeData.getDeposit()
         );
     };

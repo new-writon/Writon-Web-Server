@@ -8,7 +8,7 @@ import { TemplateContent } from '../../dto/response/TemplateContent';
 export interface UserTemplateRepository extends Repository<UserTemplate> {
 
    findUserTemplateByAffiliationAndChallengeId(affiliationId:number, challengeId: number): Promise<UserTemplate[]>;
-   findChallengeSuccessChallengeCount(affiliationId: number, challengeId: number): Promise<number>;
+   findChallengeSuccessChallengeCount(userChallengeId:number): Promise<number>;
    findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>;
    findUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]>;
    insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate>;

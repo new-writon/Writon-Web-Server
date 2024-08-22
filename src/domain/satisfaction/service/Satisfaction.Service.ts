@@ -39,11 +39,11 @@ export class SatisfactionService{
 
     public async bringUserChallengeResult(userId:number, organization:string, challengeId:number):Promise<UserChallengeResult>{
         const affiliationData = await this.userApi.requestAffiliationByUserIdWithOrganization(userId, organization,true);
-        let [challengeData, challengeOverlapCount, userChallengeData, challengeSuccessCount] = await Promise.all([
+        const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId,true)
+        let [challengeData, challengeOverlapCount,  challengeSuccessCount] = await Promise.all([
             this.challengeApi.requestChallengeById(challengeId,true),
             this.challengeApi.requestChallengeOverlapCount(challengeId),
-            this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId,true),
-            this.templateApi.reqeustChallengeSuccessChallengeCount(affiliationData.getId(), challengeId)
+            this.templateApi.reqeustChallengeSuccessChallengeCount(userChallengeData.getId())
         ]);
         return UserChallengeResult.of(affiliationData.getNickname(), organization, challengeData.getName(), challengeOverlapCount,
             challengeSuccessCount, userChallengeData.getUserDeposit(), challengeData.getDeposit(), challengeData.getReviewUrl());
