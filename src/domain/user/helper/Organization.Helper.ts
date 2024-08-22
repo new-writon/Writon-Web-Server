@@ -19,4 +19,10 @@ export class OrganizationHelper{
         return data;
     }
 
+    public async giveAllOrganization(){
+        return this.organizationRepository.findAllOrganization();
+    }
+
+    
+
 }

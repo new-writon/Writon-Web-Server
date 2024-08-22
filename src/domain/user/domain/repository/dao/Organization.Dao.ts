@@ -16,4 +16,12 @@ export class OrganizationDao extends Repository<Organization> implements Organiz
                 }
             });
         }
+
+
+        async findAllOrganization():Promise<Organization[]>{
+            return this.createQueryBuilder()
+                .select('o')
+                .from(Organization, 'o')
+                .getMany();
+        }
 }

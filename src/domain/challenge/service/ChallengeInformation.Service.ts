@@ -8,6 +8,9 @@ import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccor
 import { ChallengeHelper } from "../helper/Challenge.Helper";
 import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper.js";
 import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service";
+import { UserApi } from "../intrastructure/User.Api";
+import { DataMapperService } from "../domain/service/DataMapper.Service";
+import { Organization } from "src/domain/user/domain/entity/Organization";
 
 
 
@@ -18,7 +21,9 @@ export class ChallengeInformationService{
     constructor(
         private readonly challengeHelper: ChallengeHelper,
         private readonly challengeDayHelper: ChallengeDayHelper,
-        private readonly challengeVerifyService: ChallengeVerifyService
+        private readonly challengeVerifyService: ChallengeVerifyService,
+        private readonly userApi:UserApi,
+        private readonly dataMapperService:DataMapperService
     ){}
 
 
@@ -34,9 +39,12 @@ export class ChallengeInformationService{
        
     }
 
-    public async bringChallengeAccordingToOrganization(): Promise<ChallengeAccordingToOrganization[]> { 
-        const allChallengeAccordingToOrganizationData = await this.challengeHelper.giveAllChallengeAccordingToOrganization();
-        const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(allChallengeAccordingToOrganizationData);
+    public async bringChallengeAccordingToOrganization(){ 
+        const organizationDatas = await this.userApi.requestAllOrganization();
+        const extractedOrganizationIds = this.dataMapperService.extractOrganizationIds(organizationDatas);
+        const challengeDatas = await this.challengeHelper.giveChallengeByOrgnizationIds(extractedOrganizationIds);
+        const mappedChallengeAndOrganization = this.mappingChallengeAndOrganization(organizationDatas, challengeDatas);
+        const sortedallChallengeAccordingToOrganizationData = this.sortChallengePerOrganization(mappedChallengeAndOrganization);
         return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData); 
     }
 
@@ -58,8 +66,15 @@ export class ChallengeInformationService{
         return false;
     }
 
-
-
+    public mappingChallengeAndOrganization(organizations: Organization[], challenges: Challenge[]): ChallengeAndOrganization[] {
+        return organizations.flatMap((organization) => {
+            const relatedChallenges = challenges
+              .filter(challenge => challenge.getOrganizationId() === organization.getId())
+            return relatedChallenges.map((data)=>{
+                return new ChallengeAndOrganization(organization.getName(), data.getName());
+            })
+        });
+      }
 
     private sortChallengePerOrganization(array : ChallengeAndOrganization[]):ChallengeAccordingToOrganization[]{
         const groupOrganization : {

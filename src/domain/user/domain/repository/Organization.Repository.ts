@@ -5,4 +5,5 @@ import { Organization } from "../entity/Organization";
 
 export interface OrganizationRepository extends Repository<Organization> {
     findOrganizationByName(name: string): Promise<Organization>;
+    findAllOrganization():Promise<Organization[]>;
 }

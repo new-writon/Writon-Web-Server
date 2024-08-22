@@ -26,4 +26,8 @@ export class Organization extends BaseEntity{
   public getChallenges(){
     return this.challenges;
   }
+
+  public getName(){
+    return this.name;
+  }
 }

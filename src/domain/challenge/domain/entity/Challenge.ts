@@ -106,4 +106,10 @@ export class Challenge extends BaseEntity{
   public getOrganization(){
     return this.organization;
   }
+
+  public getOrganizationId(){
+    return this.organizationId;
+  }
+
+
 }

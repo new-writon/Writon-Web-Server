@@ -15,7 +15,7 @@ export class ChallengeInformationController{
 
     @Get('/all-organization/all-challenge')
     @HttpCode(200)
-    public async bringChallengeAccordingToOrganization(): Promise<SuccessResponseDto<ChallengeAccordingToOrganization[]>>{
+    public async bringChallengeAccordingToOrganization(){
         const result = await this.challengeInformationService.bringChallengeAccordingToOrganization();
         this.logger.log("모든 조직의 챌린지 조회 완료");
         return SuccessResponseDto.of(result);

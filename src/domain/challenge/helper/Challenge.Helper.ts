@@ -41,8 +41,8 @@ export class ChallengeHelper{
         return challengeData;
     }
 
-    public async giveAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>{
-        return this.challengeRepository.findAllChallengeAccordingToOrganization();
+    public async giveChallengeByOrgnizationIds(organizationIds:number[]):Promise<Challenge[]>{
+        return this.challengeRepository.findChallengeByOrgnizationIds(organizationIds)
     }
 
     public async giveAllChallengingInformation():Promise<ChallengeAllInformation[]>{

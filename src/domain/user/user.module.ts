@@ -63,6 +63,6 @@ import { UserService } from './service/User.service';
   ],
 
   controllers:[UserController, UserChallengeController, AffiliationController,CheeringPhraseController],
-  exports:[UserChallengeHelper, AffiliationHelper, UserHelper]
+  exports:[UserChallengeHelper, AffiliationHelper, UserHelper, OrganizationHelper]
 })
 export class UserModule {}

@@ -74,13 +74,12 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
         })
     }
 
-    async findAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>{
-        const rawResults : ChallengeAndOrganization[] = await this.dataSource.createQueryBuilder()
-            .select(['o.name AS organizations', 'c.name AS challenges'])
+    async findChallengeByOrgnizationIds(organizationIds:number[]):Promise<Challenge[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('c')
             .from(Challenge, 'c')
-            .innerJoin(Organization, 'o', 'o.organization_id = c.organization_id')
-            .getRawMany();
-        return ChallengeAndOrganization.of(rawResults);
+            .where('c.organization_id IN (:...organizationIds)',{organizationIds})
+            .getMany();
     }
 
     async findAllChallengingInformation():Promise<ChallengeAllInformation[]>{
