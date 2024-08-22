@@ -101,7 +101,7 @@ export class TemplateService {
             )}).filter(item => item !== null);
     }
 
-    private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeData:UserChallenge) {
+    private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[]) {
         return userTemplateDatas.map(userTemplateData => {
             return questionDatas.map(questionData => {
                 const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
@@ -173,13 +173,13 @@ export class TemplateService {
         const affiliationData = await this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false);
         const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId, true);
         const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeData.getId(), false);
-        return userTemplateData.length === 0 ? []:this.proccessTemplateData(userTemplateData,affiliationData,userChallengeData)
+        return userTemplateData.length === 0 ? []:this.proccessTemplateData(userTemplateData,affiliationData)
     }
 
-    private async proccessTemplateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeData:UserChallenge){
+    private async proccessTemplateData(userTemplateData:UserTemplate[], affiliationData:Affiliation){
         const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
         const questionData = await this.challengeApi.requestQuestionById(questionIds,false);
-        const mergedForManyTemplates = this.mergeForMyManyTemplates(affiliationData, userTemplateData, questionData, userChallengeData);
+        const mergedForManyTemplates = this.mergeForMyManyTemplates(affiliationData, userTemplateData, questionData);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
         return TemplateInformation.of(undefined, sortedCompanyData);
     }
