@@ -37,7 +37,7 @@ export class UserChallengeService {
     public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
         const affiliationData:Affiliation = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false);
         const userChallengeData:UserChallenge = await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId, true)
-        const userTemplateData : UserTemplate[] = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(userChallengeData.getId(), false);
+        const userTemplateData : UserTemplate[] = await this.templateApi.requestUserTemplateByUserChallengeId(userChallengeData.getId(), false);
         const todayTemplateStatus : boolean = this.verifyTodayTemplateStatus(userTemplateData);
         return TemplateStatus.of(todayTemplateStatus);
     }
@@ -161,7 +161,7 @@ export class UserChallengeService {
             this.challengeApi.requestChallengeDayByChallengeId(challengeId,false) 
         ]);
         const userChallengeData:UserChallenge = await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationData.getAffiliationId(), challengeId, true)
-        const userTemplateData = await this.templateApi.requestUserTemplateByAffiliationAndChallengeId(userChallengeData.getId(), false);
+        const userTemplateData = await this.templateApi.requestUserTemplateByUserChallengeId(userChallengeData.getId(), false);
         const calendarData :CalendarData[] = sortCallendarDateBadge(challengeDayData, userTemplateData);
         return CalendarData.of(calendarData);                           
     };

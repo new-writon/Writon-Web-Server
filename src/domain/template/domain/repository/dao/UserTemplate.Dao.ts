@@ -13,7 +13,7 @@ import { UserTemplateRepository } from '../UserTemplate.Repository';
 export class UserTemplateDao extends Repository<UserTemplate> implements UserTemplateRepository {
     constructor(private dataSource: DataSource) { super(UserTemplate, dataSource.createEntityManager()); }
 
-    async findUserTemplateByAffiliationAndChallengeId(userChallengeId: number): Promise<UserTemplate[]> {
+    async findUserTemplateByUserChallengeId(userChallengeId: number): Promise<UserTemplate[]> {
       return this.dataSource.createQueryBuilder()
           .select('ut')
           .from(UserTemplate, 'ut')
