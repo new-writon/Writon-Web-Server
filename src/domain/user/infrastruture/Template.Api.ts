@@ -19,9 +19,9 @@ export class TemplateApi{
         return this.userTemplateHelper.giveChallengeSuccessChallengeCount(userChallengeId);
     }
 
-    public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
-        return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId, verifyFlag);
-    }
+    // public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
+    //     return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId, verifyFlag);
+    // }
 
     public async requestUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
         return this.userTemplateHelper.giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds);

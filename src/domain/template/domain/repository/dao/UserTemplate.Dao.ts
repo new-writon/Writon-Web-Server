@@ -33,21 +33,21 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
    }
 
 
-   async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
-    return this.createQueryBuilder('ut')
-        .select('ut.*')
-        .from(UserTemplate, 'ut')
-        .where('ut.user_challenge_id = :userChallengeId', {
-            userChallengeId: (qb) => {
-                qb.select('uc.user_challenge_id')
-                    .from(UserChallenge, 'uc')
-                    .where('uc.affiliation_id = :affiliationId', { affiliationId:affiliationId })
-                    .andWhere('uc.challenge_id = :challengeId', { challengeId: challengeId });
-            }
-        })
-        .orderBy("date_format(ut.finished_at, '%Y-%m')")
-        .getRawMany()
-   };
+  //  async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
+  //   return this.createQueryBuilder('ut')
+  //       .select('ut.*')
+  //       .from(UserTemplate, 'ut')
+  //       .where('ut.user_challenge_id = :userChallengeId', {
+  //           userChallengeId: (qb) => {
+  //               qb.select('uc.user_challenge_id')
+  //                   .from(UserChallenge, 'uc')
+  //                   .where('uc.affiliation_id = :affiliationId', { affiliationId:affiliationId })
+  //                   .andWhere('uc.challenge_id = :challengeId', { challengeId: challengeId });
+  //           }
+  //       })
+  //       .orderBy("date_format(ut.finished_at, '%Y-%m')")
+  //       .getRawMany()
+  //  };
 
 
    async findUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]> {
