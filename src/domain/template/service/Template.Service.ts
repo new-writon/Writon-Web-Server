@@ -76,94 +76,42 @@ export class TemplateService {
         return questionDatas.map((questionData) => {
             const questionContent = userTemplateData.getQuestionContents().find(
                 (content) => content.getQuestionId() === questionData.getId());
-            if (!questionContent) return null;
-            const likeCount = userTemplateData.getLikes().length;
-            const commentCount = userTemplateData.getComments().length;
             const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+            const userChallengeAfiliation = userChallengeData.getAffiliation();
             return TemplateContent.of(   
-                userChallengeData.getAffiliation().getPosition(), 
-                userChallengeData.getAffiliation().getNickname(),
-                userChallengeData.getAffiliation().getCompany(),
-                userChallengeData.getAffiliation().getCompanyPublic(),
-                userChallengeData.getAffiliation().getUser().getProfileImage(),
+                userChallengeAfiliation,
                 questionData.getId(),
                 userTemplateData.getId(),
-                questionContent.getId(),
-                questionContent.getContent(),
+                questionContent,
                 formatDate(userTemplateData.getCreatedAt().toString()),
-                questionContent.getVisibility(),
-                questionData.getCategory(),
-                questionData.getQuestion(),
-                userChallengeData.getAffiliation().getId(),
-                likeCount.toString(),
-                commentCount.toString(),
+                questionData,
+                userTemplateData.getLikes().length.toString(),
+                userTemplateData.getComments().length.toString(),
                 myLikeSign
-            )}).filter(item => item !== null);
-    }
-
-    private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[]) {
-        return userTemplateDatas.map(userTemplateData => {
-            return questionDatas.map(questionData => {
-                const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
-                if (!questionContent) return null;
-                const likeCount = userTemplateData.getLikes().length;
-                const commentCount = userTemplateData.getComments().length;
-                const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
-                return TemplateContent.of(
-                    affiliationData.getPosition(),
-                    affiliationData.getNickname(),
-                    affiliationData.getCompany(),
-                    affiliationData.getCompanyPublic(),
-                    affiliationData.getUser().getProfileImage(),
-                    questionData.getId(),
-                    userTemplateData.getId(),
-                    questionContent.getId(),
-                    questionContent.getContent(),
-                    formatDate(userTemplateData.getCreatedAt().toString()),
-                    questionContent.getVisibility(),
-                    questionData.getCategory(),
-                    questionData.getQuestion(),
-                    affiliationData.getId(),
-                    likeCount.toString(),
-                    commentCount.toString(),
-                    myLikeSign
-                );
-            }).filter(item => item !== null);
-        });
+            )});
     }
 
     private mergeForAllManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeDatas:UserChallenge[]) {
         return userTemplateDatas.map(userTemplateData => {
             return questionDatas.map(questionData => {
                 const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
-                if (!questionContent) return null;
                 const userChallengeData = userChallengeDatas.find((content) => content.getId() === userTemplateData.getUserChallengeId());
-                const likeCount = userTemplateData.getLikes().length;
-                const commentCount = userTemplateData.getComments().length;
                 const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+                const userChallengeAfiliation = userChallengeData.getAffiliation()
                 return TemplateContent.of(
-                    userChallengeData.getAffiliation().getPosition(),
-                    userChallengeData.getAffiliation().getNickname(),
-                    userChallengeData.getAffiliation().getCompany(),
-                    userChallengeData.getAffiliation().getCompanyPublic(),
-                    userChallengeData.getAffiliation().getUser().getProfileImage(),
+                    userChallengeAfiliation,
                     questionData.getId(),
                     userTemplateData.getId(),
-                    questionContent.getId(),
-                    questionContent.getContent(),
+                    questionContent,
                     formatDate(userTemplateData.getCreatedAt().toString()),
-                    questionContent.getVisibility(),
-                    questionData.getCategory(),
-                    questionData.getQuestion(),
-                    userChallengeData.getAffiliation().getId(),
-                    likeCount.toString(),
-                    commentCount.toString(),
+                    questionData,
+                    userTemplateData.getLikes().length.toString(),
+                    userTemplateData.getComments().length.toString(),
                     myLikeSign
                 );
-            }).filter(item => item !== null);
+            });
         });
     }
-
 
     private extractUserChallengeId(userChallenge:UserChallenge[]){
         return userChallenge.map((data)=> data.getId())
@@ -182,6 +130,26 @@ export class TemplateService {
         const mergedForManyTemplates = this.mergeForMyManyTemplates(affiliationData, userTemplateData, questionData);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
         return TemplateInformation.of(undefined, sortedCompanyData);
+    }
+
+    private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[]) {
+        return userTemplateDatas.map(userTemplateData => {
+            return questionDatas.map(questionData => {
+                const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
+                const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+                return TemplateContent.of(
+                    affiliationData,
+                    questionData.getId(),
+                    userTemplateData.getId(),
+                    questionContent,
+                    formatDate(userTemplateData.getCreatedAt().toString()),
+                    questionData,
+                    userTemplateData.getLikes().length.toString(),
+                    userTemplateData.getComments().length.toString(),
+                    myLikeSign
+                );
+            });
+        });
     }
 
     @Transactional()
@@ -242,14 +210,14 @@ export class TemplateService {
                 .map((comment) => {
                     const matchedAffiliation = affiliation.find(affiliation => affiliation.getId() === comment.getAffiliationId());
                     return {
-                    commentId: comment.getId(),
-                    content: comment.getContent(),
-                    createdAt: comment.getCreatedAt(),
-                    sign: comment.getCheck(),
-                    userTemplateId: userTemplate.getId(),
-                    templateName: userTemplate.getTemplateDate(),
-                    nickname:matchedAffiliation.getNickname(),
-                    type: "comment"
+                        commentId: comment.getId(),
+                        content: comment.getContent(),
+                        createdAt: comment.getCreatedAt(),
+                        sign: comment.getCheck(),
+                        userTemplateId: userTemplate.getId(),
+                        templateName: userTemplate.getTemplateDate(),
+                        nickname:matchedAffiliation.getNickname(),
+                        type: "comment"
                     }
                 }));
     }
@@ -260,13 +228,13 @@ export class TemplateService {
         .map((like) => {
             const matchedAffiliation = affiliation.find(affiliation => affiliation.getId() === like.getAffiliationId());
             return {
-            likeId: like.getId(),
-            createdAt: like.getCreatedAt(),
-            sign: like.getCheck(),
-            userTemplateId: userTemplate.getId(),
-            templateName: userTemplate.getTemplateDate(),
-            nickname: matchedAffiliation.getNickname(),
-            type: "like"
+                likeId: like.getId(),
+                createdAt: like.getCreatedAt(),
+                sign: like.getCheck(),
+                userTemplateId: userTemplate.getId(),
+                templateName: userTemplate.getTemplateDate(),
+                nickname: matchedAffiliation.getNickname(),
+                type: "like"
             }
         }));
     }

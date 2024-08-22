@@ -1,4 +1,8 @@
 import { InternalServerErrorException } from "@nestjs/common";
+import { Affiliation } from "../../../user/domain/entity/Affiliation";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { QuestionContent } from "../../domain/entity/QuestionContent";
+import { Question } from "../../../challenge/domain/entity/Question";
 
 
 export class TemplateContent {
@@ -44,6 +48,7 @@ export class TemplateContent {
         this.setCompany(company);
         this.setCompanyPublic(companyPublic);
         this.setProfile(profile);
+      //  this.affiliationData=affiliationData
         this.setQuestionId(questionId);
         this.setUserTempleteId(userTempleteId);
         this.setQuestionContentId(questionContentId);
@@ -59,36 +64,19 @@ export class TemplateContent {
     }
 
     public static of(
-        position: string,
-        nickname: string,
-        company: string,
-        companyPublic: boolean,
-        profile: string | null,
+        affiliationData : Affiliation,
         questionId: number,
         userTempleteId: number,
-        questionContentId: number,
-        content: string,
+        questionContent:QuestionContent,
         createdAt: string,
-        visibility: boolean,
-        category: string,
-        question: string,
-        affiliationId:number,
+        question:Question,
         likeCount: string,
         commentCount: string,
         myLikeSign: string
     ){
-        // return templateContents.map((data) => new TemplateContent(data.job, data.nickname, data.company, data.company_public, data.profile, data.question_id, data.user_templete_id,
-        //     data.question_content_id, data.content, data.created_at, data.visibility, data.category, data.question, data.likeCount, data.commentCount, data.myLikeSign
-        // ));
-        
-        // return new TemplateContent(templateContents.job, templateContents.nickname, templateContents.company, templateContents.company_public, templateContents.profile,
-        //     templateContents.question_id, templateContents.user_templete_id, templateContents.question_content_id, templateContents.content, templateContents.created_at,
-        //     templateContents.visibility, templateContents.category, templateContents.question, templateContents.likeCount, templateContents.commentCount, templateContents.myLikeSign
-        // )
-
-        return new TemplateContent(position, nickname, company, companyPublic, profile,
-            questionId, userTempleteId, questionContentId, content, createdAt,
-            visibility, category, question, affiliationId, likeCount, commentCount, myLikeSign
+        return new TemplateContent(affiliationData.getPosition(), affiliationData.getNickname(), affiliationData.getCompany(), affiliationData.getCompanyPublic(), affiliationData.getUser().getProfileImage(),
+            questionId, userTempleteId, questionContent.getId(), questionContent.getContent(), createdAt,
+            questionContent.getVisibility(), question.getCategory(), question.getQuestion(), affiliationData.getId(), likeCount, commentCount, myLikeSign
         )
     }
 
@@ -184,9 +172,6 @@ export class TemplateContent {
         return this.company =company;
     }
 }
-
-
-
 
 
 export class TemplateContentArray {
