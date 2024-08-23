@@ -1,4 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
+import { ParticularSmallTalkCommentData } from "../values/ParticularSmallTalkCommentData";
 
 
 export class SmallTalkCommentRead{
@@ -28,8 +29,14 @@ export class SmallTalkCommentRead{
     }
 
 
-    public static of(smallTalkCommentRead: SmallTalkCommentRead[]){
-        return smallTalkCommentRead.map((data)=> new SmallTalkCommentRead(data.smallTalkCommentId, data.content, data.nickname, data.profile, data.createdTime, data.myCommentSign)); 
+    public static of(
+        particularSmallTalkCommentData:ParticularSmallTalkCommentData,
+        nickname:string,
+        profile:string,
+        myCommentSign:string
+    ){
+        return new SmallTalkCommentRead(particularSmallTalkCommentData.getSmallTalkCommentId(), particularSmallTalkCommentData.getContent(),nickname,
+        profile, particularSmallTalkCommentData.getCreatedTime(),myCommentSign)
     }
 
 

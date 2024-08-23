@@ -1,13 +1,14 @@
 import { InternalServerErrorException } from "@nestjs/common";
+import { ParticularSmallTalkData } from "../values/ParticularSmallTalkData";
 
 
 export class SmallTalkDataResult {
     private smallTalkId: number;
     private question: string;
     private participateCount: number;
-    private nickname: string;
     private createdTime: Date;
     private createdDate: Date;
+    private nickname: string;
     private profile: string | null;
     private mySmallTalkSign: string;
 
@@ -32,9 +33,13 @@ export class SmallTalkDataResult {
     }
 
     public static of(
-        smallTalkDataResult:SmallTalkDataResult[]
+        particularSmallTalkData:ParticularSmallTalkData,
+        nickname:string,
+        profile:string,
+        mySmallTalkSign:string
     ) {
-        return smallTalkDataResult.map((data) => new SmallTalkDataResult(data.smallTalkId, data.question, data.participateCount, data.nickname, data.createdTime, data.createdDate, data.profile, data.mySmallTalkSign))
+        return new SmallTalkDataResult(particularSmallTalkData.getSmallTalkId(), particularSmallTalkData.getQuestion(), particularSmallTalkData.getParticipateCount(), nickname, particularSmallTalkData.getCreatedTime(),
+            particularSmallTalkData.getCreatedDate(), profile, mySmallTalkSign)
     }
 
     private setSmallTalkId(smallTalkId: number) {

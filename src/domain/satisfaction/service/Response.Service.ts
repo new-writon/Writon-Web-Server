@@ -18,7 +18,6 @@ export class ResponseService{
     ){}
 
     public async checkReEngagement(userId:number,  organization:string, challengeId:number, check:boolean){
-            // 검증 x
         await this.userApi.requestUpdateUserChallengeReEngagement(userId,organization, challengeId, check);
     }
 
@@ -40,20 +39,15 @@ export class ResponseService{
     private convertObjectiveAnswerType(
         satisfationAnswer: Array<ObjectiveAnswer>,
         userChallengeId: number): ObjectiveAnswerType[]{
-        return satisfationAnswer.map((answer) => new ObjectiveAnswerType(
-            answer.getSatisfactionId(),
-            answer.getScore(),
-            userChallengeId
-        ));
+        return satisfationAnswer.map((answer) => ObjectiveAnswerType.of(answer,userChallengeId));
     }
 
     private convertSubjectiveAnswerType(
     satisfationAnswer: Array<SubjectiveAnswer>,
     userChallengeId: number
     ){
-    return satisfationAnswer.map((answer) => new SubjectiveAnswerType(
-        answer.getSatisfactionId(),
-        answer.getAnswer(),
+    return satisfationAnswer.map((answer) => SubjectiveAnswerType.of(
+        answer,
         userChallengeId
     ));
   }

@@ -45,8 +45,8 @@ export class SatisfactionService{
             this.challengeApi.requestChallengeOverlapCount(challengeId),
             this.templateApi.reqeustChallengeSuccessChallengeCount(userChallengeData.getId())
         ]);
-        return UserChallengeResult.of(affiliationData.getNickname(), organization, challengeData.getName(), challengeOverlapCount,
-            challengeSuccessCount, userChallengeData.getUserDeposit(), challengeData.getDeposit(), challengeData.getReviewUrl());
+        return UserChallengeResult.of(affiliationData.getNickname(), organization, challengeOverlapCount,
+            challengeSuccessCount, userChallengeData.getUserDeposit(), challengeData);
     }
 
     public async bringSatisfactionQuestion(challengeId:number):Promise<SatisfactionQuestion[]>{

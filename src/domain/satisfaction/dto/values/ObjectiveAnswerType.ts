@@ -1,4 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
+import { ObjectiveAnswer } from "./ObjectiveAnswer";
 
 
 export class ObjectiveAnswerType{
@@ -11,6 +12,13 @@ export class ObjectiveAnswerType{
         this.setSatisfactionId(satisfactionId);
         this.setScore(score);
         this.setUserChallengeId(userChallengeId);
+    }
+
+    public static of(
+        satisfationAnswer: ObjectiveAnswer,
+        userChallengeId:number
+    ){
+        return new ObjectiveAnswerType(satisfationAnswer.getSatisfactionId(), satisfationAnswer.getScore(), userChallengeId);
     }
 
     public getSatisfactionId(){

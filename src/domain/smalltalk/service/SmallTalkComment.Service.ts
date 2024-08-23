@@ -30,17 +30,14 @@ export class SmallTalkCommentService{
         userId: number,
         smallTalkId: number
     ):Promise<SmallTalkCommentRead[]>{
-         // 검증 x
         const agoraCommentData = await this.smallTalkCommentHelper.giveSmallTalkCommentBySmallTalkId(smallTalkId);
         return agoraCommentData.length === 0 ? []:this.proccessSmallTalkCommentData(agoraCommentData, userId);
     }
 
     private async proccessSmallTalkCommentData(smallTalkCommentData:ParticularSmallTalkCommentData[], userId:number){
         const extractedAffiliationId = this.extractAffiliationId(smallTalkCommentData);
-         // 검증 x
         const affiliationData = await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
-        const mergedParticularSmallTalkComment = this.mergeParticularSmallTalkComment(smallTalkCommentData, affiliationData, userId);
-        return SmallTalkCommentRead.of(mergedParticularSmallTalkComment);
+        return this.mergeParticularSmallTalkComment(smallTalkCommentData, affiliationData, userId);
     }
 
     private extractAffiliationId(particularCommentData: ParticularSmallTalkCommentData[]){
@@ -52,12 +49,10 @@ export class SmallTalkCommentService{
             return particularCommentData.filter((particularCommentData) => affiliationData.getId() === particularCommentData.getAffiliationId())
             .map((particularCommentData) => {
                 const distinguishedUser = this.distinguishUser(affiliationData.user.getId(), userId);
-                return new SmallTalkCommentRead(
-                    particularCommentData.getSmallTalkCommentId(),
-                    particularCommentData.getContent(),
+                return SmallTalkCommentRead.of(
+                    particularCommentData,
                     affiliationData.getNickname(),
                     affiliationData.user.getProfileImage(),
-                    particularCommentData.getCreatedTime(),
                     distinguishedUser   
                 )});  
         });

@@ -22,7 +22,6 @@ export class SmallTalkService{
 
 
     public async checkSmallTalk(challengeId:number, date:Date):Promise<SmallTalkResult>{
-         // 검증 x
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, false);
         const smallTalkLimitResult = this.checkSmallTalkLimit(particularSmallTalkData);
         return SmallTalkResult.of(smallTalkLimitResult);
@@ -43,18 +42,14 @@ export class SmallTalkService{
     }
 
     public async bringSmallTalk(userId:number, challengeId:number, date:Date){
-         // 검증 x
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, true);
         return particularSmallTalkData.length === 0 ? []:this.proccessSmallTalkData(particularSmallTalkData, userId, challengeId)
     }
 
     private async proccessSmallTalkData(particularSmallTalkData:ParticularSmallTalkData[], userId:number, challengeId:number){
-        // 2. 1번 데이터에서 userChallengeId를 추출
         const userChallengeId = this.sortUserChallengeId(particularSmallTalkData);
-        // 3. 2번 데이터를 통해 userChallege 데이터를 가져옴.
         const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId, challengeId,false);
-        const mergedSmallTalkData = this.mergeUserChallenge(particularSmallTalkData, userChallengeData, userId);
-        return SmallTalkDataResult.of(mergedSmallTalkData);
+        return  this.mergeUserChallenge(particularSmallTalkData, userChallengeData, userId);
     }
 
     private sortUserChallengeId(smallTalk: ParticularSmallTalkData[]){
@@ -66,16 +61,7 @@ export class SmallTalkService{
             return particularSmallTalkData.filter((particularSmallTalkData) => userChallenge.getId() === particularSmallTalkData.getUserChallengeId())
             .map((particularSmallTalkData) => {
                 const distinguishedUser = this.distinguishUser(userChallenge.affiliation.user.getId(), userId);
-                return new SmallTalkDataResult(
-                    particularSmallTalkData.getSmallTalkId(),
-                    particularSmallTalkData.getQuestion(),
-                    particularSmallTalkData.getParticipateCount(),
-                    userChallenge.affiliation.getNickname(),
-                    particularSmallTalkData.getCreatedTime(),
-                    particularSmallTalkData.getCreatedDate(),
-                    userChallenge.affiliation.user.getProfileImage(),
-                    distinguishedUser,
-                )
+                return SmallTalkDataResult.of(particularSmallTalkData,userChallenge.affiliation.getNickname(),userChallenge.affiliation.user.getProfileImage(),distinguishedUser )
             })    
         });
     }

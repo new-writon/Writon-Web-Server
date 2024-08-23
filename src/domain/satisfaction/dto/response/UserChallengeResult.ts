@@ -1,24 +1,25 @@
 import { InternalServerErrorException } from "@nestjs/common";
+import { Challenge } from "../../../challenge/domain/entity/Challenge";
 
 
 export class UserChallengeResult{
 
     private nickname:string;
     private organization:string;
-    private challenge:string;
     private challengeOverlapCount:number;
     private challengeSuccessCount:number;
     private overlapDeposit:number;
+    private challenge:string;
     private challengeDeposit:number;
     private reviewUrl: string | null;
 
     constructor(
         nickname:string,
         organization:string,
-        challenge:string,
         challengeOverlapCount:number,
         challengeSuccessCount:number,
         overlapDeposit:number,
+        challenge:string,
         challengeDeposit:number,
         reviewUrl: string | null
     ){
@@ -35,22 +36,20 @@ export class UserChallengeResult{
     public static of(
         nickname:string,
         organization:string,
-        challenge:string,
         challengeOverlapCount:number,
         challengeSuccessCount:number,
         overlapDeposit:number,
-        challengeDeposit:number,
-        reviewUrl: string | null
+        challengeData:Challenge
     ){
         return new UserChallengeResult(
             nickname,
             organization,
-            challenge,
             challengeOverlapCount,
             challengeSuccessCount,
             overlapDeposit,
-            challengeDeposit,
-            reviewUrl
+            challengeData.getName(),
+            challengeData.getDeposit(),
+            challengeData.getReviewUrl()
         )
     }
 

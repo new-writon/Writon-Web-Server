@@ -1,5 +1,6 @@
 
 import { InternalServerErrorException } from "@nestjs/common";
+import { SubjectiveAnswer } from "./SubjectiveAnswer";
 
 
 export class SubjectiveAnswerType{
@@ -12,6 +13,13 @@ export class SubjectiveAnswerType{
         this.setSatisfactionId(satisfactionId);
         this.setAnswer(answer)
         this.setUserChallengeId(userChallengeId);
+    }
+
+    public static of(
+        subjectiveAnswer: SubjectiveAnswer,
+        userChallengeId:number
+    ){
+        return new SubjectiveAnswerType(subjectiveAnswer.getSatisfactionId(), subjectiveAnswer.getAnswer(), userChallengeId);
     }
 
     public getSatisfactionId(){
