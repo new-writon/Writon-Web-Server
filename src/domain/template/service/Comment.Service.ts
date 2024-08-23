@@ -80,15 +80,11 @@ export class CommentService{
         await this.commentHelper.executeDeleteComment(affiliationData.getAffiliationId(), commentId);
     }
 
-
-
     private mergeCommentAndAffiliationForCommentInformation(commentDatas:Comment[], affiliationDatas:Affiliation[], myAffiliationData:Affiliation){
         return commentDatas.map((commentData)=>{
             const matchedAffiliationData = affiliationDatas.find((affiliationData)=> affiliationData.getAffiliationId() === commentData.getAffiliationId());
             const myAffiliationId = Number(myAffiliationData.getAffiliationId() === commentData.getAffiliationId());
-            return CommentInformation.of(matchedAffiliationData.getPosition(), matchedAffiliationData.getCompany(), matchedAffiliationData.getCompanyPublic(),
-                    matchedAffiliationData.getUser().getProfileImage(),commentData.getId(), matchedAffiliationData.getNickname(),
-                    commentData.getUserTemplateId(), commentData.getContent(), this.commentDateFormat(String(commentData.getCreatedAt())), myAffiliationId, String(commentData.getCommentGroup())
+            return CommentInformation.of(matchedAffiliationData,commentData, this.commentDateFormat(String(commentData.getCreatedAt())), myAffiliationId, 
         )});
     }
 
@@ -96,7 +92,6 @@ export class CommentService{
         const result: CommentWithReplies[] = [];
         commentData.forEach((comment: CommentInformation) => {
             const existingComment = this.findExistingComment(result, comment);
-    
             if (existingComment) {
                 this.addReplyToExistingComment(existingComment, comment);
             } else if (comment.getCommentGroup() === '-1') {
@@ -121,7 +116,7 @@ export class CommentService{
     
     private createMainComment = (comment: CommentInformation): CommentWithReplies => {
         return {
-            position: comment.getJob(),
+            position: comment.getPosition(),
             company: comment.getCompany(),
             companyPublic: Number(comment.getCompanyPublic()),
             profile: comment.getProfile(),
@@ -138,7 +133,7 @@ export class CommentService{
     
     private createCommentReply = (comment: CommentInformation): CommentWithReplies => {
         return {
-            position: comment.getJob(),
+            position: comment.getPosition(),
             company: comment.getCompany(),
             companyPublic: Number(comment.getCompanyPublic()),
             profile: comment.getProfile(),
