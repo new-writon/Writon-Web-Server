@@ -12,7 +12,11 @@ export class QuestionContentHelper{
         private readonly questionContentRepository: QuestionContentRepository
     ){}
 
-    public async insertQuestionContent(templateContent: InsertUserTemplateContent[]):Promise<QuestionContent[]>{
+    public async executeInsertQuestionContent(templateContent: InsertUserTemplateContent[]):Promise<QuestionContent[]>{
         return this.questionContentRepository.insertQuestionContent(templateContent);
+    }
+
+    public async executeDeleteQuestionContent(userTemplateId:number):Promise<void>{
+        return this.questionContentRepository.deleteQuestionContent(userTemplateId);
     }
 }

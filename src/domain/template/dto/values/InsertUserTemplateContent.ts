@@ -19,7 +19,15 @@ export class InsertUserTemplateContent {
         this.setContent(content);
         this.setVisibility(visibility);
         this.setUserTempleteId(user_templete_id);
+    }
 
+    public static of(
+        question_id: number,
+        content: string,
+        visibility: boolean,
+        user_templete_id: number,
+    ){
+        return new InsertUserTemplateContent(question_id,content,visibility,user_templete_id);
     }
 
     private setQuestionId(question_id: number): void {

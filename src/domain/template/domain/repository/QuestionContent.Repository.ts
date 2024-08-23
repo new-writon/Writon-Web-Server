@@ -8,4 +8,5 @@ import { InsertUserTemplateContent } from '../../dto/values/InsertUserTemplateCo
 export interface QuestionContentRepository extends Repository<QuestionContent> {
 
    insertQuestionContent(templateContent: InsertUserTemplateContent[]):Promise<QuestionContent[]>;
+   deleteQuestionContent(userTemplateId:number):Promise<void>;
 }

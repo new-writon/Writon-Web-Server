@@ -17,6 +17,10 @@ export class QuestionContentDao extends Repository<QuestionContent> implements Q
             return this.save(newQuestionContents);
     }
 
+    async deleteQuestionContent(userTemplateId:number):Promise<void>{
+        this.delete({userTemplateId:userTemplateId})
+    }
+
     private createQuestionContentObject(templateContent: InsertUserTemplateContent){
         return QuestionContent.createQuestionContent(templateContent.getQuestionId(), templateContent.getContent(), templateContent.getVisibility(), templateContent.getUserTempleteId());
     }

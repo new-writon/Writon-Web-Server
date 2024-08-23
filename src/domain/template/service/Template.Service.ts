@@ -16,6 +16,9 @@ import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data';
 import { TemplateInformation } from '../dto/response/TemplateInformation';
 import { TemplateWrite } from '../dto/request/TemplateWrite';
 import { DataMapperService } from '../domain/service/DataMappper.Service';
+import { InsertUserTemplateContent } from '../dto/values/InsertUserTemplateContent';
+import { QuestionContent } from '../domain/entity/QuestionContent';
+import { QuestionContentHelper } from '../helper/QuestionContent.Helper';
 
 
 
@@ -28,7 +31,8 @@ export class TemplateService {
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,
         private readonly dataMapperService: DataMapperService,
-        private readonly userTemplateTransaction: UserTemplateTransaction,
+        private readonly questionContentHelper:QuestionContentHelper
+      //  private readonly userTemplateTransaction: UserTemplateTransaction,
       ) {}
 
 
@@ -160,14 +164,27 @@ export class TemplateService {
                 this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(templateWrite.getChallengeId(), userId, templateWrite.getOrganization(),true),
                 this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate())
             ]);
-            await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData.getId(), new Date(templateWrite.getDate()), userTemplateComplete, templateWrite.getTemplateContent())
+            const userTemplateData = await this.userTemplateHelper.exexuteInsertUserTemplate(userChallengeData.getId(), new Date(templateWrite.getDate()), userTemplateComplete);
+            const changedTemplate = this.changeUserTemplateType(templateWrite.getTemplateContent(), userTemplateData.getId());
+            await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
     } 
 
+    private changeUserTemplateType(writeTempletes: WriteTemplateContent[], userTempleteId: number):InsertUserTemplateContent[]{
+        return writeTempletes.map(writeTemplete => InsertUserTemplateContent.of(
+            writeTemplete.getQuestionId(),
+            writeTemplete.getContent(),
+            writeTemplete.getVisibility(),
+            userTempleteId, 
+        ));
+    }
 
+    @Transactional()
     public async modifyMyTemplate(
         userTemplateId:number,
         templateContent:Array<WriteTemplateContent>):Promise<void>{
-            await this.userTemplateTransaction.updateTemplateTransaction(userTemplateId, templateContent);
+            await this.questionContentHelper.executeDeleteQuestionContent(userTemplateId);
+            const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateId);
+            await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
     }
 
     public async bringNotify(  

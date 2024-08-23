@@ -16,13 +16,14 @@ export class UserTemplateTransaction {
 
     public async insertTemplateTransaction(userChallnegeId: number, date: Date, complete: boolean, templateContent: Array<WriteTemplateContent>):Promise<void>{
       
-        const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
-        await this.dataSource.transaction(async (transactionalEntityManager) => {
-           const userTemplateData = await transactionalEntityManager.save(newUserTemplate)
-           const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.getId());
-           const questionContents = changedTemplate.map(this.createQuestionContentObject);
-           await transactionalEntityManager.save(questionContents)
-       });   
+       // const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
+
+       // await this.dataSource.transaction(async (transactionalEntityManager) => {
+         //  const userTemplateData = await transactionalEntityManager.save(newUserTemplate)
+          // const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.getId());
+          // const questionContents = changedTemplate.map(this.createQuestionContentObject);
+          // await transactionalEntityManager.save(questionContents)
+     //  });   
       }
 
     public async updateTemplateTransaction(userTemplateId:number,templateContent:Array<WriteTemplateContent>){
@@ -41,7 +42,7 @@ export class UserTemplateTransaction {
 
 
     private changeUserTemplateType(writeTempletes: WriteTemplateContent[], userTempleteId: number):InsertUserTemplateContent[]{
-        return writeTempletes.map(writeTemplete => new InsertUserTemplateContent(
+        return writeTempletes.map(writeTemplete => InsertUserTemplateContent.of(
             writeTemplete.getQuestionId(),
             writeTemplete.getContent(),
             writeTemplete.getVisibility(),
