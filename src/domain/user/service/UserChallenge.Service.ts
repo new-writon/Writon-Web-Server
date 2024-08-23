@@ -86,14 +86,12 @@ export class UserChallengeService {
     }
 
     public async initializeDeposit(): Promise<void>{
-       // 검증 x
+
         const challengeData = await this.challengeApi.requestAllChallengingInformation();
         const sortedChallengeData = this.sortChallengeDataByChallengeId(challengeData);
         for (const challengeId in sortedChallengeData) {
-           // 검증 x
             const userChallenges = await this.userChallengeHelper.giveUserChallengeByChallengeId(Number(challengeId));
             const extractedUserChallengeIds = this.dataMapperService.extractUserChallengeIds(userChallenges);
-             // 검증 x
             const userChallengeSuccessData = await this.templateApi.requestUserTemplateSuccessCountByUserChallengeIds(extractedUserChallengeIds);
             const userDepositInformation = this.calculateAllUserDeposits(sortedChallengeData, userChallengeSuccessData, Number(challengeId));
             await this.userChallengeHelper.executeUpdateUserChallengeDeposit(userDepositInformation);
@@ -121,15 +119,15 @@ export class UserChallengeService {
         const deduction = this.findDeduction(sortedChallengeData[challengeId].deductions, failCount);
         return {
           userChallengeId: userChallengeId,
-          calculatedDeposit: Math.floor(sortedChallengeData[challengeId].deposit - (deduction?.deduction_amount || 0))
+          calculatedDeposit: Math.floor(sortedChallengeData[challengeId].deposit - (deduction?.deductionAmount || 0))
         };
     }
 
     private findDeduction(
-        deductions: { start_count: number, end_count: number, deduction_amount: number }[],
+        deductions: { startCount: number, endCount: number, deductionAmount: number }[],
         failCount: number
     ){
-        return deductions.find(({ start_count, end_count }) => failCount >= start_count && failCount <= end_count);
+        return deductions.find(({ startCount, endCount }) => failCount >= startCount && failCount <= endCount);
     }
       
     private sortChallengeDataByChallengeId(
@@ -145,9 +143,9 @@ export class UserChallengeService {
             };
           }
           acc[item.getChallengeId()].deductions.push({
-            start_count: item.getStartCount(),
-            end_count: item.getEndCount(),
-            deduction_amount: item.getDeductionAmount()
+            startCount: item.getStartCount(),
+            endCount: item.getEndCount(),
+            deductionAmount: item.getDeductionAmount()
           });
           return acc;
         }, {} as ChallengeAllInformationCustom);
@@ -226,9 +224,9 @@ export class UserChallengeService {
               deductions: []
             };}
           acc[challengeId].deductions.push({
-            start_count: item.startCount,
-            end_count: item.endCount,
-            deduction_amount: item.deductionAmount
+            startCount: item.startCount,
+            endCount: item.endCount,
+            deductionAmount: item.deductionAmount
           });
           return acc;
         }, {} as ChallengeAllInformationCustom);
@@ -237,7 +235,7 @@ export class UserChallengeService {
 
     private calculateStartUserChallengeDeposit(sortedChallengeData: ChallengeAllInformationCustom, successCount: number, key: number) {
         const failCount = Number(sortedChallengeData[key].challengeDayCount) - successCount;
-        const targetDeduction = sortedChallengeData[key].deductions.find(({ start_count, end_count }) => failCount >= start_count && failCount <= end_count);   
+        const targetDeduction = sortedChallengeData[key].deductions.find(({ startCount, endCount }) => failCount >= startCount && failCount <= endCount);   
         if (targetDeduction) {
           const { deduction_amount } = targetDeduction;
           return  Math.floor(sortedChallengeData[key].deposit - deduction_amount)

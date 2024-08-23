@@ -27,17 +27,8 @@ export class ChallengesPerOrganization {
         challengeId:number,
         challenge:string,
         challengeFinishSign: string):ChallengesPerOrganization{
-       // return challengesPerOrganization.map((cpo)=>{
             return new ChallengesPerOrganization(organization, challengeId, challenge, challengeFinishSign);
-     //   })
-
     }
-
-
-    // setChallengesPerOrganization(challengesPerOrganization: ChallengesPerOrganization[]){
-    //     if(challengesPerOrganization === null)throw new InternalServerErrorException (`${__dirname} : challengesPerOrganization값이 존재하지 않습니다.`);
-    //     this.challengesPerOrganization=challengesPerOrganization;
-    // }
 
 
     private setOrganization(organization:string){

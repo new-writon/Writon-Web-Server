@@ -19,7 +19,6 @@ export class CheeringPhraseService{
 
 
     public async bringParticipant(userId:number, challengeId:number): Promise<Participant>{
-         // 검증 x
         const myInformationData = await this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId, challengeId);
         const sortedMyInformationData = this.sortCheeringAndPublic(new Array(myInformationData))
         return sortedMyInformationData[0]; 
@@ -27,11 +26,8 @@ export class CheeringPhraseService{
 
     public async bringParticipantComponent(userId:number, challengeId:number): Promise<ParticipantComponent>{
         const [participantData, participantCount, challengePeriod] = await Promise.all([
-             // 검증 x
             this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId),
-             // 검증 x
             this.userChallengeHelper.giveUserChallengePaticipantCount(challengeId),
-             // 검증 x
             this.challengeApi.requestOverlapPeriod(challengeId)
         ]);
         return ParticipantComponent.of(challengePeriod, participantCount, participantData);

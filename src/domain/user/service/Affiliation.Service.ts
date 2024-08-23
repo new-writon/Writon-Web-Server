@@ -23,7 +23,6 @@ export class AffiliationService{
 
 
     public async bringUserProfile(userId:number, organization:string):Promise<UserProfile>{
-         // 검증 x
         const userProfileData:UserProfile = await this.affiliationHelper.giveUserProfileByUserIdAndOrganization(userId, organization);
         return UserProfile.of(userProfileData);
     }
