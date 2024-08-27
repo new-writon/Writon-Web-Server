@@ -75,7 +75,7 @@ export class AuthService {
         organization: string,
         userId: number
     ): Promise<boolean | null> {
-        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,true);
+        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
         const affiliatedConfirmation: boolean = checkData(checkAffiliation);
         return affiliatedConfirmation;
     }
@@ -85,7 +85,7 @@ export class AuthService {
         userId: number,
         challengeId: number
     ): Promise<boolean | null> {
-        const checkChallenge: UserChallenge[] = await this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId,true);
+        const checkChallenge: UserChallenge[] = await this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId,false);
         const challengedConfirmation: boolean = checkData(checkChallenge[0]);
         return challengedConfirmation;
     }
