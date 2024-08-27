@@ -1,16 +1,16 @@
 import { Body, Controller, Delete, Get, HttpCode, Logger, Param, Patch, Post, UseGuards } from "@nestjs/common";
-import { CommentService } from "../service/Comment.Service.js";
-import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
-import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { User } from "../../user/domain/entity/User.js";
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { MyComment } from "../dto/response/MyComment.js";
-import { CommentCheck } from "../dto/request/CommentCheck.js";
-import { CommentInsert } from "../dto/request/CommentInsert.js";
-import { CommentId } from "../dto/response/CommentId.js";
-import { CommentUpdate } from "../dto/request/CommentUpdate.js";
-import { CommentDelete } from "../dto/request/CommentDelete.js";
-import { CommentInformation } from "../dto/response/CommentInformation.js";
+import { CommentService } from "../service/Comment.Service";
+import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard";
+import { CurrentUser } from "../../auth/decorators/Auth.Decorator";
+import { User } from "../../user/domain/entity/User";
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { MyComment } from "../dto/response/MyComment";
+import { CommentCheck } from "../dto/request/CommentCheck";
+import { CommentInsert } from "../dto/request/CommentInsert";
+import { CommentId } from "../dto/response/CommentId";
+import { CommentUpdate } from "../dto/request/CommentUpdate";
+import { CommentDelete } from "../dto/request/CommentDelete";
+
 
 
 @Controller("/api/template/comment")
@@ -28,7 +28,7 @@ export class CommentController{
       @Param('challengeId') challengeId: number,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<MyComment[]>>  {
-      const result = await this.commentService.bringMyComment(user.user_id, organization, challengeId);
+      const result = await this.commentService.bringMyComment(user.userId, organization, challengeId);
       this.logger.log("챌린지에 따른 내가 단 댓글 조회 완료");
       return SuccessResponseDto.of(result);
     }
@@ -42,7 +42,7 @@ export class CommentController{
       @Param('organization') organization: string,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CommentWithReplies[]>> {
-      const result = await this.commentService.bringCommentInformation(user.user_id, organization, userTemplateId)
+      const result = await this.commentService.bringCommentInformation(user.userId, organization, userTemplateId)
       this.logger.log("템플릿 댓글 조회 완료");
       return SuccessResponseDto.of(result);
     }
@@ -68,7 +68,7 @@ export class CommentController{
       @Body() commentUpdate: CommentUpdate,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.commentService.modifyComment(user.user_id, commentUpdate.getOrganization(), commentUpdate.getCommentId(), commentUpdate.getContent());
+      await this.commentService.modifyComment(user.userId, commentUpdate.getOrganization(), commentUpdate.getCommentId(), commentUpdate.getContent());
       this.logger.log("댓글 수정 완료");
       return SuccessResponseDto.of();
     }
@@ -80,7 +80,7 @@ export class CommentController{
       @Body() commentInsert: CommentInsert,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<CommentId>>  {
-      const result = await this.commentService.penetrateComment(user.user_id, commentInsert.getOrganization(), commentInsert.getUserTemplateId(), commentInsert.getContent(), commentInsert.getCommentGroup());
+      const result = await this.commentService.penetrateComment(user.userId, commentInsert);
       this.logger.log("댓글 추가 완료");
       return SuccessResponseDto.of(result);
     }
@@ -93,7 +93,7 @@ export class CommentController{
       @Body() commentDelete: CommentDelete,
       @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>  {
-      await this.commentService.eraseComment(user.user_id, commentDelete.getOrganization(), commentDelete.getCommentId());
+      await this.commentService.eraseComment(user.userId, commentDelete.getOrganization(), commentDelete.getCommentId());
       this.logger.log("댓글 삭제 완료");
       return SuccessResponseDto.of();
     }

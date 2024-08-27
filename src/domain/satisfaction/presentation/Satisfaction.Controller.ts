@@ -1,13 +1,13 @@
 import { Controller, Get, HttpCode, Logger, Param, Patch, Post, Put, UseGuards } from "@nestjs/common";
-import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { User } from "../../user/domain/entity/User.js";
-import { SatisfactionService } from "../service/Satisfaction.Service.js";
-import { SatisfactionStatus } from "../dto/response/SatisfactionSatus.js";
-import { Restart } from "../dto/response/Restart.js";
-import { UserChallengeResult } from "../dto/response/UserChallengeResult.js";
-import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion.js";
+import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { CurrentUser } from "../../auth/decorators/Auth.Decorator";
+import { User } from "../../user/domain/entity/User";
+import { SatisfactionService } from "../service/Satisfaction.Service";
+import { SatisfactionStatus } from "../dto/response/SatisfactionSatus";
+import { Restart } from "../dto/response/Restart";
+import { UserChallengeResult } from "../dto/response/UserChallengeResult";
+import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion";
 
 @Controller('/api/satisfaction')
 export class SatisfactionController{
@@ -47,7 +47,7 @@ export class SatisfactionController{
     @Param('challengeId') challengeId: number, 
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<UserChallengeResult>>  {
-    const result = await this.satisfactionService.bringUserChallengeResult(user.user_id, organization, challengeId);
+    const result = await this.satisfactionService.bringUserChallengeResult(user.userId, organization, challengeId);
     this.logger.log("유저가 진행한 챌린지 결과 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -61,7 +61,7 @@ export class SatisfactionController{
     @Param('challengeId') challengeId: number, 
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<SatisfactionStatus>>  {
-    const result = await this.satisfactionService.bringSatisfactionStatus(user.user_id, organization, challengeId);
+    const result = await this.satisfactionService.bringSatisfactionStatus(user.userId, organization, challengeId);
     this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -76,7 +76,7 @@ export class SatisfactionController{
     @Param('challengeId') challengeId: number, 
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.satisfactionService.modifySatisfactionStatus(user.user_id, organization, challengeId);
+    await this.satisfactionService.modifySatisfactionStatus(user.userId, organization, challengeId);
     this.logger.log("유저 챌린지 만족도 조사 완료");
     return SuccessResponseDto.of();
   }

@@ -1,25 +1,25 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Satisfaction } from './domain/entity/Satisfaction.js';
-import { SatisfactionObjectiveResult } from './domain/entity/SatisfactionObjectiveResult.js';
-import { SatisfactionSubjectiveResult } from './domain/entity/SatisfactionSubjectiveResult.js';
-import { ResponseController } from './presentation/Response.Controller.js';
-import { SatisfactionController } from './presentation/Satisfaction.Controller.js';
-import { SatisfactionService } from './service/Satisfaction.Service.js';
-import { ResponseService } from './service/Response.Service.js';
-import { UserApi } from './infrastructure/User.Api.js';
-import { UserModule } from '../user/user.module.js';
-import { ChallengeApi } from './infrastructure/Challenge.Api.js';
-import { ChallengeModule } from '../challenge/challenge.module.js';
-import { TemplateApi } from './infrastructure/Template.Api.js';
-import { TemplateModule } from '../template/template.module.js';
-import { SatisfactionDao } from './domain/repository/dao/Satisfaction.Dao.js';
-import { SatisfactionVerifyService } from './domain/service/SatisfactionVerify.Service.js';
-import { SatisfactionHelper } from './helper/Satisfaction.Helper.js';
-import { SatisfactionObjectiveResultDao } from './domain/repository/dao/SatisfactionObjectiveResult.Dao.js';
-import { SatisfactionSubjectiveResultDao } from './domain/repository/dao/SatisfactionSubjectiveResult.Dao.js';
-import { SatisfactionObjectiveResultHelper } from './helper/SatisfactionObjectiveResult.Helper.js';
-import { SatisfactionSubjectiveResultHelper } from './helper/SatisfactionSubjectiveResult.Helper.js';
+import { Satisfaction } from './domain/entity/Satisfaction';
+import { SatisfactionObjectiveResult } from './domain/entity/SatisfactionObjectiveResult';
+import { SatisfactionSubjectiveResult } from './domain/entity/SatisfactionSubjectiveResult';
+import { ResponseController } from './presentation/Response.Controller';
+import { SatisfactionController } from './presentation/Satisfaction.Controller';
+import { SatisfactionService } from './service/Satisfaction.Service';
+import { ResponseService } from './service/Response.Service';
+import { UserApi } from './infrastructure/User.Api';
+import { UserModule } from '../user/user.module';
+import { ChallengeApi } from './infrastructure/Challenge.Api';
+import { ChallengeModule } from '../challenge/challenge.module';
+import { TemplateApi } from './infrastructure/Template.Api';
+import { TemplateModule } from '../template/template.module';
+import { SatisfactionDao } from './domain/repository/dao/Satisfaction.Dao';
+import { SatisfactionVerifyService } from './domain/service/SatisfactionVerify.Service';
+import { SatisfactionHelper } from './helper/Satisfaction.Helper';
+import { SatisfactionObjectiveResultDao } from './domain/repository/dao/SatisfactionObjectiveResult.Dao';
+import { SatisfactionSubjectiveResultDao } from './domain/repository/dao/SatisfactionSubjectiveResult.Dao';
+import { SatisfactionObjectiveResultHelper } from './helper/SatisfactionObjectiveResult.Helper';
+import { SatisfactionSubjectiveResultHelper } from './helper/SatisfactionSubjectiveResult.Helper';
 
 @Module({
   imports: [

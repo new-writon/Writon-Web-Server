@@ -1,8 +1,8 @@
-import { Body, Controller, Get, HttpCode, Logger, Param } from "@nestjs/common";
-import { ChallengeStatus } from "../dto/response/ChallengeStatus.js";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { ChallengeInformationService } from "../service/ChallengeInformation.Service.js";
-import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization.js";
+import { Controller, Get, HttpCode, Logger, Param } from "@nestjs/common";
+import { ChallengeStatus } from "../dto/response/ChallengeStatus";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { ChallengeInformationService } from "../service/ChallengeInformation.Service";
+import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization";
 
 
 
@@ -15,7 +15,7 @@ export class ChallengeInformationController{
 
     @Get('/all-organization/all-challenge')
     @HttpCode(200)
-    public async bringChallengeAccordingToOrganization(): Promise<SuccessResponseDto<ChallengeAccordingToOrganization[]>>{
+    public async bringChallengeAccordingToOrganization(){
         const result = await this.challengeInformationService.bringChallengeAccordingToOrganization();
         this.logger.log("모든 조직의 챌린지 조회 완료");
         return SuccessResponseDto.of(result);

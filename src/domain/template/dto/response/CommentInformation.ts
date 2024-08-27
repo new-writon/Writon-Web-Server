@@ -1,25 +1,25 @@
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
+import { Comment } from "../../domain/entity/Comment";
+
 
 
 export class CommentInformation {
-    private job: string;
+    private position: string;
     private company: string;
     private companyPublic: boolean;
+    private nickname: string;
     private profile: string;
     private commentId: number;
-    private nickname: string;
     private userTemplateId: number;
     private content: string;
+    private commentGroup: string;
     private createdAt: string;
     private myCommentSign: number;
-    private commentGroup: string;
+
 
     constructor(
-        job: string,
+        position: string,
         company: string,
         companyPublic: boolean,
         profile: string,
@@ -31,7 +31,7 @@ export class CommentInformation {
         myCommentSign: number,
         commentGroup: string
     ) {
-        this.setJob(job);
+        this.setPosition(position);
         this.setCompany(company);
         this.setCompanyPublic(companyPublic);
         this.setProfile(profile);
@@ -45,32 +45,25 @@ export class CommentInformation {
     }
 
     public static of(
-        job: string,
-        company: string,
-        company_public: boolean,
-        profile: string,
-        comment_id: number,
-        nickname: string,
-        user_templete_id: number,
-        content: string,
-        created_at: string,
+        affiliationData:Affiliation,
+        commentData:Comment,
+        createdAt: string,
         myCommentSign: number,
-        comment_group: string
     ){
         return new CommentInformation(
-            job, company, company_public, profile, 
-            comment_id, nickname, user_templete_id, 
-            content, created_at, myCommentSign, comment_group);
+            affiliationData.getPosition(), affiliationData.getCompany(), affiliationData.getCompanyPublic(), affiliationData.getUser().getProfileImage(),
+            commentData.getId(), affiliationData.getNickname(), commentData.getUserTemplateId(), commentData.getContent(), createdAt, myCommentSign, String(commentData.getCommentGroup())
+        );
     }
 
 
-    getJob(): string {
-        return this.job;
+    getPosition(): string {
+        return this.position;
     }
 
-    private setJob(job: string): void {
-        if (job === null) throw new InternalServerErrorException(`${__dirname} : job 값이 존재하지 않습니다.`);
-        this.job = job;
+    private setPosition(position: string): void {
+        if (position === null) throw new InternalServerErrorException(`${__dirname} : position 값이 존재하지 않습니다.`);
+        this.position=position;
     }
 
 

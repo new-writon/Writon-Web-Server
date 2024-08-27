@@ -13,7 +13,6 @@ export class Login {
     @MaxLength(20)
     private password: string;
 
-
     public getIdentifier(): string {
         return this.identifier;
     }

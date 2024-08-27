@@ -1,13 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { Challenge } from "../../entity/Challenge.js";
+import { Challenge } from "../../entity/Challenge";
 import { DataSource, Repository } from "typeorm";
-import { ChallengeRepository } from "../Challenge.Repository.js";
-import { ChallengeInformation } from "../../../dto/ChallengeInformation.js";
-import { ChallengeDay } from "../../entity/ChallengeDay.js";
-import { ChallengeDepositDeduction } from "../../entity/ChallengeDepositDeduction.js";
-import { Affiliation } from "../../../../user/domain/entity/Affiliation.js";
-import { Organization } from "../../../../user/domain/entity/Organization.js";
-import { ChallengeAndOrganization } from "../../../dto/ChallengeAndOrganization.js";
+import { ChallengeRepository } from "../Challenge.Repository";
+import { ChallengeInformation } from "../../../dto/values/ChallengeInformation";
+import { ChallengeDay } from "../../entity/ChallengeDay";
+import { ChallengeDepositDeduction } from "../../entity/ChallengeDepositDeduction";
+import { ChallengesPerOrganization } from "../../../../user/dto/values/ChallengesPerOrganization";
 
 
 @Injectable()
@@ -19,7 +17,7 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
     async findChallengeByIdAndOngoing(challengeId: number): Promise<Challenge[]>{
         return this.query(`
             SELECT *
-            FROM Challenge as c
+            FROM challenges as c
             WHERE c.challenge_id = ${challengeId}
             AND curdate() <= c.finish_at ;
         `)
@@ -41,7 +39,7 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
     async findChallengeById(challengeId: number): Promise<Challenge>{
         return this.findOne({
             where:{
-                challenge_id: challengeId
+                challengeId: challengeId
             }
         })
     }
@@ -75,17 +73,49 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
         })
     }
 
-    async findAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>{
-    
-        const rawResults : ChallengeAndOrganization[] = await this.dataSource.createQueryBuilder()
-            .select(['o.name AS organization', 'c.name AS challenge'])
+    async findChallengeByOrgnizationIds(organizationIds:number[]):Promise<Challenge[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('c')
             .from(Challenge, 'c')
-            .innerJoin(Affiliation,'a', 'a.affiliation_id = c.affiliation_id')
-            .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
-            .getRawMany();
-        return ChallengeAndOrganization.of(rawResults);
+            .where('c.organization_id IN (:...organizationIds)',{organizationIds})
+            .getMany();
+    }
 
-        
+    async findAllChallengingInformation():Promise<ChallengeAllInformation[]>{
+        const results = await this.createQueryBuilder('c')
+        .select([
+          'c.challenge_id AS challengeId',
+          'c.deposit AS deposit',
+          'CONVERT(COUNT(cd.day), CHAR) AS challengeDayCount',
+          'cdd.start_count AS startCount',
+          'cdd.end_count AS endCount',
+          'cdd.deduction_amount AS deductionAmount'
+        ])
+        .innerJoin(ChallengeDay, 'cd', 'cd.challenge_id = c.challenge_id')
+        .innerJoin(ChallengeDepositDeduction, 'cdd', 'cdd.challenge_id = c.challenge_id')
+        .where('CURDATE() <= c.finish_at')
+        .andWhere('cd.day < CURDATE()')
+        .groupBy('c.challenge_id')
+        .addGroupBy('c.deposit')
+        .addGroupBy('cdd.start_count')
+        .addGroupBy('cdd.end_count')
+        .addGroupBy('cdd.deduction_amount')
+        .getRawMany();
+        return results.map((data)=> {return ChallengeAllInformation.of(data.challengeId, data.deposit, data.challengeDayCount, data.startCount, data.endCount, data.deductionAmout)});
+    }
+
+
+    async findChallengesByIds(challengeIds:number[]):Promise<ChallengesPerOrganization[]>{
+        const result = await this.createQueryBuilder()
+            .select([
+                'c.challenge_id AS challengeId',
+                'c.name AS challenge',
+                "CASE WHEN c.finish_at < CURDATE() THEN '1' ELSE '0' END AS challengeFinishSign"
+            ])
+            .from(Challenge, 'c')
+            .where('c.challenge_id IN (:...challengeIds)',{challengeIds})
+            .getRawMany();
+        return result.map((data)=>ChallengesPerOrganization.of(undefined, data.challengeId, data.challenge, data.challengeFinishSign))
     }
 
 

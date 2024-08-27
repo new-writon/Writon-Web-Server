@@ -1,5 +1,5 @@
 import {HttpException} from "@nestjs/common";
-import { TemplateErrorCode, errorMessage } from "./TemplateErrorCode.js";
+import { TemplateErrorCode, errorMessage } from "./TemplateErrorCode";
 
 
 export class TemplateException extends HttpException {

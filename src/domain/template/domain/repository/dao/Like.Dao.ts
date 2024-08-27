@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { Likes } from "../../entity/Likes.js";
-import { LikeRepository } from "../Like.Repository.js";
+import { Likes } from "../../entity/Likes";
+import { LikeRepository } from "../Like.Repository";
 
 
 @Injectable()
@@ -22,7 +22,7 @@ export class LikeDao extends Repository<Likes> implements LikeRepository{
 
     async findLikeWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Likes[]>{
         return this.dataSource.createQueryBuilder(Likes, 'l')
-        .innerJoinAndSelect('l.userTemplate', 'ut','ut.user_template_id = l.user_template_id')
+        .innerJoinAndSelect('l.user_templates', 'ut','ut.user_template_id = l.user_template_id')
         .getMany();
     }
 

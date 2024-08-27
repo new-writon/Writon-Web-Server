@@ -1,10 +1,10 @@
 import { DataSource, Repository } from 'typeorm';
-import { User } from '../../entity/User.js';
 import { Injectable } from '@nestjs/common';
-import { UserChallenge } from '../../entity/UserChallenge.js';
-import { UserChallengeRepository } from '../UserChallenge.Repository.js';
-import { Affiliation } from '../../entity/Affiliation.js';
-import { Organization } from '../../entity/Organization.js';
+import { UserChallenge } from '../../entity/UserChallenge';
+import { UserChallengeRepository } from '../UserChallenge.Repository';
+import { Affiliation } from '../../entity/Affiliation';
+import { Organization } from '../../entity/Organization';
+import { ChallengeDeposit } from '../../../dto/values/ChallengeDeposit';
 
 /**
  * User DAO Class
@@ -16,8 +16,8 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
     async findUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
         return this.findOne({
             where:{
-                affiliation_id: affiliationId,
-                challenge_id: challengeId
+                affiliationId: affiliationId,
+                challengeId: challengeId
             }
         })
     }
@@ -26,11 +26,11 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
     
     async findUserChallengeByUserIdAndOrganizationAndChallengeId(userId: number, organization: string, challengeId: number): Promise<UserChallenge[]> {
         return await this.dataSource.query(`
-            SELECT uc.*  FROM UserChallenge as uc
-            WHERE uc.affiliation_id = ( SELECT a.affiliation_id FROM Affiliation as a
+            SELECT uc.*  FROM user_challenges as uc
+            WHERE uc.affiliation_id = ( SELECT a.affiliation_id FROM affiliations as a
                 WHERE a.user_id = ${userId} 
                 AND a.organization_id = (
-                    SELECT o.organization_id FROM Organization as o
+                    SELECT o.organization_id FROM organizations as o
                     WHERE o.name = '${organization}' ))
             AND uc.challenge_id = ${challengeId};
         
@@ -73,7 +73,7 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         await this.dataSource.createQueryBuilder()
             .update(UserChallenge)
             .set({
-                check_count: checkCount
+                checkCount: checkCount
             })
             .where('user_challenge_id = :userChallengeId',{userChallengeId})
             .execute();
@@ -103,7 +103,7 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         await this.dataSource.createQueryBuilder()
                 .update(UserChallenge)
                 .set({
-                    re_engagement: check
+                    reEngagement: check
                 })
                 .where('user_challenge_id = :userChallengeId',{userChallengeId})
                 .execute();
@@ -130,8 +130,8 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         await this.dataSource.createQueryBuilder()
         .update(UserChallenge)
         .set({
-          cheering_phrase: content,
-          cheering_phrase_date: () => 'CURDATE()' 
+            cheeringPhrase: content,
+            cheeringPhraseDate: () => 'CURDATE()' 
         })
         .where('affiliation_id = :affiliationId', { affiliationId })
         .andWhere('challenge_id = :challengeId', { challengeId })
@@ -159,4 +159,25 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         .getOne();
     }
 
+    async findUserChallengeByChallengeId(challengeId: number): Promise<UserChallenge[]>{
+        return this
+          .createQueryBuilder()
+          .select('uc')
+          .from(UserChallenge, 'uc')
+          .where('uc.challenge_id = :challengeId', { challengeId })
+          .groupBy('uc.user_challenge_id')
+          .getMany();
+    };
+
+    async updateUserChallengeDeposit(challengeDeposit:ChallengeDeposit[]):Promise<void>{
+        const updatePromises = challengeDeposit.map(async (depositInfo) => {
+            return this.dataSource
+                .createQueryBuilder()
+                .update(UserChallenge)
+                .set({ userDeposit: depositInfo.getCalculatedDeposit() })
+                .where('user_challenge_id = :userChallengeId', { userChallengeId: depositInfo.getUserChallengeId() })  
+                .execute();
+        });
+        await Promise.all(updatePromises);
+    }
 }

@@ -1,6 +1,6 @@
 import { DataSource, Repository } from "typeorm";
-import { Satisfaction } from "../../entity/Satisfaction.js";
-import { SatisfactionRepository } from "../Satisfaction.Repository.js";
+import { Satisfaction } from "../../entity/Satisfaction";
+import { SatisfactionRepository } from "../Satisfaction.Repository";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()

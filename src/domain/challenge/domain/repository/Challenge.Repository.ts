@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
-import { Challenge } from "../entity/Challenge.js";
-import { ChallengeInformation } from "../../dto/ChallengeInformation.js";
-import { ChallengeAndOrganization } from "../../dto/ChallengeAndOrganization.js";
+import { Challenge } from "../entity/Challenge";
+import { ChallengeInformation } from "../../dto/values/ChallengeInformation";
+import { ChallengesPerOrganization } from "../../../user/dto/values/ChallengesPerOrganization";
 
 
 export interface ChallengeRepository extends Repository<Challenge>{
@@ -16,6 +16,10 @@ export interface ChallengeRepository extends Repository<Challenge>{
 
     findChallengeByChallengeName(challenge:string):Promise<Challenge>;
 
-    findAllChallengeAccordingToOrganization():Promise<ChallengeAndOrganization[]>;
+    findChallengeByOrgnizationIds(organizationIds:number[]):Promise<Challenge[]>;
+
+    findAllChallengingInformation():Promise<ChallengeAllInformation[]>;
+    findChallengesByIds(challengeIds:number[]):Promise<ChallengesPerOrganization[]>;
+
 
 }

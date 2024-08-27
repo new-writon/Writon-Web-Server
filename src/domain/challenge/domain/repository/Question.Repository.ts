@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
-import { Question } from "../entity/Question.js";
-import { BasicQuestion } from "../../dto/response/BasicQuestion.js";
-import { SpecialQuestion } from "../../dto/response/SpecialQuestion.js";
+import { Question } from "../entity/Question";
+import { BasicQuestion } from "../../dto/response/BasicQuestion";
+import { SpecialQuestion } from "../../dto/response/SpecialQuestion";
 
 
 export interface QuestionRepository extends Repository<Question>{

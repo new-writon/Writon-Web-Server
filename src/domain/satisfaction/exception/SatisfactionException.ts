@@ -1,8 +1,8 @@
 import {HttpException, HttpStatus} from "@nestjs/common";
-import { SatisfactionErrorCode, errorMessage } from "./SatisfactionErrorCode.js";
+import { SatisfactionErrorCode, errorMessage } from "./SatisfactionErrorCode";
 
 export class SatisfactionException extends HttpException {
-    code: SatisfactionErrorCode; // enum 값의 타입을 설정합니다.
+    code: SatisfactionErrorCode; 
 
     constructor(code: SatisfactionErrorCode) {
         super(errorMessage(code), code);  

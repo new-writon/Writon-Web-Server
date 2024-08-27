@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import type { JwtPayload } from "jsonwebtoken"
-import { TokenManager } from "../../../global/util/TokenManager.js";
+import { TokenManager } from "../../../global/util/TokenManager";
 
 
 @Injectable()
@@ -11,9 +11,9 @@ export class JwtManager {
         private readonly tokenManager: TokenManager
     ){}
 
-    public makeAccessToken = (user_id: number, userRole: string): string => {
+    public makeAccessToken = (userId: number, userRole: string): string => {
         const payload = {
-            user_id: user_id,
+            userId: userId,
             role: userRole,
         };
         return 'Bearer ' + jwt.sign(payload, process.env.SECRET, {
@@ -35,7 +35,7 @@ export class JwtManager {
 
             return {
                 message: "Ok",
-                userId: decoded.user_id,
+                userId: decoded.userId,
                 role: decoded.role,
             }
         }
@@ -50,7 +50,7 @@ export class JwtManager {
             const decoded = jwt.verify(token, process.env.SECRET) as JwtPayload
             return {
                 state: true,
-                userId: decoded!.user_id,
+                userId: decoded!.userId,
                 role: decoded!.role,
             };
         } catch (err) {
@@ -80,9 +80,5 @@ export class JwtManager {
             return true;
         return false;
     }
-
-
-
-
 
 }

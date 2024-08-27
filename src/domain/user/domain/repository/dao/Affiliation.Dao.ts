@@ -1,14 +1,15 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { UserChallenge } from '../../entity/UserChallenge.js';
-import { Affiliation } from '../../entity/Affiliation.js';
-import { AffiliationRepository } from '../Affiliation.Repository.js';
-import { Organization } from '../../entity/Organization.js';
-import { Challenge } from '../../../../challenge/domain/entity/Challenge.js';
-import { ChallengesPerOrganization } from '../../../../user/dto/ChallengesPerOrganization.js';
-import { UserProfile } from '../../../../user/dto/response/UserProfile.js';
-import { User } from '../../entity/User.js';
-import { Participant } from '../../../dto/response/Participant.js';
+import { UserChallenge } from '../../entity/UserChallenge';
+import { Affiliation } from '../../entity/Affiliation';
+import { AffiliationRepository } from '../Affiliation.Repository';
+import { Organization } from '../../entity/Organization';
+import { ChallengesPerOrganization } from '../../../dto/values/ChallengesPerOrganization';
+import { UserProfile } from '../../../../user/dto/response/UserProfile';
+import { User } from '../../entity/User';
+import { Participant } from '../../../dto/response/Participant';
+import { AffiliationStart } from '../../../dto/request/AffiliationStart';
+import { ProfileUpdate } from 'src/domain/user/dto/request/ProfileUpdate';
 
 
 /**
@@ -17,18 +18,6 @@ import { Participant } from '../../../dto/response/Participant.js';
 @Injectable()
 export class AffiliationDao extends Repository<Affiliation> implements AffiliationRepository{
     constructor(private dataSource: DataSource) { super(Affiliation, dataSource.createEntityManager()); }
-
-    async findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-
-      return this.dataSource
-        .createQueryBuilder()
-        .select('a')
-        .from(Affiliation,'a')
-        .innerJoin('a.organization', 'o')
-        .where("a.user_id = :userId", {userId:userId})
-        .andWhere('o.name = :organization', { organization: organization })
-        .getOne();
-    }
 
     async findAffiliationByNicknameAndOrganization(nickname: string, organization: string): Promise<Affiliation | null> {
       return this.dataSource
@@ -45,31 +34,27 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
           .getOne();
         }
 
-
-
-  async insertAffiliation(userId:number, organizationId:number, nickname: string, job: string,
-    jobIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>{
-
-    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, nickname, job, jobIntroduce, hireDate, company, companyPublic);
+  async insertAffiliation(userId:number, organizationId:number, affiliationStartDto: AffiliationStart):Promise<void>{
+    const newAffiliation = Affiliation.createAffiliation(userId, organizationId, affiliationStartDto.getNickname(), affiliationStartDto.getPosition(), affiliationStartDto.getPositionIntroduce(),
+    affiliationStartDto.getHireDate(), affiliationStartDto.getCompany(), affiliationStartDto.getCompanyPublic()
+  );
     this.save(newAffiliation);
-
   }
 
   async findChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>{
-    return this.dataSource.createQueryBuilder()
+    const result = await this.dataSource.createQueryBuilder()
             .select([
               'o.name AS organization',
-              'uc.challenge_id AS challenge_id',
-              'c.name AS challenge',
-              "CASE WHEN c.finish_at < CURDATE() THEN '1' ELSE '0' END AS challengeFinishSign"
+              'uc.challenge_id AS challengeId',
             ])
             .from(Affiliation, 'a')
             .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
             .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
-            .innerJoin(Challenge, 'c', 'c.challenge_id = uc.challenge_id') // 수정
             .where('a.user_id = :userId',{userId})
-            .orderBy('uc.createdAt', 'DESC')
+            .orderBy('uc.created_at', 'DESC')
             .getRawMany();
+    return result.map((data)=>ChallengesPerOrganization.of(data.organization, data.challengeId, undefined, undefined));
+    
   }
 
 
@@ -94,8 +79,8 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
           'a.nickname AS nickname',
           'a.hire_date AS hiredate',
           'a.company AS company',
-          'a.job AS job',
-          'a.job_introduce AS jobIntroduce',
+          'a.position AS position',
+          'a.position_introduce AS positionIntroduce',
           'a.company_public AS companyPublic'
         ])
         .from(Affiliation,'a')
@@ -107,9 +92,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
 }
 
 
-async updateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
-  hireDate:Date, job:string, jobIntroduce:string, companyPublic:boolean):Promise<void>{
-
+async updateUserProfileByUserIdAndOrganization(userId:number,organization:string, profileUpdate: ProfileUpdate):Promise<void>{
     const subQuery = this.dataSource.createQueryBuilder()
     .select('o.organization_id')
     .from(Organization, 'o')
@@ -118,12 +101,12 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
   await this.dataSource.createQueryBuilder()
     .update(Affiliation)
     .set({
-      nickname: nickname,
-      hire_date: hireDate,
-      job: job,
-      job_introduce: jobIntroduce,
-      company_public: companyPublic,
-      company: company
+      nickname: profileUpdate.getNickname(),
+      hireDate: profileUpdate.getHireDate(),
+      position: profileUpdate.getPosition(),
+      positionIntroduce: profileUpdate.getPositionIntroduce(),
+      companyPublic: profileUpdate.getComanyPublic(),
+      company: profileUpdate.getCompany()
     })
     .where(`organization_id = (${subQuery})`)
     .andWhere('user_id = :userId', { userId })
@@ -166,14 +149,14 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
     const myInformation:Participant = await this.dataSource.createQueryBuilder()
           .select([
             'u.profile AS profile',
-            'a.job AS job', 
-            'a.job_introduce AS job_introduce',
+            'a.position AS position', 
+            'a.position_introduce AS positionIntroduce',
             'a.nickname AS nickname',
-            'a.company_public AS company_public',
+            'a.company_public AS companyPublic',
             'a.company AS company',
             'u.email AS email',
-            'uc.cheering_phrase AS cheering_phrase',
-            'uc.cheering_phrase_date AS cheering_phrase_date ' 
+            'uc.cheering_phrase AS cheeringPhrase',
+            'uc.cheering_phrase_date AS cheeringPhraseDate ' 
           ])
           .from(Affiliation, 'a')
           .leftJoin(User, 'u', 'u.user_id = a.user_id')
@@ -188,14 +171,14 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
     const participants:Participant[] = await this.dataSource.createQueryBuilder()
           .select([
             'u.profile AS profile',
-            'a.job AS job', 
-            'a.job_introduce AS job_introduce',
+            'a.position AS position', 
+            'a.position_introduce AS positionIntroduce',
             'a.nickname AS nickname',
-            'a.company_public AS company_public',
+            'a.company_public AS companyPublic',
             'a.company AS company',
             'u.email AS email',
-            'uc.cheering_phrase AS cheering_phrase',
-            'uc.cheering_phrase_date AS cheering_phrase_date ' 
+            'uc.cheering_phrase AS cheeringPhrase',
+            'uc.cheering_phrase_date AS cheeringPhraseDate ' 
           ])
           .from(Affiliation, 'a')
           .leftJoin(User, 'u', 'u.user_id = a.user_id')

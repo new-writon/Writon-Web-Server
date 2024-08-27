@@ -1,12 +1,12 @@
 import { Body, Controller, HttpCode, Logger, Patch, Post, UseGuards } from "@nestjs/common";
-import { ResponseService } from "../service/Response.Service.js";
-import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { User } from "../../user/domain/entity/User.js";
-import { ReEngagementCheck } from "../dto/request/ReEngagementCheck.js";
-import { ObjectiveQuestionAnswer } from "../dto/request/ObjectiveQuestionAnswer.js";
-import { SubjectiveQuestionAnswer } from "../dto/request/SubjectiveQuestionAnswer.js";
+import { ResponseService } from "../service/Response.Service";
+import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { CurrentUser } from "../../auth/decorators/Auth.Decorator";
+import { User } from "../../user/domain/entity/User";
+import { ReEngagementCheck } from "../dto/request/ReEngagementCheck";
+import { ObjectiveQuestionAnswer } from "../dto/request/ObjectiveQuestionAnswer";
+import { SubjectiveQuestionAnswer } from "../dto/request/SubjectiveQuestionAnswer";
 
 @Controller('/api/satisfaction/response')
 export class ResponseController{
@@ -24,7 +24,7 @@ export class ResponseController{
     @Body() reEngagementCheck: ReEngagementCheck,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.responseService.checkReEngagement(user.user_id, reEngagementCheck.getOrganization(), reEngagementCheck.getChallengeId(), reEngagementCheck.getCheck());
+    await this.responseService.checkReEngagement(user.userId, reEngagementCheck.getOrganization(), reEngagementCheck.getChallengeId(), reEngagementCheck.getCheck());
     this.logger.log("재참여 여부 응답 완료")
     return SuccessResponseDto.of();
   }
@@ -37,7 +37,7 @@ export class ResponseController{
     @Body() objectiveQuestionAnswer:ObjectiveQuestionAnswer,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>{
-    await this.responseService.penetrateObjectiveQuestion(user.user_id, objectiveQuestionAnswer.getOrganization(), objectiveQuestionAnswer.getChallengeId(), objectiveQuestionAnswer.getSatisfactionAnswer())
+    await this.responseService.penetrateObjectiveQuestion(user.userId, objectiveQuestionAnswer.getOrganization(), objectiveQuestionAnswer.getChallengeId(), objectiveQuestionAnswer.getSatisfactionAnswer())
     this.logger.log("객관식 질문 응답 완료")
     return SuccessResponseDto.of();
   }
@@ -49,7 +49,7 @@ export class ResponseController{
     @Body() subjectiveQuestionAnswer:SubjectiveQuestionAnswer,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.responseService.penetrateSubjectiveQuestion(user.user_id, subjectiveQuestionAnswer.getOrganization(), subjectiveQuestionAnswer.getChallengeId(), subjectiveQuestionAnswer.getSatisfactionAnswer())
+    await this.responseService.penetrateSubjectiveQuestion(user.userId, subjectiveQuestionAnswer.getOrganization(), subjectiveQuestionAnswer.getChallengeId(), subjectiveQuestionAnswer.getSatisfactionAnswer())
     this.logger.log("주관식 질문 응답 완료")
     return SuccessResponseDto.of();
   }

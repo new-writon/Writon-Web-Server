@@ -1,5 +1,5 @@
-import { ChallengeDay } from "../../challenge/domain/entity/ChallengeDay.js";
-import { UserTemplate } from "../../template/domain/entity/UserTemplate.js";
+import { ChallengeDay } from "../../challenge/domain/entity/ChallengeDay";
+import { UserTemplate } from "../../template/domain/entity/UserTemplate";
 
 
 const sortCallendarDateBadge = (
@@ -9,7 +9,7 @@ const sortCallendarDateBadge = (
     const result = [];
     for (const challengeDay of challengeDays) {
         const hasMatchingDate = userTemplateDays!.some(userTemplateDay =>
-            isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDay.getFinishedAt()))
+            isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDay.getTemplateDate()))
         );
 
         const customObject:  { date:Date, badge?: string } = {
@@ -18,7 +18,7 @@ const sortCallendarDateBadge = (
  
         if (hasMatchingDate) {
             const matchingUserTemplateDays = userTemplateDays!.filter(userTemplateDays =>
-                isSameDate(new Date(challengeDay.getDay()), new Date((userTemplateDays.getFinishedAt())))
+                isSameDate(new Date(challengeDay.getDay()), new Date((userTemplateDays.getTemplateDate())))
             );
             for (const matchingUserTemplateDay of matchingUserTemplateDays) {
                 if (matchingUserTemplateDay.getComplete()) {

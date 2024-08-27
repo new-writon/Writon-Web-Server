@@ -2,22 +2,24 @@ import { Module, forwardRef } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './strategies/jwt.strategy.js';
-import { AuthConfig, auth } from './util/auth.js';
-import { AuthController } from './presentation/Auth.Controller.js';
-import { AuthService } from './service/Auth.Service.js';
-import { SocialLogin } from './util/SocialLogin.js';
-import { JwtManager } from './util/JwtManager.js';
-import { TokenManager } from '../../global/util/TokenManager.js';
-import { MailManager } from '../../global/util/MailManager.js';
-import { UserModule } from '../user/user.module.js';
-import { AccountController } from './presentation/Account.Controller.js';
-import { VerificationController } from './presentation/Verification.Controller.js';
-import { DuplicationCheckController } from './presentation/DuplicationCheck.Controller.js';
-import { AccountService } from './service/Account.Service.js';
-import { DuplicationCheckService } from './service/DuplicationCheck.Service.js';
-import { VerificationService } from './service/Verifiaction.Service.js';
-import { UserApi } from './intrastructure/User.Api.js';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { AuthConfig, auth } from './util/auth';
+import { AuthController } from './presentation/Auth.Controller';
+import { AuthService } from './service/Auth.Service';
+import { SocialLogin } from './util/SocialLogin';
+import { JwtManager } from './util/JwtManager';
+import { TokenManager } from '../../global/util/TokenManager';
+import { MailManager } from '../../global/util/MailManager';
+import { UserModule } from '../user/user.module';
+import { AccountController } from './presentation/Account.Controller';
+import { VerificationController } from './presentation/Verification.Controller';
+import { DuplicationCheckController } from './presentation/DuplicationCheck.Controller';
+import { AccountService } from './service/Account.Service';
+import { DuplicationCheckService } from './service/DuplicationCheck.Service';
+import { VerificationService } from './service/Verifiaction.Service';
+import { UserApi } from './intrastructure/User.Api';
+import { AuthVerifyService } from './domain/service/AuthVerify.Service';
+import { AuthValidateService } from './domain/service/AuthValidate.Service';
 
 @Module({
   imports: [
@@ -33,13 +35,14 @@ import { UserApi } from './intrastructure/User.Api.js';
     
   ],
   providers: [
-    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager,
+    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager, AuthVerifyService, AuthValidateService,
     MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi
   ],
   controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
   exports:[
     SocialLogin,
-    JwtManager
+    JwtManager,
+    AuthVerifyService
   ]
 })
 export class AuthModule {}

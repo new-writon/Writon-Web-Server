@@ -7,10 +7,8 @@ export class TemporaryPassword{
     @IsEmail()
     private email: string;
 
-
     @IsNotEmpty()
     private identifier: string;
-
 
     public getEmail(): string {
         return this.email;

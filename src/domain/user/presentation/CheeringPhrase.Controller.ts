@@ -1,12 +1,12 @@
-import { Body, Controller, Get, HttpCode, Logger, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard.js';
-import { User } from '../domain/entity/User.js';
-import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
-import { Participant } from '../dto/response/Participant.js';
-import { ParticipantComponent } from '../dto/response/ParticipantComponent.js';
-import { CheeringPhraseService } from '../service/CheeringPhrase.Service.js';
-import { CheeringPhraseInsert } from '../dto/request/CheeringPhraseInsert.js';
+import { Body, Controller, Get, HttpCode, Logger, Param, Post, UseGuards} from '@nestjs/common';
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
+import { User } from '../domain/entity/User';
+import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
+import { Participant } from '../dto/response/Participant';
+import { ParticipantComponent } from '../dto/response/ParticipantComponent';
+import { CheeringPhraseService } from '../service/CheeringPhrase.Service';
+import { CheeringPhraseInsert } from '../dto/request/CheeringPhraseInsert';
 
 
 
@@ -27,7 +27,7 @@ export class CheeringPhraseController{
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<Participant>> {
-        const result = await this.cheeringPhraseService.bringParticipant(user.user_id, challengeId);
+        const result = await this.cheeringPhraseService.bringParticipant(user.userId, challengeId);
         this.logger.log("나의 정보 조회 완료");
         return SuccessResponseDto.of(result);
     }
@@ -39,7 +39,7 @@ export class CheeringPhraseController{
         @Param("challengeId") challengeId:number,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<ParticipantComponent>> {
-        const result = await this.cheeringPhraseService.bringParticipantComponent(user.user_id, challengeId);
+        const result = await this.cheeringPhraseService.bringParticipantComponent(user.userId, challengeId);
         this.logger.log("챌린지 참여자 정보 조회 완료");
         return SuccessResponseDto.of(result);
     }
@@ -51,7 +51,7 @@ export class CheeringPhraseController{
         @Body() cheeringPhraseInsert:CheeringPhraseInsert,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<void>>{
-        await this.cheeringPhraseService.penetrateCheeringPhrase(user.user_id, cheeringPhraseInsert.getOrganization(), cheeringPhraseInsert.getChallengeId(), cheeringPhraseInsert.getContent());
+        await this.cheeringPhraseService.penetrateCheeringPhrase(user.userId, cheeringPhraseInsert.getOrganization(), cheeringPhraseInsert.getChallengeId(), cheeringPhraseInsert.getContent());
         this.logger.log("오늘의 한마디 추가 완료");
         return SuccessResponseDto.of();
     }

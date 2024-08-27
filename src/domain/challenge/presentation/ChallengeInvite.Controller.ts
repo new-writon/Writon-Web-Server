@@ -1,7 +1,7 @@
-import { Body, Controller, Get, HttpCode, Logger, Post } from "@nestjs/common";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { ChallengeInvite } from "../dto/request/ChallengeInvite.js";
-import { ChallengeInviteService } from "../service/ChallengeInvite.Service.js";
+import { Body, Controller, HttpCode, Logger, Post } from "@nestjs/common";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { ChallengeInvite } from "../dto/request/ChallengeInvite";
+import { ChallengeInviteService } from "../service/ChallengeInvite.Service";
 
 @Controller("/api/challenge/invite")
 export class ChallengeInviteController {

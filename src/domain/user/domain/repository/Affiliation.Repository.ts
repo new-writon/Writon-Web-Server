@@ -1,22 +1,20 @@
 import { Repository } from 'typeorm';
-import { Affiliation } from '../entity/Affiliation.js';
-import { ChallengesPerOrganization } from '../../dto/ChallengesPerOrganization.js';
-import { UserProfile } from '../../dto/response/UserProfile.js';
-import { Participant } from '../../dto/response/Participant.js';
+import { Affiliation } from '../entity/Affiliation';
+import { ChallengesPerOrganization } from '../../dto/values/ChallengesPerOrganization';
+import { UserProfile } from '../../dto/response/UserProfile';
+import { Participant } from '../../dto/response/Participant';
+import { AffiliationStart } from '../../dto/request/AffiliationStart';
+import { ProfileUpdate } from '../../dto/request/ProfileUpdate';
 
 
 export interface AffiliationRepository extends Repository<Affiliation> {
 
-    findAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>;
+    findAffiliationByUserIdWithOrganization(userId: number, organization: string): Promise<Affiliation>;
     findAffiliationByNicknameAndOrganization(nickname:string, organization:string):Promise<Affiliation>;
-    insertAffiliation(userId:number, organizationId:number, nickname: string, job: string,
-        jobIntroduce: string, hireDate: string, company: string,companyPublic: boolean):Promise<void>;
+    insertAffiliation(userId:number, organizationId:number, affiliationStartDto: AffiliationStart):Promise<void>;
     findChallengesPerOrganizationByUserId(userId:number):Promise<ChallengesPerOrganization[]>;
-    findAffiliationByUserIdWithOrganization(userId:number, organization:string):Promise<Affiliation>;
     findUserProfileByUserIdAndOrganization(userId:number, organization:string):Promise<UserProfile>;
-    updateUserProfileByUserIdAndOrganization(userId:number,organization:string,nickname:string, company:string,
-        hireDate:Date, job:string, jobIntroduce:string, companyPublic:boolean):Promise<void>;
-    
+    updateUserProfileByUserIdAndOrganization(userId:number,organization:string,profileUpdate: ProfileUpdate):Promise<void>;
     findAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>;
     findAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>;
     findAffiliationById(affiliationId: number[]):Promise<Affiliation[]>;

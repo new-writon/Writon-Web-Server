@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Challenge } from "../../challenge/domain/entity/Challenge.js";
-import { ChallengeHelper } from "../../challenge/helper/Challenge.Helper.js";
-import { ChallengeDayHelper } from "../../challenge/helper/ChallengeDay.Helper.js";
+import { Challenge } from "../../challenge/domain/entity/Challenge";
+import { ChallengeHelper } from "../../challenge/helper/Challenge.Helper";
+import { ChallengeDayHelper } from "../../challenge/helper/ChallengeDay.Helper";
 
 
 @Injectable()
@@ -12,8 +12,8 @@ export class ChallengeApi{
         private readonly challengeDayHelper: ChallengeDayHelper,
     ){}
 
-    public async requestChallengeById(challengeId: number): Promise<Challenge>{
-        return this.challengeHelper.giveChallengeById(challengeId);
+    public async requestChallengeById(challengeId: number, verifyFlag:boolean): Promise<Challenge>{
+        return this.challengeHelper.giveChallengeById(challengeId, verifyFlag);
     }
 
 

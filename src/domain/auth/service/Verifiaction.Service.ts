@@ -1,30 +1,28 @@
 import {  Injectable } from "@nestjs/common";
-import { JwtManager } from "../util/JwtManager.js";
-import { TokenManager } from "../../../global/util/TokenManager.js";
-import { AuthException } from "../exception/AuthException.js";
-import { AuthErrorCode } from "../exception/AuthErrorCode.js";
-import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse.js";
-import random from "../util/random.js";
-import { MailManager } from "../../../global/util/MailManager.js";
-import { Token } from "../dto/response/Token.js";
-import { verifyCode } from "../util/checker.js";
+import { JwtManager } from "../util/JwtManager";
+import { TokenManager } from "../../../global/util/TokenManager";
+import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeResponse";
+import random from "../util/random";
+import { MailManager } from "../../../global/util/MailManager";
+import { Token } from "../dto/response/Token";
+import { AuthVerifyService } from "../domain/service/AuthVerify.Service";
+
 
 @Injectable()
 export class VerificationService{
     constructor(
-
         private readonly jwtManager: JwtManager,
         private readonly tokenManager: TokenManager,
         private readonly mailManager: MailManager,
+        private readonly authVerifyService: AuthVerifyService
 
     ) { }
     
     public async reissueToken(accessToken: string, refreshToken: string): Promise<Token>{
-
         const accessTokenVerifyResult = this.jwtManager.verify(accessToken.split('Bearer ')[1]);
         const accessTokenDecodedData = this.jwtManager.decode(accessToken.split('Bearer ')[1]);
         const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken.split('Bearer ')[1], accessTokenDecodedData.userId);
-        this.signVerifyToken(accessTokenVerifyResult.state, refreshTokenVerifyesult.state);
+        this.authVerifyService.signVerifyToken(accessTokenVerifyResult.state, refreshTokenVerifyesult.state);
         const newAccessToken = this.jwtManager.makeAccessToken(accessTokenDecodedData.userId, accessTokenDecodedData.role);
         return Token.of(newAccessToken, refreshTokenVerifyesult.token);
     }
@@ -37,25 +35,10 @@ export class VerificationService{
     }
 
     public async verifyAuthenticationCode(email: string, code: string): Promise<void> {
-
         const authenticationCode: string = await this.tokenManager.getToken(email);
-        verifyCode(code, authenticationCode);
+        this.authVerifyService.verifyCode(code, authenticationCode);
     }
 
 
-    private signVerifyToken(accessTokenVerifyResult: boolean, refreshTokenVerifyesult: boolean){
-        this.signVerifyAccessToken(accessTokenVerifyResult);
-        this.signVerifyRefreshToken(refreshTokenVerifyesult);
-    }
-
-    private signVerifyAccessToken(status: boolean){
-        if(status)
-            throw new AuthException(AuthErrorCode.NOT_EXPIRED);
-    }
-
-    private signVerifyRefreshToken(status: boolean){
-        if(!status)
-            throw new AuthException(AuthErrorCode.LOGIN_AGAIN);           
-    }
 
 }

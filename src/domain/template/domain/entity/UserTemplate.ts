@@ -8,40 +8,37 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Comment } from "./Comment.js";
-import { Likes } from "./Likes.js";
-import { QuestionContent } from "./QuestionContent.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Comment } from "./Comment";
+import { Likes } from "./Likes";
+import { QuestionContent } from "./QuestionContent";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-@Index("UserTemplate_user_challenge_id_fkey", ["user_challenge_id"], {})
-@Entity("UserTemplate")
+
+@Index("user_templates_user_challenges_fkey", ["userChallengeId"], {})
+@Entity("user_templates")
 export class UserTemplate extends BaseEntity{
 
   constructor(   
     userChallengeId:number,
-    finished_at:Date,
+    templateDate:Date,
     complete:boolean
   ){
     super();
     this.setUserChallengeId(userChallengeId);
-    this.setFinishedAt(finished_at);
+    this.setTemplateDate(templateDate);
     this.setComplete(complete);
   }
 
   @PrimaryGeneratedColumn({ type: "int", name: "user_template_id" })
-  user_template_id: number;
+  userTemplateId: number;
 
   @Column("int", { name: "user_challenge_id" })
-  user_challenge_id: number;
+  userChallengeId: number;
 
-  @Column("date", { name: "finished_at", nullable: true })
-  finished_at: Date | null;
+  @Column("date", { name: "template_date", nullable: true })
+  templateDate: Date | null;
 
   @Column("tinyint", { name: "complete", nullable: true, width: 1 })
   complete: boolean | null;
@@ -64,7 +61,7 @@ export class UserTemplate extends BaseEntity{
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
-    { name: "user_challenge_id", referencedColumnName: "user_challenge_id" },
+    { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
   userChallenge: Relation<UserChallenge>;
 
@@ -78,13 +75,13 @@ export class UserTemplate extends BaseEntity{
 
   private setUserChallengeId(userChallengeId:number){
     if(userChallengeId === null) throw new InternalServerErrorException (`${__dirname} : userChallengeId 값이 존재하지 않습니다.`);
-    this.user_challenge_id=userChallengeId
+    this.userChallengeId=userChallengeId
   }
 
 
-  private setFinishedAt(finishedAt:Date){
-    if(finishedAt === null) throw new InternalServerErrorException (`${__dirname} : finishedAt 값이 존재하지 않습니다.`);
-    this.finished_at=finishedAt
+  private setTemplateDate(templateDate:Date){
+    if(templateDate === null) throw new InternalServerErrorException (`${__dirname} : templateDate 값이 존재하지 않습니다.`);
+    this.templateDate=templateDate
   }
 
   private setComplete(complete:boolean){
@@ -93,11 +90,11 @@ export class UserTemplate extends BaseEntity{
   }
 
   public getId(){
-    return this.user_template_id
+    return this.userTemplateId
   }
 
-  public getFinishedAt(): Date{
-    return this.finished_at;
+  public getTemplateDate(): Date{
+    return this.templateDate;
   }
 
   public getComplete(): boolean{
@@ -105,7 +102,7 @@ export class UserTemplate extends BaseEntity{
   }
 
   public getUserChallengeId(){
-    return this.user_challenge_id
+    return this.userChallengeId
   }
 
   public getQuestionContents(){

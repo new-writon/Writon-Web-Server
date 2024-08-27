@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { Organization } from "../../entity/Organization.js";
-import { OrganizationRepository } from "../Organization.Repository.js";
+import { Organization } from "../../entity/Organization";
+import { OrganizationRepository } from "../Organization.Repository";
 
 
 @Injectable()
@@ -17,11 +17,11 @@ export class OrganizationDao extends Repository<Organization> implements Organiz
             });
         }
 
-        
 
-
-
-
-
-
-    }
+        async findAllOrganization():Promise<Organization[]>{
+            return this.createQueryBuilder()
+                .select('o')
+                .from(Organization, 'o')
+                .getMany();
+        }
+}

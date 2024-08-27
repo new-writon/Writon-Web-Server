@@ -1,8 +1,8 @@
 import { DataSource, Repository } from 'typeorm';
-import { User } from '../../entity/User.js';
+import { User } from '../../entity/User';
 import { Injectable } from '@nestjs/common';
-import { UserAffiliationOrganization } from 'src/domain/interface/UserAffilatiionOrganization.interface.js';
-import { UserRepository } from '../User.Repository.js';
+import { UserAffiliationOrganization } from '../../../dto/values/UserAffilatiionOrganization.interface';
+import { UserRepository } from '../User.Repository';
 
 
 
@@ -18,7 +18,7 @@ export class UserDao extends Repository<User> implements UserRepository{
     async selectUserById(userId: number): Promise<User> {
         return await this.findOne({
             where: {
-                user_id: userId
+                userId: userId
             }
         })
     }
@@ -30,16 +30,7 @@ export class UserDao extends Repository<User> implements UserRepository{
             }
         })
     }
-
-    async selectUserDataByEmail(email: string): Promise<User> {
-        return await this.findOne({
-            where: {
-                email:email
-            }
-        })
-    }
     
-
     async kakaoSignUp(
         email: string,
         kakaoNumber: string,
@@ -85,14 +76,14 @@ export class UserDao extends Repository<User> implements UserRepository{
     }
 
     async updatePasswordByUserId(userId: number, newPassword: string){
-        await this.update({user_id: userId},{password:newPassword});
+        await this.update({userId: userId},{password:newPassword});
     }
 
     async updateAccount(accountNumber:string, bank:string, userId: number):Promise<void>{
         await this.dataSource.createQueryBuilder()
             .update(User)
             .set({
-                account_number: accountNumber,
+                accountNumber: accountNumber,
                 bank
             })
             .where("user_id = :userId",{userId})

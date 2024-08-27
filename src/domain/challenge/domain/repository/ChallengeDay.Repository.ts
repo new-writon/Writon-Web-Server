@@ -1,5 +1,4 @@
 import { Repository } from "typeorm";
-import { Challenge } from "../entity/Challenge";
 import { ChallengeDay } from "../entity/ChallengeDay";
 
 

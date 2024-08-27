@@ -1,6 +1,6 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { MailManager } from "../../../global/util/MailManager.js";
-import { ChallengeHelper } from "../helper/Challenge.Helper.js";
+import { Injectable } from "@nestjs/common";
+import { MailManager } from "../../../global/util/MailManager";
+import { ChallengeHelper } from "../helper/Challenge.Helper";
 
 @Injectable()
 export class ChallengeInviteService{
@@ -13,10 +13,10 @@ export class ChallengeInviteService{
 
 
     public async sendInvitation(organization:string, challenge:string, email:string[]){ 
-        const challengeData = await this.challengeHelper.giveChallengeByChallengeName(challenge);
+        const challengeData = await this.challengeHelper.giveChallengeByChallengeName(challenge, false);
         await Promise.all(
             email.map(async (e) => {
-              await this.mailManager.sendInvitationEmail(organization, challengeData.challenge_id, e, challenge);
+              await this.mailManager.sendInvitationEmail(organization, challengeData.challengeId, e, challenge);
             })
           );    
     }

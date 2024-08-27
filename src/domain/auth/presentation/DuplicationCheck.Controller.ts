@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, Logger, Param, Query } from "@nestjs/common";
-import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto.js";
-import { DuplicationCheckService } from "../service/DuplicationCheck.Service.js";
+import { SuccessResponseDto } from "../../../global/response/SuccessResponseDto";
+import { DuplicationCheckService } from "../service/DuplicationCheck.Service";
 
 
 
@@ -40,5 +40,4 @@ export class DuplicationCheckController {
       this.logger.log("닉네임 중복 체크 완료");
       return SuccessResponseDto.of();
     }
-
 }

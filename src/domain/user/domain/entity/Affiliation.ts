@@ -8,25 +8,22 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Organization } from "./Organization.js";
-import { User } from "./User.js";
-import { AgoraComment } from "../../../agora/domain/entity/AgoraComment.js";
-import { Challenge } from "../../../challenge/domain/entity/Challenge.js";
-import { Comment } from "../../../template/domain/entity/Comment.js";
-import { Likes } from "../../../template/domain/entity/Likes.js";
-import { UserChallenge } from "./UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
+import { Organization } from "./Organization";
+import { User } from "./User";
+import { SmallTalkComment } from "../../../smalltalk/domain/entity/SmallTalkComment";
+import { Comment } from "../../../template/domain/entity/Comment";
+import { Likes } from "../../../template/domain/entity/Likes";
+import { UserChallenge } from "./UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { AffiliationStart } from "../../dto/request/AffiliationStart";
 
 
-@Index("Affiliation_affiliation_id_key", ["affiliation_id"], { unique: true })
-@Index("Affiliation_user_id_fkey", ["user_id"], {})
-@Index("Affiliation_organization_id_fkey", ["organization_id"], {})
-@Entity("Affiliation", { schema: "nest" })
+
+
+@Index("affiliations_users_fkey", ["userId"], {})
+@Index("affiliations_organizations_fkey", ["organizationId"], {})
+@Entity("affiliations", { schema: "nest" })
 export class Affiliation extends BaseEntity{
 
 
@@ -34,8 +31,8 @@ export class Affiliation extends BaseEntity{
     userId: number,
     organizationId:number,
     nickname: string,
-    job: string,
-    jobIntroduce: string,
+    position: string,
+    positionIntroduce: string,
     hireDate: string,
     company: string,
     companyPublic: boolean,
@@ -45,31 +42,38 @@ export class Affiliation extends BaseEntity{
     this.setUserId(userId)
     this.setOrganizationId(organizationId)
     this.setNickname(nickname)
-    this.setJob(job)
-    this.setJobIntroduce(jobIntroduce)
+    this.setPosition(position)
+    this.setPositionIntroduce(positionIntroduce)
     this.setHireDate(hireDate)
     this.setCompany(company)
     this.setCompanyPublic(companyPublic)
+    // this.setNickname(affiliationStartDto.getNickname())
+    // this.setPosition(affiliationStartDto.getPosition())
+    // this.setPositionIntroduce(affiliationStartDto.getPositionIntroduce())
+    // this.setHireDate(String(affiliationStartDto.getHireDate()))
+    // this.setCompany(affiliationStartDto.getCompany())
+    // this.setCompanyPublic(affiliationStartDto.getCompanyPublic())
+   
   }
 
 
   @PrimaryGeneratedColumn({ type: "int", name: "affiliation_id" })
-  affiliation_id: number;
+  affiliationId: number;
 
-  @Column("int", { primary: true, name: "organization_id" })
-  organization_id: number;
+  @Column("int", { name: "organization_id" })
+  organizationId: number;
 
-  @Column("int", { primary: true, name: "user_id" })
-  user_id: number;
+  @Column("int", { name: "user_id" })
+  userId: number;
 
   @Column("date", { name: "hire_date", nullable: true })
-  hire_date: string | null;
+  hireDate: string | null;
 
-  @Column("varchar", { name: "job", nullable: true, length: 20 })
-  job: string | null;
+  @Column("varchar", { name: "position", nullable: true, length: 20 })
+  position: string | null;
 
-  @Column("varchar", { name: "job_introduce", nullable: true, length: 300 })
-  job_introduce: string | null;
+  @Column("varchar", { name: "position_introduce", nullable: true, length: 300 })
+  positionIntroduce: string | null;
 
   @Column("varchar", { name: "nickname", length: 191 })
   nickname: string;
@@ -78,14 +82,14 @@ export class Affiliation extends BaseEntity{
   company: string | null;
 
   @Column("tinyint", { name: "company_public", nullable: true, width: 1 })
-  company_public: boolean | null;
+  companyPublic: boolean | null;
 
   @ManyToOne(() => Organization, (organization) => organization.affiliations, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "organization_id", referencedColumnName: "organization_id" },
+    { name: "organization_id", referencedColumnName: "organizationId" },
   ])
   organization: Relation<Organization>;
 
@@ -93,14 +97,14 @@ export class Affiliation extends BaseEntity{
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "user_id", referencedColumnName: "user_id" }])
+  @JoinColumn([{ name: "user_id", referencedColumnName: "userId" }])
   user: User;
 
-  @OneToMany(() => AgoraComment, (agoraComment) => agoraComment.affiliation)
-  agoraComments: Relation<AgoraComment>[];
+  @OneToMany(() => SmallTalkComment, (smallTalkComment) => smallTalkComment.affiliation)
+  smallTalkComments: Relation<SmallTalkComment>[];
 
-  @OneToMany(() => Challenge, (challenge) => challenge.affiliation)
-  challenges: Relation<Challenge>[];
+  // @OneToMany(() => Challenge, (challenge) => challenge.affiliation)
+  // challenges: Relation<Challenge>[];
 
   @OneToMany(() => Comment, (comment) => comment.affiliation)
   comments: Relation<Comment>[];
@@ -114,12 +118,12 @@ export class Affiliation extends BaseEntity{
 
   private setUserId(userId:number){
     if(userId === null) throw new InternalServerErrorException (`${__dirname} : userId 값이 존재하지 않습니다.`);
-    this.user_id=userId;
+    this.userId=userId;
   }
 
   private setOrganizationId(organizationId:number){
     if(organizationId === null) throw new InternalServerErrorException (`${__dirname} : organizationId 값이 존재하지 않습니다.`);
-    this.organization_id=organizationId;
+    this.organizationId=organizationId;
   }
 
   private setNickname(nickname:string){
@@ -127,19 +131,19 @@ export class Affiliation extends BaseEntity{
     this.nickname=nickname;
   }
 
-  private setJob(job:string){
-    if(job === null) throw new InternalServerErrorException (`${__dirname} : job 값이 존재하지 않습니다.`);
-    this.job=job;
+  private setPosition(position:string){
+    if(position=== null) throw new InternalServerErrorException (`${__dirname} : position 값이 존재하지 않습니다.`);
+    this.position=position;
   }
 
-  private setJobIntroduce(jobIntroduce:string){
-    if(jobIntroduce === null) throw new InternalServerErrorException (`${__dirname} : jobIntroduce 값이 존재하지 않습니다.`);
-    this.job_introduce=jobIntroduce;
+  private setPositionIntroduce(positionIntroduce:string){
+    if(positionIntroduce === null) throw new InternalServerErrorException (`${__dirname} : positionIntroduce 값이 존재하지 않습니다.`);
+    this.positionIntroduce=positionIntroduce;
   }
 
   private setHireDate(hireDate:string){
     if(hireDate === null) throw new InternalServerErrorException (`${__dirname} : hireDate 값이 존재하지 않습니다.`);
-    this.hire_date=hireDate;
+    this.hireDate=hireDate;
   }
 
   private setCompany(company:string){
@@ -149,7 +153,7 @@ export class Affiliation extends BaseEntity{
 
   private setCompanyPublic(companyPublic:boolean){
     if(companyPublic === null) throw new InternalServerErrorException (`${__dirname} : companyPublic 값이 존재하지 않습니다.`);
-    this.company_public=companyPublic;
+    this.companyPublic=companyPublic;
   }
 
 
@@ -157,8 +161,8 @@ export class Affiliation extends BaseEntity{
     userId: number,
     organizationId:number,
     nickname: string,
-    job: string,
-    jobIntroduce: string,
+    position: string,
+    positionIntroduce: string,
     hireDate: string,
     company: string,
     companyPublic: boolean
@@ -167,8 +171,8 @@ export class Affiliation extends BaseEntity{
       userId,
       organizationId,
       nickname,
-      job,
-      jobIntroduce,
+      position,
+      positionIntroduce,
       hireDate,
       company,
       companyPublic
@@ -178,7 +182,7 @@ export class Affiliation extends BaseEntity{
 
 
   public getAffiliationId(): number{
-    return this.affiliation_id
+    return this.affiliationId
   }
 
   public getNickname(): string{
@@ -190,23 +194,23 @@ export class Affiliation extends BaseEntity{
   }
 
   public getCompanyPublic(): boolean{
-    return this.company_public;
+    return this.companyPublic;
   }
 
-  public getJob(): string{
-    return this.job;
+  public getPosition(): string{
+    return this.position;
   }
 
-  public getJobIntroduce(): string{
-    return this.job_introduce;
+  public getPositionIntroduce(): string{
+    return this.positionIntroduce;
   }
 
   public getHireDate(): string{
-    return this.hire_date;
+    return this.hireDate;
   }
 
   public getId(): number{
-    return this.affiliation_id;
+    return this.affiliationId;
   }
 
   public getUser(){

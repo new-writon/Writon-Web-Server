@@ -7,19 +7,14 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Affiliation } from "../../../user/domain/entity/Affiliation.js";
-import { UserTemplate } from "./UserTemplate.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Affiliation } from "../../../user/domain/entity/Affiliation";
+import { UserTemplate } from "./UserTemplate";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
-@Index("Comment_comment_id_key", ["comment_id"], { unique: true })
-@Index("Comment_user_template_id_fkey", ["user_template_id"], {})
-@Index("Comment_comment_group_fkey", ["comment_group"], {})
-@Index("Comment_affiliation_id_fkey_idx", ["affiliation_id"], {})
-@Entity("Comment")
+
+@Index("comments_user_templates_fkeyComment_user_template_id_fkey", ["userTemplateId"], {})
+@Index("comments_affiliations_fkey", ["affiliationId"], {})
+@Entity("comments")
 export class Comment extends BaseEntity{
 
   constructor(
@@ -38,16 +33,16 @@ export class Comment extends BaseEntity{
 
 
   @PrimaryGeneratedColumn({ type: "int", name: "comment_id" })
-  comment_id: number;
+  commentId: number;
 
   @Column("int", { name: "comment_group", nullable: true })
-  comment_group: number | null;
+  commentGroup: number | null;
 
-  @Column("int", { primary: true, name: "user_template_id" })
-  user_template_id: number;
+  @Column("int", { name: "user_template_id" })
+  userTemplateId: number;
 
-  @Column("int", { primary: true, name: "affiliation_id" })
-  affiliation_id: number;
+  @Column("int", { name: "affiliation_id" })
+  affiliationId: number;
 
   @Column("text", { name: "content" })
   content: string;
@@ -60,7 +55,7 @@ export class Comment extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "affiliation_id", referencedColumnName: "affiliation_id" },
+    { name: "affiliation_id", referencedColumnName: "affiliationId" },
   ])
   affiliation: Relation<Affiliation>;
 
@@ -69,7 +64,7 @@ export class Comment extends BaseEntity{
     onUpdate: "CASCADE",
   })
   @JoinColumn([
-    { name: "user_template_id", referencedColumnName: "user_template_id" },
+    { name: "user_template_id", referencedColumnName: "userTemplateId" },
   ])
   userTemplate: Relation<UserTemplate>;
 
@@ -80,11 +75,11 @@ export class Comment extends BaseEntity{
 
 
   public getUserTemplateId(){
-    return this.user_template_id;
+    return this.userTemplateId;
   }
 
   public getId(){
-    return this.comment_id;
+    return this.commentId;
   }
 
   public getCreatedAt(){
@@ -96,7 +91,7 @@ export class Comment extends BaseEntity{
   }
 
   public getAffiliationId(){
-    return this.affiliation_id;
+    return this.affiliationId;
   }
 
   public getCheck(){
@@ -104,12 +99,12 @@ export class Comment extends BaseEntity{
   }
 
   public getCommentGroup(){
-    return this.comment_group;
+    return this.commentGroup;
   }
 
 
   private setAffiliation(affiliationId:number){
-    this.affiliation_id=affiliationId;
+    this.affiliationId=affiliationId;
   }
 
   private setContent(content:string){
@@ -117,10 +112,10 @@ export class Comment extends BaseEntity{
   }
 
   private setUserTemplateId(userTemplateId:number){
-    this.user_template_id=userTemplateId;
+    this.userTemplateId=userTemplateId;
   }
 
   private setCommentGroup(commentGroup:number){
-    this.comment_group=commentGroup;
+    this.commentGroup=commentGroup;
   }
 }

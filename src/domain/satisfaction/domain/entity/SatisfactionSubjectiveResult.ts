@@ -7,26 +7,14 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Satisfaction } from "./Satisfaction.js";
-import { UserChallenge } from "../../../user/domain/entity/UserChallenge.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Satisfaction } from "./Satisfaction";
+import { UserChallenge } from "../../../user/domain/entity/UserChallenge";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
 
-@Index(
-  "SatisfactionSubjectiveResult_satisfaction_id_fkey_idx",
-  ["satisfaction_id"],
-  {}
-)
-@Index(
-  "SatisfactionSubjectiveResult_user_challenge_id_fkey_idx",
-  ["user_challenge_id"],
-  {}
-)
-@Entity("SatisfactionSubjectiveResult", { schema: "nest" })
+@Index("satisfaction_subjective_result_satisfaction_fkey",["satisfactionId"],{})
+@Index("satisfaction_subjective_result_user_challenges_fkey",["userChallengeId"],{})
+@Entity("satisfaction_subjective_result", { schema: "nest" })
 export class SatisfactionSubjectiveResult extends BaseEntity{
 
   constructor(
@@ -53,16 +41,16 @@ export class SatisfactionSubjectiveResult extends BaseEntity{
     type: "int",
     name: "satisfaction_subjective_result_id",
   })
-  satisfaction_subjective_result_id: number;
+  satisfactionSubjectiveResultId: number;
 
   @Column("varchar", { name: "answer", length: 600 })
   answer: string;
 
   @Column("int", { name: "satisfaction_id" })
-  satisfaction_id: number;
+  satisfactionId: number;
 
   @Column("int", { name: "user_challenge_id" })
-  user_challenge_id: number;
+  userChallengeId: number;
 
   @ManyToOne(
     () => Satisfaction,
@@ -70,7 +58,7 @@ export class SatisfactionSubjectiveResult extends BaseEntity{
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
-    { name: "satisfaction_id", referencedColumnName: "satisfaction_id" },
+    { name: "satisfaction_id", referencedColumnName: "satisfactionId" },
   ])
   satisfaction: Relation<Satisfaction>;
 
@@ -80,7 +68,7 @@ export class SatisfactionSubjectiveResult extends BaseEntity{
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([
-    { name: "user_challenge_id", referencedColumnName: "user_challenge_id" },
+    { name: "user_challenge_id", referencedColumnName: "userChallengeId" },
   ])
   userChallenge: Relation<UserChallenge>;
 
@@ -90,10 +78,10 @@ export class SatisfactionSubjectiveResult extends BaseEntity{
   }
 
   private setSatisfactionId(satisfactionId:number){
-    this.satisfaction_id=satisfactionId
+    this.satisfactionId=satisfactionId
   }
 
   private setUserChallengeId(userChallengeId:number){
-    this.user_challenge_id=userChallengeId;
+    this.userChallengeId=userChallengeId;
   }
 }

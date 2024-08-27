@@ -11,13 +11,13 @@ export class AffiliationStart {
     private nickname: string;
 
     @IsNotEmpty()
-    private job: string;
+    private position: string;
 
     @IsNotEmpty()
-    private jobIntroduce: string;
+    private positionIntroduce: string;
 
     @IsNotEmpty()
-    private hireDate: Date;
+    private hireDate:string;
 
     @IsNotEmpty()
     private company: string;
@@ -35,12 +35,12 @@ export class AffiliationStart {
         return this.nickname;
     }
 
-    getJob() {
-        return this.job;
+    getPosition() {
+        return this.position;
     }
 
-    getJobIntroduce() {
-        return this.jobIntroduce;
+    getPositionIntroduce() {
+        return this.positionIntroduce;
     }
 
     getHireDate() {

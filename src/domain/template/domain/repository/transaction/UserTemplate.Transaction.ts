@@ -1,9 +1,9 @@
-import { DataSource, Repository } from "typeorm";
-import { UserTemplate } from "../../entity/UserTemplate.js";
-import { WriteTemplateContent } from "../../../../template/dto/TemplateContent.js";
+import { DataSource } from "typeorm";
+import { UserTemplate } from "../../entity/UserTemplate";
+import { WriteTemplateContent } from "../../../dto/values/TemplateContent";
 import {Injectable } from "@nestjs/common";
-import { InsertUserTemplateContent } from "../../../dto/InsertUserTemplateContent.js";
-import { QuestionContent } from "../../entity/QuestionContent.js";
+import { InsertUserTemplateContent } from "../../../dto/values/InsertUserTemplateContent";
+import { QuestionContent } from "../../entity/QuestionContent";
 
 @Injectable()
 export class UserTemplateTransaction {
@@ -16,18 +16,19 @@ export class UserTemplateTransaction {
 
     public async insertTemplateTransaction(userChallnegeId: number, date: Date, complete: boolean, templateContent: Array<WriteTemplateContent>):Promise<void>{
       
-        const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
-        await this.dataSource.transaction(async (transactionalEntityManager) => {
-           const userTemplateData = await transactionalEntityManager.save(newUserTemplate)
-           const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.getId());
-           const questionContents = changedTemplate.map(this.createQuestionContentObject);
-           await transactionalEntityManager.save(questionContents)
-       });   
+       // const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
+
+       // await this.dataSource.transaction(async (transactionalEntityManager) => {
+         //  const userTemplateData = await transactionalEntityManager.save(newUserTemplate)
+          // const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateData.getId());
+          // const questionContents = changedTemplate.map(this.createQuestionContentObject);
+          // await transactionalEntityManager.save(questionContents)
+     //  });   
       }
 
     public async updateTemplateTransaction(userTemplateId:number,templateContent:Array<WriteTemplateContent>){
         await this.dataSource.transaction(async (transactionalEntityManager) => {
-            await transactionalEntityManager.delete(QuestionContent, {user_template_id: userTemplateId });
+            await transactionalEntityManager.delete(QuestionContent, {userTemplateId: userTemplateId });
             const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateId);
             const questionContents = changedTemplate.map(this.createQuestionContentObject);
             await transactionalEntityManager.save(questionContents)
@@ -41,7 +42,7 @@ export class UserTemplateTransaction {
 
 
     private changeUserTemplateType(writeTempletes: WriteTemplateContent[], userTempleteId: number):InsertUserTemplateContent[]{
-        return writeTempletes.map(writeTemplete => new InsertUserTemplateContent(
+        return writeTempletes.map(writeTemplete => InsertUserTemplateContent.of(
             writeTemplete.getQuestionId(),
             writeTemplete.getContent(),
             writeTemplete.getVisibility(),

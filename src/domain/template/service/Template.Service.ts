@@ -1,20 +1,24 @@
 import {  Injectable } from '@nestjs/common';
-import { TemplateContent } from '../dto/response/TemplateContent.js';
-import { UserApi } from '../infrastructure/User.Api.js';
-import { WriteTemplateContent } from '../dto/TemplateContent.js';
-import { ChallengeApi } from '../infrastructure/Challenge.Api.js';
-import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction.js';
-import { UserTemplateHelper } from '../helper/UserTemplate.Helper.js';
-import { UserTemplate } from '../domain/entity/UserTemplate.js';
-import { UserChallenge } from '../../user/domain/entity/UserChallenge.js';
-import { Affiliation } from '../../user/domain/entity/Affiliation.js';
-import { Transactional } from '../../../global/decorator/transaction.js';
+import { TemplateContent } from '../dto/response/TemplateContent';
+import { UserApi } from '../infrastructure/User.Api';
+import { WriteTemplateContent } from '../dto/values/TemplateContent';
+import { ChallengeApi } from '../infrastructure/Challenge.Api';
+import { UserTemplateTransaction } from '../domain/repository/transaction/UserTemplate.Transaction';
+import { UserTemplateHelper } from '../helper/UserTemplate.Helper';
+import { UserTemplate } from '../domain/entity/UserTemplate';
+import { UserChallenge } from '../../user/domain/entity/UserChallenge';
+import { Affiliation } from '../../user/domain/entity/Affiliation';
+import { Transactional } from '../../../global/decorator/transaction';
 import {  DataSource } from 'typeorm';
-import { Question } from 'src/domain/challenge/domain/entity/Question.js';
-import { formatDate } from '../util/date.js';
-import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data.js';
-import { TemplateVerifyService } from '../domain/service/TemplateVerify.Service.js';
-import { TemplateInformation } from '../dto/response/TemplateInformation.js';
+import { Question } from 'src/domain/challenge/domain/entity/Question';
+import { formatDate } from '../util/date';
+import { sortCompanyPublic, sortCompanyPublicArray } from '../util/data';
+import { TemplateInformation } from '../dto/response/TemplateInformation';
+import { TemplateWrite } from '../dto/request/TemplateWrite';
+import { DataMapperService } from '../domain/service/DataMappper.Service';
+import { InsertUserTemplateContent } from '../dto/values/InsertUserTemplateContent';
+import { QuestionContent } from '../domain/entity/QuestionContent';
+import { QuestionContentHelper } from '../helper/QuestionContent.Helper';
 
 
 
@@ -26,79 +30,48 @@ export class TemplateService {
         private readonly userApi: UserApi,
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,
-        private readonly userTemplateTransaction: UserTemplateTransaction,
-        private readonly templateVerifyService: TemplateVerifyService
+        private readonly dataMapperService: DataMapperService,
+        private readonly questionContentHelper:QuestionContentHelper
+      //  private readonly userTemplateTransaction: UserTemplateTransaction,
       ) {}
 
 
     public async bringTemplateContent(userId:number, userTemplateId:number, organization:string, visibility: boolean):Promise<TemplateContent[]>{
-        // 1. 유저템플릿과 좋아요, 댓글, 대답 조회
-        // 2. 질문 id, 질문 내용 조회
         const [affiliationData, userTemplateData] = await Promise.all([
-            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
-            this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility)
+            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false),
+            this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(userTemplateId, visibility, false)
         ]);
         return userTemplateData === null? []:this.proccessTemplateContent(userTemplateData, affiliationData);
-    
-
-    //   //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
-    //     const questionIds = this.extractQuestionId(userTemplateData);
-    //     const [questionData, userChallengeData]= await Promise.all([
-    //         this.challengeApi.requestQuestionById(questionIds),
-    //         this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
-    //     ]);    
-    //     // 3. 데이터 결합
-    //     const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
-    //     const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
-    //     return sortedCompanyData;
     }
 
     private async proccessTemplateContent(userTemplateData:UserTemplate, affiliationData:Affiliation){
-        //  this.templateVerifyService.verifyUserTemplate(userTemplateData)
-        const questionIds = this.extractQuestionId(userTemplateData);
+        const questionIds = this.dataMapperService.extractQuestionId(userTemplateData);
         const [questionData, userChallengeData]= await Promise.all([
-            this.challengeApi.requestQuestionById(questionIds),
-            this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
+            this.challengeApi.requestQuestionById(questionIds,false),
+            this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId(),false)
         ]);    
-        // 3. 데이터 결합
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
         const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
         return sortedCompanyData;
-
     }
     
 
 
     public async bringTemplateAccordingToDate(userId:number, organization:string, challengeId:number, date:Date):Promise<TemplateInformation | []>{
-        // 내 조직 정보 가져오기
-        // 챌린지에 따른 유저 챌린지배열 조회 
         const [affiliationData, userChallengeDatas] = await Promise.all([
-            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
-            this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId)
+            this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false),
+            this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId,false)
         ]);
-        
-        // 유저 챌린지 Id 추출
         const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
-        // 유저챌린지와 날짜에 따른 템플릿 배열 조회
-        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDateWithAffiliationId(userChallengeIds, date);
+        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(userChallengeIds, date, false);
         return userTemplateData.length === 0 ? []:this.proccessTemplateAccordingToDateData(userTemplateData,affiliationData,userChallengeDatas)
-
-    //    this.templateVerifyService.verifyUserTemplates(userTemplateData)
-        // const questionIds = this.extractQuestionIds(userTemplateData);
-        // // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
-        // const questionData = await this.challengeApi.requestQuestionById(questionIds);
-        // const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
-        // const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
-        // const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
-        // return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
     }
 
     private async proccessTemplateAccordingToDateData(userTemplateData:UserTemplate[], affiliationData:Affiliation, userChallengeDatas:UserChallenge[]){
-        const questionIds = this.extractQuestionIds(userTemplateData);
-        // QuestionContent에 있는 question_id 에 따른 값과 내용 조회
-        const questionData = await this.challengeApi.requestQuestionById(questionIds);
-        const challengeCompleteCount = this.extractCompleteCount(userTemplateData);
-        const mergedForManyTemplates = this.mergeForManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
+        const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
+        const questionData = await this.challengeApi.requestQuestionById(questionIds,false);
+        const challengeCompleteCount = this.dataMapperService.extractCompleteCount(userTemplateData);
+        const mergedForManyTemplates = this.mergeForAllManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
         return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
     }
@@ -107,157 +80,133 @@ export class TemplateService {
         return questionDatas.map((questionData) => {
             const questionContent = userTemplateData.getQuestionContents().find(
                 (content) => content.getQuestionId() === questionData.getId());
-            if (!questionContent) return null;
-            const likeCount = userTemplateData.getLikes().length;
-            const commentCount = userTemplateData.getComments().length;
             const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+            const userChallengeAfiliation = userChallengeData.getAffiliation();
             return TemplateContent.of(   
-                userChallengeData.getAffiliation().getJob(), 
-                userChallengeData.getAffiliation().getNickname(),
-                userChallengeData.getAffiliation().getCompany(),
-                userChallengeData.getAffiliation().getCompanyPublic(),
-                userChallengeData.getAffiliation().getUser().getProfileImage(),
+                userChallengeAfiliation,
                 questionData.getId(),
                 userTemplateData.getId(),
-                questionContent.getId(),
-                questionContent.getContent(),
+                questionContent,
                 formatDate(userTemplateData.getCreatedAt().toString()),
-                questionContent.getVisibility(),
-                questionData.getCategory(),
-                questionData.getQuestion(),
-                userChallengeData.getAffiliation().getId(),
-                likeCount.toString(),
-                commentCount.toString(),
+                questionData,
+                userTemplateData.getLikes().length.toString(),
+                userTemplateData.getComments().length.toString(),
                 myLikeSign
-            )}).filter(item => item !== null);
+            )});
     }
 
-    private mergeForManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeDatas:UserChallenge[]) {
+    private mergeForAllManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[], userChallengeDatas:UserChallenge[]) {
         return userTemplateDatas.map(userTemplateData => {
             return questionDatas.map(questionData => {
                 const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
-                if (!questionContent) return null;
                 const userChallengeData = userChallengeDatas.find((content) => content.getId() === userTemplateData.getUserChallengeId());
-                const likeCount = userTemplateData.getLikes().length;
-                const commentCount = userTemplateData.getComments().length;
                 const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+                const userChallengeAfiliation = userChallengeData.getAffiliation()
                 return TemplateContent.of(
-                    userChallengeData.getAffiliation().getJob(),
-                    userChallengeData.getAffiliation().getNickname(),
-                    userChallengeData.getAffiliation().getCompany(),
-                    userChallengeData.getAffiliation().getCompanyPublic(),
-                    userChallengeData.getAffiliation().getUser().getProfileImage(),
+                    userChallengeAfiliation,
                     questionData.getId(),
                     userTemplateData.getId(),
-                    questionContent.getId(),
-                    questionContent.getContent(),
+                    questionContent,
                     formatDate(userTemplateData.getCreatedAt().toString()),
-                    questionContent.getVisibility(),
-                    questionData.getCategory(),
-                    questionData.getQuestion(),
-                    userChallengeData.getAffiliation().getId(),
-                    likeCount.toString(),
-                    commentCount.toString(),
+                    questionData,
+                    userTemplateData.getLikes().length.toString(),
+                    userTemplateData.getComments().length.toString(),
                     myLikeSign
                 );
-            }).filter(item => item !== null);
+            });
         });
-    }
-
-    private extractCompleteCount(userTemplates:UserTemplate[]){
-        return userTemplates.map((userTemplate)=>userTemplate.getComplete()).length;
-    }
-    
-    
-    private extractQuestionId(userTemplate:UserTemplate){
-        return userTemplate.getQuestionContents().map((data)=> data.getQuestionId())
-    }
-
-    private extractQuestionIds(userTemplates:UserTemplate[]){
-        return userTemplates.flatMap((userTemplate)=>{
-            return userTemplate.getQuestionContents().map((questionContent) =>
-               questionContent.getQuestionId()
-            )
-        })
     }
 
     private extractUserChallengeId(userChallenge:UserChallenge[]){
         return userChallenge.map((data)=> data.getId())
     }
 
-    public async bringAllTemplateContent(userId: number, organization: string, challengeId:number): Promise<TemplateContent[][]>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
-        const templateContentData : TemplateContent[] = await this.userTemplateHelper.giveUserTemplateByChallengeIdForAffiliationId(affiliationData.getAffiliationId(), challengeId);
-        const sortResult = this.sortAccorgindToUserTemplateId(templateContentData);  
-        return sortResult;
+    public async bringAllTemplateContent(userId: number, organization: string, challengeId:number):Promise<TemplateInformation | []>{
+        const affiliationData = await this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false);
+        const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId, true);
+        const userTemplateData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(userChallengeData.getId(), false);
+        return userTemplateData.length === 0 ? []:this.proccessTemplateData(userTemplateData,affiliationData)
+    }
+
+    private async proccessTemplateData(userTemplateData:UserTemplate[], affiliationData:Affiliation){
+        const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
+        const questionData = await this.challengeApi.requestQuestionById(questionIds,false);
+        const mergedForManyTemplates = this.mergeForMyManyTemplates(affiliationData, userTemplateData, questionData);
+        const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
+        return TemplateInformation.of(undefined, sortedCompanyData);
+    }
+
+    private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[]) {
+        return userTemplateDatas.map(userTemplateData => {
+            return questionDatas.map(questionData => {
+                const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
+                const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+                return TemplateContent.of(
+                    affiliationData,
+                    questionData.getId(),
+                    userTemplateData.getId(),
+                    questionContent,
+                    formatDate(userTemplateData.getCreatedAt().toString()),
+                    questionData,
+                    userTemplateData.getLikes().length.toString(),
+                    userTemplateData.getComments().length.toString(),
+                    myLikeSign
+                );
+            });
+        });
     }
 
     @Transactional()
     public async penetrateTemplate(  
         userId: number,
-        challengeId: number,
-        organization: string,
-        date: string,
-        templateContent: Array<WriteTemplateContent>): Promise<void>{
+        templateWrite: TemplateWrite): Promise<void>{
             const [userChallengeData, userTemplateComplete] = await Promise.all([
-                this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization),
-                this.signUserChallengeComplete(challengeId, date)
+                this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(templateWrite.getChallengeId(), userId, templateWrite.getOrganization(),true),
+                this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate())
             ]);
-            await this.userTemplateTransaction.insertTemplateTransaction(userChallengeData.getId(), new Date(date), userTemplateComplete, templateContent)
+            const userTemplateData = await this.userTemplateHelper.exexuteInsertUserTemplate(userChallengeData.getId(), new Date(templateWrite.getDate()), userTemplateComplete);
+            const changedTemplate = this.changeUserTemplateType(templateWrite.getTemplateContent(), userTemplateData.getId());
+            await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
     } 
 
+    private changeUserTemplateType(writeTempletes: WriteTemplateContent[], userTempleteId: number):InsertUserTemplateContent[]{
+        return writeTempletes.map(writeTemplete => InsertUserTemplateContent.of(
+            writeTemplete.getQuestionId(),
+            writeTemplete.getContent(),
+            writeTemplete.getVisibility(),
+            userTempleteId, 
+        ));
+    }
 
+    @Transactional()
     public async modifyMyTemplate(
         userTemplateId:number,
         templateContent:Array<WriteTemplateContent>):Promise<void>{
-            await this.userTemplateTransaction.updateTemplateTransaction(userTemplateId, templateContent);
+            await this.questionContentHelper.executeDeleteQuestionContent(userTemplateId);
+            const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateId);
+            await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
     }
 
     public async bringNotify(  
         userId: number,
         organization: string,
         challengeId: number): Promise<(GetCommentNotify | GetLikeNotify)[]>{
-
-        
-            // 1. 챌린지 id, 조직, 유저id를 통해 userChallenge, affiliation을 가져온다.
-            const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
-
-            // 2. userChallengeId를 통해 userTemplate데이터, comment, like 를 모두 가져온다.
-            const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId());
-
+            const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization,false);
+            const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId(), false);
             return userTemplateAndCommentAndLikeData.length === 0 ? []: this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData)
-            // // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
-            // const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
-            // // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
-            // let [commentAffiliationData, likeAffiliationData] = await Promise.all([
-            //     this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
-            //     this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
-            // ]);
-            // // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
-            // const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
-            // const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
-            // // 6. comment, like의 데이터를 시간 순으로 나열한다.
-            // const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
-            // return mergedCommentAndLike;
     } 
 
     private async proccessNotifyData(userTemplateAndCommentAndLikeData:UserTemplate[], userChallengeAndAffiliationData:UserChallenge){
-          // 3. 댓글, 좋아요를 누른 유저의 affiliationId 추출
           const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(userTemplateAndCommentAndLikeData);
-          // 4. 각 좋아요와 댓글을 단 유저의 affiliation 데이터를 가져옴.
           let [commentAffiliationData, likeAffiliationData] = await Promise.all([
-              this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
-              this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds)
+              this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds,false),
+              this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds,false)
           ]);
-          // 5. comment, like를 내 정보를 제외한 각 유저의 affiliation을 적용한다.
           const sortedComment = this.makeCommentShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, commentAffiliationData);
           const sortedLike = this.makeLikeShapeAccordingToUserTemplate(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData, likeAffiliationData);
-          // 6. comment, like의 데이터를 시간 순으로 나열한다.
           const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
           return mergedCommentAndLike;
     }
-
-
 
     private extractAffiliationIdAccordingToCommentAndLike(userTemplate:UserTemplate[]){
         const commentAffiliationIds: number[] = userTemplate.flatMap(userTemplate => userTemplate.comments.map(comment => comment.getAffiliationId()));
@@ -278,14 +227,14 @@ export class TemplateService {
                 .map((comment) => {
                     const matchedAffiliation = affiliation.find(affiliation => affiliation.getId() === comment.getAffiliationId());
                     return {
-                    commentId: comment.getId(),
-                    content: comment.getContent(),
-                    createdAt: comment.getCreatedAt(),
-                    sign: comment.getCheck(),
-                    userTemplateId: userTemplate.getId(),
-                    templateName: userTemplate.getFinishedAt(),
-                    nickname:matchedAffiliation.getNickname(),
-                    type: "comment"
+                        commentId: comment.getId(),
+                        content: comment.getContent(),
+                        createdAt: comment.getCreatedAt(),
+                        sign: comment.getCheck(),
+                        userTemplateId: userTemplate.getId(),
+                        templateName: userTemplate.getTemplateDate(),
+                        nickname:matchedAffiliation.getNickname(),
+                        type: "comment"
                     }
                 }));
     }
@@ -296,13 +245,13 @@ export class TemplateService {
         .map((like) => {
             const matchedAffiliation = affiliation.find(affiliation => affiliation.getId() === like.getAffiliationId());
             return {
-            likeId: like.getId(),
-            createdAt: like.getCreatedAt(),
-            sign: like.getCheck(),
-            userTemplateId: userTemplate.getId(),
-            templateName: userTemplate.getFinishedAt(),
-            nickname: matchedAffiliation.getNickname(),
-            type: "like"
+                likeId: like.getId(),
+                createdAt: like.getCreatedAt(),
+                sign: like.getCheck(),
+                userTemplateId: userTemplate.getId(),
+                templateName: userTemplate.getTemplateDate(),
+                nickname: matchedAffiliation.getNickname(),
+                type: "like"
             }
         }));
     }
@@ -315,29 +264,17 @@ export class TemplateService {
         return mergedArray;
     }
       
-    private async signUserChallengeComplete (
-        challengeId: number,
-        date: string
-    ){
+    private async signUserChallengeComplete (challengeId: number, date: string){
         let complete = true;
         if (new Date(date).setHours(0, 0, 0, 0).toLocaleString() !== new Date().setHours(0, 0, 0, 0).toLocaleString()) {
             complete = false;
-        }
-        if (!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date))) {
+        } 
+        if (!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date),false)) {
             complete = false;
         }  
         return complete; 
     }
 
-    private sortAccorgindToUserTemplateId(userTemplates: TemplateContent[]):  TemplateContent[][]{
-        const sortedUserTemplate : TemplateContent[][]= [];
-        const uniqueUserTemplateIds = Array.from(new Set(userTemplates.map((q) => q.userTemplateId)));
-        for (const userTemplateId of uniqueUserTemplateIds) {
-            const filteredQuestions = userTemplates.filter((q) => q.userTemplateId === userTemplateId);
-            sortedUserTemplate.push(filteredQuestions);
-        }
-        return sortedUserTemplate;
-    }
 }
 
 

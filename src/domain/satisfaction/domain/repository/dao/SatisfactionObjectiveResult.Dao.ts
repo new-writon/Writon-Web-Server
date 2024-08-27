@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
-import { SatisfactionObjectiveResult } from "../../entity/SatisfactionObjectiveResult.js";
-import { SatisfactionObjectiveResultRepository } from "../SatisfactionObjectiveResult.Repository.js";
-import { ObjectiveAnswerType } from "../../../dto/ObjectiveAnswerType.js";
+import { SatisfactionObjectiveResult } from "../../entity/SatisfactionObjectiveResult";
+import { SatisfactionObjectiveResultRepository } from "../SatisfactionObjectiveResult.Repository";
+import { ObjectiveAnswerType } from "../../../dto/values/ObjectiveAnswerType";
 
 @Injectable()
 export class SatisfactionObjectiveResultDao extends Repository<SatisfactionObjectiveResult> implements SatisfactionObjectiveResultRepository{

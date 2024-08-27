@@ -1,13 +1,13 @@
 
 import { LikeServie } from "../service/Like.Service.js";
-import { Body, Controller, Delete, Get, HttpCode, Logger, Param, Patch, Post, Put, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { LikeCheck } from "../dto/request/LikeCheck.js";
-import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard.js";
-import { CurrentUser } from "../../auth/decorators/Auth.Decorator.js";
-import { User } from "../../user/domain/entity/User.js";
-import { LikeClick } from "../dto/request/LikeClick.js";
-import { LikeCount } from "../dto/response/LikeCount.js";
+import { Body, Controller, Get, HttpCode, Logger, Param, Patch, Post, Put, UseGuards} from '@nestjs/common';
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { LikeCheck } from "../dto/request/LikeCheck";
+import { JWTAuthGuard } from "../../auth/guards/JwtAuth.Guard";
+import { CurrentUser } from "../../auth/decorators/Auth.Decorator";
+import { User } from "../../user/domain/entity/User";
+import { LikeClick } from "../dto/request/LikeClick";
+import { LikeCount } from "../dto/response/LikeCount";
 
 @Controller('/api/template/like')
 export class LikeController{
@@ -33,7 +33,7 @@ export class LikeController{
         @Body() likeCheck : LikeClick,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<LikeCount>>  {
-      const result = await this.likeService.penetrateLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization());
+      const result = await this.likeService.penetrateLike(user.userId, likeCheck.getUserTemplateId(), likeCheck.getOrganization());
       this.logger.log("좋아요 추가 완료");
       return SuccessResponseDto.of(result);
     }
@@ -46,7 +46,7 @@ export class LikeController{
         @Body() likeCheck : LikeClick,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<LikeCount>>  {
-        const result = await this.likeService.eraseLike(user.user_id, likeCheck.getUserTemplateId(), likeCheck.getOrganization());   
+        const result = await this.likeService.eraseLike(user.userId, likeCheck.getUserTemplateId(), likeCheck.getOrganization());   
         this.logger.log("좋아요 취소 완료");
       return SuccessResponseDto.of(result);
     }

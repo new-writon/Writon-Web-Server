@@ -1,15 +1,13 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from "typeorm";
-import { Affiliation } from "./Affiliation.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Affiliation } from "./Affiliation";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
+import { Challenge } from "../../../../domain/challenge/domain/entity/Challenge";
 
-@Entity("Organization", { schema: "nest" })
+
+@Entity("organizations", { schema: "nest" })
 export class Organization extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "organization_id" })
-  organization_id: number;
+  organizationId: number;
 
   @Column("varchar", { name: "name", length: 30 })
   name: string;
@@ -17,8 +15,19 @@ export class Organization extends BaseEntity{
   @OneToMany(() => Affiliation, (affiliation) => affiliation.organization)
   affiliations: Relation<Affiliation>[];
 
+  @OneToMany(() => Challenge, (challenge) => challenge.organization)
+  challenges: Relation<Affiliation>[];
+
 
   public getId(){
-    return this.organization_id;
+    return this.organizationId;
+  }
+
+  public getChallenges(){
+    return this.challenges;
+  }
+
+  public getName(){
+    return this.name;
   }
 }

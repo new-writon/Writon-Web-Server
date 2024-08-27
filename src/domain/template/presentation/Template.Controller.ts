@@ -1,13 +1,13 @@
 import { Body, Controller, Get, HttpCode, Logger, Param, Post, Put,  UseGuards } from '@nestjs/common';
-import { TemplateService } from '../service/Template.Service.js';
-import { CurrentUser } from '../../auth/decorators/Auth.Decorator.js';
-import { User } from '../../user/domain/entity/User.js';
-import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto.js';
-import { JWTAuthGuard } from '../../../domain/auth/guards/JwtAuth.Guard.js';
-import { TemplateContent } from '../dto/response/TemplateContent.js';
-import { TemplateWrite } from '../dto/request/TemplateWrite.js';
-import { TemplateUpdate } from '../dto/request/TemplateUpdate.js';
-import { TemplateInformation } from '../dto/response/TemplateInformation.js';
+import { TemplateService } from '../service/Template.Service';
+import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
+import { User } from '../../user/domain/entity/User';
+import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
+import { JWTAuthGuard } from '../../../domain/auth/guards/JwtAuth.Guard';
+import { TemplateContent } from '../dto/response/TemplateContent';
+import { TemplateWrite } from '../dto/request/TemplateWrite';
+import { TemplateUpdate } from '../dto/request/TemplateUpdate';
+import { TemplateInformation } from '../dto/response/TemplateInformation';
 
 
 
@@ -37,7 +37,7 @@ export class TemplateController {
     @Param('date') date:Date,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<TemplateInformation | []>>  {
-    const result = await this.templateService.bringTemplateAccordingToDate(user.user_id, organization, challengeId, date);
+    const result = await this.templateService.bringTemplateAccordingToDate(user.userId, organization, challengeId, date);
     this.logger.log("날짜별 템플릿 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -52,7 +52,7 @@ export class TemplateController {
     @Param('visibility') visibility:boolean,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<TemplateContent[]>>  {
-    const result = await this.templateService.bringTemplateContent(user.user_id, userTemplateId, organization, visibility);
+    const result = await this.templateService.bringTemplateContent(user.userId, userTemplateId, organization, visibility);
     this.logger.log("템플릿 하나 조회 완료");
     return SuccessResponseDto.of(result);
   }
@@ -65,12 +65,11 @@ export class TemplateController {
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateContent[][]>>  {
-    const result = await this.templateService.bringAllTemplateContent(user.user_id, organization, challengeId);
-    this.logger.log("유저 만족도 조사 참여 여부 조회 완료");
+  ): Promise<SuccessResponseDto<TemplateInformation | []>>  {
+    const result = await this.templateService.bringAllTemplateContent(user.userId, organization, challengeId);
+    this.logger.log("내 챌린지 템플릿 조회 완료");
     return SuccessResponseDto.of(result);
   }
-
 
 
   @Post("/write")
@@ -80,7 +79,7 @@ export class TemplateController {
     @Body() templateWrite: TemplateWrite,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<void>>  {
-    await this.templateService.penetrateTemplate(user.user_id,templateWrite.getChallengeId(), templateWrite.getOrganization(), templateWrite.getDate(), templateWrite.getTemplateContent());
+    await this.templateService.penetrateTemplate(user.userId, templateWrite);
     this.logger.log("템플릿 작성 완료");
     return SuccessResponseDto.of();
   }
@@ -93,7 +92,7 @@ export class TemplateController {
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User
   ): Promise<SuccessResponseDto<(GetCommentNotify | GetLikeNotify)[]>>  {
-    const result = await this.templateService.bringNotify(user.user_id, organization, challengeId);
+    const result = await this.templateService.bringNotify(user.userId, organization, challengeId);
     this.logger.log("챌린지에 따른 알림 조회 완료");
     return SuccessResponseDto.of(result);
   }

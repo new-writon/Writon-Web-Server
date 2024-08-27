@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { ChallengeHelper } from "../../../domain/challenge/helper/Challenge.Helper.js";
-import { ChallengeDayHelper } from "../../../domain/challenge/helper/ChallengeDay.Helper.js";
-import { ChallengeDay } from "../../../domain/challenge/domain/entity/ChallengeDay.js";
+import { ChallengeHelper } from "../../../domain/challenge/helper/Challenge.Helper";
+import { ChallengeDayHelper } from "../../../domain/challenge/helper/ChallengeDay.Helper";
+import { ChallengeDay } from "../../../domain/challenge/domain/entity/ChallengeDay";
 
 
 @Injectable()
@@ -12,8 +12,8 @@ export class ChallengeApi{
     ){}
 
 
-    public async requestChallengeById(challengeId: number){
-        return this.challengeHelper.giveChallengeById(challengeId);
+    public async requestChallengeById(challengeId: number, verifyFlag:boolean){
+        return this.challengeHelper.giveChallengeById(challengeId, verifyFlag);
     }
 
     public async requestChallengeWithCondition(challengeId: number){
@@ -26,11 +26,20 @@ export class ChallengeApi{
 
 
     public async requestChallengeOverlapCount(challengeId: number): Promise<number>{
+         // 검증 x
         return this.challengeDayHelper.giveChallengeOverlapCount(challengeId);
     }
 
-    public async requestChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
-        return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
+    public async requestChallengeDayByChallengeId(challengeId: number, verifyFlag:boolean): Promise<ChallengeDay[]>{
+        return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId, verifyFlag);
+    }
+
+    public async requestAllChallengingInformation():Promise<ChallengeAllInformation[]>{
+        return this.challengeHelper.giveAllChallengingInformation();
+    }
+
+    public async requestChallengesByIds(challengeIds:number[]){
+        return this.challengeHelper.giveChallengesByIds(challengeIds);
     }
 
 

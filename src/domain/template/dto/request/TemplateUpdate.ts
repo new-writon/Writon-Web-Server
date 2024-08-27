@@ -1,5 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { WriteTemplateContent } from "../TemplateContent.js";
+import { WriteTemplateContent } from "../values/TemplateContent.js";
 import { Type } from "class-transformer";
 
 

@@ -13,10 +13,10 @@ export class ProfileUpdate{
     private hireDate:Date;
 
     @IsNotEmpty()
-    private job:string;
+    private position:string;
 
     @IsNotEmpty()
-    private jobIntroduce:string;
+    private positionIntroduce:string;
 
     @IsNotEmpty()
     private companyPublic:boolean;
@@ -33,12 +33,12 @@ export class ProfileUpdate{
         return this.hireDate
     }
 
-    getJob(){
-        return this.job
+    getPosition(){
+        return this.position
     }
 
-    getJobIntroduce(){
-        return this.jobIntroduce;
+    getPositionIntroduce(){
+        return this.positionIntroduce;
     }
 
     getComanyPublic(){

@@ -8,23 +8,21 @@ import {
   PrimaryGeneratedColumn,
   Relation
 } from "typeorm";
-import { Challenge } from "./Challenge.js";
-import { QuestionContent } from "../../../template/domain/entity/QuestionContent.js";
-import { QuestionTag } from "./QuestionTag.js";
-import { BaseEntity } from "../../../../global/entity/base.entitiy.js";
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { Challenge } from "./Challenge";
+import { QuestionContent } from "../../../template/domain/entity/QuestionContent";
+import { Keyword } from "./Keyword";
+import { BaseEntity } from "../../../../global/entity/base.entitiy";
 
-@Index("Question_challenge_id_fkey", ["challenge_id"], {})
-@Entity("Question", { schema: "nest" })
+
+@Index("questions_challenges_fkey", ["challengeId"], {})
+@Index("questions_keywords_fkey", ["keywordId"], {})
+@Entity("questions", { schema: "nest" })
 export class Question extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "question_id" })
-  question_id: number;
+  questionId: number;
 
   @Column("int", { name: "challenge_id" })
-  challenge_id: number;
+  challengeId: number;
 
   @Column("varchar", { name: "question", length: 255 })
   question: string;
@@ -32,12 +30,22 @@ export class Question extends BaseEntity{
   @Column("varchar", { name: "category", length: 10 })
   category: string;
 
+  @Column("int", { name: "keyword_id" })
+  keywordId: number;
+
   @ManyToOne(() => Challenge, (challenge) => challenge.questions, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challenge_id" }])
+  @JoinColumn([{ name: "challenge_id", referencedColumnName: "challengeId" }])
   challenge: Relation<Challenge>;
+
+  @ManyToOne(() => Keyword, (keyword) => keyword.questions, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([{ name: "keyword_id", referencedColumnName: "keywordId" }])
+  keyword: Relation<Keyword>;
 
   @OneToMany(
     () => QuestionContent,
@@ -45,11 +53,11 @@ export class Question extends BaseEntity{
   )
   questionContents: Relation<QuestionContent>[];
 
-  @OneToMany(() => QuestionTag, (questionTag) => questionTag.question)
-  questionTags: Relation<QuestionTag>[];
+  // @OneToMany(() => Keyword, (keywords) => keywords.question)
+  // keywords: Relation<Keyword>[];
 
   public getId(){
-    return this.question_id;
+    return this.questionId;
   }
 
   public getCategory(){
