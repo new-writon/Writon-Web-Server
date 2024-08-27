@@ -136,6 +136,7 @@ export class TemplateService {
         return TemplateInformation.of(undefined, sortedCompanyData);
     }
 
+    
     private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[]) {
         return userTemplateDatas.map(userTemplateData => {
             return questionDatas.reduce((acc, questionData) => {
