@@ -74,7 +74,7 @@ export class TemplateService {
         const mergedForManyTemplates = this.mergeForAllManyTemplates(affiliationData, userTemplateData, questionData, userChallengeDatas);
         const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates); 
         return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
-    }
+    }    
 
     private mergeForOneTemplate(affiliationData: Affiliation, userTemplateData: UserTemplate, questionDatas: Question[], userChallengeData:UserChallenge) {
         return questionDatas.map((questionData) => {
@@ -138,9 +138,13 @@ export class TemplateService {
 
     private mergeForMyManyTemplates(affiliationData: Affiliation, userTemplateDatas: UserTemplate[], questionDatas: Question[]) {
         return userTemplateDatas.map(userTemplateData => {
+
             return questionDatas.map(questionData => {
                 const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
                 const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+                console.log(questionContent)
+                console.log(myLikeSign)
+                console.log(userTemplateData)
                 return TemplateContent.of(
                     affiliationData,
                     questionData.getId(),

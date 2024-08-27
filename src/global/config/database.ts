@@ -27,7 +27,7 @@ export const dataSource = registerAs('data-source', () => {
     synchronize: false,
     autoLoadEntities: true,
     entities:[path.join(__dirname, '../../domain/**/entity/*.{js,ts}')],
-    logging: ['query', 'error']
+    logging: ['error']
   } as TypeOrmModuleOptions;
 });
 
