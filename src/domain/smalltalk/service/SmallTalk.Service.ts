@@ -42,7 +42,7 @@ export class SmallTalkService{
     }
 
     public async bringSmallTalk(userId:number, challengeId:number, date:Date){
-        const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, true);
+        const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, false);
         return particularSmallTalkData.length === 0 ? []:this.proccessSmallTalkData(particularSmallTalkData, userId, challengeId)
     }
 
