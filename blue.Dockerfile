@@ -5,6 +5,7 @@ ENV TZ=Asia/Seoul
 
 # tzdata 설치 및 설정
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN npm cache clean --force
 RUN npm install --only=production
 RUN npm prune --production
 
