@@ -1,4 +1,4 @@
-FROM node:18.6.0-alpine as green
+FROM node:18.6.0-alpine as green 
 
 ENV TZ=Asia/Seoul
 
