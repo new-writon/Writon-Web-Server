@@ -40,6 +40,10 @@ export class Position extends BaseEntity{
     { name: "organization_id", referencedColumnName: "organizationId" },
     ])
     organization: Relation<Organization>;
+
+    public getName(){
+        return this.name;
+    }
   
   
 }
