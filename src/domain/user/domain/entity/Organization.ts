@@ -12,6 +12,12 @@ export class Organization extends BaseEntity{
   @Column("varchar", { name: "name", length: 30 })
   name: string;
 
+  @Column("varchar", { name: "logo"})
+  logo: string;
+
+  @Column("varchar", { name: "theme_color" })
+  themeColor: string;
+
   @OneToMany(() => Affiliation, (affiliation) => affiliation.organization)
   affiliations: Relation<Affiliation>[];
 
