@@ -115,7 +115,7 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
             .from(Challenge, 'c')
             .where('c.challenge_id IN (:...challengeIds)',{challengeIds})
             .getRawMany();
-        return result.map((data)=>ChallengesPerOrganization.of(undefined, data.challengeId, data.challenge, data.challengeFinishSign))
+        return result.map((data)=>ChallengesPerOrganization.of(undefined, data.challengeId, data.challenge, data.challengeFinishSign, undefined, undefined))
     }
 
 
