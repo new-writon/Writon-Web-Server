@@ -26,11 +26,12 @@ export class OrganizationDao extends Repository<Organization> implements Organiz
                 .getMany();
         }
 
-        async findPositionsByOrganizationId(organizationId:number):Promise<Position[]>{
+        async findPositionsByOrganizationId(organization:string):Promise<Position[]>{
             return this.createQueryBuilder()
                 .select('p')
                 .from(Position, 'p')
-                .where('p.organization_id = :organizationId',{organizationId})
+                .innerJoin(Organization, 'o', 'o.organization_id = p.organization_id')
+                .where('o.name = :organization',{organization})
                 .getMany();
         }
 }

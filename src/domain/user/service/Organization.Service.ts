@@ -12,8 +12,8 @@ export class OrganizationService{
         private readonly organizationHelper: OrganizationHelper,
     ){}
 
-    public async bringPositions(organizationId:number): Promise<PositionNames>{
-        const positionDatas = await this.organizationHelper.givePositionsByOrganizationId(organizationId);
+    public async bringPositions(organization:string): Promise<PositionNames>{
+        const positionDatas = await this.organizationHelper.givePositionsByOrganizationId(organization);
         const mappedPositionDatas = this.mappingPositionDatas(positionDatas);
         return PositionNames.of(mappedPositionDatas);
        

@@ -7,5 +7,5 @@ import { Position } from "../entity/Position";
 export interface OrganizationRepository extends Repository<Organization> {
     findOrganizationByName(name: string): Promise<Organization>;
     findAllOrganization():Promise<Organization[]>;
-    findPositionsByOrganizationId(organizationId:number):Promise<Position[]>;
+    findPositionsByOrganizationId(organization:string):Promise<Position[]>;
 }
