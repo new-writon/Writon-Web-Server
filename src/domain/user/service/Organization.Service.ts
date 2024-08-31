@@ -15,7 +15,6 @@ export class OrganizationService{
     public async bringPositions(organizationId:number): Promise<PositionNames>{
         const positionDatas = await this.organizationHelper.givePositionsByOrganizationId(organizationId);
         const mappedPositionDatas = this.mappingPositionDatas(positionDatas);
-        console.log(mappedPositionDatas)
         return PositionNames.of(mappedPositionDatas);
        
     }
