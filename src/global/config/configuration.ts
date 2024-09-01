@@ -7,7 +7,11 @@ export function configuration() {
 
   return {
     port: Number.parseInt(process.env.PORT, 10) || 3000,
-    secret: process.env.SECRET,
+    jwt:{
+      secret: process.env.SECRET,
+      access_token:process.env.ACCESS_TOKEN,
+      refresh_token:process.env.REFRESH_TOKEN
+    },
     mailer:{
       host:process.env.NODEMAILER_HOST,
       port: Number(process.env.NODEMAILER_PORT),

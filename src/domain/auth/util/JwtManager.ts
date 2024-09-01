@@ -19,17 +19,18 @@ export class JwtManager {
             userId: userId,
             role: userRole,
         };
-        const secret = this.configService.get<string>('secret');
-        return 'Bearer ' + jwt.sign(payload,secret, {
+        const expiresIn = this.configService.get<string>('jwt.access_token');
+
+        return 'Bearer ' + jwt.sign(payload, this.configService.get<string>('jwt.secret'), {
             algorithm: 'HS256',
-            expiresIn: '30d',
+            expiresIn: "30d",
         });
     }
 
     public makeRefreshToken = () => {
-        return 'Bearer ' + jwt.sign({}, process.env.SECRET, {
+        return 'Bearer ' + jwt.sign({}, this.configService.get<string>('jwt.secret'), {
             algorithm: 'HS256',
-            expiresIn: '60d',
+            expiresIn: "30d",
         });
     }
 
@@ -51,7 +52,7 @@ export class JwtManager {
 
     public verify = (token: string) => {
         try {
-            const decoded = jwt.verify(token, process.env.SECRET) as JwtPayload
+            const decoded = jwt.verify(token, this.configService.get<string>('jwt.secret')) as JwtPayload
             return {
                 state: true,
                 userId: decoded!.userId,
@@ -70,7 +71,7 @@ export class JwtManager {
             const responseToken = await this.tokenManager.getToken(String(userId))
             if (this.verifyToken(requestToken, responseToken.split('Bearer ')[1])) {
           
-                jwt.verify(requestToken, process.env.SECRET) as JwtPayload
+                jwt.verify(requestToken, this.configService.get<string>('jwt.secret')) as JwtPayload
                 return { state: true, token: responseToken };
             }
             return { state: false };
