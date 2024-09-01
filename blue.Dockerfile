@@ -1,6 +1,9 @@
-
 # Build stage (Stage 1)
 FROM node:18.6.0-alpine as blue
+
+# Install tzdata package to ensure timezone data is available
+RUN apk add --no-cache tzdata
+
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -12,6 +15,10 @@ COPY ./ ./
 
 # Production stage (Stage 2)
 FROM node:18.6.0-alpine
+
+# Install tzdata package
+RUN apk add --no-cache tzdata
+
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /app
@@ -24,5 +31,3 @@ RUN npm run build
 
 EXPOSE 3000
 CMD ["npm", "run", "start:prod"]
-
-
