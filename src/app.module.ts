@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { configuration } from './global/config/configuration';
+import {configuration} from './global/config/configuration';
 import { dataSource } from './global/config/database';
 import { UserModule } from './domain/user/user.module';
 import { AuthModule } from './domain/auth/auth.module';
@@ -34,25 +34,19 @@ import { MailerModule } from '@nestjs-modules/mailer';
       },     
     }),
     CacheModule.registerAsync({ isGlobal: true, useClass: RedisConfig }),
-    MailerModule.forRoot({
-      transport: {
-        host: 'smtp.gmail.com',
-        port: 587,
-        auth: {
-          user: process.env.NODEMAILER_USER,
-          pass: process.env.NODEMAILER_PASS,
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        transport: {
+          host: configService.get<string>('mailer.host'),
+          port: configService.get<number>('mailer.port'),
+          auth: {
+            user: configService.get<string>('mailer.user'),
+            pass: configService.get<string>('mailer.password'),
+          },
         },
-      },
-      // defaults: {
-      //   from: '"nest-modules" <modules@nestjs.com>',
-      // },
-      // template: {
-      //   dir: __dirname + '/templates',
-      //   adapter: new HandlebarsAdapter(),
-      //   options: {
-      //     strict: true,
-      //   },
-      // },
+      }),
     }),
     UserModule,
     AuthModule,
@@ -61,11 +55,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
     SatisfactionModule,
     ChallengeModule,
     TemplateModule,
- 
-
-  
-    
-
   ],
   controllers: [],
  
