@@ -46,6 +46,8 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
             .select([
               'o.name AS organization',
               'uc.challenge_id AS challengeId',
+              'o.logo AS logo',
+              'o.theme_color AS themeColor'
             ])
             .from(Affiliation, 'a')
             .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
@@ -53,7 +55,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
             .where('a.user_id = :userId',{userId})
             .orderBy('uc.created_at', 'DESC')
             .getRawMany();
-    return result.map((data)=>ChallengesPerOrganization.of(data.organization, data.challengeId, undefined, undefined));
+    return result.map((data)=>ChallengesPerOrganization.of(data.organization, data.challengeId, undefined, undefined, data.themeColor, data.logo));
     
   }
 

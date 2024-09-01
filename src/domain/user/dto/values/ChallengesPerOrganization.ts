@@ -6,7 +6,9 @@ export class ChallengesPerOrganization {
     private organization:string;
     private challengeId:number;
     private challenge:string;
-    private challengeFinishSign: string
+    private challengeFinishSign: string;
+    private themeColor:string;
+    private logo:string;
 
 
 
@@ -14,20 +16,27 @@ export class ChallengesPerOrganization {
         organization:string,
         challengeId:number,
         challenge:string,
-        challengeFinishSign: string
+        challengeFinishSign: string,
+        themeColor:string,
+        logo:string
     ){
         this.setOrganization(organization);
         this.setChallengeId(challengeId);
         this.setChallenge(challenge);
         this.setChallengeFinishSign(challengeFinishSign);  
+        this.setThemeColor(themeColor);
+        this.setLogo(logo);
     }
 
     public static of(
         organization:string,
         challengeId:number,
         challenge:string,
-        challengeFinishSign: string):ChallengesPerOrganization{
-            return new ChallengesPerOrganization(organization, challengeId, challenge, challengeFinishSign);
+        challengeFinishSign: string,
+        themeColor:string,
+        logo:string
+    ):ChallengesPerOrganization{
+            return new ChallengesPerOrganization(organization, challengeId, challenge, challengeFinishSign, themeColor, logo);
     }
 
 
@@ -44,6 +53,16 @@ export class ChallengesPerOrganization {
     private setChallengeFinishSign(challengeFinishSign:string){
         if(challengeFinishSign=== null)throw new InternalServerErrorException (`${__dirname} : challengeFinishSign값이 존재하지 않습니다.`);
         this.challengeFinishSign=challengeFinishSign;
+    }
+
+    private setThemeColor(themeColor:string){
+        if(themeColor=== null)throw new InternalServerErrorException (`${__dirname} : themeColor 값이 존재하지 않습니다.`);
+        this.themeColor=themeColor;
+    }
+
+    private setLogo(logo:string){
+        if(logo=== null)throw new InternalServerErrorException (`${__dirname} : logo값이 존재하지 않습니다.`);
+        this.logo=logo;
     }
 
     private setChallenge(challenge:string){
@@ -67,4 +86,12 @@ export class ChallengesPerOrganization {
         return this.challenge;
     }
 
+
+    public getThemeColor(){
+        return this.themeColor;
+    }
+
+    public getLogo(){
+        return this.logo;
+    }
 }

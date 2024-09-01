@@ -23,6 +23,10 @@ export class OrganizationHelper{
         return this.organizationRepository.findAllOrganization();
     }
 
+    public async givePositionsByOrganizationId(organization:string){
+        return this.organizationRepository.findPositionsByOrganizationId(organization)
+    }
+
     
 
 }

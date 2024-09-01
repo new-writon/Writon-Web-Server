@@ -31,6 +31,8 @@ import { CheeringPhraseController } from './presentation/CheeringPhrase.Controll
 import { CheeringPhraseService } from './service/CheeringPhrase.Service';
 import { UserController } from './presentation/User.controller';
 import { UserService } from './service/User.service';
+import { OrganizationService } from './service/Organization.Service';
+import { OrgnizationController } from './presentation/Organization.Controller';
 
 @Module({
   imports: [
@@ -50,6 +52,7 @@ import { UserService } from './service/User.service';
     AuthService, 
     UserChallengeService, 
     AffiliationService,
+    OrganizationService,
     UserChallengeHelper,
     AffiliationHelper,
     OrganizationHelper,
@@ -62,7 +65,7 @@ import { UserService } from './service/User.service';
     CheeringPhraseService
   ],
 
-  controllers:[UserController, UserChallengeController, AffiliationController,CheeringPhraseController],
+  controllers:[UserController, UserChallengeController, AffiliationController,CheeringPhraseController, OrgnizationController],
   exports:[UserChallengeHelper, AffiliationHelper, UserHelper, OrganizationHelper]
 })
 export class UserModule {}

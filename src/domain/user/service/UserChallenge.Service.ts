@@ -175,7 +175,7 @@ export class UserChallengeService {
     public mappingChallengesPerOrganization(challengesPerOrganization:ChallengesPerOrganization[], challengeDatas:ChallengesPerOrganization[]){
       return challengesPerOrganization.map((cpo)=> {
         const challenge = challengeDatas.find((challenge)=> challenge.getChallengeId() === cpo.getChallengeId());
-        return ChallengesPerOrganization.of(cpo.getOrganization(), cpo.getChallengeId(), challenge.getChallenge(), challenge.getChallengeFinishSign());
+        return ChallengesPerOrganization.of(cpo.getOrganization(), cpo.getChallengeId(), challenge.getChallenge(), challenge.getChallengeFinishSign(), cpo.getThemeColor(), cpo.getLogo());
       })
     }
 
