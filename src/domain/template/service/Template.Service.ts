@@ -283,12 +283,12 @@ export class TemplateService {
         let complete = true;
         console.log(new Date(date).setHours(0, 0, 0, 0).toLocaleString(),new Date().setHours(0, 0, 0, 0).toLocaleString())
         console.log(new Date(date))
-        console.log(await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date),false))
-        console.log(!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date),false))
+        console.log(await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, date,false))
+        console.log(!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, date,false))
         if (new Date(date).setHours(0, 0, 0, 0).toLocaleString() !== new Date().setHours(0, 0, 0, 0).toLocaleString()) {
             complete = false;
         } 
-        if (!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, new Date(date),false)) {
+        if (!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, date,false)) {
             complete = false;
         }  
         return complete; 

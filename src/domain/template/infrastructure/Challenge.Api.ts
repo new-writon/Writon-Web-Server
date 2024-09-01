@@ -14,7 +14,7 @@ export class ChallengeApi{
         private readonly questionHelper: QuestionHelper
     ){}
 
-    public async requestChallengeDayByChallengeIdAndDate(challengeId:number, date:Date, verifyFlag:boolean):Promise<ChallengeDay>{
+    public async requestChallengeDayByChallengeIdAndDate(challengeId:number, date:string, verifyFlag:boolean):Promise<ChallengeDay>{
         return this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId,date,verifyFlag);
     }
 

@@ -12,7 +12,7 @@ const sortCallendarDateBadge = (
             isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDay.getTemplateDate()))
         );
 
-        const customObject:  { date:Date, badge?: string } = {
+        const customObject:  { date:string, badge?: string } = {
             date: challengeDay.day
         };
  

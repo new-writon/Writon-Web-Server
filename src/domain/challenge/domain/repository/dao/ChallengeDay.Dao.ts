@@ -11,7 +11,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> implements Challen
     constructor(private dataSource: DataSource) { super(ChallengeDay, dataSource.createEntityManager());}
 
 
-    async findChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
+    async findChallengeDayByChallengeIdAndDate(challengeId:number, date:string):Promise<ChallengeDay>{
         return this.dataSource
             .createQueryBuilder()
             .select('cd')

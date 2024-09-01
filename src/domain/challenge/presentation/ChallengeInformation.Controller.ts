@@ -35,7 +35,7 @@ export class ChallengeInformationController{
     @HttpCode(200)
     public async bringChallengeDay(
          @Param('challengeId') challengeId: number
-    ): Promise<SuccessResponseDto<Date[]>>{
+    ): Promise<SuccessResponseDto<string[]>>{
        const result = await this.challengeInformationService.bringChallengeDay(challengeId);
         this.logger.log("챌린지 수행 날짜 조회 완료");
         return SuccessResponseDto.of(result);
@@ -45,7 +45,7 @@ export class ChallengeInformationController{
     @HttpCode(200)
     public async checkChallengeDay(
          @Param('challengeId') challengeId: number,
-         @Param('date') date: Date
+         @Param('date') date: string
     ): Promise<SuccessResponseDto<void>>{
         await this.challengeInformationService.checkChallengeDay(challengeId, date);
         this.logger.log("챌린지 수행 날짜 여부 조회 완료");

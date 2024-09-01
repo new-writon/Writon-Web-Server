@@ -23,7 +23,7 @@ export class ChallengeDayHelper{
         return challengeDayDatas;
     }
 
-    public async giveChallengeDayByChallengeIdAndDate(challengeId:number, date:Date, verifyFlag:boolean):Promise<ChallengeDay>{
+    public async giveChallengeDayByChallengeIdAndDate(challengeId:number, date:string, verifyFlag:boolean):Promise<ChallengeDay>{
         const challengeDayData = await this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
         if(verifyFlag) this.challengeVerifyService.verifyChallengeDay(challengeDayData);
         return challengeDayData;

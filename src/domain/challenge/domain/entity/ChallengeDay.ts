@@ -21,7 +21,7 @@ export class ChallengeDay extends BaseEntity{
   challengeId: number;
 
   @Column("date", { name: "day" })
-  day: Date;
+  day: string;
 
   @ManyToOne(() => Challenge, (challenge) => challenge.challengeDays, {
     onDelete: "CASCADE",
@@ -31,7 +31,7 @@ export class ChallengeDay extends BaseEntity{
   challenge: Relation<Challenge>;
 
 
-  public getDay(): Date{
+  public getDay(): string{
     return this.day;
   }
   

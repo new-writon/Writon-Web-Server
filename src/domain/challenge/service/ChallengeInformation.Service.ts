@@ -27,7 +27,7 @@ export class ChallengeInformationService{
     ){}
 
 
-    public async checkChallengeDay(challengeId: number, date: Date){ 
+    public async checkChallengeDay(challengeId: number, date: string){ 
         const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date, false);
         this.challengeVerifyService.verifyChallengeDay(challengeDayData)
     }
@@ -48,7 +48,7 @@ export class ChallengeInformationService{
         return ChallengeAccordingToOrganization.of(sortedallChallengeAccordingToOrganizationData); 
     }
 
-    public async bringChallengeDay(challengeId:number):Promise<Date[]>{ 
+    public async bringChallengeDay(challengeId:number):Promise<string[]>{ 
        const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId, false);
        const challengeDays = this.sortChallnegeDay(challengeDay);
        return challengeDays;
