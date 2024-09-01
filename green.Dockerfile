@@ -1,6 +1,7 @@
 
 # Build stage (Stage 1)
 FROM node:18.6.0-alpine as green
+RUN apk add --no-cache tzdata
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -12,6 +13,7 @@ COPY ./ ./
 
 # Production stage (Stage 2)
 FROM node:18.6.0-alpine
+RUN apk add --no-cache tzdata
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /app
