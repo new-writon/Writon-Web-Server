@@ -151,6 +151,8 @@ export class TemplateService {
             return questionDatas.reduce((acc, questionData) => {
                 const questionContent = userTemplateData.getQuestionContents().find((content) => content.getQuestionId() === questionData.getId());
                 const myLikeSign = userTemplateData.likes.some((like) => like.getAffiliationId() === affiliationData.getId()) ? '1' : '0';
+                console.log(userTemplateData.getCreatedAt().toString())
+                console.log(formatDate(userTemplateData.getCreatedAt().toString()))
                 if (questionContent) {
                     acc.push(TemplateContent.of(
                         affiliationData,
