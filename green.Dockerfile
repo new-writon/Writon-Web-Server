@@ -1,7 +1,8 @@
 
 # Build stage (Stage 1)
 FROM node:18.6.0-alpine as green
-
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /app
 COPY package.json /app
