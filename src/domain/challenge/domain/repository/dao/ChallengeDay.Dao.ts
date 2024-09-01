@@ -12,10 +12,13 @@ export class ChallengeDayDao extends Repository<ChallengeDay> implements Challen
 
 
     async findChallengeDayByChallengeIdAndDate(challengeId:number, date:Date):Promise<ChallengeDay>{
-        return this.findOneBy({
-             challengeId: challengeId,
-             day: date
-        })
+        return this.dataSource
+            .createQueryBuilder()
+            .select('cd')
+            .from(ChallengeDay, 'cd')
+            .where('cd.challenge_id = :challengeId',{challengeId})
+            .andWhere('cd.day = :date', {date})
+            .getOne();
     };
 
 
