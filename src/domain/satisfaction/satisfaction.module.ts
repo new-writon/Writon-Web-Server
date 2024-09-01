@@ -28,7 +28,6 @@ import { SatisfactionSubjectiveResultHelper } from './helper/SatisfactionSubject
     ChallengeModule,
     TemplateModule
 
-  
   ],
   providers: [
     {provide: 'satisfactionImpl',  useClass: SatisfactionDao},
