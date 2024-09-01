@@ -12,6 +12,8 @@ COPY ./ ./
 
 # Production stage (Stage 2)
 FROM node:18.6.0-alpine
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /app
 
 # Copy the necessary files from the build stage
