@@ -24,7 +24,7 @@ export class SmallTalkController{
     @UseGuards(JWTAuthGuard)
     public async bringSmallTalk(
         @Param('challengeId') challengeId: number,
-        @Param('date') date: Date,
+        @Param('date') date: string,
         @CurrentUser() user: User
     ): Promise<SuccessResponseDto<any>>{
         const result = await this.smallTalkService.bringSmallTalk(user.userId, challengeId, date);
@@ -36,7 +36,7 @@ export class SmallTalkController{
     @HttpCode(200)
     public async checkSmallTalk(
         @Param('challengeId') challengeId: number,
-        @Param('date') date: Date,
+        @Param('date') date: string,
     ): Promise<SuccessResponseDto<SmallTalkResult>>{
         const result = await this.smallTalkService.checkSmallTalk(challengeId, date)
         this.logger.log("아고라 추가 여부 조회 완료");

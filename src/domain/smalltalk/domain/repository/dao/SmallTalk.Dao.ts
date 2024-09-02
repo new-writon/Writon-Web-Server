@@ -11,7 +11,7 @@ export class SmallTalkDao extends Repository<SmallTalk> implements SmallTalkRepo
 
     constructor(private dataSource: DataSource) { super(SmallTalk, dataSource.createEntityManager()); }
 
-    async findParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularSmallTalkData[]>{
+    async findParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<ParticularSmallTalkData[]>{
         const particularSmallTalkData :ParticularSmallTalkData[] = await this.dataSource.createQueryBuilder()
             .select([
                 'st.small_talk_id AS smallTalkId',

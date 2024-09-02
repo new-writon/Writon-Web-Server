@@ -21,7 +21,7 @@ export class SmallTalkService{
     ){}
 
 
-    public async checkSmallTalk(challengeId:number, date:Date):Promise<SmallTalkResult>{
+    public async checkSmallTalk(challengeId:number, date:string):Promise<SmallTalkResult>{
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, false);
         const smallTalkLimitResult = this.checkSmallTalkLimit(particularSmallTalkData);
         return SmallTalkResult.of(smallTalkLimitResult);
@@ -41,7 +41,7 @@ export class SmallTalkService{
         }
     }
 
-    public async bringSmallTalk(userId:number, challengeId:number, date:Date){
+    public async bringSmallTalk(userId:number, challengeId:number, date:string){
         const particularSmallTalkData = await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date, false);
         return particularSmallTalkData.length === 0 ? []:this.proccessSmallTalkData(particularSmallTalkData, userId, challengeId)
     }

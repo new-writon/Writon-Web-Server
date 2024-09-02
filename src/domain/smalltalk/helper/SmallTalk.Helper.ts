@@ -17,7 +17,7 @@ export class SmallTalkHelper{
     ){}
 
 
-    public async giveParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:Date, verifyFlag:boolean):Promise<ParticularSmallTalkData[]>{
+    public async giveParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:string, verifyFlag:boolean):Promise<ParticularSmallTalkData[]>{
         const datas = await this.smallTalkRepository.findParticularSmallTalkByChallengeIdAndDate(challengeId, date);
         if(verifyFlag) this.smallTalkVerifyService.verifyParticularSmallTalk(datas);
         return datas;

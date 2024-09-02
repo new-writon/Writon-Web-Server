@@ -5,7 +5,7 @@ import { ParticularSmallTalkData } from "../../dto/values/ParticularSmallTalkDat
 
 export interface SmallTalkRepository extends Repository<SmallTalk>{
 
-    findParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:Date):Promise<ParticularSmallTalkData[]>;
+    findParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<ParticularSmallTalkData[]>;
     insertSmallTalk(challengeId: number, userChallengeId: number, question:string):Promise<void>;
     findSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>;
 }
