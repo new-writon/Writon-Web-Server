@@ -4,7 +4,6 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import type { Response } from 'express';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,7 +15,7 @@ import type { User } from '../../user/domain/entity/User';
 export class TokenInterceptor implements NestInterceptor {
 
 
-  constructor(private readonly jwtService: JwtService) {}
+  constructor() {}
 
   intercept(
     context: ExecutionContext,
