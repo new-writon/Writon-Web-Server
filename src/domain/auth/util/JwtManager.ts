@@ -25,7 +25,6 @@ export class JwtManager {
         });
     }
 
-
     public makeRefreshToken = () => {
         return 'Bearer ' + jwt.sign({}, this.configService.get<string>('jwt.secret'), {
             algorithm: this.configService.get<string>('jwt.algorithm') as jwt.Algorithm,
@@ -65,15 +64,14 @@ export class JwtManager {
     };
 
     public refreshVerify = async (requestToken: string, userId: number) => {
-
-        try {  
+        try{  
             const responseToken = await this.tokenManager.getToken(String(userId))
             if (this.verifyToken(requestToken, responseToken.split('Bearer ')[1])) {
                 jwt.verify(requestToken, this.configService.get<string>('jwt.secret')) as JwtPayload
                 return { state: true, token: responseToken };
             }
             return { state: false };
-        } catch (err) {
+        }catch (err) {
             return { state: false };
         }
     };
