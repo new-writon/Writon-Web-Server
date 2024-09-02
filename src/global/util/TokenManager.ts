@@ -9,7 +9,7 @@ export class TokenManager {
     ) {}
 
     public async setToken(key:string, value:string){   
-        await this.cacheManager.set(key, value);
+        await this.cacheManager.set(key, value, Infinity);
     }
 
     public async getToken(key:string): Promise<string>{   

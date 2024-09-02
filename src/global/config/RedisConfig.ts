@@ -9,7 +9,7 @@ export class RedisConfig implements CacheOptionsFactory{
 
   constructor(
     private readonly configService: ConfigService,
-){}
+  ){}
     
     createCacheOptions(): CacheModuleOptions {
         const config: CacheModuleOptions = {
@@ -19,6 +19,4 @@ export class RedisConfig implements CacheOptionsFactory{
         };
         return config;
       }
-
-    
 }

@@ -22,7 +22,7 @@ export function configuration() {
     }, 
     redis:{
       host:process.env.AWS_REDIS_ENDPOINT,
-      port: process.env.AWS_REDIS_PORT
+      port: Number(process.env.AWS_REDIS_PORT)
     },
     validation: {
       transform: true,  //요청의 데이터를 자동으로 변환

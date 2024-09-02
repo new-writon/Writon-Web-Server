@@ -15,7 +15,6 @@ export class VerificationService{
         private readonly tokenManager: TokenManager,
         private readonly mailManager: MailManager,
         private readonly authVerifyService: AuthVerifyService
-
     ) { }
     
     public async reissueToken(accessToken: string, refreshToken: string): Promise<Token>{

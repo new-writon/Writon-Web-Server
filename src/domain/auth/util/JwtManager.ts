@@ -69,7 +69,6 @@ export class JwtManager {
         try {  
             const responseToken = await this.tokenManager.getToken(String(userId))
             if (this.verifyToken(requestToken, responseToken.split('Bearer ')[1])) {
-          
                 jwt.verify(requestToken, this.configService.get<string>('jwt.secret')) as JwtPayload
                 return { state: true, token: responseToken };
             }
