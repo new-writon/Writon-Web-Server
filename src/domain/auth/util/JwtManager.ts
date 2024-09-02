@@ -19,18 +19,17 @@ export class JwtManager {
             userId: userId,
             role: userRole,
         };
-        const expiresIn = this.configService.get<string>('jwt.access_token');
-
         return 'Bearer ' + jwt.sign(payload, this.configService.get<string>('jwt.secret'), {
-            algorithm: 'HS256',
-            expiresIn: "30d",
+            algorithm: this.configService.get<string>('jwt.algorithm') as jwt.Algorithm,
+            expiresIn: this.configService.get<string>('jwt.access_token'),
         });
     }
 
+
     public makeRefreshToken = () => {
         return 'Bearer ' + jwt.sign({}, this.configService.get<string>('jwt.secret'), {
-            algorithm: 'HS256',
-            expiresIn: "30d",
+            algorithm: this.configService.get<string>('jwt.algorithm') as jwt.Algorithm,
+            expiresIn: this.configService.get<string>('jwt.refresh_token'),
         });
     }
 

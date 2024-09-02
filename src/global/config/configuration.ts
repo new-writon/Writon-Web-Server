@@ -10,7 +10,8 @@ export function configuration() {
     jwt:{
       secret: process.env.SECRET,
       access_token:process.env.ACCESS_TOKEN,
-      refresh_token:process.env.REFRESH_TOKEN
+      refresh_token:process.env.REFRESH_TOKEN,
+      algorithm:process.env.ALGORITHM
     },
     mailer:{
       host:process.env.NODEMAILER_HOST,
@@ -19,6 +20,10 @@ export function configuration() {
       password:process.env.NODEMAILER_PASS
 
     }, 
+    redis:{
+      host:process.env.AWS_REDIS_ENDPOINT,
+      port: process.env.AWS_REDIS_PORT
+    },
     validation: {
       transform: true,  //요청의 데이터를 자동으로 변환
       whitelist: true, //들어오는 요청의 데이터가 DTO(Data Transfer Object)에 정의되지 않은 속성을 자동으로 제거
