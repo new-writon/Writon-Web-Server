@@ -5,7 +5,6 @@ import { Affiliation } from './domain/entity/Affiliation';
 import { Organization } from './domain/entity/Organization';
 import { UserChallenge } from './domain/entity/UserChallenge';
 import { UserDao } from './domain/repository/dao/User.Dao';
-import { TokenManager } from '../../global/util/TokenManager';
 import { MailManager } from '../../global/util/MailManager';
 import { AuthService } from '../auth/service/Auth.Service';
 import { UserChallengeController } from './presentation/UserChallenge.Controller';

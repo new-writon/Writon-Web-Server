@@ -4,7 +4,6 @@ import { SocialLogin } from "../util/SocialLogin";
 import { User } from "../../user/domain/entity/User";
 import { AxiosResponse } from "axios";
 import { JwtManager } from "../util/JwtManager";
-import { TokenManager } from "../../../global/util/TokenManager";
 import { UserChallenge } from "../../user/domain/entity/UserChallenge";
 import { checkData } from "../util/checker";
 import { Affiliation } from "../../user/domain/entity/Affiliation";

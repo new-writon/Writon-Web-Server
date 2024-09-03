@@ -1,14 +1,10 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
-//import { AuthConfig, auth } from './util/auth';
 import { AuthController } from './presentation/Auth.Controller';
 import { AuthService } from './service/Auth.Service';
 import { SocialLogin } from './util/SocialLogin';
 import { JwtManager } from './util/JwtManager';
-import { TokenManager } from '../../global/util/TokenManager';
 import { MailManager } from '../../global/util/MailManager';
 import { UserModule } from '../user/user.module';
 import { AccountController } from './presentation/Account.Controller';
