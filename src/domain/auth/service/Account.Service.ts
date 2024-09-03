@@ -1,6 +1,5 @@
 
 import { User } from "../../user/domain/entity/User";
-import { TokenManager } from "../../../global/util/TokenManager";
 import * as bcrypt from 'bcrypt';
 import { MailManager } from "../../../global/util/MailManager";
 import { UserIdentifier } from "../dto/response/UserIdentifier";
@@ -8,12 +7,13 @@ import { generateRandomPassword } from "../util/temporaryPassword";
 import { Injectable } from "@nestjs/common";
 import { UserApi } from "../intrastructure/User.Api";
 import { AuthVerifyService } from "../domain/service/AuthVerify.Service";
+import { LoginTokenManager } from "../util/LoginTokenManager";
 
 @Injectable()
 export class AccountService {
 
     constructor(
-        private readonly tokenManager: TokenManager,
+        private readonly loginTokenManager: LoginTokenManager,
         private readonly mailManager: MailManager,
         private readonly userApi: UserApi,
         private readonly authVerifyService: AuthVerifyService
@@ -26,7 +26,7 @@ export class AccountService {
 
     public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
         const userData : User = await this.userApi.requestUserByEmail(email,true);
-        const certifyCode:string = await this.tokenManager.getToken(email) as string;
+        const certifyCode:string = await this.loginTokenManager.getToken(email) as string;
         this.authVerifyService.verifyCode(code, certifyCode);
         return UserIdentifier.of(userData.getIdentifier());
     }
