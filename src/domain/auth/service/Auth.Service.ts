@@ -6,7 +6,7 @@ import { AxiosResponse } from "axios";
 import { JwtManager } from "../util/JwtManager";
 import { TokenManager } from "../../../global/util/TokenManager";
 import { UserChallenge } from "../../user/domain/entity/UserChallenge";
-import { checkData } from "../util/checker.js";
+import { checkData } from "../util/checker";
 import { Affiliation } from "../../user/domain/entity/Affiliation";
 import { UserApi } from "../intrastructure/User.Api";
 import { AuthVerifyService } from "../domain/service/AuthVerify.Service";

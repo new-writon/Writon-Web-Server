@@ -26,7 +26,7 @@ export class AccountService {
 
     public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
         const userData : User = await this.userApi.requestUserByEmail(email,true);
-        const certifyCode :string = await this.tokenManager.getToken(email);
+        const certifyCode:string = await this.tokenManager.getToken(email) as string;
         this.authVerifyService.verifyCode(code, certifyCode);
         return UserIdentifier.of(userData.getIdentifier());
     }

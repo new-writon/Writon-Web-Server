@@ -8,11 +8,11 @@ export class TokenManager {
         @Inject(CACHE_MANAGER) private readonly cacheManager: Cache
     ) {}
 
-    public async setToken(key:string, value:string, time:number){   
+    public async setToken(key:string, value:string | string[], time:number){   
         await this.cacheManager.set(key, value, time);
     }
 
-    public async getToken(key:string): Promise<string>{   
+    public async getToken(key:string): Promise<string | string[]>{   
         return this.cacheManager.get(key);
     }
 
@@ -20,10 +20,6 @@ export class TokenManager {
     public async deleteToken(key:string){
         await this.cacheManager.del(key);
     }
-
-    // public async setTimeoutToken(key: string, value: string, time: number){
-    //     await this.cacheManager.set(key, value, time)
-    // }
 
 
 }

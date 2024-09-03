@@ -23,7 +23,7 @@ export class VerificationService{
         const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken.split('Bearer ')[1], accessTokenDecodedData.userId);
         this.authVerifyService.signVerifyToken(accessTokenVerifyResult.state, refreshTokenVerifyesult.state);
         const newAccessToken = this.jwtManager.makeAccessToken(accessTokenDecodedData.userId, accessTokenDecodedData.role);
-        return Token.of(newAccessToken, refreshTokenVerifyesult.token);
+        return Token.of(newAccessToken, refreshTokenVerifyesult.token as string);
     }
 
     public async issueAuthenticationCode(email: string): Promise<AuthenticationCodeResponse> {
@@ -34,7 +34,7 @@ export class VerificationService{
     }
 
     public async verifyAuthenticationCode(email: string, code: string): Promise<void> {
-        const authenticationCode: string = await this.tokenManager.getToken(email);
+        const authenticationCode: string = await this.tokenManager.getToken(email) as string;
         this.authVerifyService.verifyCode(code, authenticationCode);
     }
 
