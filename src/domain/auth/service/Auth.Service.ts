@@ -54,8 +54,9 @@ export class AuthService {
         return LoginResponse.of(accessToken, refreshToken, userData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
-    public async logout(userId: string): Promise<void> {
-        await this.tokenManager.deleteToken(userId)
+    public async logout(userId: string, refreshToken:string): Promise<void> {
+
+        await this.tokenManager.deleteToken(userId, refreshToken)
     }
 
     private checkOrganization(organization: string, affiliatedConfirmation: boolean): null | boolean {
