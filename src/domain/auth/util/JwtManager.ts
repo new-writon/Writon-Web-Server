@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import * as jwt from 'jsonwebtoken';
 import type { JwtPayload } from "jsonwebtoken"
-import { TokenManager } from "../../../global/util/TokenManager";
+
 import { ConfigService } from '@nestjs/config';
+import { LoginTokenManager } from "./LoginTokenManager";
 
 
 
@@ -10,7 +11,7 @@ import { ConfigService } from '@nestjs/config';
 export class JwtManager {
 
     constructor(
-        private readonly tokenManager: TokenManager,
+        private readonly loginTokenManager: LoginTokenManager,
         private readonly configService: ConfigService,
     ){}
 
@@ -64,7 +65,7 @@ export class JwtManager {
 
     public refreshVerify = async (requestToken: string, userId: number) => {
         try{  
-            const responseToken = await this.tokenManager.getToken(String(userId));
+            const responseToken = await this.loginTokenManager.getToken(String(userId));
             if (this.verifyToken(requestToken, (responseToken as string).split('Bearer ')[1])) {
                 jwt.verify(requestToken, this.configService.get<string>('jwt.secret')) as JwtPayload
                 return { state: true, token: responseToken };
