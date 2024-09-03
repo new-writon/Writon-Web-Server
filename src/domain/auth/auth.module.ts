@@ -20,14 +20,16 @@ import { VerificationService } from './service/Verifiaction.Service';
 import { UserApi } from './intrastructure/User.Api';
 import { AuthVerifyService } from './domain/service/AuthVerify.Service';
 import { AuthValidateService } from './domain/service/AuthValidate.Service';
+import { CacheImpl } from 'src/global/util/CacheImpl';
+import { LoginTokenManager } from './util/LoginTokenManager';
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
   ],
   providers: [
-    JwtStrategy, AuthService, SocialLogin, JwtManager, TokenManager, AuthVerifyService, AuthValidateService,
-    MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi
+    JwtStrategy, AuthService, SocialLogin, JwtManager, LoginTokenManager, AuthVerifyService, AuthValidateService,
+    MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi, CacheImpl
   ],
   controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
   exports:[
