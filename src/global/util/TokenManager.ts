@@ -9,7 +9,7 @@ export class TokenManager {
     ) {}
 
     public async setToken(key:string, value:string | string[], time:number){
-        this.setData(key, value, time);
+        this.setDataAccordingToType(key, value, time);
     }
 
     public async getToken(key:string): Promise<string | string[]>{   
@@ -21,7 +21,7 @@ export class TokenManager {
         await this.cacheManager.del(key);
     }
 
-    public async setData(key:string, value:string | string[], time:number){
+    public async setDataAccordingToType(key:string, value:string | string[], time:number){
         switch(true){
             case (typeof value == 'string'):
                 const data = await this.getToken(key) as string[];
