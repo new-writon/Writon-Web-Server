@@ -42,9 +42,10 @@ export class AuthController{
     @HttpCode(200)
     @UseGuards(JWTAuthGuard)
     public async logout(
-        @CurrentUser() user: User
+        @CurrentUser() user: User,
+        @Req() req:Request
     ): Promise<SuccessResponseDto<void>>  {
-      await this.authService.logout(String(user.userId));
+      await this.authService.logout(String(user.userId), req.headers.refresh as string);
       this.logger.log("로그아웃 완료");
       return SuccessResponseDto.of();
     }
