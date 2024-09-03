@@ -21,6 +21,7 @@ export class VerificationService{
         const accessTokenVerifyResult = this.jwtManager.verify(accessToken.split('Bearer ')[1]);
         const accessTokenDecodedData = this.jwtManager.decode(accessToken.split('Bearer ')[1]);
         const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken, accessTokenDecodedData.userId);
+        console.log(refreshToken)
         this.authVerifyService.signVerifyToken(accessTokenVerifyResult.state, refreshTokenVerifyesult.state);
         const newAccessToken = this.jwtManager.makeAccessToken(accessTokenDecodedData.userId, accessTokenDecodedData.role);
         return Token.of(newAccessToken, refreshTokenVerifyesult.token as string);
