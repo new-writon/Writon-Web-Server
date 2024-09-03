@@ -6,10 +6,11 @@ import { AxiosResponse } from "axios";
 import { JwtManager } from "../util/JwtManager";
 import { TokenManager } from "../../../global/util/TokenManager";
 import { UserChallenge } from "../../user/domain/entity/UserChallenge";
-import { checkData } from "../util/checker.js";
+import { checkData } from "../util/checker";
 import { Affiliation } from "../../user/domain/entity/Affiliation";
 import { UserApi } from "../intrastructure/User.Api";
 import { AuthVerifyService } from "../domain/service/AuthVerify.Service";
+import { LoginTokenManager } from "../util/LoginTokenManager";
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
     constructor(
         private readonly socialLogin: SocialLogin,
         private readonly jwtManager: JwtManager,
-        private readonly tokenManager: TokenManager,
+        private readonly loginTokenManager: LoginTokenManager,
         private readonly userApi: UserApi,
         private readonly authVerifyService: AuthVerifyService
     ) { }
@@ -30,7 +31,7 @@ export class AuthService {
         const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id, false);
         const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
-        await this.tokenManager.setToken(String(checkedUserData.getId()), refreshToken, 0);
+        await this.loginTokenManager.setToken(String(checkedUserData.getId()), [refreshToken], 30 * 24 * 60 * 60);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
             this.checkAffiliationStatus(organization, checkedUserData.getId()),
             this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId)
@@ -45,7 +46,7 @@ export class AuthService {
         await this.authVerifyService.verifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
-        await this.tokenManager.setToken(String(userData.getId()), refreshToken , 0);
+        await this.loginTokenManager.setToken(String(userData.getId()), [refreshToken] , 30 * 24 * 60 * 60);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
             this.checkAffiliationStatus(organization, userData.getId()),
             this.checkOngoingChallenge(organization, userData.getId(), challengeId)
@@ -54,8 +55,8 @@ export class AuthService {
         return LoginResponse.of(accessToken, refreshToken, userData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
-    public async logout(userId: string): Promise<void> {
-        await this.tokenManager.deleteToken(userId)
+    public async logout(userId: string, refreshToken:string): Promise<void> {
+        await this.loginTokenManager.deleteToken(userId, refreshToken)
     }
 
     private checkOrganization(organization: string, affiliatedConfirmation: boolean): null | boolean {

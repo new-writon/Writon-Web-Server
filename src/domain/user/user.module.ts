@@ -33,6 +33,8 @@ import { UserController } from './presentation/User.controller';
 import { UserService } from './service/User.service';
 import { OrganizationService } from './service/Organization.Service';
 import { OrgnizationController } from './presentation/Organization.Controller';
+import { LoginTokenManager } from '../auth/util/LoginTokenManager';
+import { CacheImpl } from 'src/global/util/CacheImpl';
 
 @Module({
   imports: [
@@ -47,7 +49,7 @@ import { OrgnizationController } from './presentation/Organization.Controller';
     {provide: 'affiliationImpl', useClass: AffiliationDao},
     {provide: 'userchallengeImpl', useClass: UserChallengeDao},
     {provide: 'organizationImpl', useClass: OrganizationDao},
-    TokenManager, 
+    LoginTokenManager, 
     MailManager,
     AuthService, 
     UserChallengeService, 
@@ -62,7 +64,8 @@ import { OrgnizationController } from './presentation/Organization.Controller';
     UserApi,
     DataMapperService,
     UserVerifyService,
-    CheeringPhraseService
+    CheeringPhraseService,
+    CacheImpl 
   ],
 
   controllers:[UserController, UserChallengeController, AffiliationController,CheeringPhraseController, OrgnizationController],
