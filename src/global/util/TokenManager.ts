@@ -30,6 +30,9 @@ export class TokenManager {
             case (Array.isArray(value) && value.every(item => typeof item === 'string')):
                 await this.cacheManager.set(key, value, time);
                 console.log(await this.getToken(key))
+
+            default :
+                throw Error("타입 에러");
         }
     }
 
