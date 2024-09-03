@@ -20,11 +20,12 @@ export class VerificationService{
     public async reissueToken(accessToken: string, refreshToken: string): Promise<Token>{
         const accessTokenVerifyResult = this.jwtManager.verify(accessToken.split('Bearer ')[1]);
         const accessTokenDecodedData = this.jwtManager.decode(accessToken.split('Bearer ')[1]);
-        const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken.split('Bearer ')[1], accessTokenDecodedData.userId);
+        const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(refreshToken, accessTokenDecodedData.userId);
         this.authVerifyService.signVerifyToken(accessTokenVerifyResult.state, refreshTokenVerifyesult.state);
         const newAccessToken = this.jwtManager.makeAccessToken(accessTokenDecodedData.userId, accessTokenDecodedData.role);
         return Token.of(newAccessToken, refreshTokenVerifyesult.token as string);
     }
+
 
     public async issueAuthenticationCode(email: string): Promise<AuthenticationCodeResponse> {
         const verificationCode = random.generateRandom(100000, 999999);

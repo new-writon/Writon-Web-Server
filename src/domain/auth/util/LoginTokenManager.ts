@@ -15,10 +15,9 @@ export class LoginTokenManager {
             value = this.mergeValues(existingValue, value);
         }
         await this.cacheImpl.setValue(key, value, ttl);
-        console.log(await this.cacheImpl.getValue(key))
     }
 
-    
+
     public async getToken(key: string): Promise<string | string[] | undefined> {
         return this.cacheImpl.getValue(key);
     }
@@ -29,10 +28,10 @@ export class LoginTokenManager {
         } else {
             const existingValue = await this.getToken(key) as string[];
             const updatedValue = existingValue?.filter(data => data !== value);
-            console.log(updatedValue)
             await this.cacheImpl.setValue(key, updatedValue, 0);
         }
     }
+
 
     private mergeValues(existingValue: string | string[] | undefined, newValue: string[]): string[] {
         if (existingValue === undefined || existingValue === null) {
