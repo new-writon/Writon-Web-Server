@@ -30,7 +30,7 @@ export class AuthService {
         const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id, false);
         const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
-        await this.tokenManager.setToken(String(checkedUserData.getId()), refreshToken, 0);
+        await this.tokenManager.setToken(String(checkedUserData.getId()), [refreshToken], 0);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
             this.checkAffiliationStatus(organization, checkedUserData.getId()),
             this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId)
@@ -45,7 +45,7 @@ export class AuthService {
         await this.authVerifyService.verifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
-        await this.tokenManager.setToken(String(userData.getId()), refreshToken , 0);
+        await this.tokenManager.setToken(String(userData.getId()), [refreshToken] , 0);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
             this.checkAffiliationStatus(organization, userData.getId()),
             this.checkOngoingChallenge(organization, userData.getId(), challengeId)
