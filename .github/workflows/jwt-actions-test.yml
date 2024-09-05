@@ -43,7 +43,7 @@ jobs:
           docker rm writon-test
           docker rmi ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
           docker pull ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
-          docker run -d -p 82:3003 --name writon-test ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
+          docker run -d -p 85:3003 --name writon-test ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
 
 
 
