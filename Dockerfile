@@ -1,5 +1,5 @@
 # Build stage (Stage 1)
-FROM node:18.6.0-alpine as build
+FROM node:18.6.0 as build
 
 WORKDIR /app
 COPY package.json /app
@@ -8,7 +8,7 @@ RUN npm install
 COPY ./ ./
 
 # Production stage (Stage 2)
-FROM node:18.6.0-alpine
+FROM node:18.6.0
 
 # Install tzdata package
 RUN apk add --no-cache tzdata
