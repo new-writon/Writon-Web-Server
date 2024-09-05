@@ -1,5 +1,5 @@
 # Build stage (Stage 1)
-FROM node:18.6.0 as build
+FROM node:18.6.0-alpine as build
 
 WORKDIR /app
 COPY package.json /app
@@ -8,10 +8,9 @@ RUN npm install
 COPY ./ ./
 
 # Production stage (Stage 2)
-FROM node:18.6.0
+FROM node:18.6.0-alpine
 
 # Install tzdata package
-#RUN apk add --no-cache tzdata
 RUN apt-get update && apt-get install -y tzdata
 
 ENV TZ=Asia/Seoul
@@ -24,9 +23,6 @@ COPY --from=build /app /app
 
 # Build the application
 RUN npm run build
-
-# Install production dependencies
-RUN npm install --production
 
 EXPOSE 3003
 CMD ["npm", "run", "start:prod"]
