@@ -11,7 +11,7 @@ COPY ./ ./
 FROM node:18.6.0-alpine
 
 # Install tzdata package
-RUN apk update && apk add --no-cache tzdata
+#RUN apk update && apk add --no-cache tzdata
 
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
