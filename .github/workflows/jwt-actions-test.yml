@@ -5,6 +5,9 @@ on:
   push:
     branches: [ "dev" ]
 
+  pull_request:
+    branches: [ "dev" ]
+
 permissions:
   contents: read
 
@@ -43,7 +46,7 @@ jobs:
           docker rm writon-test
           docker rmi ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
           docker pull ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
-          docker run -d -p 3003:3003 --name writon-test ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
+          docker run -d -p 85:3003 --name writon-test ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
 
 
 
