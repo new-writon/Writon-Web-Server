@@ -11,7 +11,7 @@ COPY ./ ./
 FROM node:18.6.0-alpine
 
 # Install tzdata package
-RUN apt-get update && apt-get install -y tzdata
+RUN apk update && apk add --no-cache tzdata build-base
 RUN npm rebuild bcrypt --build-from-source
 
 ENV TZ=Asia/Seoul
