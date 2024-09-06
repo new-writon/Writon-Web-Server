@@ -1,6 +1,6 @@
 
 import { User } from "../../user/domain/entity/User";
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { MailManager } from "../../../global/util/MailManager";
 import { UserIdentifier } from "../dto/response/UserIdentifier";
 import { generateRandomPassword } from "../util/temporaryPassword";

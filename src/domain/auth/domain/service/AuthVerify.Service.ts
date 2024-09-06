@@ -3,8 +3,8 @@ import { checkData } from "../../util/checker";
 import { AuthErrorCode } from "../../exception/AuthErrorCode";
 import { AuthException } from "../../exception/AuthException";
 import { User } from "src/domain/user/domain/entity/User";
-import * as bcrypt from 'bcrypt';
-import { Affiliation } from "../../../../domain/user/domain/entity/Affiliation";
+import * as bcrypt from 'bcryptjs';
+
 
 
 @Injectable()
