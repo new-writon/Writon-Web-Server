@@ -1,5 +1,5 @@
 # Build stage (Stage 1)
-FROM node:18.6.0-buster as build
+FROM node:18.6.0-alpine as build
 
 WORKDIR /app
 COPY package.json /app
@@ -8,10 +8,11 @@ RUN npm install
 COPY ./ ./
 
 # Production stage (Stage 2)
-FROM node:18.6.0-buster
+FROM node:18.6.0-alpine
 
 # Install tzdata package
 RUN apt-get update && apt-get install -y tzdata
+RUN npm rebuild bcrypt --build-from-source
 
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
