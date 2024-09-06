@@ -15,7 +15,6 @@ export class LoginTokenManager {
             value = this.mergeValues(existingValue, value);
         }
         await this.cacheImpl.setValue(key, value, ttl);
-        console.log(await this.getToken(key))
     }
 
 
