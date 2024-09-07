@@ -42,7 +42,6 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
 
-        
           docker stop writon-test
           docker rm writon-test
           docker rmi ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
