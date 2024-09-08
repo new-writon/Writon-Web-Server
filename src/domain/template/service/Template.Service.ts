@@ -206,6 +206,7 @@ export class TemplateService {
         challengeId: number): Promise<(GetCommentNotify | GetLikeNotify)[]>{
             const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization,false);
             const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId(), false);
+            console.log(userTemplateAndCommentAndLikeData)
             return userTemplateAndCommentAndLikeData.length === 0 ? []: this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData)
     } 
 
