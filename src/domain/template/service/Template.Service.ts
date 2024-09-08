@@ -206,8 +206,12 @@ export class TemplateService {
         challengeId: number): Promise<(GetCommentNotify | GetLikeNotify)[]>{
             const userChallengeAndAffiliationData = await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization,false);
             const userTemplateAndCommentAndLikeData = await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeAndAffiliationData.getId(), false);
-            console.log(userTemplateAndCommentAndLikeData)
-            return userTemplateAndCommentAndLikeData.length === 0 ? []: this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData)
+            const hasNoData = 
+                !userTemplateAndCommentAndLikeData || 
+                userTemplateAndCommentAndLikeData.length === 0 || 
+                !userTemplateAndCommentAndLikeData.some(item => item.comments && item.comments.length > 0) || 
+                !userTemplateAndCommentAndLikeData.some(item => item.likes && item.likes.length > 0);
+            return hasNoData ? [] : this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData);
     } 
 
     private async proccessNotifyData(userTemplateAndCommentAndLikeData:UserTemplate[], userChallengeAndAffiliationData:UserChallenge){
