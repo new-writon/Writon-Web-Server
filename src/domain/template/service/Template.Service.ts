@@ -280,10 +280,6 @@ export class TemplateService {
       
     private async signUserChallengeComplete (challengeId: number, date: string){
         let complete = true;
-        console.log(new Date(date).setHours(0, 0, 0, 0).toLocaleString(),new Date().setHours(0, 0, 0, 0).toLocaleString())
-        console.log(new Date(date))
-        console.log(await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, date,false))
-        console.log(!await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, date,false))
         if (new Date(date).setHours(0, 0, 0, 0).toLocaleString() !== new Date().setHours(0, 0, 0, 0).toLocaleString()) {
             complete = false;
         } 
