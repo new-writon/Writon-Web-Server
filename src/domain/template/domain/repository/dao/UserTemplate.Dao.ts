@@ -112,8 +112,8 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
 
   async findUserTemplateAndCommentAndLikeByUserChallengeId(userChallengeId:number):Promise<UserTemplate[]>{
     return this.dataSource.createQueryBuilder(UserTemplate, 'ut')
-      .innerJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
-      .innerJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
       .where('ut.user_challenge_id = :userChallengeId',{userChallengeId})
       .getMany();
   }
