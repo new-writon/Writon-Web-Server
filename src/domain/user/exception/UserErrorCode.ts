@@ -9,7 +9,8 @@ export enum UserErrorCode{
     NOT_FOUND_USER=455,
     NOT_FOUND_USERCHALLENGE=456,
     NOT_FOUND_AFFILIATION=457,
-    NOT_FOUND_ORGANIZATION=458
+    NOT_FOUND_ORGANIZATION=458,
+    ALREADY_EXIST_AFFILIATION=459
 
     
 }
@@ -25,7 +26,8 @@ const ErrorMessages: { [key: number]: string } = {
     455: "유저가 존재하지 않습니다",
     456: "유저 챌린지가 존재하지 않습니다.",
     457: "소속 정보가 존재하지 않습니다.",
-    458: "조직정보가 존재하지 않습니다."
+    458: "조직정보가 존재하지 않습니다.",
+    459: "이미 소속이 존재합니다."
 
 };
 

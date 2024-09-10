@@ -77,8 +77,8 @@ export class AffiliationHelper {
         return this.affiliationRepository.findAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId);
     }
 
-    public async giveAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string, verifyFlag:boolean):Promise<Affiliation>{
-        const data = await this.affiliationRepository.findAffiliationAndUserByUserIdAndOrganization(userId, organization);
+    public async giveAffiliationAndUserByUserIdWithOrganization(userId: number, organization: string, verifyFlag:boolean):Promise<Affiliation>{
+        const data = await this.affiliationRepository.findAffiliationAndUserByUserIdWithOrganization(userId, organization);
         if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
         return data;
     }
