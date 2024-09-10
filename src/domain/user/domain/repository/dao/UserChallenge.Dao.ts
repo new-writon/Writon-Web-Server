@@ -81,7 +81,7 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
 
     async findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>{
         return this.dataSource.createQueryBuilder(UserChallenge, 'uc')
-            .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
+            .innerJoinAndSelect('uc.affiliation', 'a')
             .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
             .where('o.name = :organization',{organization})
             .andWhere('a.user_id = :userId',{userId})
@@ -111,8 +111,8 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
 
     async findUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
         return this.dataSource.createQueryBuilder(UserChallenge, 'uc')
-            .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
-            .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
+            .innerJoinAndSelect('uc.affiliation', 'a')
+            .innerJoinAndSelect('a.user', 'u')
             .where('uc.user_challenge_id IN (:...userChallengeIds)', { userChallengeIds: userChallengeId })
             .andWhere('uc.challenge_id = :challengeId',{challengeId})
             .getMany();
@@ -142,8 +142,8 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         return this.dataSource.createQueryBuilder()
             .select('uc')
             .from(UserChallenge, 'uc')
-            .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
-            .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
+            .innerJoinAndSelect('uc.affiliation', 'a')
+            .innerJoinAndSelect('a.user', 'u')
             .where('uc.challenge_id = :challengeId',{challengeId})
             .getMany();
     }
@@ -153,7 +153,7 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
         return this.dataSource.createQueryBuilder()
         .select('uc')
         .from(UserChallenge, 'uc')
-        .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
+        .innerJoinAndSelect('uc.affiliation', 'a')
         .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
         .where('uc.user_challenge_id = :userChallengeId',{userChallengeId})
         .getOne();

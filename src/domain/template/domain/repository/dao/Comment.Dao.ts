@@ -33,7 +33,7 @@ export class CommentDao extends Repository<Comment> implements CommentRepository
 
     async findCommentWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Comment[]>{
         return this.dataSource.createQueryBuilder(Comment, 'c')
-            .innerJoinAndSelect('c.userTemplate', 'ut','ut.user_template_id = c.user_template_id')
+            .innerJoinAndSelect('c.userTemplate', 'ut')
             .getMany();        
     }
 

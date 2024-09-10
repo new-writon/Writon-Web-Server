@@ -57,8 +57,7 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
         ])
         .from(Challenge, 'c')
         .innerJoin(ChallengeDay, 'cd', 'cd.challenge_id = c.challenge_id')
-        .innerJoin(ChallengeDepositDeduction, 'cdd', 'cdd.challenge_id = c.challenge_id')
-        .where('cd.day < CURDATE()')
+        .innerJoin(ChallengeDepositDeduction, 'cdd', 'cdd.challenge_id = c.challenge_id AND cd.day < CURDATE()')
         .andWhere('c.challenge_id = :challengeId', { challengeId })
         .groupBy('c.challenge_id, c.deposit, cdd.start_count, cdd.end_count, cdd.deduction_amount')
         .getRawMany();
@@ -91,10 +90,9 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
           'cdd.end_count AS endCount',
           'cdd.deduction_amount AS deductionAmount'
         ])
-        .innerJoin(ChallengeDay, 'cd', 'cd.challenge_id = c.challenge_id')
+        .innerJoin(ChallengeDay, 'cd', 'cd.challenge_id = c.challenge_id AND cd.day < CURDATE()')
         .innerJoin(ChallengeDepositDeduction, 'cdd', 'cdd.challenge_id = c.challenge_id')
         .where('CURDATE() <= c.finish_at')
-        .andWhere('cd.day < CURDATE()')
         .groupBy('c.challenge_id')
         .addGroupBy('c.deposit')
         .addGroupBy('cdd.start_count')
