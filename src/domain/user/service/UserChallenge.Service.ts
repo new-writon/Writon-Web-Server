@@ -74,7 +74,6 @@ export class UserChallengeService {
      */
     public async startChallenge(userId:number, organization:string, challengeId: number): Promise<void>{
         const [challengeAllData, userAffiliation, challengeData] = await Promise.all([
-           // 검증 x
             this.challengeApi.requestChallengeWithCondition(challengeId),
             this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false),
             this.challengeApi.requestChallengeById(challengeId, true)
@@ -86,7 +85,6 @@ export class UserChallengeService {
     }
 
     public async initializeDeposit(): Promise<void>{
-
         const challengeData = await this.challengeApi.requestAllChallengingInformation();
         const sortedChallengeData = this.sortChallengeDataByChallengeId(challengeData);
         for (const challengeId in sortedChallengeData) {
@@ -174,9 +172,21 @@ export class UserChallengeService {
 
     public mappingChallengesPerOrganization(challengesPerOrganization:ChallengesPerOrganization[], challengeDatas:ChallengesPerOrganization[]){
       return challengesPerOrganization.map((cpo)=> {
-        const challenge = challengeDatas.find((challenge)=> challenge.getChallengeId() === cpo.getChallengeId());
-        return ChallengesPerOrganization.of(cpo.getOrganization(), cpo.getChallengeId(), challenge.getChallenge(), challenge.getChallengeFinishSign(), cpo.getThemeColor(), cpo.getLogo());
-      })
+       // console.log("🚀 ~ UserChallengeService ~ returnchallengesPerOrganization.map ~ cpo:", cpo)
+        const challenge = challengeDatas.find((challenge) => {
+          return challenge.getChallengeId() === cpo.getChallengeId()
+        })
+        if (challenge) {
+          return ChallengesPerOrganization.of(
+            cpo.getOrganization(),
+            cpo.getChallengeId(),
+            challenge.getChallenge(),
+            challenge.getChallengeFinishSign(),
+            cpo.getThemeColor(),
+            cpo.getLogo()
+          );
+        }
+      });
     }
 
     public async bringParticipationInChallengePerAffiliation(userId:number,organization:string,challengeId:number):Promise<ParticipationInChallengePerAffiliation>{
