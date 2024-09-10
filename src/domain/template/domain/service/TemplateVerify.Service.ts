@@ -37,6 +37,11 @@ export class TemplateVerifyService{
             throw new TemplateException(TemplateErrorCode.NOT_FOUND_LIKE);
     }
 
+    public verifyExistLike(like:Likes){
+        if(checkData(like))
+            throw new TemplateException(TemplateErrorCode.ALREADY_EXIST_LIKE);
+    }
+
     public verifyTemplateContents(templateContents:TemplateContent[]){
         if(!checkData(templateContents[0]))
             throw new TemplateException(TemplateErrorCode.NOT_FOUND_TEMPLATE_CONTENT);

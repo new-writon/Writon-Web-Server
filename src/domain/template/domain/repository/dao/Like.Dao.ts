@@ -47,4 +47,13 @@ export class LikeDao extends Repository<Likes> implements LikeRepository{
             .where('l.user_template_id = :userTemplateId',{userTemplateId})
             .getCount();
     }
+    
+    async findLikeByAffiliationIdAndUserTemplateId(affiliationId:number, userTemplateId:number): Promise<Likes>{
+        return this.dataSource.createQueryBuilder()
+            .select('l')
+            .from(Likes, 'l')
+            .where('l.affiliation_id = :affiliationId',{affiliationId})
+            .andWhere('l.user_template_id = :userTemplateId',{userTemplateId})
+            .getOne();
+    }
 }

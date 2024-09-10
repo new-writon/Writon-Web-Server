@@ -6,7 +6,8 @@ export enum TemplateErrorCode  {
     NOT_FOUND_COMMENT=701,
     NO_COUNT_COMMENT=702,
     NOT_FOUND_LIKE=703,
-    NOT_FOUND_TEMPLATE_CONTENT=704
+    NOT_FOUND_TEMPLATE_CONTENT=704,
+    ALREADY_EXIST_LIKE=705
     
 }
 
@@ -16,7 +17,8 @@ const ErrorMessages: { [key: number]: string } = {
     701:"해당 댓글이 존재하지 않습니다.",
     702:"댓글이 존재하지 않습니다.",
     703:"좋아요가 존재하지 않습니다",
-    704:"템플릿 내용 데이터가 존재하지 않습니다."
+    704:"템플릿 내용 데이터가 존재하지 않습니다.",
+    705:"좋아요가 이미 존재합니다."
 
 };
 
