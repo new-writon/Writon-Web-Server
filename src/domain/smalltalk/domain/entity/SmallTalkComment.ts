@@ -16,7 +16,8 @@ import { InternalServerErrorException } from "@nestjs/common";
 
 @Index("small_talk_comment_small_talk_fkey", ["smallTalkId"], {})
 @Index("small_talk_comment_affiliations_fkey", ["affiliationId"], {})
-@Entity("small_talk_comment", { schema: "nest" })
+@Index("small_talk_comment_created_fkey", ["createdAt"], {})
+@Entity("small_talk_comment")
 export class SmallTalkComment extends BaseEntity{
 
   constructor(
