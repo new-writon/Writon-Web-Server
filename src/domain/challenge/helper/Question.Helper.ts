@@ -33,5 +33,9 @@ export class QuestionHelper{
         return datas;
     }
 
+    public async giveQuestionsByChallengeId(challengeId:number):Promise<Question[]>{
+        return this.questionRepository.findQuestionsByChallengeId(challengeId);
+    }
+
 
 }

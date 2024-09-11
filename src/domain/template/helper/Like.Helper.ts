@@ -22,6 +22,10 @@ export class LikeHelper{
         return datas;
     }
 
+    public async giveLikeByAffiliationIdAndUserTemplateId(affiliationId:number, userTemplateId:number): Promise<Likes>{
+        return this.likeRepository.findLikeByAffiliationIdAndUserTemplateId(affiliationId,userTemplateId);
+    }
+
     public async executeInsertLike(affiliationId:number, userTemplateId:number):Promise<Likes>{
         return this.likeRepository.insertLike(affiliationId, userTemplateId);
     }

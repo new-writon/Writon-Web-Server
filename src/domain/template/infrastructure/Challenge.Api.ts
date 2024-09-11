@@ -22,6 +22,8 @@ export class ChallengeApi{
         return this.questionHelper.giveQuestionById(questionId, verifyFlag)  
     }
 
-   
+    public async requestQuestionsByChallengeId(challengeId:number):Promise<Question[]>{
+        return this.questionHelper.giveQuestionsByChallengeId(challengeId);
+    }
 
 }

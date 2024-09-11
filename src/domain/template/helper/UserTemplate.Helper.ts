@@ -24,17 +24,6 @@ export class UserTemplateHelper{
         return this.userTemplateRepository.findChallengeSuccessChallengeCount(userChallengeId);
     };
 
-    // public async giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
-    //     const datas = await this.userTemplateRepository.findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId);
-    //     if(verifyFlag) this.templateVerifyService.verifyUserTemplates(datas);
-    //     return datas;
-    // }
-
-    // public async giveUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<TemplateContent[]>{
-    //     const datas = await this.userTemplateRepository.findUserTemplateByChallengeIdForAffiliationId(affiliationId, challengeId);
-    //     if(verifyFlag) this.templateVerifyService.verifyTemplateContents (datas);
-    //     return datas;
-    // }
 
     public async exexuteInsertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate>{
         return this.userTemplateRepository.insertUserTemplate(userChallnegeId, date, complete);
@@ -68,6 +57,10 @@ export class UserTemplateHelper{
 
     public async giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
         return this.userTemplateRepository.findUserTemplateSuccessCountByUserChallengeIds(userChallengeIds);
+    }
+
+    public async giveUserTemplateByUserChallengeIdAndDate(userChallengeId: number, date:string){
+        return this.userTemplateRepository.findUserTemplateByUserChallengeIdAndDate(userChallengeId,date);
     }
 
 }

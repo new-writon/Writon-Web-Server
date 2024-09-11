@@ -53,5 +53,13 @@ export class QuestionDao extends Repository<Question> implements QuestionReposit
             .getMany();
     }
 
+    async findQuestionsByChallengeId(challengeId:number):Promise<Question[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('q')
+            .from(Question, 'q')
+            .where('q.challenge_id = :challengeId',{challengeId})
+            .getMany();
+    }
+
 
 }

@@ -30,78 +30,18 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         ut.user_challenge_id = ${userChallengeId}
     `)
     return data[0].count
-   }
+  }
+
+  async findUserTemplateByUserChallengeIdAndDate(userChallengeId:number, date:string):Promise<UserTemplate>{
+    return this.dataSource.createQueryBuilder()
+      .select('ut')
+      .from(UserTemplate, 'ut')
+      .where('ut.user_challenge_id = :userChallengeId',{userChallengeId})
+      .andWhere('ut.template_date = :date',{date})
+      .getOne();
+  }
 
 
-  //  async findUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number): Promise<UserTemplate[]>{
-  //   return this.createQueryBuilder('ut')
-  //       .select('ut.*')
-  //       .from(UserTemplate, 'ut')
-  //       .where('ut.user_challenge_id = :userChallengeId', {
-  //           userChallengeId: (qb) => {
-  //               qb.select('uc.user_challenge_id')
-  //                   .from(UserChallenge, 'uc')
-  //                   .where('uc.affiliation_id = :affiliationId', { affiliationId:affiliationId })
-  //                   .andWhere('uc.challenge_id = :challengeId', { challengeId: challengeId });
-  //           }
-  //       })
-  //       .orderBy("date_format(ut.finished_at, '%Y-%m')")
-  //       .getRawMany()
-  //  };
-
-
-  //  async findUserTemplateByChallengeIdForAffiliationId(affiliationId: number, challengeId: number): Promise<TemplateContent[]> {
-  //   return await this.dataSource.createQueryBuilder()
-  //     .select([
-  //       'qc.question_id AS questionId ',
-  //       'qc.user_template_id AS userTemplateId',
-  //       'qc.question_content_id AS questionContentId',
-  //       'qc.content AS content',
-  //       'ut.template_date AS createdAt',
-  //       'qc.visibility AS visibility',
-  //       'q.category AS category ',
-  //       'q.question AS question',
-  //       'a.affiliation_id AS affiliationId'
-  //     ])
-  //     .addSelect('a.position', 'position')
-  //     .addSelect('a.company', 'company')
-  //     .addSelect('a.company_public', 'companyPublic')
-  //     .addSelect('a.nickname', 'nickname')
-  //     .addSelect('u.profile', 'profile')
-  //     .addSelect('COUNT(DISTINCT l.like_id)', 'likeCount')
-  //     .addSelect('COUNT(DISTINCT cm.comment_id)', 'commentCount')
-  //     .addSelect(`CASE WHEN MAX(CAST(l.affiliation_id AS SIGNED)) = ${affiliationId} THEN 1 ELSE 0 END`, 'myLikeSign')
-  //     .from(UserTemplate, 'ut')
-  //     .innerJoin('UserChallenge', 'uc', 'ut.user_challenge_id = uc.user_challenge_id')
-  //     .innerJoin('QuestionContent', 'qc', 'ut.user_template_id = qc.user_template_id')
-  //     .innerJoin('Question', 'q', 'q.question_id = qc.question_id')
-  //     .innerJoin('Affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
-  //     .innerJoin('User', 'u', 'u.user_id = a.user_id')
-  //     .leftJoin('Likes', 'l', 'l.user_template_id = ut.user_template_id')
-  //     .leftJoin('Comment', 'cm', 'cm.user_template_id = ut.user_template_id')
-  //     .where('uc.affiliation_id = :affiliationId', { affiliationId })
-  //     .andWhere('uc.challenge_id = :challengeId', { challengeId })
-  //     .groupBy([
-  //       'qc.question_id',
-  //       'qc.user_template_id',
-  //       'qc.question_content_id',
-  //       'qc.content',
-  //       'q.category',
-  //       'q.question',
-  //       'ut.template_date',
-  //       'a.position',
-  //       'a.company',
-  //       'a.company_public',
-  //       'a.nickname',
-  //       'u.profile'
-  //     ].join(','))
-  //     .orderBy({
-  //       'ut.template_date': 'ASC',
-  //       'qc.created_at': 'ASC',
-  //       'q.created_at': 'ASC',
-  //     })
-  //     .getRawMany()
-  // }
 
 
   async insertUserTemplate(userChallnegeId: number,date: Date, complete: boolean): Promise<UserTemplate> {

@@ -19,7 +19,7 @@ import { UserChallengeCheckCount } from '../dto/response/UserChallengeCheckCount
 import { UserVerifyService } from '../domain/service/UserVerify.Service';
 import { ChallengeDeposit } from '../dto/values/ChallengeDeposit';
 import { DataMapperService } from '../domain/service/DataMapper.Service';
-import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
+
 
 
 @Injectable()
@@ -31,7 +31,7 @@ export class UserChallengeService {
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
         private readonly userVerifyService: UserVerifyService,
-        private readonly dataMapperService:DataMapperService
+        private readonly dataMapperService:DataMapperService,
     ) {}
 
     public async signTemplateStatus(userId: number, organization: string, challengeId: number): Promise<TemplateStatus>{
@@ -74,11 +74,13 @@ export class UserChallengeService {
      */
     public async startChallenge(userId:number, organization:string, challengeId: number): Promise<void>{
         const [challengeAllData, userAffiliation, challengeData] = await Promise.all([
-           // 검증 x
             this.challengeApi.requestChallengeWithCondition(challengeId),
             this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false),
             this.challengeApi.requestChallengeById(challengeId, true)
         ]);
+        const userChallengeData = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId,false);
+        console.log(userChallengeData)
+        this.userVerifyService.verifyExistUserChallenge(userChallengeData);
         if(checkData(challengeAllData))
             return this.userChallengeHelper.executeInsertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(),challengeData.getDeposit(), 0); // 미리 챌린지에 참여 시
         const caculateDepositResult = await this.makeChallengeUserDeposit(challengeAllData);

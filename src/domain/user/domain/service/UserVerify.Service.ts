@@ -20,9 +20,19 @@ export class UserVerifyService{
             throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
     }
 
+    public verifyExistUserChallenge(userChallenge:UserChallenge){
+        if(checkData(userChallenge))
+            throw new UserException(UserErrorCode.ALREADY_EXIST_USERCHALLENGE);
+    }
+
     public verifyAffiliation(affiliation:Affiliation){
         if(!checkData(affiliation))
             throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
+    }
+
+    public verifyExistAffiliation(affiliation:Affiliation){
+        if(checkData(affiliation))
+            throw new UserException(UserErrorCode.ALREADY_EXIST_AFFILIATION)
     }
 
     public verifyAffiliations(affiliations:Affiliation[]){

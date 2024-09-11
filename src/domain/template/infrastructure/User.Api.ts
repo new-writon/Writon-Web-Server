@@ -50,7 +50,7 @@ export class UserApi {
     }
 
     public async requestAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string, verifyFlag:boolean):Promise<Affiliation>{
-        return this.affiliationHelper.giveAffiliationAndUserByUserIdAndOrganization(userId, organization,verifyFlag);
+        return this.affiliationHelper.giveAffiliationAndUserByUserIdWithOrganization(userId, organization,verifyFlag);
     }
 
     public async requestAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>{
