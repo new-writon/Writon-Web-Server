@@ -19,6 +19,8 @@ import { DataMapperService } from '../domain/service/DataMappper.Service';
 import { InsertUserTemplateContent } from '../dto/values/InsertUserTemplateContent';
 import { QuestionContent } from '../domain/entity/QuestionContent';
 import { QuestionContentHelper } from '../helper/QuestionContent.Helper';
+import { TemplateVerifyService } from '../domain/service/TemplateVerify.Service';
+import { MutexAlgorithm } from 'src/global/decorator/mutex';
 
 
 
@@ -31,8 +33,8 @@ export class TemplateService {
         private readonly challengeApi: ChallengeApi,
         private readonly userTemplateHelper: UserTemplateHelper,
         private readonly dataMapperService: DataMapperService,
-        private readonly questionContentHelper:QuestionContentHelper
-      //  private readonly userTemplateTransaction: UserTemplateTransaction,
+        private readonly questionContentHelper:QuestionContentHelper,
+        private readonly templateVerifyService:TemplateVerifyService,
       ) {}
 
 
@@ -55,8 +57,6 @@ export class TemplateService {
         return sortedCompanyData;
     }
     
-
-
     public async bringTemplateAccordingToDate(userId:number, organization:string, challengeId:number, date:Date):Promise<TemplateInformation | []>{
         const [affiliationData, userChallengeDatas] = await Promise.all([
             this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization,false),
@@ -169,18 +169,35 @@ export class TemplateService {
         });
     }
 
+    @MutexAlgorithm()
     @Transactional()
     public async penetrateTemplate(  
         userId: number,
         templateWrite: TemplateWrite): Promise<void>{
-            const [userChallengeData, userTemplateComplete] = await Promise.all([
+            const [userChallengeData, userTemplateComplete, questionDatas] = await Promise.all([
                 this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(templateWrite.getChallengeId(), userId, templateWrite.getOrganization(),true),
-                this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate())
+                this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate()),
+                this.challengeApi.requestQuestionsByChallengeId(templateWrite.getChallengeId())
             ]);
+            const questionIds = this.dataMapperService.extractQuestionIdFromQuetion(questionDatas);
+            const templateWriteQuestionIds = this.extractTemplateWriteQuestionId(templateWrite);
+            this.templateVerifyService.verifyQuestionId(this.checkQuestionContain(questionIds,templateWriteQuestionIds))
+            const existingUserTemplateData = await this.userTemplateHelper.giveUserTemplateByUserChallengeIdAndDate(userChallengeData.getId(), templateWrite.getDate());
+            this.templateVerifyService.verifyExistUserTemplate(existingUserTemplateData);
             const userTemplateData = await this.userTemplateHelper.exexuteInsertUserTemplate(userChallengeData.getId(), new Date(templateWrite.getDate()), userTemplateComplete);
             const changedTemplate = this.changeUserTemplateType(templateWrite.getTemplateContent(), userTemplateData.getId());
             await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
     } 
+
+    private checkQuestionContain(relativeQuestion:number[], targetQuestion:number[]){
+        return relativeQuestion.every(data => targetQuestion.includes(data));
+    }
+
+    private extractTemplateWriteQuestionId(templateWrite:TemplateWrite){
+        return templateWrite.getTemplateContent().map((data)=>data.getQuestionId())
+    }
+
+
 
     private changeUserTemplateType(writeTempletes: WriteTemplateContent[], userTempleteId: number):InsertUserTemplateContent[]{
         return writeTempletes.map(writeTemplete => InsertUserTemplateContent.of(
