@@ -21,6 +21,7 @@ export class LikeServie{
 
     @MutexAlgorithm()
     public async penetrateLike(userId: number, userTemplateId: number,organization: string):Promise<LikeCount>{
+        // 검증하기
         const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,true);
         const likeData = await this.likeHelper.giveLikeByAffiliationIdAndUserTemplateId(affiliationData.getAffiliationId(), userTemplateId);
         this.templateVerifyService.verifyExistLike(likeData);

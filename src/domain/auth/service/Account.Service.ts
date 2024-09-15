@@ -25,6 +25,7 @@ export class AccountService {
     }
 
     public async findIdentifier(email: string, code: string): Promise<UserIdentifier> {
+        // 검증하기
         const userData : User = await this.userApi.requestUserByEmail(email,true);
         const certifyCode:string = await this.loginTokenManager.getToken(email) as string;
         this.authVerifyService.verifyCode(code, certifyCode);
@@ -32,6 +33,7 @@ export class AccountService {
     }
 
     public async generateTemporaryPassword(idenfitier:string, email:string): Promise<void> {
+        // 검증하기
         const userData : User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(idenfitier,true);
         const newPassword = generateRandomPassword();
         await this.userApi.requestUpdatePassword(idenfitier, email, await bcrypt.hash(newPassword,10));
@@ -39,6 +41,7 @@ export class AccountService {
     }
 
     public async changePassword(userId: number, oldPassword: string, newPassword:string): Promise<void> {
+                // 검증하기
         const userData : User = await this.userApi.giveUserById(userId,true);
         await this.authVerifyService.verifyPassword(oldPassword, userData.getPassword());
         await this.userApi.executeUpdatePasswordByUserId(userId,await bcrypt.hash(newPassword,10))

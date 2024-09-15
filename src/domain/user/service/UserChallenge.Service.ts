@@ -76,10 +76,10 @@ export class UserChallengeService {
         const [challengeAllData, userAffiliation, challengeData] = await Promise.all([
             this.challengeApi.requestChallengeWithCondition(challengeId),
             this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, false),
+            // 검증하기
             this.challengeApi.requestChallengeById(challengeId, true)
         ]);
         const userChallengeData = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId,false);
-        console.log(userChallengeData)
         this.userVerifyService.verifyExistUserChallenge(userChallengeData);
         if(checkData(challengeAllData))
             return this.userChallengeHelper.executeInsertUserChallenge(userAffiliation.getAffiliationId(), challengeData.getId(),challengeData.getDeposit(), 0); // 미리 챌린지에 참여 시
@@ -183,7 +183,9 @@ export class UserChallengeService {
 
     public async bringParticipationInChallengePerAffiliation(userId:number,organization:string,challengeId:number):Promise<ParticipationInChallengePerAffiliation>{
         let [affiliationData, userChallengeData] = await Promise.all([
+          // 검증하기
             this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, true), 
+            // 검증하기
             this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId,true)
         ]);
         const affiliatedConfirmation = this.checkAffiliation(affiliationData)
@@ -192,11 +194,13 @@ export class UserChallengeService {
     }
 
     public async bringUserChallengeCheckCount(userId:number,organization:string,challengeId:number):Promise<UserChallengeCheckCount>{
+      // 검증하기
         const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId,true);
         return UserChallengeCheckCount.of(userChallengeData.getCheckCount())
     }
 
     public async modifyUserChallengeCheckCount(userId:number,organization:string,challengeId:number, checkCount:number):Promise<void>{
+      // 검증하기
         const userChallengeData : UserChallenge = await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(userId,organization,challengeId,true);
         this.userVerifyService.verifyUserChallenge(userChallengeData);
         await this.userChallengeHelper.executeUpdateUserChallengeCheckCount(userChallengeData.getId(), checkCount);

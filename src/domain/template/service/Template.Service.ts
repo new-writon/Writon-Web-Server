@@ -175,6 +175,7 @@ export class TemplateService {
         userId: number,
         templateWrite: TemplateWrite): Promise<void>{
             const [userChallengeData, userTemplateComplete, questionDatas] = await Promise.all([
+                // 검증하기
                 this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(templateWrite.getChallengeId(), userId, templateWrite.getOrganization(),true),
                 this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate()),
                 this.challengeApi.requestQuestionsByChallengeId(templateWrite.getChallengeId())

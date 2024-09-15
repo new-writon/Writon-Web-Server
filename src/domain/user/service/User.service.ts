@@ -13,6 +13,7 @@ export class UserService {
 
 
     public async modifyAccount(accountNumber:string, bank:string, userId:number):Promise<void>{
+        // 검증하기
         await this.userHelper.giveUserById(userId,true);
         await this.userHelper.executeUpdateAccount(accountNumber, bank, userId);
     }
