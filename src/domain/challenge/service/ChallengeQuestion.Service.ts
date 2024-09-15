@@ -16,13 +16,13 @@ export class ChallengeQuestionService{
 
 
     public async bringBasicQuestion(challengeId: number):Promise<BasicQuestion[]>{ 
-        const basicQuestionData = await this.questionHelper.giveBasicQuestionByChallengeId(challengeId, false);
+        const basicQuestionData = await this.questionHelper.giveBasicQuestionByChallengeId(challengeId);
         return BasicQuestion.of(basicQuestionData);
     }
 
 
     public async bringSpecialQuestion(challengeId: number):Promise<SpecialQuestion[]>{
-        const specialQuestionData = await this.questionHelper.giveSpecialQuestionByChallengeId(challengeId, false);
+        const specialQuestionData = await this.questionHelper.giveSpecialQuestionByChallengeId(challengeId);
         return SpecialQuestion.of(specialQuestionData)
     }
 }

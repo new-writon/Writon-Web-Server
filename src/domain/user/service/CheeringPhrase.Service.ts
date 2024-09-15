@@ -5,6 +5,7 @@ import { AffiliationHelper } from "../helper/Affiliation.Helper";
 import { Participant } from "../dto/response/Participant";
 import { ParticipantComponent } from "../dto/response/ParticipantComponent";
 import { isSameDate } from "../util/checker";
+import { UserVerifyService } from "src/global/exception/user/UserVerify.Service";
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class CheeringPhraseService{
         private readonly affiliationHelper: AffiliationHelper,
         private readonly userChallengeHelper: UserChallengeHelper,
         private readonly challengeApi: ChallengeApi,
+        private readonly userVerifyService:UserVerifyService
     ) {}
 
 
@@ -35,7 +37,8 @@ export class CheeringPhraseService{
 
     public async penetrateCheeringPhrase(userId: number, organization: string, challengeId: number, content: string){
         // 검증하기
-        const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization, true);
+        const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
+        this.userVerifyService.verifyAffiliation(affiliationData);
         await this.userChallengeHelper.executeInsertCheeringPhrase(affiliationData.getAffiliationId(), challengeId, content);
     }
 

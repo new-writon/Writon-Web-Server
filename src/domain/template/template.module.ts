@@ -24,7 +24,6 @@ import { LikeController } from './presentation/Like.Controller';
 import { LikeServie } from './service/Like.Service';
 import { LikeHelper } from './helper/Like.Helper';
 import { LikeDao } from './domain/repository/dao/Like.Dao';
-import { TemplateVerifyService } from './domain/service/TemplateVerify.Service';
 
 
 
@@ -44,7 +43,7 @@ import { TemplateVerifyService } from './domain/service/TemplateVerify.Service';
     UserTemplateHelper, LikeHelper, QuestionContentHelper, CommentHelper, 
     UserApi, ChallengeApi, 
     TemplateService, CommentService, LikeServie, DataMapperService,
-    UserTemplateTransaction, TemplateVerifyService
+    UserTemplateTransaction
   ],
   controllers: [TemplateController, CommentController, LikeController],
   exports:[

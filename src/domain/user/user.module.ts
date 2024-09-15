@@ -25,7 +25,6 @@ import { AffiliationService } from './service/Affiliation.Service';
 import { AffiliationController } from './presentation/Affiliation.Controller';
 import { OrganizationHelper } from './helper/Organization.Helper';
 import { DataMapperService } from './domain/service/DataMapper.Service';
-import { UserVerifyService } from './domain/service/UserVerify.Service';
 import { CheeringPhraseController } from './presentation/CheeringPhrase.Controller';
 import { CheeringPhraseService } from './service/CheeringPhrase.Service';
 import { UserController } from './presentation/User.controller';
@@ -62,7 +61,6 @@ import { CacheImpl } from 'src/global/util/CacheImpl';
     TemplateApi,
     UserApi,
     DataMapperService,
-    UserVerifyService,
     CheeringPhraseService,
     CacheImpl 
   ],

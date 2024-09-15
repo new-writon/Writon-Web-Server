@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { Challenge } from "../entity/Challenge";
-import { checkData } from "../../util/checker";
-import { ChallengeException } from "../../exception/ChallengeException";
-import { ChallengeErrorCode } from "../../exception/ChallengeErrorCode";
-import { ChallengeDay } from "../entity/ChallengeDay";
-import { BasicQuestion } from "../../dto/response/BasicQuestion";
-import { SpecialQuestion } from "../../dto/response/SpecialQuestion";
-import { Question } from "../entity/Question";
+import { Challenge } from "../../../domain/challenge/domain/entity/Challenge";
+import { ChallengeException } from "./ChallengeException";
+import { checkData } from "../../../domain/auth/util/checker";
+import { ChallengeErrorCode } from "./ChallengeErrorCode";
+import { ChallengeDay } from "../../../domain/challenge/domain/entity/ChallengeDay";
+import { BasicQuestion } from "../../../domain/challenge/dto/response/BasicQuestion";
+import { SpecialQuestion } from "../../../domain/challenge/dto/response/SpecialQuestion";
+import { Question } from "../../../domain/challenge/domain/entity/Question";
 
 
 

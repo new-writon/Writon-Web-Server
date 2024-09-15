@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { LikeRepository } from "../domain/repository/Like.Repository";
 import { Likes } from "../domain/entity/Likes";
-import { TemplateVerifyService } from "../domain/service/TemplateVerify.Service";
+import { TemplateVerifyService } from "../../../global/exception/template/TemplateVerify.Service";
 
 @Injectable()
 export class LikeHelper{
@@ -16,10 +16,8 @@ export class LikeHelper{
         return this.likeRepository.updateLikeCheck(likeId);
     }
 
-    public async giveLikeWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number, verifyFlag:boolean): Promise<Likes[]>{
-        const datas = await this.likeRepository.findLikeWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
-        if(verifyFlag) this.templateVerifyService.verifyLikes(datas);
-        return datas;
+    public async giveLikeWithUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId:number): Promise<Likes[]>{
+        return this.likeRepository.findLikeWithUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
     }
 
     public async giveLikeByAffiliationIdAndUserTemplateId(affiliationId:number, userTemplateId:number): Promise<Likes>{

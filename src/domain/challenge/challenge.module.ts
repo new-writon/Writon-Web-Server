@@ -18,7 +18,6 @@ import { ChallengeInviteController } from './presentation/ChallengeInvite.Contro
 import { ChallengeInviteService } from './service/ChallengeInvite.Service';
 import { MailManager } from '../../global/util/MailManager';
 import { QuestionHelper } from './helper/Question.Helper';
-import { ChallengeVerifyService } from './domain/service/ChallengeVerify.Service';
 import { UserModule } from '../user/user.module';
 import { DataMapperService } from './domain/service/DataMapper.Service';
 import { UserApi } from './intrastructure/User.Api';
@@ -37,7 +36,6 @@ import { UserApi } from './intrastructure/User.Api';
     ChallengeInformationService, 
     ChallengeQuestionService,
     ChallengeInviteService,
-    ChallengeVerifyService,
     ChallengeHelper,
     ChallengeDayHelper,
     QuestionHelper,

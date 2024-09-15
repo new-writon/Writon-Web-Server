@@ -14,7 +14,6 @@ import { ChallengeModule } from '../challenge/challenge.module';
 import { TemplateApi } from './infrastructure/Template.Api';
 import { TemplateModule } from '../template/template.module';
 import { SatisfactionDao } from './domain/repository/dao/Satisfaction.Dao';
-import { SatisfactionVerifyService } from './domain/service/SatisfactionVerify.Service';
 import { SatisfactionHelper } from './helper/Satisfaction.Helper';
 import { SatisfactionObjectiveResultDao } from './domain/repository/dao/SatisfactionObjectiveResult.Dao';
 import { SatisfactionSubjectiveResultDao } from './domain/repository/dao/SatisfactionSubjectiveResult.Dao';
@@ -35,7 +34,6 @@ import { SatisfactionSubjectiveResultHelper } from './helper/SatisfactionSubject
     {provide: 'satisfactionSubjectiveResultImpl',  useClass: SatisfactionSubjectiveResultDao},
     SatisfactionService,
     ResponseService,
-    SatisfactionVerifyService,
     UserApi,
     ChallengeApi,
     TemplateApi,
