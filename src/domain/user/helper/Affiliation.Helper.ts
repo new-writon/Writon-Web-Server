@@ -3,7 +3,7 @@ import { AffiliationRepository } from "../domain/repository/Affiliation.Reposito
 import { Affiliation } from "../domain/entity/Affiliation";
 import { ChallengesPerOrganization } from "../dto/values/ChallengesPerOrganization";
 import { UserProfile } from "../dto/response/UserProfile";
-import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { UserVerifyService } from "../../../global/exception/user/UserVerify.Service";
 import { Participant } from "../dto/response/Participant";
 import { AffiliationStart } from "../dto/request/AffiliationStart";
 import { ProfileUpdate } from "../dto/request/ProfileUpdate";

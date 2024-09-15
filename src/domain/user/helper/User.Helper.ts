@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 import { UserRepository } from "../domain/repository/User.Repository";
 import { UserAffiliationOrganization } from "../dto/values/UserAffilatiionOrganization.interface";
 import { User } from "../domain/entity/User";
-import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { UserVerifyService } from "../../../global/exception/user/UserVerify.Service";
 
 
 export class UserHelper {

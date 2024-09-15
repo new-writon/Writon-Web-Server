@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { UserChallenge } from "../domain/entity/UserChallenge";
 import { UserChallengeRepository } from "../domain/repository/UserChallenge.Repository";
-import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { UserVerifyService } from "../../../global/exception/user/UserVerify.Service";
 import { ChallengeDeposit } from "../dto/values/ChallengeDeposit";
 
 @Injectable()

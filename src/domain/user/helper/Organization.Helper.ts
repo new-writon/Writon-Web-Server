@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { OrganizationRepository } from "../domain/repository/Organization.Repository";
 import { Organization } from "../domain/entity/Organization";
-import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { UserVerifyService } from "../../../global/exception/user/UserVerify.Service";
 
 @Injectable()
 export class OrganizationHelper{
