@@ -13,10 +13,9 @@ export class OrganizationHelper{
     ){}
 
 
-    public async giveOrganizationByName(name: string, verifyFlag:boolean): Promise<Organization>{
-        const data = await this.organizationRepository.findOrganizationByName(name);
-        if(verifyFlag) this.userVerifyService.verifyOrganization(data);
-        return data;
+    public async giveOrganizationByName(name: string): Promise<Organization>{
+        return this.organizationRepository.findOrganizationByName(name);
+     
     }
 
     public async giveAllOrganization(){

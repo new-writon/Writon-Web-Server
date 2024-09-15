@@ -17,16 +17,12 @@ export class AffiliationHelper {
         private readonly userVerifyService: UserVerifyService
     ){}
 
-    public async giveAffiliationByUserIdWithOrganization(userId: number, organization: string, verifyFlag:boolean): Promise<Affiliation>{
-        const data = await this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
-        if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
-        return data;
+    public async giveAffiliationByUserIdWithOrganization(userId: number, organization: string): Promise<Affiliation>{
+        return this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
     }
 
-    public async giveAffiliationByNicknameAndOrganization(nickname:string, organization: string, verifyFlag:boolean): Promise<Affiliation>{
-        const data = await this.affiliationRepository.findAffiliationByNicknameAndOrganization(nickname, organization);
-        if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
-        return data;
+    public async giveAffiliationByNicknameAndOrganization(nickname:string, organization: string): Promise<Affiliation>{
+        return this.affiliationRepository.findAffiliationByNicknameAndOrganization(nickname, organization);
     }
 
     public async insertAffiliation(userId:number, organizationId:number, affiliationStartDto: AffiliationStart):Promise<void>{
@@ -46,22 +42,16 @@ export class AffiliationHelper {
             await this.affiliationRepository.updateUserProfileByUserIdAndOrganization(userId,organization,profileUpdate);
         }
 
-    public async giveAffilaitonWithChallengeIdArray(userChallengeId:number[], verifyFlag:boolean):Promise<Affiliation[]>{
-        const datas = await this.affiliationRepository.findAffilaitonWithChallengeIdArray(userChallengeId);
-        if(verifyFlag) this.userVerifyService.verifyAffiliations(datas);
-        return datas;
+    public async giveAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>{
+        return this.affiliationRepository.findAffilaitonWithChallengeIdArray(userChallengeId);
     }
 
-    public async giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[], verifyFlag:boolean):Promise<Affiliation[]>{
-        const datas = await this.affiliationRepository.findAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId);
-        if(verifyFlag) this.userVerifyService.verifyAffiliations(datas);
-        return datas;
+    public async giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>{
+        return this.affiliationRepository.findAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId);
     }
 
-    public async giveAffiliationById(affiliationId: number[], verifyFlag:boolean):Promise<Affiliation[]>{
-        const datas = await this.affiliationRepository.findAffiliationById(affiliationId);
-        if(verifyFlag) this.userVerifyService.verifyAffiliations(datas);
-        return datas;
+    public async giveAffiliationById(affiliationId: number[]):Promise<Affiliation[]>{
+        return this.affiliationRepository.findAffiliationById(affiliationId);
     }
 
     
@@ -77,10 +67,8 @@ export class AffiliationHelper {
         return this.affiliationRepository.findAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId, challengeId);
     }
 
-    public async giveAffiliationAndUserByUserIdWithOrganization(userId: number, organization: string, verifyFlag:boolean):Promise<Affiliation>{
-        const data = await this.affiliationRepository.findAffiliationAndUserByUserIdWithOrganization(userId, organization);
-        if(verifyFlag) this.userVerifyService.verifyAffiliation(data);
-        return data;
+    public async giveAffiliationAndUserByUserIdWithOrganization(userId: number, organization: string):Promise<Affiliation>{
+        return this.affiliationRepository.findAffiliationAndUserByUserIdWithOrganization(userId, organization);
     }
     
 }
