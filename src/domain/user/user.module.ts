@@ -33,6 +33,7 @@ import { OrganizationService } from './service/Organization.Service';
 import { OrgnizationController } from './presentation/Organization.Controller';
 import { LoginTokenManager } from '../auth/util/LoginTokenManager';
 import { CacheImpl } from 'src/global/util/CacheImpl';
+import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 
 @Module({
   imports: [
@@ -62,10 +63,11 @@ import { CacheImpl } from 'src/global/util/CacheImpl';
     UserApi,
     DataMapperService,
     CheeringPhraseService,
-    CacheImpl 
+    CacheImpl,
+    UserVerifyService
   ],
 
   controllers:[UserController, UserChallengeController, AffiliationController,CheeringPhraseController, OrgnizationController],
-  exports:[UserChallengeHelper, AffiliationHelper, UserHelper, OrganizationHelper]
+  exports:[UserChallengeHelper, AffiliationHelper, UserHelper, OrganizationHelper, UserVerifyService]
 })
 export class UserModule {}

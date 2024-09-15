@@ -21,6 +21,7 @@ import { QuestionHelper } from './helper/Question.Helper';
 import { UserModule } from '../user/user.module';
 import { DataMapperService } from './domain/service/DataMapper.Service';
 import { UserApi } from './intrastructure/User.Api';
+import { ChallengeVerifyService } from 'src/global/exception/challenge/ChallengeVerify.Service';
 
 
 
@@ -42,6 +43,7 @@ import { UserApi } from './intrastructure/User.Api';
     MailManager,
     DataMapperService,
     UserApi,
+    ChallengeVerifyService,
     {provide: 'challengeImpl',  useClass: ChallengeDao},
     {provide: 'challengedayImpl',  useClass: ChallengeDayDao},
     {provide: 'questionImpl', useClass:QuestionDao}
@@ -51,7 +53,8 @@ import { UserApi } from './intrastructure/User.Api';
   exports:[
     ChallengeHelper,
     ChallengeDayHelper,
-    QuestionHelper
+    QuestionHelper,
+    ChallengeVerifyService
   ]
 })
 export class ChallengeModule {}

@@ -24,16 +24,17 @@ import { LikeController } from './presentation/Like.Controller';
 import { LikeServie } from './service/Like.Service';
 import { LikeHelper } from './helper/Like.Helper';
 import { LikeDao } from './domain/repository/dao/Like.Dao';
+import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
+import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 
 
 
 
 @Module({
   imports: [
- 
     TypeOrmModule.forFeature([Comment, Likes, QuestionContent, UserTemplate]),
     forwardRef(() => UserModule),
-    ChallengeModule
+    ChallengeModule,
   ],
   providers: [
     {provide: 'usertemplateImpl',  useClass: UserTemplateDao}, 
@@ -43,7 +44,7 @@ import { LikeDao } from './domain/repository/dao/Like.Dao';
     UserTemplateHelper, LikeHelper, QuestionContentHelper, CommentHelper, 
     UserApi, ChallengeApi, 
     TemplateService, CommentService, LikeServie, DataMapperService,
-    UserTemplateTransaction
+    UserTemplateTransaction, TemplateVerifyService,UserVerifyService
   ],
   controllers: [TemplateController, CommentController, LikeController],
   exports:[
