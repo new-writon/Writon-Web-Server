@@ -3,7 +3,9 @@ name:  Writon Nodejs(TypeScript) CI with NPM and CD with Docker & AWS EC2
 
 on:
   push:
+
     branches: [ "develop" ]
+
 
   pull_request:
     branches: [ "develop" ]
@@ -42,7 +44,6 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
 
-        
           docker stop writon-test
           docker rm writon-test
           docker rmi ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
