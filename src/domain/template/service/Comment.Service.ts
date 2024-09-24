@@ -23,14 +23,14 @@ export class CommentService{
 
 
     public async bringMyComment(userId:number, organization:string, challengeId: number):Promise<MyComment[]>{
-        const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization, false);
-        const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId, false);
+        const commentWriteAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+        const commentData = await this.commentHelper.giveCommentByAffiliationIdWithChallengeId(commentWriteAffiliationData.getAffiliationId(), challengeId);
         return commentData.length === 0 ? [] : this.processCommentData(commentData)
     }
 
     private async processCommentData(commentData: Comment[]): Promise<MyComment[]> {
         const userChallengeIdArray = this.dataMapperService.extractUserChallengeId(commentData);
-        const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray,false);
+        const templateWriteAffiliationData = await this.userApi.requestAffilaitonWithChallengeIdArray(userChallengeIdArray);
         const myComment = this.makeMyCommentMapper(templateWriteAffiliationData, commentData);
         return MyComment.of(myComment);
     }
@@ -45,12 +45,12 @@ export class CommentService{
     } 
 
     public async bringCommentInformation(userId:number, organization:string, userTemplateId:number):Promise<CommentWithReplies[]|[]>{
-        const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId, false);
+        const commentDatas = await this.commentHelper.giveCommentByUserTemplateId(userTemplateId);
         return commentDatas.length === 0 ? []:this.proccessCommentInformationData(userId, organization, commentDatas)
     }
 
     private async proccessCommentInformationData(userId:number, organization:string, commentDatas:Comment[]){
-        const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
+        const myAffiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         const extractedAffiliationIds = this.dataMapperService.extractAffiliationId(commentDatas);
          // 검증 x
         const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
@@ -65,18 +65,18 @@ export class CommentService{
     }
 
     public async penetrateComment(userId: number, commentInsert: CommentInsert):Promise<CommentId>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, commentInsert.getOrganization(), false);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, commentInsert.getOrganization());
         const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), commentInsert.getContent(), commentInsert.getUserTemplateId(), commentInsert.getCommentGroup());
         return CommentId.of(commentData.getId());   
     }
 
     public async modifyComment(userId: number, organization: string, commentId: number, content: string):Promise<void>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.commentHelper.executeUpdateComment(affiliationData.getAffiliationId(), commentId, content);
     }
 
     public async eraseComment(userId: number, organization: string, commentId: number):Promise<void>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
+        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         await this.commentHelper.executeDeleteComment(affiliationData.getAffiliationId(), commentId);
     }
 

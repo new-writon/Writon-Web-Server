@@ -14,24 +14,26 @@ import { AccountService } from './service/Account.Service';
 import { DuplicationCheckService } from './service/DuplicationCheck.Service';
 import { VerificationService } from './service/Verifiaction.Service';
 import { UserApi } from './intrastructure/User.Api';
-import { AuthVerifyService } from './domain/service/AuthVerify.Service';
-import { AuthValidateService } from './domain/service/AuthValidate.Service';
 import { CacheImpl } from 'src/global/util/CacheImpl';
 import { LoginTokenManager } from './util/LoginTokenManager';
+import { AuthVerifyService } from '../../global/exception/auth/AuthVerify.Service';
+import { AuthValidateService } from '../../global/exception/auth/AuthValidate.Service';
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
+   
   ],
   providers: [
-    JwtStrategy, AuthService, SocialLogin, JwtManager, LoginTokenManager, AuthVerifyService, AuthValidateService,
-    MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi, CacheImpl
+    JwtStrategy, AuthService, SocialLogin, JwtManager, LoginTokenManager,
+    MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi, CacheImpl, AuthVerifyService, AuthValidateService
   ],
   controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
   exports:[
     SocialLogin,
     JwtManager,
-    AuthVerifyService
+    AuthVerifyService,
+    AuthValidateService
   ]
 })
 export class AuthModule {}

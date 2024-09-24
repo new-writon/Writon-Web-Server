@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { UserChallenge } from "../entity/UserChallenge";
-import { UserException } from "../../exception/UserException";
-import { UserErrorCode } from "../../exception/UserErrorCode";
-import { checkData } from "../../util/checker";
-import { Affiliation } from "../entity/Affiliation";
-import { User } from "../entity/User";
-import { Organization } from "../entity/Organization";
+import { checkData } from "../../../domain/auth/util/checker";
+import { UserChallenge } from "../../../domain/user/domain/entity/UserChallenge";
+import { UserException } from "./UserException";
+import { UserErrorCode } from "./UserErrorCode";
+import { Affiliation } from "../../../domain/user/domain/entity/Affiliation";
+import { Organization } from "../../../domain/user/domain/entity/Organization";
+import { User } from "../../../domain/user/domain/entity/User";
+
 
 @Injectable()
 export class UserVerifyService{
@@ -20,9 +21,19 @@ export class UserVerifyService{
             throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
     }
 
+    public verifyExistUserChallenge(userChallenge:UserChallenge){
+        if(checkData(userChallenge))
+            throw new UserException(UserErrorCode.ALREADY_EXIST_USERCHALLENGE);
+    }
+
     public verifyAffiliation(affiliation:Affiliation){
         if(!checkData(affiliation))
             throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
+    }
+
+    public verifyExistAffiliation(affiliation:Affiliation){
+        if(checkData(affiliation))
+            throw new UserException(UserErrorCode.ALREADY_EXIST_AFFILIATION)
     }
 
     public verifyAffiliations(affiliations:Affiliation[]){

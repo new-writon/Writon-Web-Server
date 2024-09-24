@@ -18,10 +18,10 @@ import { ChallengeInviteController } from './presentation/ChallengeInvite.Contro
 import { ChallengeInviteService } from './service/ChallengeInvite.Service';
 import { MailManager } from '../../global/util/MailManager';
 import { QuestionHelper } from './helper/Question.Helper';
-import { ChallengeVerifyService } from './domain/service/ChallengeVerify.Service';
 import { UserModule } from '../user/user.module';
 import { DataMapperService } from './domain/service/DataMapper.Service';
 import { UserApi } from './intrastructure/User.Api';
+import { ChallengeVerifyService } from 'src/global/exception/challenge/ChallengeVerify.Service';
 
 
 
@@ -37,13 +37,13 @@ import { UserApi } from './intrastructure/User.Api';
     ChallengeInformationService, 
     ChallengeQuestionService,
     ChallengeInviteService,
-    ChallengeVerifyService,
     ChallengeHelper,
     ChallengeDayHelper,
     QuestionHelper,
     MailManager,
     DataMapperService,
     UserApi,
+    ChallengeVerifyService,
     {provide: 'challengeImpl',  useClass: ChallengeDao},
     {provide: 'challengedayImpl',  useClass: ChallengeDayDao},
     {provide: 'questionImpl', useClass:QuestionDao}
@@ -53,7 +53,8 @@ import { UserApi } from './intrastructure/User.Api';
   exports:[
     ChallengeHelper,
     ChallengeDayHelper,
-    QuestionHelper
+    QuestionHelper,
+    ChallengeVerifyService
   ]
 })
 export class ChallengeModule {}

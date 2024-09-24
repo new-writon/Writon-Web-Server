@@ -3,10 +3,12 @@ name:  Writon Nodejs(TypeScript) CI with NPM and CD with Docker & AWS EC2
 
 on:
   push:
-    branches: [ 'dev' ]
+
+    branches: [ "develop" ]
+
 
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "develop" ]
 
 permissions:
   contents: read

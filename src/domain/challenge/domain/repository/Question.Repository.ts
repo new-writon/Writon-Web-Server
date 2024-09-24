@@ -9,5 +9,6 @@ export interface QuestionRepository extends Repository<Question>{
     findBasicQuestionByChallengeId(challengeId:number):Promise<BasicQuestion[]>;
     findSpecialQuestionByChallengeId(challengeId:number):Promise<SpecialQuestion[]>;
     findQuestionById(questionId:number[]):Promise<Question[]>;
+    findQuestionsByChallengeId(challengeId:number):Promise<Question[]>;
 
 }

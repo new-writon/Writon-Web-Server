@@ -4,7 +4,7 @@ import { AuthenticationCodeResponse } from "../dto/response/AuthenticationCodeRe
 import random from "../util/random";
 import { MailManager } from "../../../global/util/MailManager";
 import { Token } from "../dto/response/Token";
-import { AuthVerifyService } from "../domain/service/AuthVerify.Service";
+import { AuthVerifyService } from "../../../global/exception/auth/AuthVerify.Service";
 import { LoginTokenManager } from "../util/LoginTokenManager";
 
 

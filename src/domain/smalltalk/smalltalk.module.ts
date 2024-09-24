@@ -12,7 +12,8 @@ import { UserModule } from '../user/user.module';
 import { SmallTalkDao } from './domain/repository/dao/SmallTalk.Dao';
 import { SmallTalkCommentDao } from './domain/repository/dao/SmallTalkComment.Dao';
 import { UserApi } from './infrastructure/User.Api';
-import { SmallTalkVerifyService } from './domain/service/SmallTalkVerify.Service';
+import { SmallTalkVerifyService } from 'src/global/exception/smalltalk/SmallTalkVerify.Service';
+
 
 
 
@@ -34,7 +35,6 @@ import { SmallTalkVerifyService } from './domain/service/SmallTalkVerify.Service
     SmallTalkCommentHelper,
     UserApi,
     SmallTalkVerifyService
-    
   ],
   controllers: [SmallTalkController, SmallTalkCommentController],
   exports:[SmallTalkHelper, SmallTalkCommentHelper]

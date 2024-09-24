@@ -7,6 +7,8 @@ import { TemplateApi } from "../infrastructure/Template.Api";
 import { UserChallengeResult } from "../dto/response/UserChallengeResult";
 import { SatisfactionHelper } from "../helper/Satisfaction.Helper";
 import { SatisfactionQuestion } from "../dto/response/SatisfactionQuestion";
+import { UserVerifyService } from "src/global/exception/user/UserVerify.Service";
+import { ChallengeVerifyService } from "src/global/exception/challenge/ChallengeVerify.Service";
 
 
 @Injectable()
@@ -16,7 +18,9 @@ export class SatisfactionService{
         private readonly satisfactionHelper:SatisfactionHelper,
         private readonly userApi: UserApi,
         private readonly challengeApi: ChallengeApi,
-        private readonly templateApi: TemplateApi
+        private readonly templateApi: TemplateApi,
+        private readonly userVerifyService: UserVerifyService,
+        private readonly challengeVerifyService: ChallengeVerifyService
     ){}
 
 
@@ -25,7 +29,9 @@ export class SatisfactionService{
         organization:string,
         challengeId:number
     ){
-        const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId,true);
+        // 검증하기
+        const userChallengeData = await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(userId, organization, challengeId);
+        this.userVerifyService.verifyUserChallenge(userChallengeData);
         return SatisfactionStatus.of(userChallengeData.getReview());
     }
 
@@ -38,24 +44,34 @@ export class SatisfactionService{
     }
 
     public async bringUserChallengeResult(userId:number, organization:string, challengeId:number):Promise<UserChallengeResult>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdWithOrganization(userId, organization,true);
-        const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId,true)
+        // 검증하기
+        const affiliationData = await this.userApi.requestAffiliationByUserIdWithOrganization(userId, organization);
+        this.userVerifyService.verifyAffiliation(affiliationData);
+        // 검증하기
+        const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(affiliationData.getId(), challengeId)
+        this.userVerifyService.verifyUserChallenge(userChallengeData);
+
         let [challengeData, challengeOverlapCount,  challengeSuccessCount] = await Promise.all([
-            this.challengeApi.requestChallengeById(challengeId,true),
+            // 검증하기
+            this.challengeApi.requestChallengeById(challengeId),
             this.challengeApi.requestChallengeOverlapCount(challengeId),
             this.templateApi.reqeustChallengeSuccessChallengeCount(userChallengeData.getId())
         ]);
+        this.challengeVerifyService.verifyChallenge(challengeData);
         return UserChallengeResult.of(affiliationData.getNickname(), organization, challengeOverlapCount,
             challengeSuccessCount, userChallengeData.getUserDeposit(), challengeData);
     }
 
     public async bringSatisfactionQuestion(challengeId:number):Promise<SatisfactionQuestion[]>{
+        // 검증하기
         const satisfactionData = await this.satisfactionHelper.giveSatisfactionByChallengeId(challengeId, true);
         return SatisfactionQuestion.of(satisfactionData);
     }
 
     public async bringReEngagement(challengeId:number){
-        const challengeData = await this.challengeApi.requestChallengeById(challengeId,true);
+        // 검증하기
+        const challengeData = await this.challengeApi.requestChallengeById(challengeId);
+        this.challengeVerifyService.verifyChallenge(challengeData);
         return Restart.of(challengeData.getRestart());     
     }
 

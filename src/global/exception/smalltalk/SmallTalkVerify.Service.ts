@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { checkData } from "../../util/checker";
-import { ParticularSmallTalkData } from "../../dto/values/ParticularSmallTalkData";
-import { SmallTalkException } from "../../exception/SmallTalkException";
-import { SmallTalkErrorCode } from "../../exception/SmallTalkErrorCode";
-import { ParticularSmallTalkCommentData } from "../../dto/values/ParticularSmallTalkCommentData";
-import { SmallTalk } from "../entity/SmallTalk";
+import { ParticularSmallTalkData } from "../../../domain/smalltalk/dto/values/ParticularSmallTalkData";
+import { SmallTalkException } from "./SmallTalkException";
+import { SmallTalkErrorCode } from "./SmallTalkErrorCode";
+import { checkData } from "../../../domain/auth/util/checker";
+import { ParticularSmallTalkCommentData } from "../../../domain/smalltalk/dto/values/ParticularSmallTalkCommentData";
+import { SmallTalk } from "../../../domain/smalltalk/domain/entity/SmallTalk";
+
 
 @Injectable()
 export class SmallTalkVerifyService{

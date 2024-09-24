@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Comment } from "../entity/Comment";
 import { UserTemplate } from "../entity/UserTemplate";
+import { Question } from "src/domain/challenge/domain/entity/Question";
 
 
 
@@ -16,6 +17,10 @@ export class DataMapperService{
 
     public extractAffiliationId(commentDatas: Comment[]){
         return commentDatas.map((data)=>data.getAffiliationId());
+    }
+
+    public extractQuestionIdFromQuetion(questionDatas: Question[]){
+        return questionDatas.map((data)=>data.getId());
     }
 
 

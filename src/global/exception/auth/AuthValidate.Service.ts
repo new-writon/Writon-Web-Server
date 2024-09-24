@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { checkData } from "../../util/checker";
-import { AuthErrorCode } from "../../exception/AuthErrorCode";
-import { AuthException } from "../../exception/AuthException";
+import { checkData } from "../../../domain/auth/util/checker";
 import { User } from "src/domain/user/domain/entity/User";
-import { Affiliation } from "../../../../domain/user/domain/entity/Affiliation";
+import { AuthException } from "./AuthException";
+import { AuthErrorCode } from "./AuthErrorCode";
+import { Affiliation } from "../../../domain/user/domain/entity/Affiliation";
+
 
 
 @Injectable()
