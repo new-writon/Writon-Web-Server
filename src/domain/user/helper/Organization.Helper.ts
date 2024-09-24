@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { OrganizationRepository } from "../domain/repository/Organization.Repository";
 import { Organization } from "../domain/entity/Organization";
-import { UserVerifyService } from "../domain/service/UserVerify.Service";
+import { UserVerifyService } from "../../../global/exception/user/UserVerify.Service";
 
 @Injectable()
 export class OrganizationHelper{
@@ -13,10 +13,9 @@ export class OrganizationHelper{
     ){}
 
 
-    public async giveOrganizationByName(name: string, verifyFlag:boolean): Promise<Organization>{
-        const data = await this.organizationRepository.findOrganizationByName(name);
-        if(verifyFlag) this.userVerifyService.verifyOrganization(data);
-        return data;
+    public async giveOrganizationByName(name: string): Promise<Organization>{
+        return this.organizationRepository.findOrganizationByName(name);
+     
     }
 
     public async giveAllOrganization(){

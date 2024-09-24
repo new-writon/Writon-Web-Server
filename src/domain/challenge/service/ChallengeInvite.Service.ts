@@ -13,7 +13,7 @@ export class ChallengeInviteService{
 
 
     public async sendInvitation(organization:string, challenge:string, email:string[]){ 
-        const challengeData = await this.challengeHelper.giveChallengeByChallengeName(challenge, false);
+        const challengeData = await this.challengeHelper.giveChallengeByChallengeName(challenge);
         await Promise.all(
             email.map(async (e) => {
               await this.mailManager.sendInvitationEmail(organization, challengeData.challengeId, e, challenge);

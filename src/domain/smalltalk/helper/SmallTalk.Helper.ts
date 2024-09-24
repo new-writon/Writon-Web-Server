@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { SmallTalkRepository } from "../domain/repository/SmallTalk.Repository";
 import { SmallTalk } from "../domain/entity/SmallTalk";
 import { ParticularSmallTalkData } from "../dto/values/ParticularSmallTalkData";
-import { SmallTalkVerifyService } from "../domain/service/SmallTalkVerify.Service";
+import { SmallTalkVerifyService } from "../../../global/exception/smalltalk/SmallTalkVerify.Service";
 
 
 
@@ -17,10 +17,8 @@ export class SmallTalkHelper{
     ){}
 
 
-    public async giveParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:string, verifyFlag:boolean):Promise<ParticularSmallTalkData[]>{
-        const datas = await this.smallTalkRepository.findParticularSmallTalkByChallengeIdAndDate(challengeId, date);
-        if(verifyFlag) this.smallTalkVerifyService.verifyParticularSmallTalk(datas);
-        return datas;
+    public async giveParticularSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<ParticularSmallTalkData[]>{
+        return this.smallTalkRepository.findParticularSmallTalkByChallengeIdAndDate(challengeId, date); 
     }
 
     public async executeInsertSmallTalk(challengeId: number, userChallengeId: number, question:string):Promise<void>{
@@ -28,10 +26,8 @@ export class SmallTalkHelper{
     }
     
 
-    public async giveSmallTalkByChallengeIdAndDate(challengeId:number, date:string, verifyFlag:boolean):Promise<SmallTalk[]>{
-        const datas = await this.smallTalkRepository.findSmallTalkByChallengeIdAndDate(challengeId, date);
-        if(verifyFlag) this.smallTalkVerifyService.verifySmallTalk(datas);
-        return datas;
+    public async giveSmallTalkByChallengeIdAndDate(challengeId:number, date:string):Promise<SmallTalk[]>{
+        return this.smallTalkRepository.findSmallTalkByChallengeIdAndDate(challengeId, date);
     }
 
 

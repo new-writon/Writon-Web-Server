@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ChallengeDayRepository } from "../domain/repository/ChallengeDay.Repository";
 import { ChallengeDay } from "../domain/entity/ChallengeDay";
-import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service";
+import { ChallengeVerifyService } from "../../../global/exception/challenge/ChallengeVerify.Service";
 
 @Injectable()
 export class ChallengeDayHelper{
@@ -17,16 +17,12 @@ export class ChallengeDayHelper{
         return this.challengeDayRepository.findChallengeOverlapCount(challengeId);
     }
 
-    public async giveChallengeDayByChallengeId(challengeId: number, verifyFlag:boolean): Promise<ChallengeDay[]>{
-        const challengeDayDatas = await this.challengeDayRepository.findChallengeDayByChallengeId(challengeId);
-        if(verifyFlag) this.challengeVerifyService.verifyChallengeDays(challengeDayDatas);
-        return challengeDayDatas;
+    public async giveChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]>{
+        return this.challengeDayRepository.findChallengeDayByChallengeId(challengeId);
     }
 
-    public async giveChallengeDayByChallengeIdAndDate(challengeId:number, date:string, verifyFlag:boolean):Promise<ChallengeDay>{
-        const challengeDayData = await this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
-        if(verifyFlag) this.challengeVerifyService.verifyChallengeDay(challengeDayData);
-        return challengeDayData;
+    public async giveChallengeDayByChallengeIdAndDate(challengeId:number, date:string):Promise<ChallengeDay>{
+        return this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
     }
 
 

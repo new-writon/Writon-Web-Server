@@ -21,6 +21,6 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     findAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>;
     findAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant>;
     findAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(userId:number, challengeId:number):Promise<Participant[]>;
-    findAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string):Promise<Affiliation>;
+    findAffiliationAndUserByUserIdWithOrganization(userId: number, organization: string):Promise<Affiliation>;
 
 }

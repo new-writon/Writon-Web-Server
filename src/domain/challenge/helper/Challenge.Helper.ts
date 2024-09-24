@@ -2,8 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ChallengeRepository } from "../domain/repository/Challenge.Repository";
 import { Challenge } from "../domain/entity/Challenge";
 import { ChallengeInformation } from "../dto/values/ChallengeInformation";
-import { ChallengeAndOrganization } from "../dto/values/ChallengeAndOrganization";
-import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service";
+import { ChallengeVerifyService } from "../../../global/exception/challenge/ChallengeVerify.Service";
 
 @Injectable()
 export class ChallengeHelper{
@@ -11,34 +10,28 @@ export class ChallengeHelper{
 
     constructor(
         @Inject('challengeImpl')
-        private readonly challengeRepository: ChallengeRepository,
-        private readonly challengeVerifyService: ChallengeVerifyService
+        private readonly challengeRepository: ChallengeRepository
     ){}
 
     public async giveOverlapPeriod(challengeId: number): Promise<number>{
         return this.challengeRepository.findOverlapPeriod(challengeId);
     }
 
-    public async giveChallengeById(challengeId: number, verifyFlag:boolean): Promise<Challenge>{
-        const challengeData = await this.challengeRepository.findChallengeById(challengeId);
-        if(verifyFlag) this.challengeVerifyService.verifyChallenge(challengeData);
-        return challengeData;
+    public async giveChallengeById(challengeId: number): Promise<Challenge>{
+        return this.challengeRepository.findChallengeById(challengeId);   
     }
 
     public async giveChallengeWithCondition(challengeId: number): Promise<ChallengeInformation[]>{
         return this.challengeRepository.findChallengeWithCondition(challengeId);
     }
 
-    public async giveChallengeByIdAndOngoing(challengeId: number, verifyFlag:boolean): Promise<Challenge[]>{
-        const challengeDatas = await this.challengeRepository.findChallengeByIdAndOngoing(challengeId);
-        if(verifyFlag) this.challengeVerifyService.verifyChallenges(challengeDatas);
-        return challengeDatas;
+    public async giveChallengeByIdAndOngoing(challengeId: number): Promise<Challenge[]>{
+        return this.challengeRepository.findChallengeByIdAndOngoing(challengeId);  
     }
 
-    public async giveChallengeByChallengeName(challenge:string, verifyFlag:boolean):Promise<Challenge>{
-        const challengeData = await this.challengeRepository.findChallengeByChallengeName(challenge);
-        if(verifyFlag) this.challengeVerifyService.verifyChallenge(challengeData);
-        return challengeData;
+    public async giveChallengeByChallengeName(challenge:string):Promise<Challenge>{
+        return this.challengeRepository.findChallengeByChallengeName(challenge);
+      
     }
 
     public async giveChallengeByOrgnizationIds(organizationIds:number[]):Promise<Challenge[]>{
@@ -52,7 +45,5 @@ export class ChallengeHelper{
     public async giveChallengesByIds(challengeIds:number[]){
         return this.challengeRepository.findChallengesByIds(challengeIds);
     }
-
-
 
 }

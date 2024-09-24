@@ -11,17 +11,13 @@ export class TemplateApi{
         private readonly userTemplateHelper: UserTemplateHelper
     ){}
 
-    public async requestUserTemplateByUserChallengeId(userChallengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
-        return this.userTemplateHelper.giveUserTemplateByUserChallengeId(userChallengeId, verifyFlag);
+    public async requestUserTemplateByUserChallengeId(userChallengeId: number): Promise<UserTemplate[]>{
+        return this.userTemplateHelper.giveUserTemplateByUserChallengeId(userChallengeId);
     }
 
     public async requestChallengeSuccessChallengeCount(userChallengeId:number): Promise<number>{
         return this.userTemplateHelper.giveChallengeSuccessChallengeCount(userChallengeId);
     }
-
-    // public async requestUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId: number, challengeId: number, verifyFlag:boolean): Promise<UserTemplate[]>{
-    //     return this.userTemplateHelper.giveUserTemplateByAffiliationAndChallengeIdAndDateFormat(affiliationId, challengeId, verifyFlag);
-    // }
 
     public async requestUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]){
         return this.userTemplateHelper.giveUserTemplateSuccessCountByUserChallengeIds(userChallengeIds);

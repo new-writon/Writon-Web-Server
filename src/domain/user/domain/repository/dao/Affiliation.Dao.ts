@@ -191,7 +191,7 @@ async updateUserProfileByUserIdAndOrganization(userId:number,organization:string
     return Participant.participantOf(participants);   
   }
 
-  async findAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string):Promise<Affiliation>{
+  async findAffiliationAndUserByUserIdWithOrganization(userId: number, organization: string):Promise<Affiliation>{
     return this.dataSource.createQueryBuilder()
       .select('a')
       .from(Affiliation, 'a')

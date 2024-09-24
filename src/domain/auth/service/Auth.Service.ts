@@ -8,7 +8,7 @@ import { UserChallenge } from "../../user/domain/entity/UserChallenge";
 import { checkData } from "../util/checker";
 import { Affiliation } from "../../user/domain/entity/Affiliation";
 import { UserApi } from "../intrastructure/User.Api";
-import { AuthVerifyService } from "../domain/service/AuthVerify.Service";
+import { AuthVerifyService } from "../../../global/exception/auth/AuthVerify.Service";
 import { LoginTokenManager } from "../util/LoginTokenManager";
 
 
@@ -26,9 +26,9 @@ export class AuthService {
 
     public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<LoginResponse> {
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
-        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id,false);
+        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
-        const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id, false);
+        const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         const accessToken = this.jwtManager.makeAccessToken(checkedUserData.getId(), checkedUserData.getRole()); // 해당 데이터 자체를 User엔티티에 넣어주기 유저 엔티티 함수에서 get함수를 통해 토큰 구현
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.loginTokenManager.setToken(String(checkedUserData.getId()), [refreshToken], 30 * 24 * 60 * 60);
@@ -41,7 +41,7 @@ export class AuthService {
     }
 
     public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
-        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier,false);
+        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
         this.authVerifyService.vefifyIdentifier(userData);
         await this.authVerifyService.verifyPassword(password, userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
@@ -76,7 +76,7 @@ export class AuthService {
         organization: string,
         userId: number
     ): Promise<boolean | null> {
-        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization,false);
+        const checkAffiliation: Affiliation = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
         const affiliatedConfirmation: boolean = checkData(checkAffiliation);
         return affiliatedConfirmation;
     }
@@ -86,7 +86,7 @@ export class AuthService {
         userId: number,
         challengeId: number
     ): Promise<boolean | null> {
-        const checkChallenge: UserChallenge[] = await this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId,false);
+        const checkChallenge: UserChallenge[] = await this.userApi.requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
         const challengedConfirmation: boolean = checkData(checkChallenge[0]);
         return challengedConfirmation;
     }

@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { Satisfaction } from "../entity/Satisfaction";
-import { SatisfactionException } from "../../exception/SatisfactionException";
-import { SatisfactionErrorCode } from "../../exception/SatisfactionErrorCode";
-import { checkData } from "../../util/checker";
+import { checkData } from "../../../domain/auth/util/checker";
+import { Satisfaction } from "../../../domain/satisfaction/domain/entity/Satisfaction";
+import { SatisfactionErrorCode } from "./SatisfactionErrorCode";
+import { SatisfactionException } from "./SatisfactionException";
 
 
 @Injectable()

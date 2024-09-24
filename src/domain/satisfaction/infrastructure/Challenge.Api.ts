@@ -12,8 +12,8 @@ export class ChallengeApi{
         private readonly challengeDayHelper: ChallengeDayHelper,
     ){}
 
-    public async requestChallengeById(challengeId: number, verifyFlag:boolean): Promise<Challenge>{
-        return this.challengeHelper.giveChallengeById(challengeId, verifyFlag);
+    public async requestChallengeById(challengeId: number): Promise<Challenge>{
+        return this.challengeHelper.giveChallengeById(challengeId);
     }
 
 

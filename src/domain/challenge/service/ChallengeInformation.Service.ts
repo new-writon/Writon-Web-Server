@@ -7,7 +7,7 @@ import { ChallengeAndOrganization } from "../dto/values/ChallengeAndOrganization
 import { ChallengeAccordingToOrganization } from "../dto/response/ChallengeAccordingToOrganization";
 import { ChallengeHelper } from "../helper/Challenge.Helper";
 import { ChallengeDayHelper } from "../helper/ChallengeDay.Helper.js";
-import { ChallengeVerifyService } from "../domain/service/ChallengeVerify.Service";
+import { ChallengeVerifyService } from "../../../global/exception/challenge/ChallengeVerify.Service";
 import { UserApi } from "../intrastructure/User.Api";
 import { DataMapperService } from "../domain/service/DataMapper.Service";
 import { Organization } from "src/domain/user/domain/entity/Organization";
@@ -28,12 +28,12 @@ export class ChallengeInformationService{
 
 
     public async checkChallengeDay(challengeId: number, date: string){ 
-        const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date, false);
+        const challengeDayData = await this.challengeDayHelper.giveChallengeDayByChallengeIdAndDate(challengeId, date);
         this.challengeVerifyService.verifyChallengeDay(challengeDayData)
     }
 
     public async bringChallengeStatus(challengeId: number): Promise<ChallengeStatus> { 
-        const challengeData : Challenge[] = await this.challengeHelper.giveChallengeByIdAndOngoing(challengeId, false);
+        const challengeData : Challenge[] = await this.challengeHelper.giveChallengeByIdAndOngoing(challengeId);
         const challengeStatus : boolean = this.verifyChallengeStatus(challengeData);
         return ChallengeStatus.of(challengeStatus);
        
@@ -49,7 +49,7 @@ export class ChallengeInformationService{
     }
 
     public async bringChallengeDay(challengeId:number):Promise<string[]>{ 
-       const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId, false);
+       const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
        const challengeDays = this.sortChallnegeDay(challengeDay);
        return challengeDays;
     }
