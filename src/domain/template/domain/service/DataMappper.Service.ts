@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Comment } from "../entity/Comment";
 import { UserTemplate } from "../entity/UserTemplate";
 import { Question } from "src/domain/challenge/domain/entity/Question";
+import { Likes } from "../entity/Likes";
 
 
 
@@ -15,7 +16,7 @@ export class DataMapperService{
         })
     }
 
-    public extractAffiliationId(commentDatas: Comment[]){
+    public extractAffiliationId(commentDatas: Comment[] | Likes[]){
         return commentDatas.map((data)=>data.getAffiliationId());
     }
 
