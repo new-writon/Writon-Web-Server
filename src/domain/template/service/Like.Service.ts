@@ -5,15 +5,19 @@ import { LikeCount } from "../dto/response/LikeCount";
 import { TemplateVerifyService } from "../../../global/exception/template/TemplateVerify.Service";
 import { MutexAlgorithm } from "../../../global/decorator/mutex";
 import { UserVerifyService } from "src/global/exception/user/UserVerify.Service";
+import { DataMapperService } from "../domain/service/DataMappper.Service";
+import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
+import { LikeClickedUser } from "../dto/values/LikeClickedUser";
 
 @Injectable()
 export class LikeServie{
 
     constructor(
         private readonly likeHelper:LikeHelper,
-        private readonly userApi:UserApi ,
+        private readonly userApi:UserApi,
         private readonly templateVerifyService:TemplateVerifyService,
-        private readonly userVerifyService:UserVerifyService
+        private readonly userVerifyService:UserVerifyService,
+        private readonly dataMapperService:DataMapperService
     ){}
 
 
@@ -44,5 +48,18 @@ export class LikeServie{
     public async bringLikeCount(userTemplateId: number):Promise<LikeCount>{
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);
+    }
+
+    public async bringLikeClickedUser(userTemplateId: number){
+        const likeDatas = await this.likeHelper.giveLikesByUserTemplateId(userTemplateId);
+        const extractedAffiliationIds = this.dataMapperService.extractAffiliationId(likeDatas);
+        const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
+        return this.mappedClickedUser(affiliationDatas);  
+    }
+
+    private mappedClickedUser(affiliationDatas:Affiliation[]){
+        return affiliationDatas.map((affiliationData)=>{
+            return LikeClickedUser.of(affiliationData.getUser().getProfileImage(), affiliationData.getNickname());
+        })
     }
 }

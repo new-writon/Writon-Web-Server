@@ -57,7 +57,21 @@ export class LikeController{
         @Param("userTemplateId") userTemplateId:number
     ): Promise<SuccessResponseDto<LikeCount>>  {
        const result = await this.likeService.bringLikeCount(userTemplateId);
-    this.logger.log("좋아요 개수 조회 완료");
+        this.logger.log("좋아요 개수 조회 완료");
        return SuccessResponseDto.of(result);
     }
+
+    @Get('/click/:userTemplateId')
+    @HttpCode(200)
+    public async bringLikeClickedUser(
+        @Param("userTemplateId") userTemplateId:number
+    ): Promise<SuccessResponseDto<any>>  {
+        const result = await this.likeService.bringLikeClickedUser(userTemplateId);
+        this.logger.log("좋아요 누른 유저 정보 조회 완료");
+        return SuccessResponseDto.of(result);
+    }
+
+
+
+
 }
