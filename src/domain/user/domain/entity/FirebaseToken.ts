@@ -17,6 +17,17 @@ import { User } from "./User";
 
 @Entity("firebase_tokens")
 export class FirebaseToken extends BaseEntity{
+
+  constructor(engineValue:string, userId:number){
+    super();
+    this.setEngineValue(engineValue);
+    this.setUserId(userId);
+  }
+
+    public static createFirebaseToken(engineValue:string, userId:number){
+      return new FirebaseToken(engineValue, userId);
+    }
+  
   
     @PrimaryGeneratedColumn({ type: "int", name: "firebase_token_id" })
     firebaseTokenId: number;
@@ -36,6 +47,18 @@ export class FirebaseToken extends BaseEntity{
     ])
     user: Relation<User>;
 
-  
+    private setEngineValue(engineValue:string){
+      this.engineValue=engineValue;
+    }
+
+    private setUserId(userId:number){
+      this.userId=userId;
+    }
+
+    public getEngineValue(){
+      return this.engineValue;
+    }
+
+    
 }
   
