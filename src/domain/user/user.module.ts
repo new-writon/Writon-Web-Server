@@ -34,6 +34,7 @@ import { OrgnizationController } from './presentation/Organization.Controller';
 import { LoginTokenManager } from '../auth/util/LoginTokenManager';
 import { CacheImpl } from 'src/global/util/CacheImpl';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
+import { FirebaseTokenDao } from './domain/repository/dao/FirebaseToken.Dao';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service'
     {provide: 'affiliationImpl', useClass: AffiliationDao},
     {provide: 'userchallengeImpl', useClass: UserChallengeDao},
     {provide: 'organizationImpl', useClass: OrganizationDao},
+    {provide: 'firebasetokenImpl', useClass: FirebaseTokenDao},
     LoginTokenManager, 
     MailManager,
     AuthService, 
