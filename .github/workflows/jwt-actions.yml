@@ -27,6 +27,15 @@ jobs:
         echo "${{ secrets.ENV }}" >> .env
       shell: bash
  
+
+          # FIREBASE SDK 세팅
+    - name: create-json
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "writon-firebase-admin.json"
+        json: ${{ secrets.FIREBASE }}
+        
     - name: Build Docker Image For Node.js
       run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
