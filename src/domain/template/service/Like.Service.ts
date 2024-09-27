@@ -8,6 +8,7 @@ import { UserVerifyService } from "src/global/exception/user/UserVerify.Service"
 import { DataMapperService } from "../domain/service/DataMappper.Service";
 import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
 import { LikeClickedUser } from "../dto/values/LikeClickedUser";
+import { Likes } from "../domain/entity/Likes";
 
 @Injectable()
 export class LikeServie{
@@ -52,9 +53,13 @@ export class LikeServie{
 
     public async bringLikeClickedUser(userTemplateId: number){
         const likeDatas = await this.likeHelper.giveLikesByUserTemplateId(userTemplateId);
+        return likeDatas.length === 0 ? [] : this.processLikeClickedLogic(likeDatas);
+    }
+
+    private async processLikeClickedLogic(likeDatas: Likes[]) {
         const extractedAffiliationIds = this.dataMapperService.extractAffiliationId(likeDatas);
         const affiliationDatas = await this.userApi.requestAffiliationAndUserById(extractedAffiliationIds);
-        return this.mappedClickedUser(affiliationDatas);  
+        return this.mappedClickedUser(affiliationDatas);
     }
 
     private mappedClickedUser(affiliationDatas:Affiliation[]){
