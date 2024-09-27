@@ -10,7 +10,8 @@ export class LikeClickedUser {
     private nickname:string;
 
     constructor(userProfileImage:string, nickname:string){
-
+        this.setUserProfileImage(userProfileImage);
+        this.setNickname(nickname);
     }
 
     public static of(userProfileImage:string, nickname:string){
@@ -18,7 +19,6 @@ export class LikeClickedUser {
     }
 
     private setUserProfileImage(userProfileImage:string){
-        if (userProfileImage=== null) throw new InternalServerErrorException(`${__dirname} : userProfileImage 값이 존재하지 않습니다.`);
         this.userProfileImage=userProfileImage;
     }
 
