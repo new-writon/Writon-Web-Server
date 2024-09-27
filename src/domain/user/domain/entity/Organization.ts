@@ -5,7 +5,7 @@ import { Challenge } from "../../../../domain/challenge/domain/entity/Challenge"
 import { Position } from "./Position";
 
 
-@Entity("organizations", { schema: "nest" })
+@Entity("organizations")
 export class Organization extends BaseEntity{
   @PrimaryGeneratedColumn({ type: "int", name: "organization_id" })
   organizationId: number;

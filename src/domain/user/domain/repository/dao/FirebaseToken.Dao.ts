@@ -5,8 +5,6 @@
 import { DataSource, Repository } from 'typeorm';
 import { User } from '../../entity/User';
 import { Injectable } from '@nestjs/common';
-import { UserAffiliationOrganization } from '../../../dto/values/UserAffilatiionOrganization.interface';
-import { UserRepository } from '../User.Repository';
 import { FirebaseToken } from '../../entity/FirebaseToken';
 import { FirebaseTokenRepository } from '../FirebaseToken.Repository';
 
@@ -17,7 +15,7 @@ import { FirebaseTokenRepository } from '../FirebaseToken.Repository';
  */
 @Injectable()
 export class FirebaseTokenDao extends Repository<FirebaseToken> implements FirebaseTokenRepository{
-    constructor(private dataSource: DataSource) { super(User, dataSource.createEntityManager()); }
+    constructor(private dataSource: DataSource) { super(FirebaseToken, dataSource.createEntityManager()); }
 
 
     async findFirebaseTokenByUserIdAndEngineValue(userId:number, engineValue:string):Promise<FirebaseToken>{

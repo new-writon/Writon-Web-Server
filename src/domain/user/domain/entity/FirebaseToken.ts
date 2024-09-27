@@ -8,7 +8,6 @@ import {
     PrimaryGeneratedColumn,
     Relation
   } from "typeorm";
-
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { User } from "./User";
   
@@ -24,40 +23,40 @@ export class FirebaseToken extends BaseEntity{
     this.setUserId(userId);
   }
 
-    public static createFirebaseToken(engineValue:string, userId:number){
-      return new FirebaseToken(engineValue, userId);
-    }
+  public static createFirebaseToken(engineValue:string, userId:number){
+    return new FirebaseToken(engineValue, userId);
+  }
   
   
-    @PrimaryGeneratedColumn({ type: "int", name: "firebase_token_id" })
-    firebaseTokenId: number;
-  
-    @Column("varchar", { name: "engine_value"})
-    engineValue: string;
+  @PrimaryGeneratedColumn({ type: "int", name: "firebase_token_id" })
+  firebaseTokenId: number;
 
-    @Column("int", { name: "user_id" })
-    userId: number;
+  @Column("varchar", { name: "engine_value"})
+  engineValue: string;
 
-    @ManyToOne(() => User, (user) => user.firebaseTokens, {
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      })
-    @JoinColumn([
-    { name: "user_id", referencedColumnName: "userId" },
-    ])
-    user: Relation<User>;
+  @Column("int", { name: "user_id" })
+  userId: number;
 
-    private setEngineValue(engineValue:string){
-      this.engineValue=engineValue;
-    }
+  @ManyToOne(() => User, (user) => user.firebaseTokens, {
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    })
+  @JoinColumn([
+  { name: "user_id", referencedColumnName: "userId" },
+  ])
+  user: Relation<User>;
 
-    private setUserId(userId:number){
-      this.userId=userId;
-    }
+  private setEngineValue(engineValue:string){
+    this.engineValue=engineValue;
+  }
 
-    public getEngineValue(){
-      return this.engineValue;
-    }
+  private setUserId(userId:number){
+    this.userId=userId;
+  }
+
+  public getEngineValue(){
+    return this.engineValue;
+  }
 
     
 }

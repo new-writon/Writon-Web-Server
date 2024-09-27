@@ -10,12 +10,17 @@ import { Affiliation } from "../../user/domain/entity/Affiliation";
 import { UserApi } from "../intrastructure/User.Api";
 import { AuthVerifyService } from "../../../global/exception/auth/AuthVerify.Service";
 import { LoginTokenManager } from "../util/LoginTokenManager";
+import { LocalLogin } from "../dto/request/LocalLogin";
+import { DataSource } from "typeorm";
+import { Transactional } from "../../..//global/decorator/transaction";
+import { FirebaseToken } from "src/domain/user/domain/entity/FirebaseToken";
 
 
 @Injectable()
 export class AuthService {
 
     constructor(
+        private readonly dataSource: DataSource,
         private readonly socialLogin: SocialLogin,
         private readonly jwtManager: JwtManager,
         private readonly loginTokenManager: LoginTokenManager,
@@ -24,7 +29,8 @@ export class AuthService {
     ) { }
 
 
-    public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<LoginResponse> {
+    @Transactional()
+    public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string, engineValue:string): Promise<LoginResponse> {
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
@@ -36,26 +42,41 @@ export class AuthService {
             this.checkAffiliationStatus(organization, checkedUserData.getId()),
             this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId)
         ]);
+        const firebaseTokenData = await this.userApi.requestFirebaseTokenByUserIdAndEngineValue(userData.getId(), engineValue);
+        const flag = checkData(firebaseTokenData);
+        await this.handleFirebaseToken(flag, userData.getId(), engineValue);
         affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
         return LoginResponse.of(accessToken, refreshToken, checkedUserData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
-    public async localLogin(identifier: string, password: string, organization: string, challengeId: number): Promise<LoginResponse> {
-        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
+    @Transactional()
+    public async localLogin(loginLocal: LocalLogin, engineValue:string): Promise<LoginResponse> {
+        const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(loginLocal.getIdentifier());
         this.authVerifyService.vefifyIdentifier(userData);
-        await this.authVerifyService.verifyPassword(password, userData.getPassword())
+        await this.authVerifyService.verifyPassword(loginLocal.getPassword(), userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.loginTokenManager.setToken(String(userData.getId()), [refreshToken] , 30 * 24 * 60 * 60);
+        const firebaseTokenData = await this.userApi.requestFirebaseTokenByUserIdAndEngineValue(userData.getId(), engineValue);
+        const flag = checkData(firebaseTokenData);
+        await this.handleFirebaseToken(flag, userData.getId(), engineValue);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
-            this.checkAffiliationStatus(organization, userData.getId()),
-            this.checkOngoingChallenge(organization, userData.getId(), challengeId)
+            this.checkAffiliationStatus(loginLocal.getOrganization(), userData.getId()),
+            this.checkOngoingChallenge(loginLocal.getOrganization(), userData.getId(), loginLocal.getChallengeId())
         ]);
-        affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
+        affiliatedConfirmation = this.checkOrganization(loginLocal.getOrganization(), affiliatedConfirmation);
         return LoginResponse.of(accessToken, refreshToken, userData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
-    public async logout(userId: string, refreshToken:string): Promise<void> {
+
+    private async handleFirebaseToken(flag:boolean, userId:number, engineValue:string){
+        if(!flag){ await this.userApi.executeInsertFirebaseToken(userId, engineValue);}
+    }
+
+
+
+    @Transactional()
+    public async logout(userId: string, refreshToken:string, engineValue:string): Promise<void> {
         await this.loginTokenManager.deleteToken(userId, refreshToken)
     }
 

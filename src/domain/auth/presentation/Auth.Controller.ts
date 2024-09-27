@@ -23,7 +23,7 @@ export class AuthController{
         @Body() kakaoLogin: KakaoLogin,
         @Req() req: Request,
     ): Promise<SuccessResponseDto<LoginResponse>>  {
-      const result : LoginResponse = await this.authService.kakaoLogin(kakaoLogin.getOrganization(), kakaoLogin.getChallengeId(), req.headers["authorization"], req.headers['engineValue'] as string);
+      const result : LoginResponse = await this.authService.kakaoLogin(kakaoLogin.getOrganization(), kakaoLogin.getChallengeId(), req.headers["authorization"], req.headers['engine'] as string);
       this.logger.log("카카오 로그인 완료");
       return SuccessResponseDto.of(result);
     }
@@ -34,7 +34,7 @@ export class AuthController{
         @Body() loginLocal: LocalLogin,
         @Req() req: Request
     ): Promise<SuccessResponseDto<LoginResponse>>  {
-     const result : LoginResponse = await this.authService.localLogin(loginLocal, req.headers['engineValue'] as string);
+     const result : LoginResponse = await this.authService.localLogin(loginLocal, req.headers['engine'] as string);
      this.logger.log("로컬 로그인 완료");
      return SuccessResponseDto.of(result);
     }
