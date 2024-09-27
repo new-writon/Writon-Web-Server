@@ -9,6 +9,7 @@ import {
 import { Affiliation } from "./Affiliation";
 import { BaseEntity } from "../../../../global/entity/base.entitiy";
 import { InternalServerErrorException } from "@nestjs/common";
+import { FirebaseToken } from "./FirebaseToken";
 
 
 
@@ -69,7 +70,8 @@ export class User extends BaseEntity{
   @OneToMany(() => Affiliation, (affiliation) => affiliation.user)
   affiliations: Relation<Affiliation>[];
 
-
+  @OneToMany(() => FirebaseToken, (firebaseToken) => firebaseToken.user)
+  firebaseTokens: Relation<FirebaseToken>[];
 
   public static createKakaoUser(
     email: string,
