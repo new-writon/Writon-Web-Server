@@ -42,8 +42,8 @@ export class AuthService {
             this.checkAffiliationStatus(organization, checkedUserData.getId()),
             this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId)
         ]);
-        const engineStatus = this.checkAccessEngine(engineValue);
-        await this.proccessFirebaseTokenLogic(engineStatus, userData, engineValue);
+        const deviceType = this.checkDeviceType(engineValue);
+        await this.proccessFirebaseTokenLogic(deviceType, userData, engineValue);
         affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
         return LoginResponse.of(accessToken, refreshToken, checkedUserData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
@@ -56,8 +56,8 @@ export class AuthService {
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.loginTokenManager.setToken(String(userData.getId()), [refreshToken] , 30 * 24 * 60 * 60);
-        const engineStatus = this.checkAccessEngine(engineValue);
-        await this.proccessFirebaseTokenLogic(engineStatus, userData, engineValue);
+        const deviceType = this.checkDeviceType(engineValue);
+        await this.proccessFirebaseTokenLogic(deviceType, userData, engineValue);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
             this.checkAffiliationStatus(loginLocal.getOrganization(), userData.getId()),
             this.checkOngoingChallenge(loginLocal.getOrganization(), userData.getId(), loginLocal.getChallengeId())
@@ -66,15 +66,15 @@ export class AuthService {
         return LoginResponse.of(accessToken, refreshToken, userData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
-    private async proccessFirebaseTokenLogic(engineStatus:string, userData:User, engineValue:string){
-        if(engineStatus === 'phone'){
+    private async proccessFirebaseTokenLogic(deviceType:string, userData:User, engineValue:string){
+        if(deviceType === 'phone'){
             const firebaseTokenData = await this.userApi.requestFirebaseTokenByUserIdAndEngineValue(userData.getId(), engineValue);
             const flag = checkData(firebaseTokenData);
             await this.insertFirebaseTokenIfNotExists(flag, userData.getId(), engineValue);
         }
     }
 
-    private checkAccessEngine(engineValue:string){
+    private checkDeviceType(engineValue:string){
         if(engineValue === "null") return 'computer';
         return 'phone';
     }
@@ -86,7 +86,12 @@ export class AuthService {
     @Transactional()
     public async logout(userId: string, refreshToken:string, engineValue:string): Promise<void> {
         await this.loginTokenManager.deleteToken(userId, refreshToken);
-        await this.userApi.executeDeleteFirebaseToken(Number(userId), engineValue)
+        const deviceType = this.checkDeviceType(engineValue);
+        await this.deleteFirebaseTokenByDeviceType(deviceType, Number(userId), engineValue)
+    }
+
+    private async deleteFirebaseTokenByDeviceType(deviceType:string, userId:number, engineValue:string){
+        if(deviceType === 'phone'){ await this.userApi.executeDeleteFirebaseToken(userId, engineValue);}
     }
 
     private checkOrganization(organization: string, affiliatedConfirmation: boolean): null | boolean {
