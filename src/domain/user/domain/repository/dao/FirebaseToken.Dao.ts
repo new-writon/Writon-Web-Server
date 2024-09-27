@@ -36,8 +36,8 @@ export class FirebaseTokenDao extends Repository<FirebaseToken> implements Fireb
         await this.dataSource.createQueryBuilder()
             .delete()
             .from(FirebaseToken)
-            .where('fb.user_id = :userId', {userId})
-            .andWhere('fb.engine_value = :engineValue', {engineValue})
+            .where('userId = :userId', {userId})
+            .andWhere('engine_value = :engineValue', {engineValue})
             .execute();
     }
 

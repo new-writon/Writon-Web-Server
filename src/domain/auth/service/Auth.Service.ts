@@ -77,7 +77,8 @@ export class AuthService {
 
     @Transactional()
     public async logout(userId: string, refreshToken:string, engineValue:string): Promise<void> {
-        await this.loginTokenManager.deleteToken(userId, refreshToken)
+        await this.loginTokenManager.deleteToken(userId, refreshToken);
+        await this.userApi.executeDeleteFirebaseToken(Number(userId), engineValue)
     }
 
     private checkOrganization(organization: string, affiliatedConfirmation: boolean): null | boolean {
