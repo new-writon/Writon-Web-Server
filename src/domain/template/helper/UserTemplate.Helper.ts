@@ -10,7 +10,6 @@ export class UserTemplateHelper{
     constructor(
         @Inject('usertemplateImpl')
         private readonly userTemplateRepository: UserTemplateRepository,
-        private readonly templateVerifyService:TemplateVerifyService
     ){}
 
     public async giveUserTemplateByUserChallengeId(userChallengeId: number): Promise<UserTemplate[]>{
@@ -50,6 +49,10 @@ export class UserTemplateHelper{
 
     public async giveUserTemplateByUserChallengeIdAndDate(userChallengeId: number, date:string){
         return this.userTemplateRepository.findUserTemplateByUserChallengeIdAndDate(userChallengeId,date);
+    }
+
+    public async findUserTemplateById(userTemplateId:number):Promise<UserTemplate>{
+        return this.userTemplateRepository.findUserTemplateById(userTemplateId);
     }
 
 }
