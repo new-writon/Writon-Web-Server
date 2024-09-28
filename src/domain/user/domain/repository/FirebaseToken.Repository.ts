@@ -8,5 +8,7 @@ export interface FirebaseTokenRepository extends Repository<FirebaseToken> {
     findFirebaseTokenByUserIdAndEngineValue(userId:number, engineValue:string):Promise<FirebaseToken>
     insertFirebaseToken(userId:number, engineValue:string):Promise<void>;
     deleteFirebaseToken(userId:number, engineValue:string):Promise<void>;
+    findFirebaseTokenWithUserChallengeId(userChallengeId:number):Promise<FirebaseToken[]>
+    
    
 }

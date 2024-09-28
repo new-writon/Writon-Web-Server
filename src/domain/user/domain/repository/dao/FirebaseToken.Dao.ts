@@ -7,6 +7,8 @@ import { User } from '../../entity/User';
 import { Injectable } from '@nestjs/common';
 import { FirebaseToken } from '../../entity/FirebaseToken';
 import { FirebaseTokenRepository } from '../FirebaseToken.Repository';
+import { Affiliation } from '../../entity/Affiliation';
+import { UserChallenge } from '../../entity/UserChallenge';
 
 
 
@@ -39,6 +41,16 @@ export class FirebaseTokenDao extends Repository<FirebaseToken> implements Fireb
             .where('userId = :userId', {userId})
             .andWhere('engine_value = :engineValue', {engineValue})
             .execute();
+    }
+
+    async findFirebaseTokenWithUserChallengeId(userChallengeId:number):Promise<FirebaseToken[]>{
+        return this.dataSource.createQueryBuilder()
+            .select('ft')
+            .from(FirebaseToken, 'ft')
+            .innerJoin(User, 'u', 'u.user_id = ft.user_id')
+            .innerJoin(Affiliation, 'a', 'a.user_id = u.user_id')
+            .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
+            .getMany();
     }
 
 }

@@ -4,6 +4,7 @@ import { UserAffiliationOrganization } from "../dto/values/UserAffilatiionOrgani
 import { User } from "../domain/entity/User";
 import { UserVerifyService } from "../../../global/exception/user/UserVerify.Service";
 import { FirebaseTokenRepository } from "../domain/repository/FirebaseToken.Repository";
+import { FirebaseToken } from "../domain/entity/FirebaseToken";
 
 
 export class UserHelper {
@@ -63,6 +64,10 @@ export class UserHelper {
 
     public async executeDeleteFirebaseToken(userId:number, engineValue:string){
         await this.firebaseTokenRepository.deleteFirebaseToken(userId, engineValue);
+    }
+
+    public async giveFirebaseTokenWithUserChallengeId(userChallengeId:number):Promise<FirebaseToken[]>{
+         return this.firebaseTokenRepository.findFirebaseTokenWithUserChallengeId(userChallengeId)
     }
 
 
