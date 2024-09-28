@@ -86,8 +86,8 @@ export class CommentService{
         return CommentId.of(commentData.getId());   
     }
 
-    private sendCommentNotification(likeStatus:string, userChallengeData:UserChallenge, affiliationData:Affiliation, userTemplateData:UserTemplate, challengeData:Challenge){
-        if(likeStatus === 'othersComment'){
+    private sendCommentNotification(CommentStatus:string, userChallengeData:UserChallenge, affiliationData:Affiliation, userTemplateData:UserTemplate, challengeData:Challenge){
+        if(CommentStatus === 'othersComment'){
             this.alarmService.sendPushAlarm(userChallengeData.getAffiliation().getUser().getFirebaseTokens().map((data)=> data.getEngineValue()), `${challengeData.getName()} 챌린지 댓글 알림`,`${affiliationData.getNickname()}님이 ${formatDateToPushAlarmStatus(userTemplateData.getTemplateDate())} 템플릿에 댓글을 달았습니다.` )
         }
     }
