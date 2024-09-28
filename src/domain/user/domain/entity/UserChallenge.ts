@@ -145,6 +145,9 @@ export class UserChallenge extends BaseEntity{
     return this.affiliation;
   }
 
+  public getChallengeId(){
+    return this.challengeId;
+  }
   
 
   public static createChallengeUser(

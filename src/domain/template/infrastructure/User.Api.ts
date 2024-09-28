@@ -61,8 +61,8 @@ export class UserApi {
         return this.affiliationHelper.giveAffiliationAndUserById(affiliationId);
     }
 
-    public async requestUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>{
-        return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserById(userChallengeId);
+    public async requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId:number):Promise<UserChallenge>{
+        return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId);
     }
 
     public async requestUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
