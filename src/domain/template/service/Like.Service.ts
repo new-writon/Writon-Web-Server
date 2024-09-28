@@ -9,31 +9,46 @@ import { DataMapperService } from "../domain/service/DataMappper.Service";
 import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
 import { LikeClickedUser } from "../dto/values/LikeClickedUser";
 import { Likes } from "../domain/entity/Likes";
+import { AlarmService } from "src/global/alarm/Alarm.Service";
+import { UserTemplateHelper } from "../helper/UserTemplate.Helper";
+import { Transactional } from "../../../global/decorator/transaction";
+import { DataSource } from "typeorm";
+import { formatDateToPushAlarmStatus } from "../util/date";
+
 
 @Injectable()
 export class LikeServie{
 
     constructor(
+        private readonly dataSource:DataSource,
         private readonly likeHelper:LikeHelper,
         private readonly userApi:UserApi,
-        private readonly templateVerifyService:TemplateVerifyService,
         private readonly userVerifyService:UserVerifyService,
-        private readonly dataMapperService:DataMapperService
+        private readonly templateVerifyService:TemplateVerifyService,
+        private readonly dataMapperService:DataMapperService,
+        private readonly alarmService:AlarmService,
+        private readonly userTemplateHelper:UserTemplateHelper
     ){}
 
 
     public async checkLike(likeId: number){
         await this.likeHelper.executeUpdateLikeCheck(likeId);
     }
-
+  
+    @Transactional()
     @MutexAlgorithm()
     public async penetrateLike(userId: number, userTemplateId: number,organization: string):Promise<LikeCount>{
-        // 검증하기
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
+
+        const [ affiliationData, userTemplateData] = await Promise.all([
+            this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization),
+            this.userTemplateHelper.findUserTemplateById(userTemplateId)
+        ])
+        const firebaseTokenDatas = await this.userApi.requestFirebaseTokenWithUserChallengeId(userTemplateData.getUserChallengeId())
         this.userVerifyService.verifyAffiliation(affiliationData);
-        const likeData = await this.likeHelper.giveLikeByAffiliationIdAndUserTemplateId(affiliationData.getAffiliationId(), userTemplateId);
-        this.templateVerifyService.verifyExistLike(likeData);
-        await this.likeHelper.executeInsertLike(affiliationData.getAffiliationId(), userTemplateId);
+        const checkLikeData = await this.likeHelper.giveLikeByAffiliationIdAndUserTemplateId(affiliationData.getAffiliationId(), userTemplateId);
+        this.templateVerifyService.verifyExistLike(checkLikeData);
+        await this.likeHelper.executeInsertLike(affiliationData.getAffiliationId(), userTemplateId); 
+        this.alarmService.sendPushAlarm(firebaseTokenDatas.map((data)=> data.getEngineValue()), '좋아요 알림',`${affiliationData.getNickname()}님이  ${ formatDateToPushAlarmStatus(userTemplateData.getTemplateDate())} 템플릿에 좋아요를 눌렀습니다.` )
         const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
         return LikeCount.of(likeCount);
     }
