@@ -14,6 +14,7 @@ import { TemplateModule } from './domain/template/template.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisConfig } from './global/config/RedisConfig';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { AlarmService } from './global/alarm/Alarm.Service';
 
 
 
