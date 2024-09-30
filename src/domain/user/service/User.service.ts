@@ -13,6 +13,7 @@ export class UserService {
     ) { }
 
 
+    
     public async modifyAccount(accountNumber:string, bank:string, userId:number):Promise<void>{
         const userData = await this.userHelper.giveUserById(userId);
         this.userVerifyService.verifyUser(userData);
