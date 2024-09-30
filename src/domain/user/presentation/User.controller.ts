@@ -4,7 +4,7 @@ import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
 import { User } from '../domain/entity/User';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
 import { AccountUpdate } from '../dto/request/AccountUpdate';
-import { UserService } from '../service/User.Service';
+import { UserService } from '../service/User.service';
 
 @Controller("/api/user")
 export class UserController {
@@ -12,7 +12,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
 
-  
+
   @Patch("/account")
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
