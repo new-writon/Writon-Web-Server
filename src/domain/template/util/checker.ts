@@ -10,3 +10,8 @@ export const checkData = (data: any): boolean => {
     }
     return result;
 }
+
+export const compareValues = (first:number, second:number) => {
+    if(first === second) return 'my';
+    return 'others';
+}

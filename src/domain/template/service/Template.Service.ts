@@ -50,7 +50,7 @@ export class TemplateService {
         const questionIds = this.dataMapperService.extractQuestionId(userTemplateData);
         const [questionData, userChallengeData]= await Promise.all([
             this.challengeApi.requestQuestionById(questionIds),
-            this.userApi.requestUserChallengeAndAffiliationAndUserById(userTemplateData.getUserChallengeId())
+            this.userApi.requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userTemplateData.getUserChallengeId())
         ]);    
         const mergedForOneTemplate = this.mergeForOneTemplate(affiliationData, userTemplateData, questionData, userChallengeData);
         const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];

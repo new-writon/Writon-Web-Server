@@ -149,12 +149,13 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
     }
 
 
-    async findUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>{
+    async findUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId:number):Promise<UserChallenge>{
         return this.dataSource.createQueryBuilder()
         .select('uc')
         .from(UserChallenge, 'uc')
         .innerJoinAndSelect('uc.affiliation', 'a', 'a.affiliation_id = uc.affiliation_id')
         .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
+        .innerJoinAndSelect('u.firebaseTokens', 'ft', 'ft.user_id = u.user_id')
         .where('uc.user_challenge_id = :userChallengeId',{userChallengeId})
         .getOne();
     }

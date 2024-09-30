@@ -143,6 +143,10 @@ export class User extends BaseEntity{
     return this.password;
   }
 
+  public getFirebaseTokens(){
+    return this.firebaseTokens;
+  }
+
 
 
 }

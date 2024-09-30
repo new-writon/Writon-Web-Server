@@ -27,17 +27,20 @@ import { OrganizationHelper } from './helper/Organization.Helper';
 import { DataMapperService } from './domain/service/DataMapper.Service';
 import { CheeringPhraseController } from './presentation/CheeringPhrase.Controller';
 import { CheeringPhraseService } from './service/CheeringPhrase.Service';
-import { UserController } from './presentation/User.controller';
-import { UserService } from './service/User.service';
+import { UserController } from './presentation/User.Controller';
+import { UserService } from './service/User.Service';
 import { OrganizationService } from './service/Organization.Service';
 import { OrgnizationController } from './presentation/Organization.Controller';
 import { LoginTokenManager } from '../auth/util/LoginTokenManager';
 import { CacheImpl } from 'src/global/util/CacheImpl';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
+import { FirebaseTokenDao } from './domain/repository/dao/FirebaseToken.Dao';
+import { FirebaseToken } from './domain/entity/FirebaseToken';
+import { Position } from './domain/entity/Position';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge]),
+    TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge, FirebaseToken, Position]),
     AuthModule,
     TemplateModule,
     ChallengeModule
@@ -48,6 +51,7 @@ import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service'
     {provide: 'affiliationImpl', useClass: AffiliationDao},
     {provide: 'userchallengeImpl', useClass: UserChallengeDao},
     {provide: 'organizationImpl', useClass: OrganizationDao},
+    {provide: 'firebasetokenImpl', useClass: FirebaseTokenDao},
     LoginTokenManager, 
     MailManager,
     AuthService, 

@@ -3,12 +3,16 @@ import { UserRepository } from "../domain/repository/User.Repository";
 import { UserAffiliationOrganization } from "../dto/values/UserAffilatiionOrganization.interface";
 import { User } from "../domain/entity/User";
 import { UserVerifyService } from "../../../global/exception/user/UserVerify.Service";
+import { FirebaseTokenRepository } from "../domain/repository/FirebaseToken.Repository";
+import { FirebaseToken } from "../domain/entity/FirebaseToken";
 
 
 export class UserHelper {
     constructor(
         @Inject('userImpl')
         private readonly userRepository: UserRepository,
+        @Inject('firebasetokenImpl')
+        private readonly firebaseTokenRepository: FirebaseTokenRepository,
         private readonly userVerifyService: UserVerifyService
     ){}
 
@@ -47,6 +51,23 @@ export class UserHelper {
 
     public async executeUpdateAccount(accountNumber:string, bank:string, userId:number):Promise<void>{
         return this.userRepository.updateAccount(accountNumber, bank, userId);
+    }
+
+    public async giveFirebaseTokenByUserIdAndEngineValue(userId:number, engineValue:string){
+        return this.firebaseTokenRepository.findFirebaseTokenByUserIdAndEngineValue(userId, engineValue);
+
+    }
+
+    public async executeInsertFirebaseToken(userId:number, engineValue:string){
+        await this.firebaseTokenRepository.insertFirebaseToken(userId, engineValue);
+    }
+
+    public async executeDeleteFirebaseToken(userId:number, engineValue:string){
+        await this.firebaseTokenRepository.deleteFirebaseToken(userId, engineValue);
+    }
+
+    public async giveFirebaseTokenWithUserChallengeId(userChallengeId:number):Promise<FirebaseToken[]>{
+         return this.firebaseTokenRepository.findFirebaseTokenWithUserChallengeId(userChallengeId)
     }
 
 

@@ -5,12 +5,18 @@ import { DataMapperService } from "../domain/service/DataMappper.Service";
 import { MyComment } from "../dto/response/MyComment";
 import { CommentId } from "../dto/response/CommentId";
 import { Comment } from "../domain/entity/Comment";
-import { Affiliation } from "src/domain/user/domain/entity/Affiliation";
+import { Affiliation } from "../../../domain/user/domain/entity/Affiliation";
 import { CommentInformation } from "../dto/response/CommentInformation";
 import { sortCompanyPublic } from "../util/data";
-import { formatDate } from "../util/date";
-import { checkData } from "../util/checker";
+import { formatDate, formatDateToPushAlarmStatus } from "../util/date";
+import { checkData, compareValues } from "../util/checker";
 import { CommentInsert } from "../dto/request/CommentInsert";
+import { AlarmService } from "../../../global/alarm/Alarm.Service";
+import { UserTemplateHelper } from "../helper/UserTemplate.Helper";
+import { UserChallenge } from "../../../domain/user/domain/entity/UserChallenge";
+import { ChallengeApi } from "../infrastructure/Challenge.Api";
+import { Challenge } from "../../../domain/challenge/domain/entity/Challenge";
+import { UserTemplate } from "../domain/entity/UserTemplate";
 
 @Injectable()
 export class CommentService{
@@ -19,6 +25,9 @@ export class CommentService{
         private readonly commentHelper: CommentHelper,
         private readonly userApi: UserApi,
         private readonly dataMapperService: DataMapperService,
+        private readonly alarmService:AlarmService,
+        private readonly userTemplateHelper:UserTemplateHelper,
+        private readonly challengeApi:ChallengeApi
     ){}
 
 
@@ -65,9 +74,22 @@ export class CommentService{
     }
 
     public async penetrateComment(userId: number, commentInsert: CommentInsert):Promise<CommentId>{
-        const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(userId, commentInsert.getOrganization());
+        const [affiliationData, userTemplateData] = await Promise.all([
+            this.userApi.requestAffiliationByUserIdAndOrganization(userId, commentInsert.getOrganization()),
+            this.userTemplateHelper.findUserTemplateById(commentInsert.getUserTemplateId())
+        ])
+        const userChallengeData = await this.userApi.requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userTemplateData.getUserChallengeId());
+        const challengeData = await this.challengeApi.requestChallengeById(userChallengeData.getChallengeId())
+        const myCommentCheck = compareValues(affiliationData.getId(), userChallengeData.getAffiliation().getId());
+        this.sendCommentNotification(myCommentCheck, userChallengeData,affiliationData,userTemplateData, challengeData);
         const commentData = await this.commentHelper.executeInsertComment(affiliationData.getAffiliationId(), commentInsert.getContent(), commentInsert.getUserTemplateId(), commentInsert.getCommentGroup());
         return CommentId.of(commentData.getId());   
+    }
+
+    private sendCommentNotification(CommentStatus:string, userChallengeData:UserChallenge, affiliationData:Affiliation, userTemplateData:UserTemplate, challengeData:Challenge){
+        if(CommentStatus === 'others'){
+            this.alarmService.sendPushAlarm(userChallengeData.getAffiliation().getUser().getFirebaseTokens().map((data)=> data.getEngineValue()), `${challengeData.getName()} 챌린지 댓글 알림`,`${affiliationData.getNickname()}님이 ${formatDateToPushAlarmStatus(userTemplateData.getTemplateDate())} 템플릿에 댓글을 달았습니다.` )
+        }
     }
 
     public async modifyComment(userId: number, organization: string, commentId: number, content: string):Promise<void>{

@@ -3,6 +3,8 @@ import { Affiliation } from "../../../domain/user/domain/entity/Affiliation";
 import { AffiliationHelper } from "../../../domain/user/helper/Affiliation.Helper";
 import { UserChallengeHelper } from "../../user/helper/UserChallenge.Helper";
 import { UserChallenge } from "../../user/domain/entity/UserChallenge";
+import { FirebaseToken } from "src/domain/user/domain/entity/FirebaseToken";
+import { UserHelper } from "src/domain/user/helper/User.Helper";
 
 
 @Injectable()
@@ -10,6 +12,7 @@ export class UserApi {
 
     constructor(
         private readonly affiliationHelper: AffiliationHelper,
+        private readonly userHelper:UserHelper,
         private readonly userChallengeHelper: UserChallengeHelper
     ){}
 
@@ -58,15 +61,16 @@ export class UserApi {
         return this.affiliationHelper.giveAffiliationAndUserById(affiliationId);
     }
 
-    public async requestUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>{
-        return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserById(userChallengeId);
+    public async requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId:number):Promise<UserChallenge>{
+        return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId);
     }
 
     public async requestUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
         return this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationId, challengeId);
     }
 
-
-
+    public async requestFirebaseTokenWithUserChallengeId(userChallengeId:number):Promise<FirebaseToken[]>{
+        return this.userHelper.giveFirebaseTokenWithUserChallengeId(userChallengeId);
+    }
 
 }

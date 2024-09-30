@@ -73,8 +73,8 @@ export class UserChallengeHelper{
         return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserByChallengeId(challengeId);
     }
 
-    async giveUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>{
-        return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserById(userChallengeId); 
+    async giveUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId:number):Promise<UserChallenge>{
+        return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId); 
     }
 
     async giveUserChallengeByChallengeId(challengeId: number){

@@ -18,7 +18,7 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
     findUserChallengePaticipantCount(challengeId:number):Promise<number>;
     insertCheeringPhrase(affiliationId: number, challengeId: number, content: string):Promise<void>;
     findUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number):Promise<UserChallenge[]>;
-    findUserChallengeAndAffiliationAndUserById(userChallengeId:number):Promise<UserChallenge>;
+    findUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId:number):Promise<UserChallenge>;
     findUserChallengeByChallengeId(challengeId: number): Promise<UserChallenge[]>;
     updateUserChallengeDeposit(challengeDeposit:ChallengeDeposit[]):Promise<void>;
 

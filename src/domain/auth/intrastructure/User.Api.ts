@@ -53,4 +53,16 @@ export class UserApi{
     public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId:number, organization:string, challengeId: number){
         return this.userChallengeHelper.giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId);
     }
+
+    public async requestFirebaseTokenByUserIdAndEngineValue(userId:number, engineValue:string){
+        return this.userHelper.giveFirebaseTokenByUserIdAndEngineValue(userId, engineValue);
+    }
+
+    public async executeInsertFirebaseToken(userId:number, engineValue:string){
+        await this.userHelper.executeInsertFirebaseToken(userId, engineValue);
+    }
+
+    public async executeDeleteFirebaseToken(userId:number, engineValue:string){
+        await this.userHelper.executeDeleteFirebaseToken(userId, engineValue);
+    }
 }
