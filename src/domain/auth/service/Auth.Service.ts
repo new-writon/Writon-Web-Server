@@ -30,7 +30,7 @@ export class AuthService {
 
 
     @Transactional()
-    public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string, engineValue:string): Promise<LoginResponse> {
+    public async kakaoLogin(organization: string, challengeId: number, kakaoToken: string): Promise<LoginResponse> {
         const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(kakaoData.data.id);
         await this.signInDependingOnRegistrationStatus(userData, kakaoData);
@@ -42,22 +42,22 @@ export class AuthService {
             this.checkAffiliationStatus(organization, checkedUserData.getId()),
             this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId)
         ]);
-        const deviceType = this.checkDeviceType(engineValue);
-        await this.proccessFirebaseTokenLogic(deviceType, userData, engineValue);
+     //   const deviceType = this.checkDeviceType(engineValue);
+     //   await this.proccessFirebaseTokenLogic(deviceType, userData, engineValue);
         affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
         return LoginResponse.of(accessToken, refreshToken, checkedUserData.getRole(), affiliatedConfirmation, challengedConfirmation);
     }
 
     @Transactional()
-    public async localLogin(loginLocal: LocalLogin, engineValue:string): Promise<LoginResponse> {
+    public async localLogin(loginLocal: LocalLogin): Promise<LoginResponse> {
         const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(loginLocal.getIdentifier());
         this.authVerifyService.vefifyIdentifier(userData);
         await this.authVerifyService.verifyPassword(loginLocal.getPassword(), userData.getPassword())
         const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
         const refreshToken = this.jwtManager.makeRefreshToken();
         await this.loginTokenManager.setToken(String(userData.getId()), [refreshToken] , 30 * 24 * 60 * 60);
-        const deviceType = this.checkDeviceType(engineValue);
-        await this.proccessFirebaseTokenLogic(deviceType, userData, engineValue);
+        // const deviceType = this.checkDeviceType(engineValue);
+        // await this.proccessFirebaseTokenLogic(deviceType, userData, engineValue);
         let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
             this.checkAffiliationStatus(loginLocal.getOrganization(), userData.getId()),
             this.checkOngoingChallenge(loginLocal.getOrganization(), userData.getId(), loginLocal.getChallengeId())
