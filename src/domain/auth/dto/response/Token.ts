@@ -1,29 +1,31 @@
-import { InternalServerErrorException } from "@nestjs/common";
+import { InternalServerErrorException } from '@nestjs/common';
 
+export class Token {
+  private accessToken: string;
+  private refreshToken: string;
 
-export class Token{
+  constructor(accessToken: string, refreshToken: string) {
+    this.setAccessToken(accessToken);
+    this.setRefreshToken(refreshToken);
+  }
 
-    private accessToken: string;
-    private refreshToken: string;
+  public static of(accessToken: string, refreshToken: string) {
+    return new Token(accessToken, refreshToken);
+  }
 
-    constructor(accessToken: string, refreshToken: string){
-        this.setAccessToken(accessToken);
-        this.setRefreshToken(refreshToken);
-    }
+  private setAccessToken(accessToken: string) {
+    if (accessToken === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : AccessToken 값이 존재하지 않습니다.`,
+      );
+    this.accessToken = accessToken;
+  }
 
-    public static of(accessToken: string, refreshToken: string){
-        return new Token(accessToken, refreshToken);
-    }
-
-    private setAccessToken(accessToken: string){
-        if(accessToken === null)
-            throw new InternalServerErrorException (`${__dirname} : AccessToken 값이 존재하지 않습니다.`);
-        this.accessToken=accessToken;
-    }
-
-    private setRefreshToken(refreshToken: string){
-        if(refreshToken === null)
-            throw new InternalServerErrorException (`${__dirname} : RefreshToken 값이 존재하지 않습니다.`);
-        this.refreshToken=refreshToken;
-    }
+  private setRefreshToken(refreshToken: string) {
+    if (refreshToken === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : RefreshToken 값이 존재하지 않습니다.`,
+      );
+    this.refreshToken = refreshToken;
+  }
 }

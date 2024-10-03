@@ -1,21 +1,18 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
+export class VerifyAuthenticationCode {
+  @IsNotEmpty()
+  @IsEmail()
+  private email: string;
 
-export class VerifyAuthenticationCode{
-    
-    @IsNotEmpty()
-    @IsEmail()
-    private email: string;
+  @IsNotEmpty()
+  private code: string;
 
-    @IsNotEmpty()
-    private code: string;
+  public getEmail() {
+    return this.email;
+  }
 
-    public getEmail(){
-        return this.email
-    }
-
-    public getCode(){
-        return this.code
-    }
-
+  public getCode() {
+    return this.code;
+  }
 }

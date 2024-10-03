@@ -20,20 +20,28 @@ import { AuthVerifyService } from '../../global/exception/auth/AuthVerify.Servic
 import { AuthValidateService } from '../../global/exception/auth/AuthValidate.Service';
 
 @Module({
-  imports: [
-    forwardRef(() => UserModule),
-   
-  ],
+  imports: [forwardRef(() => UserModule)],
   providers: [
-    JwtStrategy, AuthService, SocialLogin, JwtManager, LoginTokenManager,
-    MailManager, AccountService, DuplicationCheckService, VerificationService, UserApi, CacheImpl, AuthVerifyService, AuthValidateService
-  ],
-  controllers: [AuthController, AccountController, VerificationController, DuplicationCheckController],
-  exports:[
+    JwtStrategy,
+    AuthService,
     SocialLogin,
     JwtManager,
+    LoginTokenManager,
+    MailManager,
+    AccountService,
+    DuplicationCheckService,
+    VerificationService,
+    UserApi,
+    CacheImpl,
     AuthVerifyService,
-    AuthValidateService
-  ]
+    AuthValidateService,
+  ],
+  controllers: [
+    AuthController,
+    AccountController,
+    VerificationController,
+    DuplicationCheckController,
+  ],
+  exports: [SocialLogin, JwtManager, AuthVerifyService, AuthValidateService],
 })
 export class AuthModule {}

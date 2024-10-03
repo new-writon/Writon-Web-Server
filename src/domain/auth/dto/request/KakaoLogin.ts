@@ -1,21 +1,17 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class KakaoLogin {
+  @IsNotEmpty()
+  private organization: string;
 
-export class KakaoLogin{
+  @IsNotEmpty()
+  private challengeId: number;
 
-    @IsNotEmpty()
-    private organization: string;
+  public getOrganization(): string {
+    return this.organization;
+  }
 
-
-    @IsNotEmpty()
-    private challengeId: number;
-
-    public getOrganization(): string {
-        return this.organization;
-    }
-
-    public getChallengeId(): number {
-        return this.challengeId;
-    }
-    
+  public getChallengeId(): number {
+    return this.challengeId;
+  }
 }
