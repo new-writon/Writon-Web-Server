@@ -310,9 +310,9 @@ export class TemplateService {
       this.dataMapperService.extractQuestionIdFromQuetion(questionDatas);
     const templateWriteQuestionIds =
       this.extractTemplateWriteQuestionId(templateWrite);
-    this.templateVerifyService.verifyQuestionId(
-      this.checkQuestionContain(questionIds, templateWriteQuestionIds),
-    );
+    // this.templateVerifyService.verifyQuestionId(
+    //   this.checkQuestionContain(questionIds, templateWriteQuestionIds),
+    // );
     const existingUserTemplateData =
       await this.userTemplateHelper.giveUserTemplateByUserChallengeIdAndDate(
         userChallengeData.getId(),
