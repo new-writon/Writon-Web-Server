@@ -1,50 +1,36 @@
-
-
 import {
-    Column,
-    Entity,
-    Index,
-    JoinColumn,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    Relation
-  } from "typeorm";
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+} from 'typeorm';
 
-import { BaseEntity } from "../../../../global/entity/base.entitiy";
-import { InternalServerErrorException } from "@nestjs/common";
-import { Organization } from "./Organization";
-  
-  
-  
+import { BaseEntity } from '../../../../global/entity/base.entitiy';
+import { Organization } from './Organization';
 
-@Entity("positions")
-export class Position extends BaseEntity{
-  
-  
-  
-    @PrimaryGeneratedColumn({ type: "int", name: "position_id" })
-    positionId: number;
-  
-    @Column("varchar", { name: "name"})
-    name: string;
+@Entity('positions')
+export class Position extends BaseEntity {
+  @PrimaryGeneratedColumn({ type: 'int', name: 'position_id' })
+  positionId: number;
 
-    @Column("int", { name: "organization_id" })
-    organizationId: number;
+  @Column('varchar', { name: 'name' })
+  name: string;
 
-    @ManyToOne(() => Organization, (organization) => organization.affiliations, {
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      })
-    @JoinColumn([
-    { name: "organization_id", referencedColumnName: "organizationId" },
-    ])
-    organization: Relation<Organization>;
+  @Column('int', { name: 'organization_id' })
+  organizationId: number;
 
-    public getName(){
-        return this.name;
-    }
-  
-  
+  @ManyToOne(() => Organization, (organization) => organization.affiliations, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([
+    { name: 'organization_id', referencedColumnName: 'organizationId' },
+  ])
+  organization: Relation<Organization>;
+
+  public getName() {
+    return this.name;
+  }
 }
-  

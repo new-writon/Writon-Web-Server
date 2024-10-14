@@ -1,53 +1,49 @@
-
-import { UserTemplate } from "../../domain/entity/UserTemplate";
-
-
+import { UserTemplate } from '../../domain/entity/UserTemplate';
 
 export class CommentAndUserTemplate {
-    createdAt: Date;
-    updatedAt: Date;
-    commentId: number;
-    commentGroup: number;
-    userTempleteId: number;
-    affiliationId: number;
-    content: string;
-    check: number;
-    userTemplete: UserTemplate;
+  createdAt: Date;
+  updatedAt: Date;
+  commentId: number;
+  commentGroup: number;
+  userTempleteId: number;
+  affiliationId: number;
+  content: string;
+  check: number;
+  userTemplete: UserTemplate;
 
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
 
-    getCreatedAt(): Date {
-        return this.createdAt;
-    }
+  getUpdatedAt(): Date {
+    return this.updatedAt;
+  }
 
-    getUpdatedAt(): Date {
-        return this.updatedAt;
-    }
+  getCommentId(): number {
+    return this.commentId;
+  }
 
-    getCommentId(): number {
-        return this.commentId;
-    }
+  getCommentGroup(): number {
+    return this.commentGroup;
+  }
 
-    getCommentGroup(): number {
-        return this.commentGroup;
-    }
+  getUserTempleteId(): number {
+    return this.userTempleteId;
+  }
 
-    getUserTempleteId(): number {
-        return this.userTempleteId;
-    }
+  getAffiliationId(): number {
+    return this.affiliationId;
+  }
 
-    getAffiliationId(): number {
-        return this.affiliationId;
-    }
+  getContent(): string {
+    return this.content;
+  }
 
-    getContent(): string {
-        return this.content;
-    }
+  getCheck(): number {
+    return this.check;
+  }
 
-    getCheck(): number {
-        return this.check;
-    }
-
-    getUserTemplete(): UserTemplate {
-        return this.userTemplete;
-    }
+  getUserTemplete(): UserTemplate {
+    return this.userTemplete;
+  }
 }

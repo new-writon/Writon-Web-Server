@@ -1,57 +1,52 @@
-
-import { IsNotEmpty } from "class-validator";
-
+import { IsNotEmpty } from 'class-validator';
 
 export class AffiliationStart {
-    
-    @IsNotEmpty()
-    private organization: string;
+  @IsNotEmpty()
+  private organization: string;
 
-    @IsNotEmpty()
-    private nickname: string;
+  @IsNotEmpty()
+  private nickname: string;
 
-    @IsNotEmpty()
-    private position: string;
+  @IsNotEmpty()
+  private position: string;
 
-    @IsNotEmpty()
-    private positionIntroduce: string;
+  @IsNotEmpty()
+  private positionIntroduce: string;
 
-    @IsNotEmpty()
-    private hireDate:string;
+  @IsNotEmpty()
+  private hireDate: string;
 
-    @IsNotEmpty()
-    private company: string;
+  @IsNotEmpty()
+  private company: string;
 
-    @IsNotEmpty()
-    private companyPublic: boolean;
+  @IsNotEmpty()
+  private companyPublic: boolean;
 
+  getOrganization() {
+    return this.organization;
+  }
 
+  getNickname() {
+    return this.nickname;
+  }
 
-    getOrganization() {
-        return this.organization;
-    }
+  getPosition() {
+    return this.position;
+  }
 
-    getNickname() {
-        return this.nickname;
-    }
+  getPositionIntroduce() {
+    return this.positionIntroduce;
+  }
 
-    getPosition() {
-        return this.position;
-    }
+  getHireDate() {
+    return this.hireDate;
+  }
 
-    getPositionIntroduce() {
-        return this.positionIntroduce;
-    }
+  getCompany() {
+    return this.company;
+  }
 
-    getHireDate() {
-        return this.hireDate;
-    }
-
-    getCompany() {
-        return this.company;
-    }
-
-    getCompanyPublic() {
-        return this.companyPublic;
-    }
+  getCompanyPublic() {
+    return this.companyPublic;
+  }
 }

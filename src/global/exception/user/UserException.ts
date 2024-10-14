@@ -1,10 +1,10 @@
-import {HttpException, HttpStatus} from "@nestjs/common";
-import { UserErrorCode, errorMessage } from "./UserErrorCode";
+import { HttpException } from '@nestjs/common';
+import { UserErrorCode, errorMessage } from './UserErrorCode';
 
 export class UserException extends HttpException {
-    code: UserErrorCode; 
+  code: UserErrorCode;
 
-    constructor(code: UserErrorCode) {
-        super(errorMessage(code), code);  
-    }
+  constructor(code: UserErrorCode) {
+    super(errorMessage(code), code);
+  }
 }

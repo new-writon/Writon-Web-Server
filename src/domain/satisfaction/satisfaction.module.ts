@@ -23,16 +23,25 @@ import { SatisfactionVerifyService } from 'src/global/exception/satisfaction/Sat
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Satisfaction, SatisfactionObjectiveResult, SatisfactionSubjectiveResult]),
+    TypeOrmModule.forFeature([
+      Satisfaction,
+      SatisfactionObjectiveResult,
+      SatisfactionSubjectiveResult,
+    ]),
     UserModule,
     ChallengeModule,
-    TemplateModule
-
+    TemplateModule,
   ],
   providers: [
-    {provide: 'satisfactionImpl',  useClass: SatisfactionDao},
-    {provide: 'satisfactionObjectiveResultImpl',  useClass: SatisfactionObjectiveResultDao},
-    {provide: 'satisfactionSubjectiveResultImpl',  useClass: SatisfactionSubjectiveResultDao},
+    { provide: 'satisfactionImpl', useClass: SatisfactionDao },
+    {
+      provide: 'satisfactionObjectiveResultImpl',
+      useClass: SatisfactionObjectiveResultDao,
+    },
+    {
+      provide: 'satisfactionSubjectiveResultImpl',
+      useClass: SatisfactionSubjectiveResultDao,
+    },
     SatisfactionService,
     ResponseService,
     UserApi,
@@ -41,9 +50,9 @@ import { SatisfactionVerifyService } from 'src/global/exception/satisfaction/Sat
     SatisfactionHelper,
     SatisfactionObjectiveResultHelper,
     SatisfactionSubjectiveResultHelper,
-    SatisfactionVerifyService
+    SatisfactionVerifyService,
   ],
   controllers: [ResponseController, SatisfactionController],
-  exports:[SatisfactionHelper, SatisfactionVerifyService]
+  exports: [SatisfactionHelper, SatisfactionVerifyService],
 })
 export class SatisfactionModule {}

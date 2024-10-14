@@ -1,10 +1,10 @@
-import {HttpException, HttpStatus} from "@nestjs/common";
-import { SatisfactionErrorCode, errorMessage } from "./SatisfactionErrorCode";
+import { HttpException } from '@nestjs/common';
+import { SatisfactionErrorCode, errorMessage } from './SatisfactionErrorCode';
 
 export class SatisfactionException extends HttpException {
-    code: SatisfactionErrorCode; 
+  code: SatisfactionErrorCode;
 
-    constructor(code: SatisfactionErrorCode) {
-        super(errorMessage(code), code);  
-    }
+  constructor(code: SatisfactionErrorCode) {
+    super(errorMessage(code), code);
+  }
 }

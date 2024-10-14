@@ -1,9 +1,6 @@
-import { Repository } from "typeorm";
-import { Satisfaction } from "../entity/Satisfaction";
+import { Repository } from 'typeorm';
+import { Satisfaction } from '../entity/Satisfaction';
 
-
-export interface SatisfactionRepository extends Repository<Satisfaction>{
-
-    findSatisfactionByChallengeId(challengeId:number):Promise<Satisfaction[]>;
-
+export interface SatisfactionRepository extends Repository<Satisfaction> {
+  findSatisfactionByChallengeId(challengeId: number): Promise<Satisfaction[]>;
 }

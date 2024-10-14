@@ -1,25 +1,27 @@
-import { Repository } from "typeorm";
-import { Challenge } from "../entity/Challenge";
-import { ChallengeInformation } from "../../dto/values/ChallengeInformation";
-import { ChallengesPerOrganization } from "../../../user/dto/values/ChallengesPerOrganization";
+import { Repository } from 'typeorm';
+import { Challenge } from '../entity/Challenge';
+import { ChallengeInformation } from '../../dto/values/ChallengeInformation';
+import { ChallengesPerOrganization } from '../../../user/dto/values/ChallengesPerOrganization';
 
+export interface ChallengeRepository extends Repository<Challenge> {
+  findChallengeByIdAndOngoing(challengeId: number): Promise<Challenge[]>;
 
-export interface ChallengeRepository extends Repository<Challenge>{
+  findOverlapPeriod(challengeId: number): Promise<number>;
 
-    findChallengeByIdAndOngoing(challengeId: number): Promise<Challenge[]>;
+  findChallengeById(challengeId: number): Promise<Challenge>;
 
-    findOverlapPeriod(challengeId: number): Promise<number>;
+  findChallengeWithCondition(
+    challengeId: number,
+  ): Promise<ChallengeInformation[]>;
 
-    findChallengeById(challengeId: number): Promise<Challenge>;
+  findChallengeByChallengeName(challenge: string): Promise<Challenge>;
 
-    findChallengeWithCondition(challengeId: number): Promise<ChallengeInformation[]>;
+  findChallengeByOrgnizationIds(
+    organizationIds: number[],
+  ): Promise<Challenge[]>;
 
-    findChallengeByChallengeName(challenge:string):Promise<Challenge>;
-
-    findChallengeByOrgnizationIds(organizationIds:number[]):Promise<Challenge[]>;
-
-    findAllChallengingInformation():Promise<ChallengeAllInformation[]>;
-    findChallengesByIds(challengeIds:number[]):Promise<ChallengesPerOrganization[]>;
-
-
+  findAllChallengingInformation(): Promise<ChallengeAllInformation[]>;
+  findChallengesByIds(
+    challengeIds: number[],
+  ): Promise<ChallengesPerOrganization[]>;
 }

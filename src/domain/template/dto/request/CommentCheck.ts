@@ -1,12 +1,10 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class CommentCheck {
+  @IsNotEmpty()
+  private commentId: number;
 
-export class CommentCheck{
-
-    @IsNotEmpty()
-    private commentId: number;
-
-    public getCommentId(){
-        return this.commentId;
-    }
+  public getCommentId() {
+    return this.commentId;
+  }
 }

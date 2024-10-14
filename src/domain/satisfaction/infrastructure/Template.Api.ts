@@ -1,16 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { UserTemplateHelper } from "../../template/helper/UserTemplate.Helper";
+import { Injectable } from '@nestjs/common';
+import { UserTemplateHelper } from '../../template/helper/UserTemplate.Helper';
 
 @Injectable()
-export class TemplateApi{
+export class TemplateApi {
+  constructor(private readonly userTemplateHelper: UserTemplateHelper) {}
 
-    constructor(
-        private readonly userTemplateHelper: UserTemplateHelper
-    ){}
-
-    public async reqeustChallengeSuccessChallengeCount(userChallengeId:number): Promise<number>{
-        return this.userTemplateHelper.giveChallengeSuccessChallengeCount(userChallengeId);
-    }
-
-
+  public async reqeustChallengeSuccessChallengeCount(
+    userChallengeId: number,
+  ): Promise<number> {
+    return this.userTemplateHelper.giveChallengeSuccessChallengeCount(
+      userChallengeId,
+    );
+  }
 }

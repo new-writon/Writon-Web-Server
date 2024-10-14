@@ -1,21 +1,17 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class CommentDelete {
+  @IsNotEmpty()
+  private organization: string;
 
-export class CommentDelete{
+  @IsNotEmpty()
+  private commentId: number;
 
-    @IsNotEmpty()
-    private organization:string;
+  public getOrganization() {
+    return this.organization;
+  }
 
-    @IsNotEmpty()
-    private commentId:number;
-
-
-    public getOrganization(){
-        return this.organization;
-    }
-
-    public getCommentId(){
-        return this.commentId;
-    }
-
+  public getCommentId() {
+    return this.commentId;
+  }
 }

@@ -1,29 +1,24 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class WriteTemplateContent {
+  @IsNotEmpty()
+  private questionId: number;
 
+  @IsNotEmpty()
+  private content: string;
 
+  @IsNotEmpty()
+  private visibility: boolean;
 
-export class WriteTemplateContent{
+  public getQuestionId() {
+    return this.questionId;
+  }
 
-    @IsNotEmpty()
-    private questionId: number;
+  public getContent() {
+    return this.content;
+  }
 
-    @IsNotEmpty()
-    private content: string
-
-    @IsNotEmpty()
-    private visibility: boolean
-
-    public getQuestionId(){
-        return this.questionId;
-    }
-
-    public getContent(){
-        return this.content;
-    }
-
-    public getVisibility(){
-        return this.visibility;
-    }
-
+  public getVisibility() {
+    return this.visibility;
+  }
 }

@@ -1,28 +1,24 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class SmallTalkAdd {
+  @IsNotEmpty()
+  private challengeId: number;
 
+  @IsNotEmpty()
+  private organization: string;
 
-export class SmallTalkAdd{
+  @IsNotEmpty()
+  private smallTalkQuestion: string;
 
-    @IsNotEmpty()
-    private challengeId:number;
+  public getChallengeId() {
+    return this.challengeId;
+  }
 
-    @IsNotEmpty()
-    private organization:string;
+  public getOrganization() {
+    return this.organization;
+  }
 
-    @IsNotEmpty()
-    private smallTalkQuestion:string;
-
-
-    public getChallengeId(){
-        return this.challengeId;
-    }
-
-    public getOrganization(){
-        return this.organization;
-    }
-
-    public getAgoraQuestion(){
-        return this.smallTalkQuestion;
-    }
+  public getAgoraQuestion() {
+    return this.smallTalkQuestion;
+  }
 }

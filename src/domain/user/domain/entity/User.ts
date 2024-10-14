@@ -4,67 +4,61 @@ import {
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
-  Relation
-} from "typeorm";
-import { Affiliation } from "./Affiliation";
-import { BaseEntity } from "../../../../global/entity/base.entitiy";
-import { InternalServerErrorException } from "@nestjs/common";
-import { FirebaseToken } from "./FirebaseToken";
+  Relation,
+} from 'typeorm';
+import { Affiliation } from './Affiliation';
+import { BaseEntity } from '../../../../global/entity/base.entitiy';
+import { InternalServerErrorException } from '@nestjs/common';
+import { FirebaseToken } from './FirebaseToken';
 
-
-
-@Index("User_identifier_key", ["identifier"], { unique: true })
-@Index("User_email_key", ["email"], { unique: true })
-@Entity("users", { schema: "nest" })
-export class User extends BaseEntity{
-
-
-  constructor(   
+@Index('User_identifier_key', ['identifier'], { unique: true })
+@Index('User_email_key', ['email'], { unique: true })
+@Entity('users', { schema: 'nest' })
+export class User extends BaseEntity {
+  constructor(
     kakaoNumberOrIdentifier: string,
     email: string,
     role: string,
     kakaoProfileImage: string | null,
-    password: string | null
-
-  ){
+    password: string | null,
+  ) {
     super();
     this.setIdentifier(kakaoNumberOrIdentifier);
     this.setEmail(email);
     this.setRole(role);
     this.setKakaoProfileImage(kakaoProfileImage);
     this.setPassword(password);
-    }
+  }
 
-    
   // private checkingCreateUser(kakaoProfileImage: string | null, password: string | null){
   //   if(kakaoProfileImage != null && password == null){
-      
+
   //   }
 
   // }
 
-  @PrimaryGeneratedColumn({ type: "int", name: "user_id" })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'user_id' })
   userId: number;
 
-  @Column("varchar", { name: "role", length: 20 })
+  @Column('varchar', { name: 'role', length: 20 })
   role: string;
 
-  @Column("varchar", { name: "identifier", unique: true, length: 40 })
+  @Column('varchar', { name: 'identifier', unique: true, length: 40 })
   identifier: string;
 
-  @Column("varchar", { name: "password", nullable: true, length: 255 })
+  @Column('varchar', { name: 'password', nullable: true, length: 255 })
   password: string | null;
 
-  @Column("varchar", { name: "email", unique: true, length: 40 })
+  @Column('varchar', { name: 'email', unique: true, length: 40 })
   email: string;
 
-  @Column("varchar", { name: "profile", nullable: true, length: 500 })
+  @Column('varchar', { name: 'profile', nullable: true, length: 500 })
   profile: string | null;
 
-  @Column("varchar", { name: "account_number", nullable: true, length: 40 })
+  @Column('varchar', { name: 'account_number', nullable: true, length: 40 })
   accountNumber: string | null;
 
-  @Column("varchar", { name: "bank", nullable: true, length: 20 })
+  @Column('varchar', { name: 'bank', nullable: true, length: 20 })
   bank: string | null;
 
   @OneToMany(() => Affiliation, (affiliation) => affiliation.user)
@@ -78,7 +72,7 @@ export class User extends BaseEntity{
     kakaoNumber: string,
     kakaoProfileImage: string,
     role: string,
-  ){
+  ) {
     const password = null;
     return new User(kakaoNumber, email, role, kakaoProfileImage, password);
   }
@@ -87,66 +81,69 @@ export class User extends BaseEntity{
     identifier: string,
     password: string,
     email: string,
-    role: string
-  ){
+    role: string,
+  ) {
     const kakaoProfileImage = null;
-    return new User(identifier, email, role, kakaoProfileImage, password)
-  } 
-
-  private setEmail(email: string){
-    if(email === null) throw new InternalServerErrorException (`${__dirname} : Email 값이 존재하지 않습니다.`);
-    this.email=email;
+    return new User(identifier, email, role, kakaoProfileImage, password);
   }
 
-  private setIdentifier(kakaoNumber: string){
-    if(kakaoNumber === null) throw new InternalServerErrorException (`${__dirname} : KakaoNumber 값이 존재하지 않습니다.`);
-    this.identifier=kakaoNumber;
+  private setEmail(email: string) {
+    if (email === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : Email 값이 존재하지 않습니다.`,
+      );
+    this.email = email;
   }
 
-  private setRole(role: string){
-    if(role === null) throw new InternalServerErrorException (`${__dirname} : Role 값이 존재하지 않습니다.`);
-    this.role=role;
+  private setIdentifier(kakaoNumber: string) {
+    if (kakaoNumber === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : KakaoNumber 값이 존재하지 않습니다.`,
+      );
+    this.identifier = kakaoNumber;
   }
 
-  private setKakaoProfileImage(profileImage: string){
-    this.profile=profileImage;
+  private setRole(role: string) {
+    if (role === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : Role 값이 존재하지 않습니다.`,
+      );
+    this.role = role;
   }
 
-  private setPassword(password: string){
-    this.password=password;
+  private setKakaoProfileImage(profileImage: string) {
+    this.profile = profileImage;
   }
 
-  public getEmail(): string{
+  private setPassword(password: string) {
+    this.password = password;
+  }
 
+  public getEmail(): string {
     return this.email;
   }
 
-  public getIdentifier(): string{
-
+  public getIdentifier(): string {
     return this.identifier;
   }
 
-  public getRole(): string{
-  
+  public getRole(): string {
     return this.role;
   }
 
-  public getProfileImage(): string{
+  public getProfileImage(): string {
     return this.profile;
   }
 
-  public getId(): number{
-    return this.userId
+  public getId(): number {
+    return this.userId;
   }
 
-  public getPassword(): string{
+  public getPassword(): string {
     return this.password;
   }
 
-  public getFirebaseTokens(){
+  public getFirebaseTokens() {
     return this.firebaseTokens;
   }
-
-
-
 }

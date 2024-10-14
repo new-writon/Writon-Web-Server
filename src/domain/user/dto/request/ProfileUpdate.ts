@@ -1,49 +1,45 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class ProfileUpdate {
+  @IsNotEmpty()
+  private nickname: string;
 
-export class ProfileUpdate{
+  @IsNotEmpty()
+  private company: string;
 
-    @IsNotEmpty()
-    private nickname:string
+  @IsNotEmpty()
+  private hireDate: Date;
 
-    @IsNotEmpty()
-    private company:string;
+  @IsNotEmpty()
+  private position: string;
 
-    @IsNotEmpty()
-    private hireDate:Date;
+  @IsNotEmpty()
+  private positionIntroduce: string;
 
-    @IsNotEmpty()
-    private position:string;
+  @IsNotEmpty()
+  private companyPublic: boolean;
 
-    @IsNotEmpty()
-    private positionIntroduce:string;
+  getNickname() {
+    return this.nickname;
+  }
 
-    @IsNotEmpty()
-    private companyPublic:boolean;
+  getCompany() {
+    return this.company;
+  }
 
-    getNickname(){
-        return this.nickname;
-    }
+  getHireDate() {
+    return this.hireDate;
+  }
 
-    getCompany(){
-        return this.company;
-    }
+  getPosition() {
+    return this.position;
+  }
 
-    getHireDate(){
-        return this.hireDate
-    }
+  getPositionIntroduce() {
+    return this.positionIntroduce;
+  }
 
-    getPosition(){
-        return this.position
-    }
-
-    getPositionIntroduce(){
-        return this.positionIntroduce;
-    }
-
-    getComanyPublic(){
-        return this.companyPublic;
-    }
-
-
+  getComanyPublic() {
+    return this.companyPublic;
+  }
 }

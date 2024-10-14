@@ -1,76 +1,145 @@
-import { Injectable } from "@nestjs/common";
-import { Affiliation } from "../../../domain/user/domain/entity/Affiliation";
-import { AffiliationHelper } from "../../../domain/user/helper/Affiliation.Helper";
-import { UserChallengeHelper } from "../../user/helper/UserChallenge.Helper";
-import { UserChallenge } from "../../user/domain/entity/UserChallenge";
-import { FirebaseToken } from "src/domain/user/domain/entity/FirebaseToken";
-import { UserHelper } from "src/domain/user/helper/User.Helper";
-
+import { Injectable } from '@nestjs/common';
+import { Affiliation } from '../../../domain/user/domain/entity/Affiliation';
+import { AffiliationHelper } from '../../../domain/user/helper/Affiliation.Helper';
+import { UserChallengeHelper } from '../../user/helper/UserChallenge.Helper';
+import { UserChallenge } from '../../user/domain/entity/UserChallenge';
+import { FirebaseToken } from 'src/domain/user/domain/entity/FirebaseToken';
+import { UserHelper } from 'src/domain/user/helper/User.Helper';
 
 @Injectable()
 export class UserApi {
+  constructor(
+    private readonly affiliationHelper: AffiliationHelper,
+    private readonly userHelper: UserHelper,
+    private readonly userChallengeHelper: UserChallengeHelper,
+  ) {}
 
-    constructor(
-        private readonly affiliationHelper: AffiliationHelper,
-        private readonly userHelper:UserHelper,
-        private readonly userChallengeHelper: UserChallengeHelper
-    ){}
+  public async requestAffiliationByUserIdAndOrganization(
+    userId: number,
+    organization: string,
+  ): Promise<Affiliation> {
+    return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
+      userId,
+      organization,
+    );
+  }
 
-    public async requestAffiliationByUserIdAndOrganization(userId: number, organization: string): Promise<Affiliation>{
-        return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
-    }
+  public async requestAffiliationByNicknameAndOrganization(
+    nickname: string,
+    organization: string,
+  ): Promise<Affiliation> {
+    return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(
+      nickname,
+      organization,
+    );
+  }
 
-    public async requestAffiliationByNicknameAndOrganization(nickname:string, organization: string): Promise<Affiliation>{
-        return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization);
-    }
+  public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(
+    userId: number,
+    organization: string,
+    challengeId: number,
+  ): Promise<UserChallenge[]> {
+    return this.userChallengeHelper.giveUserChallengeByUserIdAndOrganizationAndChallengeId(
+      userId,
+      organization,
+      challengeId,
+    );
+  }
 
-    public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(userId: number, organization: string, challengeId: number): Promise<UserChallenge[]>{
-        return this.userChallengeHelper.giveUserChallengeByUserIdAndOrganizationAndChallengeId(userId, organization, challengeId)
-    }
+  public async requestUserChallengeByUserTemplateIdArrayAndChallengeId(
+    userChallengeId: number[],
+    challengeId: number,
+  ): Promise<UserChallenge[]> {
+    return this.userChallengeHelper.giveUserChallengeByUserTemplateIdArrayAndChallengeId(
+      userChallengeId,
+      challengeId,
+    );
+  }
 
-    public async requestUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId:number[], challengeId:number):Promise<UserChallenge[]>{
-        return this.userChallengeHelper.giveUserChallengeByUserTemplateIdArrayAndChallengeId(userChallengeId, challengeId);
-    }
+  public async requestAffilaitonWithChallengeIdArray(
+    userChallengeId: number[],
+  ): Promise<Affiliation[]> {
+    return this.affiliationHelper.giveAffilaitonWithChallengeIdArray(
+      userChallengeId,
+    );
+  }
 
-    public async requestAffilaitonWithChallengeIdArray(userChallengeId:number[]):Promise<Affiliation[]>{
-        return this.affiliationHelper.giveAffilaitonWithChallengeIdArray(userChallengeId)
-    }
+  public async requestAffilaitonWithChallengeIdAndUserChallengeId(
+    challengeId: number,
+    userChallengeId: number[],
+  ): Promise<Affiliation[]> {
+    return this.affiliationHelper.giveAffilaitonWithChallengeIdAndUserChallengeId(
+      challengeId,
+      userChallengeId,
+    );
+  }
 
-    public async requestAffilaitonWithChallengeIdAndUserChallengeId(challengeId:number, userChallengeId:number[]):Promise<Affiliation[]>{
-        return this.affiliationHelper.giveAffilaitonWithChallengeIdAndUserChallengeId(challengeId, userChallengeId);
-    }
+  public async requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
+    challengeId: number,
+    userId: number,
+    organization: string,
+  ): Promise<UserChallenge> {
+    return this.userChallengeHelper.giveUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
+      challengeId,
+      userId,
+      organization,
+    );
+  }
 
-    public async requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId:number, userId:number, organization:string):Promise<UserChallenge>{
-        return this.userChallengeHelper.giveUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(challengeId, userId, organization);
-    }
+  public async requestAffiliationById(
+    affiliationId: number[],
+  ): Promise<Affiliation[]> {
+    return this.affiliationHelper.giveAffiliationById(affiliationId);
+  }
 
-    public async requestAffiliationById(affiliationId: number[]):Promise<Affiliation[]>{
-        return this.affiliationHelper.giveAffiliationById(affiliationId)
-    }
+  public async requestUserChallengeAndAffiliationAndUserByChallengeId(
+    challengeId: number,
+  ): Promise<UserChallenge[]> {
+    return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserByChallengeId(
+      challengeId,
+    );
+  }
 
-    public async requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId:number):Promise<UserChallenge[]>{
-        return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserByChallengeId(challengeId);
-    }
+  public async requestAffiliationAndUserByUserIdAndOrganization(
+    userId: number,
+    organization: string,
+  ): Promise<Affiliation> {
+    return this.affiliationHelper.giveAffiliationAndUserByUserIdWithOrganization(
+      userId,
+      organization,
+    );
+  }
 
-    public async requestAffiliationAndUserByUserIdAndOrganization(userId: number, organization: string):Promise<Affiliation>{
-        return this.affiliationHelper.giveAffiliationAndUserByUserIdWithOrganization(userId, organization);
-    }
+  public async requestAffiliationAndUserById(
+    affiliationId: number[],
+  ): Promise<Affiliation[]> {
+    // 검증 x
+    return this.affiliationHelper.giveAffiliationAndUserById(affiliationId);
+  }
 
-    public async requestAffiliationAndUserById(affiliationId: number[]):Promise<Affiliation[]>{
-         // 검증 x
-        return this.affiliationHelper.giveAffiliationAndUserById(affiliationId);
-    }
+  public async requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(
+    userChallengeId: number,
+  ): Promise<UserChallenge> {
+    return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserAndFirebaseTokenById(
+      userChallengeId,
+    );
+  }
 
-    public async requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId:number):Promise<UserChallenge>{
-        return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserAndFirebaseTokenById(userChallengeId);
-    }
+  public async requestUserChallengeByAffiliationIdAndChallengeId(
+    affiliationId: number,
+    challengeId: number,
+  ): Promise<UserChallenge> {
+    return this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(
+      affiliationId,
+      challengeId,
+    );
+  }
 
-    public async requestUserChallengeByAffiliationIdAndChallengeId(affiliationId: number, challengeId: number):Promise<UserChallenge>{
-        return this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(affiliationId, challengeId);
-    }
-
-    public async requestFirebaseTokenWithUserChallengeId(userChallengeId:number):Promise<FirebaseToken[]>{
-        return this.userHelper.giveFirebaseTokenWithUserChallengeId(userChallengeId);
-    }
-
+  public async requestFirebaseTokenWithUserChallengeId(
+    userChallengeId: number,
+  ): Promise<FirebaseToken[]> {
+    return this.userHelper.giveFirebaseTokenWithUserChallengeId(
+      userChallengeId,
+    );
+  }
 }

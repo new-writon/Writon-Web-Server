@@ -1,30 +1,27 @@
-import { IsNotEmpty } from "class-validator";
-import { ObjectiveAnswer } from "../values/ObjectiveAnswer";
+import { IsNotEmpty } from 'class-validator';
+import { ObjectiveAnswer } from '../values/ObjectiveAnswer';
 import { Type } from 'class-transformer';
 
-export class ObjectiveQuestionAnswer{
+export class ObjectiveQuestionAnswer {
+  @IsNotEmpty()
+  private organization: string;
 
-    @IsNotEmpty()
-    private organization:string;
+  @IsNotEmpty()
+  private challengeId: number;
 
-    @IsNotEmpty()
-    private challengeId:number;
+  @Type(() => ObjectiveAnswer)
+  @IsNotEmpty()
+  private satisfactionAnswer: Array<ObjectiveAnswer>;
 
-    @Type(() => ObjectiveAnswer)
-    @IsNotEmpty()
-    private satisfactionAnswer: Array<ObjectiveAnswer>;
+  public getOrganization() {
+    return this.organization;
+  }
 
+  public getChallengeId() {
+    return this.challengeId;
+  }
 
-    public getOrganization(){
-        return this.organization;
-    }
-
-    public getChallengeId(){
-        return this.challengeId;
-    }
-
-    public getSatisfactionAnswer(){
-        return this.satisfactionAnswer;
-    }
-    
+  public getSatisfactionAnswer() {
+    return this.satisfactionAnswer;
+  }
 }

@@ -1,78 +1,72 @@
+export class ParticularSmallTalkData {
+  public smallTalkId: number;
+  public question: string;
+  public participateCount: number;
+  public createdTime: Date;
+  public createdDate: Date;
+  public userChallengeId: number;
 
+  constructor(
+    smallTalkId: number,
+    question: string,
+    participateCount: number,
+    createdTime: Date,
+    createdDate: Date,
+    userChallengeId: number,
+  ) {
+    this.setSmallTalkId(smallTalkId);
+    this.setQuestion(question);
+    this.setParticipateCount(participateCount);
+    this.setCreatedTime(createdTime);
+    this.setCreatedDate(createdDate);
+    this.setUserChallengeId(userChallengeId);
+  }
 
-export class ParticularSmallTalkData{
+  private setSmallTalkId(smallTalkId: number): void {
+    this.smallTalkId = smallTalkId;
+  }
 
+  public getSmallTalkId(): number {
+    return this.smallTalkId;
+  }
 
-    public smallTalkId: number;
-    public question: string;
-    public participateCount: number;
-    public createdTime: Date;
-    public createdDate:Date;
-    public userChallengeId:number;
+  private setQuestion(question: string): void {
+    this.question = question;
+  }
 
+  public getQuestion(): string {
+    return this.question;
+  }
 
-    constructor(
-        smallTalkId: number,
-        question: string,
-        participateCount: number,
-        createdTime: Date,
-        createdDate:Date,
-        userChallengeId:number
-    ){
-        this.setSmallTalkId(smallTalkId);
-        this.setQuestion(question);
-        this.setParticipateCount(participateCount);
-        this.setCreatedTime(createdTime);
-        this.setCreatedDate(createdDate);
-        this.setUserChallengeId(userChallengeId);
-    }
+  private setParticipateCount(participate_count: number): void {
+    this.participateCount = participate_count;
+  }
 
+  public getParticipateCount(): number {
+    return this.participateCount;
+  }
 
-    private setSmallTalkId(smallTalkId: number): void {
-        this.smallTalkId=smallTalkId;
-    }
+  private setCreatedTime(created_time: Date): void {
+    this.createdTime = created_time;
+  }
 
-    public getSmallTalkId(): number {
-        return this.smallTalkId;
-    }
+  public getCreatedTime(): Date {
+    return this.createdTime;
+  }
 
-    private setQuestion(question: string): void {
-        this.question = question;
-    }
+  private setCreatedDate(created_date: Date): void {
+    this.createdDate = created_date;
+  }
 
-    public getQuestion(): string {
-        return this.question;
-    }
+  public getCreatedDate(): Date {
+    return this.createdDate;
+  }
 
-    private setParticipateCount(participate_count: number): void {
-        this.participateCount = participate_count;
-    }
+  private setUserChallengeId(userChallengeId: number): void {
+    this.userChallengeId = userChallengeId;
+  }
 
-    public getParticipateCount(): number {
-        return this.participateCount;
-    }
-
-    private setCreatedTime(created_time: Date): void {
-        this.createdTime = created_time;
-    }
-
-    public getCreatedTime(): Date {
-        return this.createdTime;
-    }
-
-    private setCreatedDate(created_date: Date): void {
-        this.createdDate = created_date;
-    }
-
-    public getCreatedDate(): Date {
-        return this.createdDate;
-    }
-
-    private setUserChallengeId(userChallengeId: number): void {
-        this.userChallengeId=userChallengeId;
-    }
-
-    public getUserChallengeId(): number {
-        return this.userChallengeId;
-    }
+  public getUserChallengeId(): number {
+    return this.userChallengeId;
+  }
 }
