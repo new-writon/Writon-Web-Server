@@ -61,6 +61,9 @@ export class User extends BaseEntity {
   @Column('varchar', { name: 'bank', nullable: true, length: 20 })
   bank: string | null;
 
+  @Column('varchar', { name: 'alarm', nullable: true, length: 15 })
+  alarm: string | null;
+
   @OneToMany(() => Affiliation, (affiliation) => affiliation.user)
   affiliations: Relation<Affiliation>[];
 
