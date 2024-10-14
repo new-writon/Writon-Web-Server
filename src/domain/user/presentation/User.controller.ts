@@ -14,6 +14,7 @@ import { User } from '../domain/entity/User';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
 import { AccountUpdate } from '../dto/request/AccountUpdate';
 import { UserService } from '../service/User.service';
+import { AlarmStatus } from '../dto/request/AlarmStatus';
 
 @Controller('/api/user')
 export class UserController {
@@ -48,6 +49,21 @@ export class UserController {
       req.headers['engine'] as string,
     );
     this.logger.log('기기 값 저장 완료');
+    return SuccessResponseDto.of();
+  }
+
+  @Patch('/alarm')
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async updateAlarmStatus(
+    @CurrentUser() user: User,
+    @Body() alarmStatus: AlarmStatus,
+  ): Promise<SuccessResponseDto<void>> {
+    await this.userService.updateAlarmStatus(
+      user.userId,
+      alarmStatus.getContent(),
+    );
+    this.logger.log('알람 수정 완료');
     return SuccessResponseDto.of();
   }
 }

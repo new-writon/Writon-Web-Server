@@ -19,4 +19,5 @@ export interface UserRepository extends Repository<User> {
     bank: string,
     userId: number,
   ): Promise<void>;
+  updateAlarm(userId: number, content: string): Promise<void>;
 }

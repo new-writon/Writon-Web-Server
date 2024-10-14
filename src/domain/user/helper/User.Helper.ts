@@ -96,4 +96,11 @@ export class UserHelper {
       userChallengeId,
     );
   }
+
+  public async executeUpdateAlarm(
+    userId: number,
+    content: string,
+  ): Promise<void> {
+    await this.userRepository.updateAlarm(userId, content);
+  }
 }

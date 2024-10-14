@@ -93,4 +93,13 @@ export class UserDao extends Repository<User> implements UserRepository {
       .where('user_id = :userId', { userId })
       .execute();
   }
+
+  async updateAlarm(userId: number, content: string): Promise<void> {
+    await this.dataSource
+      .createQueryBuilder()
+      .update(User)
+      .set({ alarm: content })
+      .where('user_id = :userId', { userId })
+      .execute();
+  }
 }

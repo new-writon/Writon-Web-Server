@@ -55,9 +55,8 @@ export class FirebaseTokenDao
       .execute();
   }
 
-  async findFirebaseTokenWithUserChallengeId(
-    userChallengeId: number,
-  ): Promise<FirebaseToken[]> {
+  async findFirebaseTokenWithUserChallengeId() // userChallengeId: number,
+  : Promise<FirebaseToken[]> {
     return this.dataSource
       .createQueryBuilder()
       .select('ft')

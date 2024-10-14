@@ -39,4 +39,8 @@ export class UserService {
       await this.userHelper.executeInsertFirebaseToken(userId, engineValue);
     }
   }
+
+  public async updateAlarmStatus(userId: number, content: string) {
+    await this.userHelper.executeUpdateAlarm(userId, content);
+  }
 }
