@@ -108,6 +108,56 @@ export class TemplateService {
       );
     });
   }
+  public async bringTemplateAccordingToDate(
+    userId: number,
+    organization: string,
+    challengeId: number,
+    date: Date,
+  ): Promise<TemplateInformation | []> {
+    const [affiliationData, userChallengeDatas] = await Promise.all([
+      this.userApi.requestAffiliationAndUserByUserIdAndOrganization(
+        userId,
+        organization,
+      ),
+      this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(
+        challengeId,
+      ),
+    ]);
+    const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
+    const userTemplateData =
+      await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(
+        userChallengeIds,
+        date,
+      );
+    return userTemplateData.length === 0
+      ? []
+      : this.proccessTemplateAccordingToDateData(
+          userTemplateData,
+          affiliationData,
+          userChallengeDatas,
+        );
+  }
+
+  private async proccessTemplateAccordingToDateData(
+    userTemplateData: UserTemplate[],
+    affiliationData: Affiliation,
+    userChallengeDatas: UserChallenge[],
+  ) {
+    const questionIds =
+      this.dataMapperService.extractQuestionIds(userTemplateData);
+    const questionData =
+      await this.challengeApi.requestQuestionById(questionIds);
+    const challengeCompleteCount =
+      this.dataMapperService.extractCompleteCount(userTemplateData);
+    const mergedForManyTemplates = this.mergeForAllManyTemplates(
+      affiliationData,
+      userTemplateData,
+      questionData,
+      userChallengeDatas,
+    );
+    const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates);
+    return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
+  }
 
   private mergeForAllManyTemplates(
     affiliationData: Affiliation,
