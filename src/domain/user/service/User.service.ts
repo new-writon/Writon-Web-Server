@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserHelper } from '../helper/User.Helper';
 import { UserVerifyService } from '../../../global/exception/user/UserVerify.Service';
 import { checkData } from '../util/checker';
+import { AlarmStatus } from '../dto/values/AlarmStatus';
 
 @Injectable()
 export class UserService {
@@ -42,5 +43,10 @@ export class UserService {
 
   public async updateAlarmStatus(userId: number, content: string) {
     await this.userHelper.executeUpdateAlarm(userId, content);
+  }
+
+  public async bringAlarmStatus(userId: number): Promise<AlarmStatus> {
+    const userData = await this.userHelper.giveUserById(userId);
+    return AlarmStatus.of(userData.getAlarm());
   }
 }

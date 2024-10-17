@@ -5,6 +5,7 @@ import {
   Logger,
   Patch,
   Post,
+  Get,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -14,7 +15,7 @@ import { User } from '../domain/entity/User';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
 import { AccountUpdate } from '../dto/request/AccountUpdate';
 import { UserService } from '../service/User.service';
-import { AlarmStatus } from '../dto/request/AlarmStatus';
+import { AlarmStatus } from '../dto/values/AlarmStatus';
 
 @Controller('/api/user')
 export class UserController {
@@ -65,5 +66,16 @@ export class UserController {
     );
     this.logger.log('알람 수정 완료');
     return SuccessResponseDto.of();
+  }
+
+  @Get('/alarm')
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringAlarmStatus(
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<AlarmStatus>> {
+    const result = await this.userService.bringAlarmStatus(user.userId);
+    this.logger.log('알람 상태 조회 완료');
+    return SuccessResponseDto.of(result);
   }
 }
