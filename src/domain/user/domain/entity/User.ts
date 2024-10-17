@@ -149,4 +149,8 @@ export class User extends BaseEntity {
   public getFirebaseTokens() {
     return this.firebaseTokens;
   }
+
+  public getAlarm() {
+    return this.alarm;
+  }
 }
