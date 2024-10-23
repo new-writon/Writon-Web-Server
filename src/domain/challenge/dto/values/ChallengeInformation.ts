@@ -1,36 +1,32 @@
-
 export class ChallengeInformation {
+  public challengeId: number;
+  public deposit: number;
+  public challengeDayCount: string;
+  public startCount: number;
+  public endCount: number;
+  public deductionAmount: number;
 
-    public challengeId: number;
-    public deposit: number;
-    public challengeDayCount: string;
-    public startCount: number;
-    public endCount: number;
-    public deductionAmount:number;
+  getChallengeId(): number {
+    return this.challengeId;
+  }
 
+  getDeposit(): number {
+    return this.deposit;
+  }
 
-    getChallengeId(): number {
-        return this.challengeId;
-    }
+  getChallengeDayCount(): string {
+    return this.challengeDayCount;
+  }
 
-    getDeposit(): number {
-        return this.deposit;
-    }
+  getStartCount(): number {
+    return this.startCount;
+  }
 
-    getChallengeDayCount(): string {
-        return this.challengeDayCount;
-    }
+  getEndCount(): number {
+    return this.endCount;
+  }
 
-    getStartCount(): number {
-        return this.startCount;
-    }
-
-    getEndCount(): number {
-        return this.endCount;
-    }
-
-    getDeductionAmount(): number {
-        return this.deductionAmount;
-    }
-
+  getDeductionAmount(): number {
+    return this.deductionAmount;
+  }
 }

@@ -1,39 +1,34 @@
-import { IsNotEmpty } from "class-validator";
-import { WriteTemplateContent } from "../values/TemplateContent.js";
-import { Type } from "class-transformer";
+import { IsNotEmpty } from 'class-validator';
+import { WriteTemplateContent } from '../values/TemplateContent.js';
+import { Type } from 'class-transformer';
 
+export class TemplateWrite {
+  @IsNotEmpty()
+  private organization: string;
 
-export class TemplateWrite{
+  @IsNotEmpty()
+  private challengeId: number;
 
-    
-    @IsNotEmpty()
-    private organization: string;
+  @IsNotEmpty()
+  private date: string;
 
+  @Type(() => WriteTemplateContent)
+  @IsNotEmpty()
+  private templateContent: Array<WriteTemplateContent>;
 
-    @IsNotEmpty()
-    private challengeId: number;
+  public getOrganization() {
+    return this.organization;
+  }
 
-    @IsNotEmpty()
-    private date: string;
+  public getChallengeId() {
+    return this.challengeId;
+  }
 
-    @Type(() => WriteTemplateContent)
-    @IsNotEmpty()
-    private templateContent:Array<WriteTemplateContent>;
+  public getDate() {
+    return this.date;
+  }
 
-
-    public getOrganization(){
-        return this.organization;
-    }
-
-    public getChallengeId(){
-        return this.challengeId;
-    }
-
-    public getDate(){
-        return this.date;
-    }
-
-    public getTemplateContent(){
-        return this.templateContent;
-    }
+  public getTemplateContent() {
+    return this.templateContent;
+  }
 }

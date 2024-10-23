@@ -97,7 +97,14 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
       .andWhere('ut.complete = 1')
       .groupBy('ut.user_challenge_id')
       .getRawMany();
-     
+  }
+
+  async findUserTemplateById(userTemplateId:number):Promise<UserTemplate>{
+    return this.dataSource.createQueryBuilder()
+      .select('ut')
+      .from(UserTemplate, 'ut')
+      .where('ut.user_template_id = :userTemplateId', {userTemplateId})
+      .getOne();
   }
 
 

@@ -1,26 +1,24 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
-export class SmallTalkCommentInsert{
+export class SmallTalkCommentInsert {
+  @IsNotEmpty()
+  private organization: string;
 
-    @IsNotEmpty()
-    private organization:string;
+  @IsNotEmpty()
+  private smallTalkId: number;
 
-    @IsNotEmpty()
-    private smallTalkId:number;
+  @IsNotEmpty()
+  private smallTalkComment: string;
 
-    @IsNotEmpty()
-    private smallTalkComment:string;
+  public getOragnization() {
+    return this.organization;
+  }
 
-    public getOragnization(){
-        return this.organization;
-    }
+  public getSmallTalkId() {
+    return this.smallTalkId;
+  }
 
-
-    public getSmallTalkId(){
-        return this.smallTalkId;
-    }
-
-    public getSmallTalkComment(){
-        return this.smallTalkComment;
-    }
+  public getSmallTalkComment() {
+    return this.smallTalkComment;
+  }
 }

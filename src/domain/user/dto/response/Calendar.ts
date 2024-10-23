@@ -1,21 +1,17 @@
-import { InternalServerErrorException } from "@nestjs/common";
-import { CalendarData } from "./CalendarData";
+import { CalendarData } from './CalendarData';
 
-export class Calendar{
-    private datas: CalendarData[];
+export class Calendar {
+  private datas: CalendarData[];
 
+  constructor(datas: CalendarData[]) {
+    this.setCalendarData(datas);
+  }
 
-    constructor(datas: CalendarData[]){
-        this.setCalendarData(datas); 
-    }
+  public static of(datas: CalendarData[]) {
+    return new Calendar(datas);
+  }
 
-    public static of(datas: CalendarData[]){
-        return new Calendar(datas);
-    }
-
-    setCalendarData(data: CalendarData[]){
-        this.datas=data
-    }
-
- 
+  setCalendarData(data: CalendarData[]) {
+    this.datas = data;
+  }
 }

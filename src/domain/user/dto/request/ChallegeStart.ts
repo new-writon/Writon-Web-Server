@@ -1,19 +1,17 @@
-import { IsNotEmpty } from "class-validator";
-
+import { IsNotEmpty } from 'class-validator';
 
 export class ChallengeStart {
-    
-    @IsNotEmpty()
-    private organization: string;
+  @IsNotEmpty()
+  private organization: string;
 
-    @IsNotEmpty()
-    private challengeId: number;
+  @IsNotEmpty()
+  private challengeId: number;
 
-    getOrganization(){
-        return this.organization;
-    }
+  getOrganization() {
+    return this.organization;
+  }
 
-    getChallengeId(){
-        return this.challengeId;
-    }
+  getChallengeId() {
+    return this.challengeId;
+  }
 }

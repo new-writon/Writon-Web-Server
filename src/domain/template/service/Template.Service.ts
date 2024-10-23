@@ -63,7 +63,7 @@ export class TemplateService {
       this.dataMapperService.extractQuestionId(userTemplateData);
     const [questionData, userChallengeData] = await Promise.all([
       this.challengeApi.requestQuestionById(questionIds),
-      this.userApi.requestUserChallengeAndAffiliationAndUserById(
+      this.userApi.requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(
         userTemplateData.getUserChallengeId(),
       ),
     ]);
@@ -79,6 +79,35 @@ export class TemplateService {
     return sortedCompanyData;
   }
 
+  private mergeForOneTemplate(
+    affiliationData: Affiliation,
+    userTemplateData: UserTemplate,
+    questionDatas: Question[],
+    userChallengeData: UserChallenge,
+  ) {
+    return questionDatas.map((questionData) => {
+      const questionContent = userTemplateData
+        .getQuestionContents()
+        .find((content) => content.getQuestionId() === questionData.getId());
+      const myLikeSign = userTemplateData.likes.some(
+        (like) => like.getAffiliationId() === affiliationData.getId(),
+      )
+        ? '1'
+        : '0';
+      const userChallengeAfiliation = userChallengeData.getAffiliation();
+      return TemplateContent.of(
+        userChallengeAfiliation,
+        questionData.getId(),
+        userTemplateData.getId(),
+        questionContent,
+        formatDate(userTemplateData.getCreatedAt().toString()),
+        questionData,
+        userTemplateData.getLikes().length.toString(),
+        userTemplateData.getComments().length.toString(),
+        myLikeSign,
+      );
+    });
+  }
   public async bringTemplateAccordingToDate(
     userId: number,
     organization: string,
@@ -128,36 +157,6 @@ export class TemplateService {
     );
     const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates);
     return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
-  }
-
-  private mergeForOneTemplate(
-    affiliationData: Affiliation,
-    userTemplateData: UserTemplate,
-    questionDatas: Question[],
-    userChallengeData: UserChallenge,
-  ) {
-    return questionDatas.map((questionData) => {
-      const questionContent = userTemplateData
-        .getQuestionContents()
-        .find((content) => content.getQuestionId() === questionData.getId());
-      const myLikeSign = userTemplateData.likes.some(
-        (like) => like.getAffiliationId() === affiliationData.getId(),
-      )
-        ? '1'
-        : '0';
-      const userChallengeAfiliation = userChallengeData.getAffiliation();
-      return TemplateContent.of(
-        userChallengeAfiliation,
-        questionData.getId(),
-        userTemplateData.getId(),
-        questionContent,
-        formatDate(userTemplateData.getCreatedAt().toString()),
-        questionData,
-        userTemplateData.getLikes().length.toString(),
-        userTemplateData.getComments().length.toString(),
-        myLikeSign,
-      );
-    });
   }
 
   private mergeForAllManyTemplates(
@@ -420,7 +419,7 @@ export class TemplateService {
       this.extractAffiliationIdAccordingToCommentAndLike(
         userTemplateAndCommentAndLikeData,
       );
-    let [commentAffiliationData, likeAffiliationData] = await Promise.all([
+    const [commentAffiliationData, likeAffiliationData] = await Promise.all([
       this.userApi.requestAffiliationById(
         extractAffiliationId.commentAffiliationIds,
       ),

@@ -1,26 +1,24 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class CheeringPhraseInsert {
+  @IsNotEmpty()
+  private organization: string;
 
-export class CheeringPhraseInsert{
+  @IsNotEmpty()
+  private challengeId: number;
 
-    @IsNotEmpty()
-    private organization: string;
+  @IsNotEmpty()
+  private content: string;
 
-    @IsNotEmpty()
-    private challengeId: number;
+  public getOrganization() {
+    return this.organization;
+  }
 
-    @IsNotEmpty()
-    private content: string;
+  public getChallengeId() {
+    return this.challengeId;
+  }
 
-    public getOrganization(){
-        return this.organization;
-    }
-
-    public getChallengeId(){
-        return this.challengeId;
-    }
-
-    public getContent(){
-        return this.content;
-    }
+  public getContent() {
+    return this.content;
+  }
 }

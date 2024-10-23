@@ -1,4 +1,3 @@
-
 class Deduction {
   private startCount: number;
   private endCount: number;
@@ -29,7 +28,12 @@ class ChallengeAllInformationCustom {
   private challengeDayCount: string;
   private deductions: Deduction[];
 
-  constructor(challengeId: number, deposit: number, challengeDayCount: string, deductions: Deduction[]) {
+  constructor(
+    challengeId: number,
+    deposit: number,
+    challengeDayCount: string,
+    deductions: Deduction[],
+  ) {
     this.challengeId = challengeId;
     this.deposit = deposit;
     this.challengeDayCount = challengeDayCount;

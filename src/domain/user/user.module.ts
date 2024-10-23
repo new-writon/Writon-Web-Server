@@ -34,10 +34,13 @@ import { OrgnizationController } from './presentation/Organization.Controller';
 import { LoginTokenManager } from '../auth/util/LoginTokenManager';
 import { CacheImpl } from 'src/global/util/CacheImpl';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
+import { FirebaseTokenDao } from './domain/repository/dao/FirebaseToken.Dao';
+import { FirebaseToken } from './domain/entity/FirebaseToken';
+import { Position } from './domain/entity/Position';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge]),
+    TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge, FirebaseToken, Position]),
     AuthModule,
     TemplateModule,
     ChallengeModule
@@ -48,6 +51,7 @@ import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service'
     {provide: 'affiliationImpl', useClass: AffiliationDao},
     {provide: 'userchallengeImpl', useClass: UserChallengeDao},
     {provide: 'organizationImpl', useClass: OrganizationDao},
+    {provide: 'firebasetokenImpl', useClass: FirebaseTokenDao},
     LoginTokenManager, 
     MailManager,
     AuthService, 

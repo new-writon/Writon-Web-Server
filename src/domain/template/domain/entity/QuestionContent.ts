@@ -5,107 +5,115 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Relation
-} from "typeorm";
-import { Question } from "../../../challenge/domain/entity/Question";
-import { UserTemplate } from "./UserTemplate";
-import { BaseEntity } from "../../../../global/entity/base.entitiy";
-import { InternalServerErrorException } from "@nestjs/common";
+  Relation,
+} from 'typeorm';
+import { Question } from '../../../challenge/domain/entity/Question';
+import { UserTemplate } from './UserTemplate';
+import { BaseEntity } from '../../../../global/entity/base.entitiy';
+import { InternalServerErrorException } from '@nestjs/common';
 
-
-@Index("question_contents_questions_fkey", ["questionId"], {})
-@Index("question_contents_user_templates_fkey", ["userTemplateId"], {})
-@Entity("question_contents", { schema: "nest" })
-export class QuestionContent extends BaseEntity{
-
-
+@Index('question_contents_questions_fkey', ['questionId'], {})
+@Index('question_contents_user_templates_fkey', ['userTemplateId'], {})
+@Entity('question_contents', { schema: 'nest' })
+export class QuestionContent extends BaseEntity {
   constructor(
     questionId: number,
     content: string,
     visibility: boolean,
-    userTemplateId: number
-  ){
-    super(),
-    this.setQuestionId(questionId);
+    userTemplateId: number,
+  ) {
+    super(), this.setQuestionId(questionId);
     this.setContent(content);
     this.setVisibility(visibility);
     this.setUserTemplateId(userTemplateId);
   }
 
-  @PrimaryGeneratedColumn({ type: "int", name: "question_content_id" })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'question_content_id' })
   questionContentId: number;
 
-  @Column("int", { name: "question_id" })
+  @Column('int', { name: 'question_id' })
   questionId: number;
 
-  @Column("int", { name: "user_template_id" })
+  @Column('int', { name: 'user_template_id' })
   userTemplateId: number;
 
-  @Column("text", { name: "content" })
+  @Column('text', { name: 'content' })
   content: string;
 
-  @Column("tinyint", { name: "visibility", width: 1 })
+  @Column('tinyint', { name: 'visibility', width: 1 })
   visibility: boolean;
 
   @ManyToOne(() => Question, (question) => question.questionContents, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
-  @JoinColumn([{ name: "question_id", referencedColumnName: "questionId" }])
+  @JoinColumn([{ name: 'question_id', referencedColumnName: 'questionId' }])
   question: Relation<Question>;
 
   @ManyToOne(
     () => UserTemplate,
     (userTemplate) => userTemplate.questionContents,
-    { onDelete: "CASCADE", onUpdate: "CASCADE" }
+    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
   )
   @JoinColumn([
-    { name: "user_template_id", referencedColumnName: "userTemplateId" },
+    { name: 'user_template_id', referencedColumnName: 'userTemplateId' },
   ])
   userTemplate: Relation<UserTemplate>;
 
-  public getId (){
+  public getId() {
     return this.questionContentId;
   }
 
-  public getQuestionId(){
+  public getQuestionId() {
     return this.questionId;
   }
 
-  public getContent(){
+  public getContent() {
     return this.content;
   }
 
-  public getVisibility(){
-    return this.visibility
+  public getVisibility() {
+    return this.visibility;
   }
 
-
-  public static createQuestionContent(    
+  public static createQuestionContent(
     questionId: number,
     content: string,
     visibility: boolean,
-    userTemplateId: number){
-      return new QuestionContent(questionId, content, visibility, userTemplateId);
-    }
-
-  private setQuestionId(questionId: number){
-    if(questionId === null) throw new InternalServerErrorException (`${__dirname} : questionId값이 존재하지 않습니다.`);
-    this.questionId=questionId
+    userTemplateId: number,
+  ) {
+    return new QuestionContent(questionId, content, visibility, userTemplateId);
   }
 
-  private setContent(content:string){
-    if(content === null) throw new InternalServerErrorException (`${__dirname} : content값이 존재하지 않습니다.`);
-    this.content=content
+  private setQuestionId(questionId: number) {
+    if (questionId === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : questionId값이 존재하지 않습니다.`,
+      );
+    this.questionId = questionId;
   }
 
-  private setVisibility(visibility:boolean){
-    if(visibility === null) throw new InternalServerErrorException (`${__dirname} : visibility값이 존재하지 않습니다.`);
-    this.visibility=visibility;
+  private setContent(content: string) {
+    if (content === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : content값이 존재하지 않습니다.`,
+      );
+    this.content = content;
   }
 
-  private setUserTemplateId(userTemplateId:number){
-    if(userTemplateId=== null) throw new InternalServerErrorException (`${__dirname} : userTemplateId 값이 존재하지 않습니다.`);
-    this.userTemplateId=userTemplateId
+  private setVisibility(visibility: boolean) {
+    if (visibility === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : visibility값이 존재하지 않습니다.`,
+      );
+    this.visibility = visibility;
+  }
+
+  private setUserTemplateId(userTemplateId: number) {
+    if (userTemplateId === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : userTemplateId 값이 존재하지 않습니다.`,
+      );
+    this.userTemplateId = userTemplateId;
   }
 }

@@ -1,131 +1,148 @@
-import { InternalServerErrorException } from "@nestjs/common";
+import { InternalServerErrorException } from '@nestjs/common';
 
+export class Participant {
+  private profile: string | null;
+  private position: string;
+  private positionIntroduce: string;
+  private nickname: string;
+  private companyPublic: number;
+  private company: string | null;
+  private cheeringPhrase: string | null;
+  private cheeringPhraseDate: Date;
 
-export class Participant{
-    private profile: string | null;
-    private position: string;
-    private positionIntroduce: string;
-    private nickname: string;
-    private companyPublic: number;
-    private company: string | null;
-    private cheeringPhrase: string | null;
-    private cheeringPhraseDate: Date;
+  constructor(
+    profile: string | null,
+    position: string,
+    jobIntroduce: string,
+    nickname: string,
+    companyPublic: number,
+    company: string | null,
+    cheeringPhrase: string | null,
+    cheeringPhraseDate: string | Date,
+  ) {
+    this.setProfile(profile);
+    this.setPosition(position);
+    this.setJobIntroduce(jobIntroduce);
+    this.setNickname(nickname);
+    this.setCompanyPublic(companyPublic);
+    this.setCompany(company);
+    this.setCheeringPhrase(cheeringPhrase);
+    this.setCheeringPhraseDate(cheeringPhraseDate);
+  }
 
+  public static myInformationOf(myInformation: Participant) {
+    return new Participant(
+      myInformation.profile,
+      myInformation.position,
+      myInformation.positionIntroduce,
+      myInformation.nickname,
+      myInformation.companyPublic,
+      myInformation.company,
+      myInformation.cheeringPhrase,
+      myInformation.cheeringPhraseDate,
+    );
+  }
 
-    constructor(
-        profile: string | null,
-        position: string,
-        jobIntroduce: string,
-        nickname: string,
-        companyPublic: number,
-        company: string | null,
-        cheeringPhrase: string | null,
-        cheeringPhraseDate: string | Date
-    ) {
-        this.setProfile(profile);
-        this.setPosition(position);
-        this.setJobIntroduce(jobIntroduce);
-        this.setNickname(nickname);
-        this.setCompanyPublic(companyPublic);
-        this.setCompany(company);
-        this.setCheeringPhrase(cheeringPhrase);
-        this.setCheeringPhraseDate(cheeringPhraseDate);
-    }
+  public static participantOf(participants: Participant[]) {
+    return participants.map((participant) => {
+      return new Participant(
+        participant.profile,
+        participant.position,
+        participant.positionIntroduce,
+        participant.nickname,
+        participant.companyPublic,
+        participant.company,
+        participant.cheeringPhrase,
+        participant.cheeringPhraseDate,
+      );
+    });
+  }
 
-    public static myInformationOf(myInformation:Participant){
-            return new Participant(myInformation.profile, myInformation.position, myInformation.positionIntroduce, myInformation.nickname, myInformation.companyPublic, myInformation.company,
-                myInformation.cheeringPhrase, myInformation.cheeringPhraseDate
-            );
-    }
+  private setProfile(profile: string | null) {
+    this.profile = profile;
+  }
 
-    public static participantOf(participants:Participant[]){
+  private setPosition(position: string) {
+    if (position === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : position값이 존재하지 않습니다.`,
+      );
+    this.position = position;
+  }
 
-        return participants.map((participant) => {
-            return new Participant(participant.profile, participant.position, participant.positionIntroduce, participant.nickname, participant.companyPublic, participant.company,
-                participant.cheeringPhrase, participant.cheeringPhraseDate
-            );
-        })
-       
-}
+  private setJobIntroduce(positionIntroduce: string) {
+    if (positionIntroduce === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : positionIntroduce 값이 존재하지 않습니다.`,
+      );
+    this.positionIntroduce = positionIntroduce;
+  }
 
+  private setNickname(nickname: string) {
+    if (nickname === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : nickname 값이 존재하지 않습니다.`,
+      );
+    this.nickname = nickname;
+  }
 
+  private setCompanyPublic(companyPublic: number) {
+    if (companyPublic === null || companyPublic === undefined)
+      throw new InternalServerErrorException(
+        `${__dirname} : companyPublic 값이 존재하지 않습니다.`,
+      );
+    this.companyPublic = companyPublic;
+  }
 
-    private setProfile(profile: string | null) {
-        this.profile = profile;
-    }
+  private setCompany(company: string | null) {
+    this.company = company;
+  }
 
-    private setPosition(position: string) {
-        if (position===null) throw new InternalServerErrorException(`${__dirname} : position값이 존재하지 않습니다.`);
-        this.position = position;
-    }
+  private setCheeringPhrase(cheeringPhrase: string | null) {
+    this.cheeringPhrase = cheeringPhrase;
+  }
 
-    private setJobIntroduce(positionIntroduce: string) {
-        if (positionIntroduce===null) throw new InternalServerErrorException(`${__dirname} : positionIntroduce 값이 존재하지 않습니다.`);
-        this.positionIntroduce = positionIntroduce;
-    }
+  private setCheeringPhraseDate(cheeringPhraseDate: string | Date) {
+    this.cheeringPhraseDate = new Date(cheeringPhraseDate);
+  }
 
-    private setNickname(nickname: string) {
-        if (nickname===null) throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
-        this.nickname = nickname;
-    }
+  getProfile(): string | null {
+    return this.profile;
+  }
 
-    private setCompanyPublic(companyPublic: number) {
-        if (companyPublic === null || companyPublic === undefined) throw new InternalServerErrorException(`${__dirname} : companyPublic 값이 존재하지 않습니다.`);
-        this.companyPublic = companyPublic;
-    }
+  getPosition(): string {
+    return this.position;
+  }
 
-    private setCompany(company: string | null) {
-        this.company = company;
-    }
+  getPositionIntroduce(): string {
+    return this.positionIntroduce;
+  }
 
-    private setCheeringPhrase(cheeringPhrase: string | null) {
-        this.cheeringPhrase = cheeringPhrase;
-    }
+  getNickname(): string {
+    return this.nickname;
+  }
 
-    private setCheeringPhraseDate(cheeringPhraseDate: string | Date) {
-        this.cheeringPhraseDate = new Date(cheeringPhraseDate);
-    }
+  getCompanyPublic(): number {
+    return this.companyPublic;
+  }
 
-    getProfile(): string | null{
-        return this.profile;
-    }
+  getCompany(): string | null {
+    return this.company;
+  }
 
-    getPosition(): string {
-        return this.position;
-    }
+  getCheeringPhrase(): string | null {
+    return this.cheeringPhrase;
+  }
 
-    getPositionIntroduce(): string {
-        return this.positionIntroduce;
-    }
+  getCheeringPhraseDate(): Date {
+    return this.cheeringPhraseDate;
+  }
 
-    getNickname(): string {
-        return this.nickname;
-    }
+  changeCheeringPhrase(cheeringPhrase: string | null) {
+    this.cheeringPhrase = cheeringPhrase;
+  }
 
-    getCompanyPublic(): number {
-        return this.companyPublic;
-    }
-
-    getCompany(): string | null {
-        return this.company;
-    }
-
-    getCheeringPhrase(): string | null {
-        return this.cheeringPhrase;
-    }
-
-    getCheeringPhraseDate(): Date {
-        return this.cheeringPhraseDate;
-    }
-
-
-    changeCheeringPhrase(cheeringPhrase: string | null) {
-        this.cheeringPhrase = cheeringPhrase;
-    }
-
-    changeCompany(company: string | null) {
-        this.company = company;
-    }
-
-
+  changeCompany(company: string | null) {
+    this.company = company;
+  }
 }

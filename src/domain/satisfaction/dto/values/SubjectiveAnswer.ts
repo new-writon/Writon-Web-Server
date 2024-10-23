@@ -1,16 +1,12 @@
+export class SubjectiveAnswer {
+  private satisfactionId: number;
+  private answer: string;
 
-export class SubjectiveAnswer{
+  public getSatisfactionId() {
+    return this.satisfactionId;
+  }
 
-    private satisfactionId: number;
-    private answer: string;
-
-
-    public getSatisfactionId(){
-        return this.satisfactionId;
-    }
-
-    public getAnswer(){
-        return this.answer;
-    }
-
+  public getAnswer() {
+    return this.answer;
+  }
 }

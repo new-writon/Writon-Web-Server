@@ -1,19 +1,17 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class AccountUpdate {
+  @IsNotEmpty()
+  private accountNumber: string;
 
-export class AccountUpdate{
-    
-    @IsNotEmpty()
-    private accountNumber: string;
+  @IsNotEmpty()
+  private bank: string;
 
-    @IsNotEmpty()
-    private bank: string;
+  public getAccountNumber(): string {
+    return this.accountNumber;
+  }
 
-    public getAccountNumber():string{
-        return this.accountNumber;
-    }
-
-    public getBank():string{
-        return this.bank;
-    }
+  public getBank(): string {
+    return this.bank;
+  }
 }

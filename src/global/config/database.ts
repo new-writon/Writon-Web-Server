@@ -1,8 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import {type DataSourceOptions } from 'typeorm';
 import * as path from 'path';
-
 
 // const dataSourceLocal: DataSourceOptions = {
 //   type: "mysql",
@@ -15,10 +13,9 @@ import * as path from 'path';
 //   synchronize: false,
 // };
 
-
 export const dataSource = registerAs('data-source', () => {
   return {
-    type: "mysql",
+    type: 'mysql',
     host: process.env.DATABASE_HOST,
     port: 3306,
     username: process.env.DATABASE_USERNAME,
@@ -26,8 +23,7 @@ export const dataSource = registerAs('data-source', () => {
     database: process.env.DATABASE_SCHEMA,
     synchronize: false,
     autoLoadEntities: true,
-    entities:[path.join(__dirname, '../../domain/**/entity/*.{js,ts}')],
-    logging: ['error']
+    entities: [path.join(__dirname, '../../domain/**/entity/*.{js,ts}')],
+    logging: ['error'],
   } as TypeOrmModuleOptions;
 });
-

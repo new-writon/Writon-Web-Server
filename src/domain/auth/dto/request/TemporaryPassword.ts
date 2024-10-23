@@ -1,21 +1,18 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
+export class TemporaryPassword {
+  @IsNotEmpty()
+  @IsEmail()
+  private email: string;
 
-export class TemporaryPassword{
+  @IsNotEmpty()
+  private identifier: string;
 
-    @IsNotEmpty()
-    @IsEmail()
-    private email: string;
+  public getEmail(): string {
+    return this.email;
+  }
 
-    @IsNotEmpty()
-    private identifier: string;
-
-    public getEmail(): string {
-        return this.email;
-    }
-
-    public getIdentifier(): string {
-        return this.identifier;
-    }
-
+  public getIdentifier(): string {
+    return this.identifier;
+  }
 }

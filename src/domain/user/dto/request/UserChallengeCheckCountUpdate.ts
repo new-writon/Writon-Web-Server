@@ -1,13 +1,10 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class UserChallengeCheckCountUpdate {
+  @IsNotEmpty()
+  private checkCount: number;
 
-export class UserChallengeCheckCountUpdate{
-
-    @IsNotEmpty()
-    private checkCount:number;
-
-    public getCheckCount(){
-        return this.checkCount;
-    }
-
+  public getCheckCount() {
+    return this.checkCount;
+  }
 }

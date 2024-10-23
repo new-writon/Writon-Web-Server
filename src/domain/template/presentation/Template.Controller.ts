@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, Logger, Param, Post, Put,  UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Logger,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { TemplateService } from '../service/Template.Service';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
 import { User } from '../../user/domain/entity/User';
@@ -9,95 +19,105 @@ import { TemplateWrite } from '../dto/request/TemplateWrite';
 import { TemplateUpdate } from '../dto/request/TemplateUpdate';
 import { TemplateInformation } from '../dto/response/TemplateInformation';
 
-
-
-@Controller("/api/template/root")
+@Controller('/api/template/root')
 export class TemplateController {
   private readonly logger = new Logger(TemplateController.name);
   constructor(private readonly templateService: TemplateService) {}
 
-
-  @Put("/update")
+  @Put('/update')
   @HttpCode(200)
   public async modifyMyTemplate(
     @Body() templateUpdate: TemplateUpdate,
-  ): Promise<SuccessResponseDto<void>>  {
-    await this.templateService.modifyMyTemplate(templateUpdate.getUserTemplateId(), templateUpdate.getTemplateContent())
-    this.logger.log("템플릿 수정 완료");
+  ): Promise<SuccessResponseDto<void>> {
+    await this.templateService.modifyMyTemplate(
+      templateUpdate.getUserTemplateId(),
+      templateUpdate.getTemplateContent(),
+    );
+    this.logger.log('템플릿 수정 완료');
     return SuccessResponseDto.of();
   }
-  
 
-  @Get("/:organization/:challengeId/date/:date")
+  @Get('/:organization/:challengeId/date/:date')
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async bringTemplateAccordingToDate(
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number,
-    @Param('date') date:Date,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateInformation | []>>  {
-    const result = await this.templateService.bringTemplateAccordingToDate(user.userId, organization, challengeId, date);
-    this.logger.log("날짜별 템플릿 조회 완료");
+    @Param('date') date: Date,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<TemplateInformation | []>> {
+    const result = await this.templateService.bringTemplateAccordingToDate(
+      user.userId,
+      organization,
+      challengeId,
+      date,
+    );
+    this.logger.log('날짜별 템플릿 조회 완료');
     return SuccessResponseDto.of(result);
   }
 
-
-  @Get("/:organization/:userTemplateId/visibility/:visibility")
+  @Get('/:organization/:userTemplateId/visibility/:visibility')
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async bringTemplateContent(
     @Param('organization') organization: string,
     @Param('userTemplateId') userTemplateId: number,
-    @Param('visibility') visibility:boolean,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateContent[]>>  {
-    const result = await this.templateService.bringTemplateContent(user.userId, userTemplateId, organization, visibility);
-    this.logger.log("템플릿 하나 조회 완료");
+    @Param('visibility') visibility: boolean,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<TemplateContent[]>> {
+    const result = await this.templateService.bringTemplateContent(
+      user.userId,
+      userTemplateId,
+      organization,
+      visibility,
+    );
+    this.logger.log('템플릿 하나 조회 완료');
     return SuccessResponseDto.of(result);
   }
 
-
-  @Get("/reminiscence/:organization/:challengeId")
+  @Get('/reminiscence/:organization/:challengeId')
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async bringAllTemplateContent(
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<TemplateInformation | []>>  {
-    const result = await this.templateService.bringAllTemplateContent(user.userId, organization, challengeId);
-    this.logger.log("내 챌린지 템플릿 조회 완료");
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<TemplateInformation | []>> {
+    const result = await this.templateService.bringAllTemplateContent(
+      user.userId,
+      organization,
+      challengeId,
+    );
+    this.logger.log('내 챌린지 템플릿 조회 완료');
     return SuccessResponseDto.of(result);
   }
 
-
-  @Post("/write")
+  @Post('/write')
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async penetrateTemplate(
     @Body() templateWrite: TemplateWrite,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<void>>  {
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<void>> {
     await this.templateService.penetrateTemplate(user.userId, templateWrite);
-    this.logger.log("템플릿 작성 완료");
+    this.logger.log('템플릿 작성 완료');
     return SuccessResponseDto.of();
   }
 
-  @Get("/:organization/:challengeId/notify")
+  @Get('/:organization/:challengeId/notify')
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async bringNotify(
     @Param('organization') organization: string,
     @Param('challengeId') challengeId: number,
-    @CurrentUser() user: User
-  ): Promise<SuccessResponseDto<(GetCommentNotify | GetLikeNotify)[]>>  {
-    const result = await this.templateService.bringNotify(user.userId, organization, challengeId);
-    this.logger.log("챌린지에 따른 알림 조회 완료");
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<(GetCommentNotify | GetLikeNotify)[]>> {
+    const result = await this.templateService.bringNotify(
+      user.userId,
+      organization,
+      challengeId,
+    );
+    this.logger.log('챌린지에 따른 알림 조회 완료');
     return SuccessResponseDto.of(result);
   }
-
-
-
-
 }

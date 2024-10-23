@@ -55,4 +55,8 @@ pids
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
+<<<<<<< HEAD
+writon-firebase-admin.json
+=======
 /writon-firebase-admin.json
+>>>>>>> 7dba3bff49f059c1e3d99a319323777cdf014617

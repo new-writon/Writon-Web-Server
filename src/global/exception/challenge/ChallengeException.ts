@@ -1,10 +1,10 @@
-import {HttpException, HttpStatus} from "@nestjs/common";
-import { ChallengeErrorCode, errorMessage } from "./ChallengeErrorCode";
+import { HttpException } from '@nestjs/common';
+import { ChallengeErrorCode, errorMessage } from './ChallengeErrorCode';
 
 export class ChallengeException extends HttpException {
-    code: ChallengeErrorCode; 
+  code: ChallengeErrorCode;
 
-    constructor(code: ChallengeErrorCode) {
-        super(errorMessage(code), code);  
-    }
+  constructor(code: ChallengeErrorCode) {
+    super(errorMessage(code), code);
+  }
 }

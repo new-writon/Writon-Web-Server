@@ -1,26 +1,24 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
+export class ChallengeInvite {
+  @IsNotEmpty()
+  private organization: string;
 
-export class ChallengeInvite{
+  @IsNotEmpty()
+  private challenge: string;
 
-    @IsNotEmpty()
-    private organization:string;
+  @IsNotEmpty()
+  private email: string[];
 
-    @IsNotEmpty()
-    private challenge: string;
+  getOrganization() {
+    return this.organization;
+  }
 
-    @IsNotEmpty()
-    private email:string[];
+  getChallenge() {
+    return this.challenge;
+  }
 
-    getOrganization() {
-        return this.organization;
-    }
-
-    getChallenge() {
-        return this.challenge;
-    }
-
-    getEmail() {
-        return this.email
-    }
+  getEmail() {
+    return this.email;
+  }
 }

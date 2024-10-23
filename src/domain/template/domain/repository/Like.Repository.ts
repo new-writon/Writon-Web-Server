@@ -11,5 +11,6 @@ export interface LikeRepository extends Repository<Likes>{
     insertLike(affiliationId:number, userTemplateId:number):Promise<Likes>;
     deleteLike(affiliationId:number, userTemplateId:number):Promise<void>;
     findLikeCountByUserTemplateId(userTemplateId:number):Promise<number>;
+    findLikesByUserTemplateId(userTemplateId:number):Promise<Likes[]>;
 
 }
