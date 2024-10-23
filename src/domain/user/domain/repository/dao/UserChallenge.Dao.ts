@@ -227,7 +227,7 @@ export class UserChallengeDao
         'a.affiliation_id = uc.affiliation_id',
       )
       .innerJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')
-      .innerJoinAndSelect('u.firebaseTokens', 'ft', 'ft.user_id = u.user_id')
+      .leftJoinAndSelect('u.firebaseTokens', 'ft', 'ft.user_id = u.user_id')
       .where('uc.user_challenge_id = :userChallengeId', { userChallengeId })
       .getOne();
   }
