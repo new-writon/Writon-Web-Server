@@ -1,5 +1,10 @@
+import { IsIn } from 'class-validator';
+
 export class AlarmStatus {
-  content: string;
+  @IsIn([null, 'denied', 'granted'], {
+    message: 'Content must be null, denied, or granted',
+  })
+  content: string | null;
 
   public getContent() {
     return this.content;
