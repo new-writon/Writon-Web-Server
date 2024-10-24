@@ -37,8 +37,11 @@ const sortCallendarDateBadge = (
     } else if (isSameDate(new Date(challengeDay.getDay()), new Date())) {
       customObject['badge'] = 'Purple';
       result.push({ ...customObject });
-    } else {
+    } else if (new Date(challengeDay.getDay()) < new Date()) {
       customObject['badge'] = 'lightPurple';
+      result.push({ ...customObject });
+    } else {
+      customObject['badge'] = 'temporary';
       result.push({ ...customObject });
     }
   }
