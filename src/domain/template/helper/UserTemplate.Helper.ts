@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserTemplateRepository } from '../domain/repository/UserTemplate.Repository';
 import { UserTemplate } from '../domain/entity/UserTemplate';
-import { TemplateVerifyService } from '../../../global/exception/template/TemplateVerify.Service';
 
 @Injectable()
 export class UserTemplateHelper {

@@ -18,7 +18,7 @@ import { UserTemplate } from '../domain/entity/UserTemplate';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
 import { ChallengeApi } from '../infrastructure/Challenge.Api';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
-import { compareValues } from '../util/checker';
+import { checkFirebaseToken, compareValues } from '../util/checker';
 
 @Injectable()
 export class LikeServie {
@@ -74,7 +74,9 @@ export class LikeServie {
       affiliationData.getId(),
       userChallengeData.getAffiliation().getId(),
     );
+    const firebaseTokenChekingResult = checkFirebaseToken(userChallengeData);
     this.sendLikeNotification(
+      firebaseTokenChekingResult,
       myLikeCheck,
       userChallengeData,
       affiliationData,
@@ -87,13 +89,14 @@ export class LikeServie {
   }
 
   private sendLikeNotification(
+    firebaseTokenChecking: boolean,
     likeStatus: string,
     userChallengeData: UserChallenge,
     affiliationData: Affiliation,
     userTemplateData: UserTemplate,
     challengeData: Challenge,
   ) {
-    if (likeStatus === 'others') {
+    if (likeStatus === 'others' && firebaseTokenChecking) {
       this.alarmService.sendPushAlarm(
         userChallengeData
           .getAffiliation()
@@ -102,6 +105,7 @@ export class LikeServie {
           .map((data) => data.getEngineValue()),
         `${challengeData.getName()} 챌린지 좋아요 알림`,
         `${affiliationData.getNickname()}님이 ${formatDateToPushAlarmStatus(userTemplateData.getTemplateDate())} 템플릿에 좋아요를 표했습니다.`,
+        `https://www.writon.co.kr/detail/${userTemplateData.getId()}`,
       );
     }
   }

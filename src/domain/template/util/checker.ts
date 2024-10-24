@@ -1,3 +1,5 @@
+import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
+
 /**
  *
  * @param data
@@ -15,4 +17,15 @@ export const checkData = (data: any): boolean => {
 export const compareValues = (first: number, second: number) => {
   if (first === second) return 'my';
   return 'others';
+};
+
+export const checkFirebaseToken = (
+  userChallengeData: UserChallenge,
+): boolean => {
+  if (
+    userChallengeData.getAffiliation().getUser().getFirebaseTokens().length > 0
+  ) {
+    return true;
+  }
+  return false;
 };
