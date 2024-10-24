@@ -7,12 +7,18 @@ export class AlarmService {
     engineValues: string[],
     title: string,
     body: string,
+    targetUrl: string,
   ) {
     const message = {
       tokens: engineValues,
       notification: {
         title: title,
         body: body,
+      },
+      webpush: {
+        fcmOptions: {
+          link: targetUrl,
+        },
       },
     };
     const response = await firebase.messaging().sendEachForMulticast(message);
