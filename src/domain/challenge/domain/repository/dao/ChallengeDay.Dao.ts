@@ -38,14 +38,16 @@ export class ChallengeDayDao
   async findChallengeDayByChallengeId(
     challengeId: number,
   ): Promise<ChallengeDay[]> {
-    return this.dataSource
-      .createQueryBuilder()
-      .select('cd')
-      .from(ChallengeDay, 'cd')
-      .where('cd.challenge_id= :challengeId', { challengeId: challengeId })
-      .andWhere(
-        'cd.day BETWEEN (SELECT c.start_at FROM challenges as c WHERE c.challenge_id = :challengeId) AND CURDATE()',
-      )
-      .getMany();
+    return (
+      this.dataSource
+        .createQueryBuilder()
+        .select('cd')
+        .from(ChallengeDay, 'cd')
+        .where('cd.challenge_id= :challengeId', { challengeId: challengeId })
+        // .andWhere(
+        //   'cd.day BETWEEN (SELECT c.start_at FROM challenges as c WHERE c.challenge_id = :challengeId) AND CURDATE()',
+        // )
+        .getMany()
+    );
   }
 }
