@@ -18,7 +18,7 @@ import { UserTemplate } from '../domain/entity/UserTemplate';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
 import { ChallengeApi } from '../infrastructure/Challenge.Api';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
-import { compareValues } from '../util/checker';
+import { checkFirebaseToken, compareValues } from '../util/checker';
 
 @Injectable()
 export class LikeServie {
@@ -74,7 +74,9 @@ export class LikeServie {
       affiliationData.getId(),
       userChallengeData.getAffiliation().getId(),
     );
+    const firebaseTokenChekingResult = checkFirebaseToken(userChallengeData);
     this.sendLikeNotification(
+      firebaseTokenChekingResult,
       myLikeCheck,
       userChallengeData,
       affiliationData,
@@ -87,13 +89,14 @@ export class LikeServie {
   }
 
   private sendLikeNotification(
+    firebaseTokenChecking: boolean,
     likeStatus: string,
     userChallengeData: UserChallenge,
     affiliationData: Affiliation,
     userTemplateData: UserTemplate,
     challengeData: Challenge,
   ) {
-    if (likeStatus === 'others') {
+    if (likeStatus === 'others' && firebaseTokenChecking) {
       this.alarmService.sendPushAlarm(
         userChallengeData
           .getAffiliation()

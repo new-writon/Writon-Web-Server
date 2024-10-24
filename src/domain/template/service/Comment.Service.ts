@@ -17,6 +17,7 @@ import { UserChallenge } from '../../../domain/user/domain/entity/UserChallenge'
 import { ChallengeApi } from '../infrastructure/Challenge.Api';
 import { Challenge } from '../../../domain/challenge/domain/entity/Challenge';
 import { UserTemplate } from '../domain/entity/UserTemplate';
+import { checkFirebaseToken } from '../util/checker';
 
 @Injectable()
 export class CommentService {
@@ -155,7 +156,10 @@ export class CommentService {
       affiliationData.getId(),
       userChallengeData.getAffiliation().getId(),
     );
+    const firebaseTokenCheckingResult = checkFirebaseToken(userChallengeData);
+
     this.sendCommentNotification(
+      firebaseTokenCheckingResult,
       myCommentCheck,
       userChallengeData,
       affiliationData,
@@ -172,13 +176,14 @@ export class CommentService {
   }
 
   private sendCommentNotification(
+    firebaseTokenChecking: boolean,
     CommentStatus: string,
     userChallengeData: UserChallenge,
     affiliationData: Affiliation,
     userTemplateData: UserTemplate,
     challengeData: Challenge,
   ) {
-    if (CommentStatus === 'others') {
+    if (CommentStatus === 'others' && firebaseTokenChecking) {
       this.alarmService.sendPushAlarm(
         userChallengeData
           .getAffiliation()
