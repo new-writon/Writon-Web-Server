@@ -11,11 +11,21 @@ export class AlarmService {
   ) {
     const message = {
       tokens: engineValues,
-      notification: {
-        title: title,
-        body: body,
-      },
       webpush: {
+        notification: {
+          title: title,
+          body: body,
+          actions: [
+            {
+              action: targetUrl,
+              title: 'Open Web',
+            },
+          ],
+          data: {
+            url: targetUrl, // 사용자 정의 데이터
+          },
+          renotify: true,
+        },
         fcmOptions: {
           link: targetUrl,
         },
