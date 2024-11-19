@@ -81,7 +81,7 @@ export class JwtManager {
         responseToken = (await this.loginTokenManager.getToken(
           String(userId),
         )) as string[];
-        console.log(requestToken);
+        console.log(responseToken);
       }
 
       if (this.verifyToken(requestToken, responseToken)) {
