@@ -55,8 +55,7 @@ export class FirebaseTokenDao
       .execute();
   }
 
-  async findFirebaseTokenWithUserChallengeId() // userChallengeId: number,
-  : Promise<FirebaseToken[]> {
+  async findFirebaseTokenWithUserChallengeId(): Promise<FirebaseToken[]> {
     return this.dataSource
       .createQueryBuilder()
       .select('ft')
@@ -65,5 +64,18 @@ export class FirebaseTokenDao
       .innerJoin(Affiliation, 'a', 'a.user_id = u.user_id')
       .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
       .getMany();
+  }
+
+  async deleteFirebaseTokens(
+    userId: number,
+    engineValues: string[],
+  ): Promise<void> {
+    await this.dataSource
+      .createQueryBuilder()
+      .delete()
+      .from(FirebaseToken)
+      .where('userId = :userId', { userId })
+      .andWhere('engine_value IN (:...engineValues)', { engineValues })
+      .execute();
   }
 }
