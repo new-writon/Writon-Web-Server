@@ -185,6 +185,7 @@ export class CommentService {
   ) {
     if (CommentStatus === 'others' && firebaseTokenChecking) {
       this.alarmService.sendPushAlarm(
+        userChallengeData.getAffiliation().getUser().getId(),
         userChallengeData
           .getAffiliation()
           .getUser()
