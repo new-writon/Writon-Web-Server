@@ -73,10 +73,17 @@ export class JwtManager {
 
   public refreshVerify = async (requestToken: string, userId: number) => {
     try {
-      const responseToken = (await this.loginTokenManager.getToken(
+      let responseToken = (await this.loginTokenManager.getToken(
         String(userId),
       )) as string[]; // 배열 스트링
       console.log(responseToken);
+      if (requestToken === null) {
+        responseToken = (await this.loginTokenManager.getToken(
+          String(userId),
+        )) as string[];
+        console.log(requestToken);
+      }
+
       if (this.verifyToken(requestToken, responseToken)) {
         jwt.verify(
           requestToken.split('Bearer ')[1],
