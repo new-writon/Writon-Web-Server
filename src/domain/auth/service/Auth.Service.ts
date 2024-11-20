@@ -11,6 +11,7 @@ import { UserApi } from '../intrastructure/User.Api';
 import { AuthVerifyService } from '../../../global/exception/auth/AuthVerify.Service';
 import { LoginTokenManager } from '../util/LoginTokenManager';
 import { LocalLogin } from '../dto/request/LocalLogin';
+import { Transactional } from '../../../global/decorator/transaction';
 
 @Injectable()
 export class AuthService {
@@ -111,9 +112,14 @@ export class AuthService {
       challengedConfirmation,
     );
   }
-
-  public async logout(userId: string, refreshToken: string): Promise<void> {
+  @Transactional()
+  public async logout(
+    userId: string,
+    refreshToken: string,
+    engineValue: string,
+  ): Promise<void> {
     await this.loginTokenManager.deleteToken(userId, refreshToken);
+    await this.userApi.executeDeleteFirebaseToken(Number(userId), engineValue);
   }
 
   private checkOrganization(
