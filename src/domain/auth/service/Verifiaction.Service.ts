@@ -30,6 +30,7 @@ export class VerificationService {
       refreshToken,
       accessTokenDecodedData.userId,
     );
+    console.log(refreshTokenVerifyesult);
     this.authVerifyService.signVerifyToken(
       accessTokenVerifyResult.state,
       refreshTokenVerifyesult.state,
