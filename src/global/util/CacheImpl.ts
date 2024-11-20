@@ -11,7 +11,8 @@ export class CacheImpl implements CacheManager {
     value: string | string[],
     ttl: number,
   ): Promise<void> {
-    await this.cacheManager.set(key, value, ttl);
+    const options = ttl ? { ttl } : undefined;
+    await this.cacheManager.set(key, value, options);
   }
 
   public async getValue(key: string): Promise<string | string[] | undefined> {
