@@ -10,6 +10,7 @@ import { Affiliation } from '../../user/domain/entity/Affiliation';
 import { UserApi } from '../intrastructure/User.Api';
 import { AuthVerifyService } from '../../../global/exception/auth/AuthVerify.Service';
 import { LoginTokenManager } from '../util/LoginTokenManager';
+import { LocalLogin } from '../dto/request/LocalLogin';
 
 @Injectable()
 export class AuthService {
@@ -67,17 +68,14 @@ export class AuthService {
     );
   }
 
-  public async localLogin(
-    identifier: string,
-    password: string,
-    organization: string,
-    challengeId: number,
-  ): Promise<LoginResponse> {
+  public async localLogin(loginLocal: LocalLogin): Promise<LoginResponse> {
     const userData: User =
-      await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
+      await this.userApi.requestUserDataBySocialNumberOrIdentifier(
+        loginLocal.getIdentifier(),
+      );
     this.authVerifyService.vefifyIdentifier(userData);
     await this.authVerifyService.verifyPassword(
-      password,
+      loginLocal.getPassword(),
       userData.getPassword(),
     );
     const accessToken = this.jwtManager.makeAccessToken(
@@ -91,11 +89,18 @@ export class AuthService {
       30 * 24 * 60 * 60,
     );
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
-      this.checkAffiliationStatus(organization, userData.getId()),
-      this.checkOngoingChallenge(organization, userData.getId(), challengeId),
+      this.checkAffiliationStatus(
+        loginLocal.getOrganization(),
+        userData.getId(),
+      ),
+      this.checkOngoingChallenge(
+        loginLocal.getOrganization(),
+        userData.getId(),
+        loginLocal.getChallengeId(),
+      ),
     ]);
     affiliatedConfirmation = this.checkOrganization(
-      organization,
+      loginLocal.getOrganization(),
       affiliatedConfirmation,
     );
     return LoginResponse.of(
