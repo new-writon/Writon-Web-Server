@@ -44,7 +44,7 @@ export class AuthService {
     await this.loginTokenManager.setToken(
       String(checkedUserData.getId()),
       [refreshToken],
-      30 * 24 * 60 * 60,
+      30 * 24 * 60 * 60 * 4,
     );
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(organization, checkedUserData.getId()),
