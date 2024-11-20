@@ -8,7 +8,7 @@ export class LoginTokenManager {
   public async setToken(
     key: string,
     value: string | string[],
-    ttl: number,
+    ttl?: number,
   ): Promise<void> {
     const existingValue = await this.cacheImpl.getValue(key);
     if (Array.isArray(value)) {

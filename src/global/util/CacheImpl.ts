@@ -9,7 +9,7 @@ export class CacheImpl implements CacheManager {
   public async setValue(
     key: string,
     value: string | string[],
-    ttl: number,
+    ttl?: number,
   ): Promise<void> {
     await this.cacheManager.set(key, value, ttl);
   }
