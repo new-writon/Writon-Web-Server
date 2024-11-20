@@ -152,7 +152,7 @@ export class JwtManager {
     externalToken: string,
     internalTokens: string[],
   ): boolean {
-    if (internalTokens.includes(externalToken)) {
+    if (internalTokens !== null && internalTokens.includes(externalToken)) {
       return true;
     }
     return false;
