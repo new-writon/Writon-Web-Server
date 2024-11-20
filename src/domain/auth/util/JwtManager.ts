@@ -119,7 +119,7 @@ export class JwtManager {
             console.log(
               `Token is null, retrying... (${retryCount}/${maxRetries})`,
             );
-            await new Promise((resolve) => setTimeout(resolve, 500)); // 1초 대기
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초 대기
             continue;
           }
         }
