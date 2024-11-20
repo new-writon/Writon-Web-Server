@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {configuration} from './global/config/configuration';
+import { configuration } from './global/config/configuration';
 import { dataSource } from './global/config/database';
 import { UserModule } from './domain/user/user.module';
 import { AuthModule } from './domain/auth/auth.module';
@@ -14,10 +14,6 @@ import { TemplateModule } from './domain/template/template.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisConfig } from './global/config/RedisConfig';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { AlarmService } from './global/alarm/Alarm.Service';
-
-
-
 
 @Module({
   imports: [
@@ -32,7 +28,7 @@ import { AlarmService } from './global/alarm/Alarm.Service';
       inject: [ConfigService],
       useFactory(config: ConfigService) {
         return config.getOrThrow('data-source');
-      },     
+      },
     }),
     CacheModule.registerAsync({ isGlobal: true, useClass: RedisConfig }),
     MailerModule.forRootAsync({
@@ -58,6 +54,5 @@ import { AlarmService } from './global/alarm/Alarm.Service';
     TemplateModule,
   ],
   controllers: [],
- 
 })
-export class AppModule { }
+export class AppModule {}
