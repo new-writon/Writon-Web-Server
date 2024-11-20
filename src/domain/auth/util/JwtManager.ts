@@ -71,30 +71,75 @@ export class JwtManager {
     }
   };
 
+  // public refreshVerify = async (requestToken: string, userId: number) => {
+  //   try {
+  //     let responseToken = (await this.loginTokenManager.getToken(
+  //       String(userId),
+  //     )) as string[]; // 배열 스트링
+  //     console.log(responseToken);
+  //     if (requestToken === null) {
+  //       responseToken = (await this.loginTokenManager.getToken(
+  //         String(userId),
+  //       )) as string[];
+  //       console.log(responseToken);
+  //     }
+
+  //     if (this.verifyToken(requestToken, responseToken)) {
+  //       jwt.verify(
+  //         requestToken.split('Bearer ')[1],
+  //         this.configService.get<string>('jwt.secret'),
+  //       ) as JwtPayload;
+  //       return { state: true, token: requestToken };
+  //     }
+  //     return { state: false };
+  //   } catch (err) {
+  //     return { state: false };
+  //   }
+  // };
+
   public refreshVerify = async (requestToken: string, userId: number) => {
-    try {
-      let responseToken = (await this.loginTokenManager.getToken(
-        String(userId),
-      )) as string[]; // 배열 스트링
-      console.log(responseToken);
-      if (requestToken === null) {
-        responseToken = (await this.loginTokenManager.getToken(
+    const maxRetries = 3;
+    let retryCount = 0;
+
+    while (retryCount < maxRetries) {
+      try {
+        const responseToken = (await this.loginTokenManager.getToken(
           String(userId),
         )) as string[];
-        console.log(responseToken);
-      }
+        console.log(
+          'Attempt',
+          retryCount + 1,
+          'Response Token:',
+          responseToken,
+        );
 
-      if (this.verifyToken(requestToken, responseToken)) {
-        jwt.verify(
-          requestToken.split('Bearer ')[1],
-          this.configService.get<string>('jwt.secret'),
-        ) as JwtPayload;
-        return { state: true, token: requestToken };
+        if (responseToken === null) {
+          retryCount++;
+          if (retryCount < maxRetries) {
+            console.log(
+              `Token is null, retrying... (${retryCount}/${maxRetries})`,
+            );
+            await new Promise((resolve) => setTimeout(resolve, 300)); // 1초 대기
+            continue;
+          }
+        }
+
+        if (this.verifyToken(requestToken, responseToken)) {
+          jwt.verify(
+            requestToken.split('Bearer ')[1],
+            this.configService.get<string>('jwt.secret'),
+          ) as JwtPayload;
+          return { state: true, token: requestToken };
+        }
+        return { state: false };
+      } catch (err) {
+        console.error('Error in refreshVerify:', err);
+        retryCount++;
       }
-      return { state: false };
-    } catch (err) {
-      return { state: false };
     }
+
+    console.error('Max retries reached, token still null');
+    return { state: false };
   };
 
   // private verifyToken(externalToken: string, internalToken: string): boolean{
