@@ -19,19 +19,9 @@ export class AlarmService {
         notification: {
           title: title,
           body: body,
-          actions: [
-            {
-              action: targetUrl,
-              title: 'Open Web',
-            },
-          ],
           data: {
             url: targetUrl,
           },
-          renotify: true,
-        },
-        fcmOptions: {
-          link: targetUrl,
         },
       },
     };
