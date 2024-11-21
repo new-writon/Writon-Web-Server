@@ -11,13 +11,11 @@ import { UserApi } from '../intrastructure/User.Api';
 import { AuthVerifyService } from '../../../global/exception/auth/AuthVerify.Service';
 import { LoginTokenManager } from '../util/LoginTokenManager';
 import { LocalLogin } from '../dto/request/LocalLogin';
-import { DataSource } from 'typeorm';
-import { Transactional } from '../../..//global/decorator/transaction';
+import { Transactional } from '../../../global/decorator/transaction';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly dataSource: DataSource,
     private readonly socialLogin: SocialLogin,
     private readonly jwtManager: JwtManager,
     private readonly loginTokenManager: LoginTokenManager,
@@ -25,7 +23,6 @@ export class AuthService {
     private readonly authVerifyService: AuthVerifyService,
   ) {}
 
-  @Transactional()
   public async kakaoLogin(
     organization: string,
     challengeId: number,
@@ -72,7 +69,6 @@ export class AuthService {
     );
   }
 
-  @Transactional()
   public async localLogin(loginLocal: LocalLogin): Promise<LoginResponse> {
     const userData: User =
       await this.userApi.requestUserDataBySocialNumberOrIdentifier(
@@ -116,24 +112,6 @@ export class AuthService {
       challengedConfirmation,
     );
   }
-
-  // private async proccessFirebaseTokenLogic(deviceType:string, userData:User, engineValue:string){
-  //     if(deviceType === 'phone'){
-  //         const firebaseTokenData = await this.userApi.requestFirebaseTokenByUserIdAndEngineValue(userData.getId(), engineValue);
-  //         const flag = checkData(firebaseTokenData);
-  //         await this.insertFirebaseTokenIfNotExists(flag, userData.getId(), engineValue);
-  //     }
-  // }
-
-  // private checkDeviceType(engineValue:string){
-  //     if(engineValue === "null") return 'computer';
-  //     return 'phone';
-  // }
-
-  // private async insertFirebaseTokenIfNotExists(flag:boolean, userId:number, engineValue:string){
-  //     if(!flag){ await this.userApi.executeInsertFirebaseToken(userId, engineValue);}
-  // }
-
   @Transactional()
   public async logout(
     userId: string,
@@ -143,10 +121,6 @@ export class AuthService {
     await this.loginTokenManager.deleteToken(userId, refreshToken);
     await this.userApi.executeDeleteFirebaseToken(Number(userId), engineValue);
   }
-
-  // private async deleteFirebaseTokenByDeviceType(deviceType:string, userId:number, engineValue:string){
-  //     if(deviceType === 'phone'){ await this.userApi.executeDeleteFirebaseToken(userId, engineValue);}
-  // }
 
   private checkOrganization(
     organization: string,

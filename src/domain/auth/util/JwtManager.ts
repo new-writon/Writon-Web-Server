@@ -77,6 +77,7 @@ export class JwtManager {
         String(userId),
       )) as string[]; // 배열 스트링
       console.log(responseToken);
+
       if (this.verifyToken(requestToken, responseToken)) {
         jwt.verify(
           requestToken.split('Bearer ')[1],
@@ -100,7 +101,7 @@ export class JwtManager {
     externalToken: string,
     internalTokens: string[],
   ): boolean {
-    if (internalTokens.includes(externalToken)) {
+    if (internalTokens !== null && internalTokens.includes(externalToken)) {
       return true;
     }
     return false;

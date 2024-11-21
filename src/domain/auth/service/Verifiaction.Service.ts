@@ -48,11 +48,7 @@ export class VerificationService {
     email: string,
   ): Promise<AuthenticationCodeResponse> {
     const verificationCode = random.generateRandom(100000, 999999);
-    await this.loginTokenManager.setToken(
-      email,
-      String(verificationCode),
-      180000,
-    );
+    await this.loginTokenManager.setToken(email, String(verificationCode), 180);
     await this.mailManager.sendCodeEmail(email, verificationCode);
     return AuthenticationCodeResponse.of(verificationCode);
   }
