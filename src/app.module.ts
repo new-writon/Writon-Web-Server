@@ -30,7 +30,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
         return config.getOrThrow('data-source');
       },
     }),
-    CacheModule.registerAsync({ useClass: RedisConfig }),
+    CacheModule.registerAsync({ isGlobal: true, useClass: RedisConfig }),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
