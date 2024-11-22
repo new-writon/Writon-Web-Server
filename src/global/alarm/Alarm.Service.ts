@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { firebase } from '../config/firebase';
 import { UserHelper } from 'src/domain/user/helper/User.Helper';
-import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Injectable()
 export class AlarmService {
