@@ -101,4 +101,8 @@ export class UserApi {
   public async executeDeleteFirebaseToken(userId: number, engineValue: string) {
     await this.userHelper.executeDeleteFirebaseToken(userId, engineValue);
   }
+
+  public async executeDeleteAuthToken(userId: number, token: string) {
+    await this.userHelper.executeDeleteAuthToken(userId, token);
+  }
 }

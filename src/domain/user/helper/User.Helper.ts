@@ -4,6 +4,7 @@ import { UserAffiliationOrganization } from '../dto/values/UserAffilatiionOrgani
 import { UserVerifyService } from '../../../global/exception/user/UserVerify.Service';
 import { FirebaseTokenRepository } from '../domain/repository/FirebaseToken.Repository';
 import { FirebaseToken } from '../domain/entity/FirebaseToken';
+import { AuthTokenRepository } from '../domain/repository/AuthToken.Repository';
 
 export class UserHelper {
   constructor(
@@ -11,6 +12,8 @@ export class UserHelper {
     private readonly userRepository: UserRepository,
     @Inject('firebasetokenImpl')
     private readonly firebaseTokenRepository: FirebaseTokenRepository,
+    @Inject('authtokenImpl')
+    private readonly authTokenRepository: AuthTokenRepository,
     private readonly userVerifyService: UserVerifyService,
   ) {}
 
@@ -111,5 +114,9 @@ export class UserHelper {
     content: string,
   ): Promise<void> {
     await this.userRepository.updateAlarm(userId, content);
+  }
+
+  public async executeDeleteAuthToken(userId: number, token: string) {
+    await this.authTokenRepository.deleteAuthToken(userId, token);
   }
 }
