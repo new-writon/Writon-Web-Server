@@ -20,9 +20,7 @@ export class AlarmService {
         notification: {
           title: title,
           body: body,
-          data: {
-            url: targetUrl,
-          },
+          data: targetUrl,
           actions: [
             {
               action: targetUrl,
