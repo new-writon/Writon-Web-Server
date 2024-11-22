@@ -9,7 +9,7 @@ import {
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 import { User } from './User';
 
-@Entity('firebase_tokens')
+@Entity('auth_token')
 export class AuthToken extends BaseEntity {
   constructor(token: string, userId: number) {
     super();

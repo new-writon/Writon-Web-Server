@@ -1,6 +1,5 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { FirebaseToken } from '../../entity/FirebaseToken';
 import { AuthToken } from '../../entity/AuthToken';
 import { AuthTokenRepository } from '../AuthToken.Repository';
 
@@ -13,7 +12,7 @@ export class AuthTokenDao
   implements AuthTokenRepository
 {
   constructor(private dataSource: DataSource) {
-    super(FirebaseToken, dataSource.createEntityManager());
+    super(AuthToken, dataSource.createEntityManager());
   }
 
   async deleteAuthToken(userId: number, token: string): Promise<void> {
@@ -21,7 +20,7 @@ export class AuthTokenDao
       .createQueryBuilder()
       .delete()
       .from(AuthToken)
-      .where('userId = :userId', { userId })
+      .where('user_id = :userId', { userId })
       .andWhere('token = :token', { token })
       .execute();
   }
@@ -39,8 +38,8 @@ export class AuthTokenDao
       .createQueryBuilder()
       .select('*')
       .from(AuthToken, 'at')
-      .where('userId = :userId', { userId })
-      .andWhere('token = :token', { token })
+      .where('at.user_id = :userId', { userId })
+      .andWhere('at.token = :token', { token })
       .execute();
   }
 }

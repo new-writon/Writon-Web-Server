@@ -12,6 +12,7 @@ import { AuthVerifyService } from '../../../global/exception/auth/AuthVerify.Ser
 import { LoginTokenManager } from '../util/LoginTokenManager';
 import { LocalLogin } from '../dto/request/LocalLogin';
 import { Transactional } from '../../../global/decorator/transaction';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
     private readonly loginTokenManager: LoginTokenManager,
     private readonly userApi: UserApi,
     private readonly authVerifyService: AuthVerifyService,
+    private readonly dataSource: DataSource,
   ) {}
 
   public async kakaoLogin(
