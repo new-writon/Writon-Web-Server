@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { firebase } from '../config/firebase';
 import { UserHelper } from 'src/domain/user/helper/User.Helper';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Injectable()
 export class AlarmService {
@@ -13,6 +14,7 @@ export class AlarmService {
     body: string,
     targetUrl: string,
   ) {
+    console.log(targetUrl);
     const message = {
       tokens: engineValues,
       webpush: {
@@ -22,6 +24,15 @@ export class AlarmService {
           data: {
             url: targetUrl,
           },
+          actions: [
+            {
+              action: targetUrl,
+              title: 'Open Web',
+            },
+          ],
+        },
+        fcmOptions: {
+          link: targetUrl,
         },
       },
     };
