@@ -3,6 +3,7 @@ import { Affiliation } from '../../../domain/user/domain/entity/Affiliation';
 import { AffiliationHelper } from '../../../domain/user/helper/Affiliation.Helper';
 import { UserHelper } from '../../user/helper/User.Helper';
 import { UserChallengeHelper } from '../../../domain/user/helper/UserChallenge.Helper';
+import { AuthToken } from '../../user/domain/entity/AuthToken';
 
 @Injectable()
 export class UserApi {
@@ -104,5 +105,16 @@ export class UserApi {
 
   public async executeDeleteAuthToken(userId: number, token: string) {
     await this.userHelper.executeDeleteAuthToken(userId, token);
+  }
+
+  public async executeInsertAuthToken(userId: number, token: string) {
+    await this.userHelper.executeInsertAuthToken(userId, token);
+  }
+
+  public async requestAuthTokenByUserIdAndToken(
+    userId: number,
+    token: string,
+  ): Promise<AuthToken> {
+    return this.userHelper.giveAuthTokenByUserIdAndToken(userId, token);
   }
 }

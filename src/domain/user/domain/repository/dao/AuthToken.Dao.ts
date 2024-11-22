@@ -25,4 +25,22 @@ export class AuthTokenDao
       .andWhere('token = :token', { token })
       .execute();
   }
+
+  async insertAuthToken(userId: number, token: string): Promise<void> {
+    const newAuthToken = AuthToken.createAuthToken(token, userId);
+    await this.save(newAuthToken);
+  }
+
+  async findAuthTokenByUserIdAndToken(
+    userId: number,
+    token: string,
+  ): Promise<AuthToken> {
+    return this.dataSource
+      .createQueryBuilder()
+      .select('*')
+      .from(AuthToken, 'at')
+      .where('userId = :userId', { userId })
+      .andWhere('token = :token', { token })
+      .execute();
+  }
 }

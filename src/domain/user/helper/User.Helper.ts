@@ -5,6 +5,7 @@ import { UserVerifyService } from '../../../global/exception/user/UserVerify.Ser
 import { FirebaseTokenRepository } from '../domain/repository/FirebaseToken.Repository';
 import { FirebaseToken } from '../domain/entity/FirebaseToken';
 import { AuthTokenRepository } from '../domain/repository/AuthToken.Repository';
+import { AuthToken } from '../domain/entity/AuthToken';
 
 export class UserHelper {
   constructor(
@@ -118,5 +119,19 @@ export class UserHelper {
 
   public async executeDeleteAuthToken(userId: number, token: string) {
     await this.authTokenRepository.deleteAuthToken(userId, token);
+  }
+
+  public async executeInsertAuthToken(userId: number, token: string) {
+    await this.authTokenRepository.insertAuthToken(userId, token);
+  }
+
+  public async giveAuthTokenByUserIdAndToken(
+    userId: number,
+    token: string,
+  ): Promise<AuthToken> {
+    return this.authTokenRepository.findAuthTokenByUserIdAndToken(
+      userId,
+      token,
+    );
   }
 }
