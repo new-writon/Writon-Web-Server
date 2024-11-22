@@ -89,6 +89,15 @@ export class UserHelper {
     await this.firebaseTokenRepository.deleteFirebaseToken(userId, engineValue);
   }
 
+  public async executeDeleteFirebaseTokens(
+    userId: number,
+    engineValues: string[],
+  ) {
+    await this.firebaseTokenRepository.deleteFirebaseTokens(
+      userId,
+      engineValues,
+    );
+  }
   public async giveFirebaseTokenWithUserChallengeId(
     userChallengeId: number,
   ): Promise<FirebaseToken[]> {

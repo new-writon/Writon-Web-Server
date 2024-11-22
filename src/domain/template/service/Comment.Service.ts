@@ -185,6 +185,7 @@ export class CommentService {
   ) {
     if (CommentStatus === 'others' && firebaseTokenChecking) {
       this.alarmService.sendPushAlarm(
+        userChallengeData.getAffiliation().getUser().getId(),
         userChallengeData
           .getAffiliation()
           .getUser()
@@ -192,7 +193,7 @@ export class CommentService {
           .map((data) => data.getEngineValue()),
         `${challengeData.getName()} 챌린지 댓글 알림`,
         `${affiliationData.getNickname()}님이 ${formatDateToPushAlarmStatus(userTemplateData.getTemplateDate())} 템플릿에 댓글을 달았습니다.`,
-        `https://www.writon.co.kr/detail/${userTemplateData.getId()}`,
+        `/detail/${userTemplateData.getId()}`,
       );
     }
   }

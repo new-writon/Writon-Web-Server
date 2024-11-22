@@ -98,6 +98,7 @@ export class LikeServie {
   ) {
     if (likeStatus === 'others' && firebaseTokenChecking) {
       this.alarmService.sendPushAlarm(
+        userChallengeData.getAffiliation().getUser().getId(),
         userChallengeData
           .getAffiliation()
           .getUser()
@@ -105,7 +106,7 @@ export class LikeServie {
           .map((data) => data.getEngineValue()),
         `${challengeData.getName()} 챌린지 좋아요 알림`,
         `${affiliationData.getNickname()}님이 ${formatDateToPushAlarmStatus(userTemplateData.getTemplateDate())} 템플릿에 좋아요를 표했습니다.`,
-        `https://www.writon.co.kr/detail/${userTemplateData.getId()}`,
+        `/detail/${userTemplateData.getId()}`,
       );
     }
   }
