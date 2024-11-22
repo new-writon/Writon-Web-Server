@@ -50,6 +50,12 @@ export class AuthService {
     );
 
     // 디비 토큰 추가 함수
+    const authToken = await this.userApi.requestAuthTokenByUserIdAndToken(
+      checkedUserData.getId(),
+      refreshToken,
+    );
+    const checkFlag = checkData(authToken);
+    await this.addAuthToken(checkFlag, checkedUserData.getId(), refreshToken);
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(organization, checkedUserData.getId()),
       this.checkOngoingChallenge(
@@ -93,6 +99,12 @@ export class AuthService {
     );
 
     // 디비 토큰 추가 함수
+    const authToken = await this.userApi.requestAuthTokenByUserIdAndToken(
+      userData.getId(),
+      refreshToken,
+    );
+    const checkFlag = checkData(authToken);
+    await this.addAuthToken(checkFlag, userData.getId(), refreshToken);
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(
         loginLocal.getOrganization(),
@@ -115,6 +127,12 @@ export class AuthService {
       affiliatedConfirmation,
       challengedConfirmation,
     );
+  }
+
+  private async addAuthToken(flag: boolean, userId: number, token: string) {
+    if (flag) {
+      await this.userApi.executeInsertAuthToken(userId, token);
+    }
   }
 
   @Transactional()
