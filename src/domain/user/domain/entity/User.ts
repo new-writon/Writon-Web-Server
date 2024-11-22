@@ -10,6 +10,7 @@ import { Affiliation } from './Affiliation';
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 import { InternalServerErrorException } from '@nestjs/common';
 import { FirebaseToken } from './FirebaseToken';
+import { AuthToken } from './AuthToken';
 
 @Index('User_identifier_key', ['identifier'], { unique: true })
 @Index('User_email_key', ['email'], { unique: true })
@@ -69,6 +70,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => FirebaseToken, (firebaseToken) => firebaseToken.user)
   firebaseTokens: Relation<FirebaseToken>[];
+
+  @OneToMany(() => AuthToken, (authToken) => authToken.user)
+  authTokens: Relation<FirebaseToken>[];
 
   public static createKakaoUser(
     email: string,
