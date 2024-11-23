@@ -12,6 +12,7 @@ import { AuthVerifyService } from '../../../global/exception/auth/AuthVerify.Ser
 import { LoginTokenManager } from '../util/LoginTokenManager';
 import { LocalLogin } from '../dto/request/LocalLogin';
 import { Transactional } from '../../../global/decorator/transaction';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
     private readonly loginTokenManager: LoginTokenManager,
     private readonly userApi: UserApi,
     private readonly authVerifyService: AuthVerifyService,
+    private readonly dataSource: DataSource,
   ) {}
 
   public async kakaoLogin(
@@ -48,6 +50,14 @@ export class AuthService {
       [refreshToken],
       30 * 24 * 60 * 60,
     );
+
+    // 디비 토큰 추가 함수
+    const authToken = await this.userApi.requestAuthTokenByUserIdAndToken(
+      checkedUserData.getId(),
+      refreshToken,
+    );
+    const checkFlag = checkData(authToken);
+    await this.addAuthToken(checkFlag, checkedUserData.getId(), refreshToken);
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(organization, checkedUserData.getId()),
       this.checkOngoingChallenge(
@@ -89,6 +99,14 @@ export class AuthService {
       [refreshToken],
       30 * 24 * 60 * 60,
     );
+
+    // 디비 토큰 추가 함수
+    const authToken = await this.userApi.requestAuthTokenByUserIdAndToken(
+      userData.getId(),
+      refreshToken,
+    );
+    const checkFlag = checkData(authToken);
+    await this.addAuthToken(checkFlag, userData.getId(), refreshToken);
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(
         loginLocal.getOrganization(),
@@ -112,6 +130,13 @@ export class AuthService {
       challengedConfirmation,
     );
   }
+
+  private async addAuthToken(flag: boolean, userId: number, token: string) {
+    if (flag) {
+      await this.userApi.executeInsertAuthToken(userId, token);
+    }
+  }
+
   @Transactional()
   public async logout(
     userId: string,
@@ -120,6 +145,8 @@ export class AuthService {
   ): Promise<void> {
     await this.loginTokenManager.deleteToken(userId, refreshToken);
     await this.userApi.executeDeleteFirebaseToken(Number(userId), engineValue);
+    // 디비 토큰 삭제
+    await this.userApi.executeDeleteAuthToken(Number(userId), refreshToken);
   }
 
   private checkOrganization(

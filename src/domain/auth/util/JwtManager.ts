@@ -73,21 +73,20 @@ export class JwtManager {
 
   public refreshVerify = async (requestToken: string, userId: number) => {
     try {
+      jwt.verify(
+        requestToken.split('Bearer ')[1],
+        this.configService.get<string>('jwt.secret'),
+      ) as JwtPayload;
       const responseToken = (await this.loginTokenManager.getToken(
         String(userId),
-      )) as string[]; // 배열 스트링
-      console.log(responseToken);
+      )) as string[];
 
       if (this.verifyToken(requestToken, responseToken)) {
-        jwt.verify(
-          requestToken.split('Bearer ')[1],
-          this.configService.get<string>('jwt.secret'),
-        ) as JwtPayload;
-        return { state: true, token: requestToken };
+        return { state: 'ok', token: requestToken };
       }
-      return { state: false };
+      return { state: 'not found', token: requestToken };
     } catch (err) {
-      return { state: false };
+      return { state: 'fail', token: undefined };
     }
   };
 

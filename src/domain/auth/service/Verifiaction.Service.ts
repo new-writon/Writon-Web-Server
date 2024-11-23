@@ -6,6 +6,8 @@ import { MailManager } from '../../../global/util/MailManager';
 import { Token } from '../dto/response/Token';
 import { AuthVerifyService } from '../../../global/exception/auth/AuthVerify.Service';
 import { LoginTokenManager } from '../util/LoginTokenManager';
+import { UserApi } from '../intrastructure/User.Api';
+import { AuthToken } from 'src/domain/user/domain/entity/AuthToken';
 
 @Injectable()
 export class VerificationService {
@@ -14,6 +16,7 @@ export class VerificationService {
     private readonly loginTokenManager: LoginTokenManager,
     private readonly mailManager: MailManager,
     private readonly authVerifyService: AuthVerifyService,
+    private readonly userApi: UserApi,
   ) {}
 
   public async reissueToken(
@@ -30,18 +33,57 @@ export class VerificationService {
       refreshToken,
       accessTokenDecodedData.userId,
     );
-    console.log(accessTokenVerifyResult);
-    console.log(accessTokenDecodedData);
-    console.log(refreshTokenVerifyesult);
+
+    const checkingResult = (await this.checkingRefreshToken(
+      refreshTokenVerifyesult,
+      accessTokenDecodedData.userId,
+    )) as unknown as AuthToken;
+
     this.authVerifyService.signVerifyToken(
       accessTokenVerifyResult.state,
       refreshTokenVerifyesult.state,
     );
+
     const newAccessToken = this.jwtManager.makeAccessToken(
       accessTokenDecodedData.userId,
       accessTokenDecodedData.role,
     );
-    return Token.of(newAccessToken, refreshTokenVerifyesult.token as string);
+
+    return Token.of(
+      newAccessToken,
+      refreshTokenVerifyesult.token === undefined
+        ? checkingResult.getToken()
+        : refreshTokenVerifyesult.token,
+    );
+  }
+
+  public async checkingRefreshToken(
+    refreshTokenVerifyesult:
+      | {
+          state: string;
+          token: string;
+        }
+      | {
+          state: string;
+          token?: undefined;
+        },
+    userId: number,
+  ) {
+    switch (refreshTokenVerifyesult.state) {
+      case 'not found':
+        return this.userApi.requestAuthTokenByUserIdAndToken(
+          userId,
+          refreshTokenVerifyesult.token,
+        );
+      case 'ok':
+        return refreshTokenVerifyesult;
+
+      case 'fail':
+        return this.userApi.executeDeleteAuthToken(
+          userId,
+          refreshTokenVerifyesult.token,
+        );
+    }
   }
 
   public async issueAuthenticationCode(
