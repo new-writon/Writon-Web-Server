@@ -44,7 +44,7 @@ export class AuthVerifyService {
 
   public signVerifyToken(
     accessTokenVerifyResult: boolean,
-    refreshTokenVerifyesult: boolean,
+    refreshTokenVerifyesult: string,
   ) {
     this.signVerifyAccessToken(accessTokenVerifyResult);
     this.signVerifyRefreshToken(refreshTokenVerifyesult);
@@ -54,7 +54,7 @@ export class AuthVerifyService {
     if (status) throw new AuthException(AuthErrorCode.NOT_EXPIRED);
   }
 
-  public signVerifyRefreshToken(status: boolean) {
-    if (!status) throw new AuthException(AuthErrorCode.LOGIN_AGAIN);
+  public signVerifyRefreshToken(status: string) {
+    if (status === 'fail') throw new AuthException(AuthErrorCode.LOGIN_AGAIN);
   }
 }
