@@ -37,25 +37,34 @@ import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service'
 import { FirebaseTokenDao } from './domain/repository/dao/FirebaseToken.Dao';
 import { FirebaseToken } from './domain/entity/FirebaseToken';
 import { Position } from './domain/entity/Position';
+import { AuthTokenDao } from './domain/repository/dao/AuthToken.Dao';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Affiliation, Organization, UserChallenge, FirebaseToken, Position]),
+    TypeOrmModule.forFeature([
+      User,
+      Affiliation,
+      Organization,
+      UserChallenge,
+      FirebaseToken,
+      Position,
+    ]),
     AuthModule,
     TemplateModule,
-    ChallengeModule
+    ChallengeModule,
   ],
   providers: [
-    UserService, 
-    {provide: 'userImpl', useClass: UserDao}, 
-    {provide: 'affiliationImpl', useClass: AffiliationDao},
-    {provide: 'userchallengeImpl', useClass: UserChallengeDao},
-    {provide: 'organizationImpl', useClass: OrganizationDao},
-    {provide: 'firebasetokenImpl', useClass: FirebaseTokenDao},
-    LoginTokenManager, 
+    UserService,
+    { provide: 'userImpl', useClass: UserDao },
+    { provide: 'affiliationImpl', useClass: AffiliationDao },
+    { provide: 'userchallengeImpl', useClass: UserChallengeDao },
+    { provide: 'organizationImpl', useClass: OrganizationDao },
+    { provide: 'firebasetokenImpl', useClass: FirebaseTokenDao },
+    { provide: 'authtokenImpl', useClass: AuthTokenDao },
+    LoginTokenManager,
     MailManager,
-    AuthService, 
-    UserChallengeService, 
+    AuthService,
+    UserChallengeService,
     AffiliationService,
     OrganizationService,
     UserChallengeHelper,
@@ -68,10 +77,22 @@ import { Position } from './domain/entity/Position';
     DataMapperService,
     CheeringPhraseService,
     CacheImpl,
-    UserVerifyService
+    UserVerifyService,
   ],
 
-  controllers:[UserController, UserChallengeController, AffiliationController,CheeringPhraseController, OrgnizationController],
-  exports:[UserChallengeHelper, AffiliationHelper, UserHelper, OrganizationHelper, UserVerifyService]
+  controllers: [
+    UserController,
+    UserChallengeController,
+    AffiliationController,
+    CheeringPhraseController,
+    OrgnizationController,
+  ],
+  exports: [
+    UserChallengeHelper,
+    AffiliationHelper,
+    UserHelper,
+    OrganizationHelper,
+    UserVerifyService,
+  ],
 })
 export class UserModule {}
