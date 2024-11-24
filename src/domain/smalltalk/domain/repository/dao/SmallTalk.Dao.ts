@@ -73,12 +73,18 @@ export class SmallTalkDao
     challengeId: number,
     date: string,
   ): Promise<SmallTalk[]> {
-    return this.dataSource
-      .createQueryBuilder()
-      .select('st')
-      .from(SmallTalk, 'st')
-      .where('DATE(st.created_at) = :date', { date })
-      .andWhere('st.challenge_id = :challengeId', { challengeId })
-      .getMany();
+    const startDate = `${date} 00:00:00`;
+    const endDate = `${date} 23:59:59`;
+    return (
+      this.dataSource
+        .createQueryBuilder()
+        .select('st')
+        .from(SmallTalk, 'st')
+        // .where('DATE(st.created_at) = :date', { date })
+        .where('st.created_at >= :startDate', { startDate })
+        .andWhere('st.created_at <= :endDate', { endDate })
+        .andWhere('st.challenge_id = :challengeId', { challengeId })
+        .getMany()
+    );
   }
 }
