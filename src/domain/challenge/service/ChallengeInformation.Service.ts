@@ -67,7 +67,9 @@ export class ChallengeInformationService {
   }
 
   private sortChallnegeDay(challengeDay: ChallengeDay[]) {
-    return challengeDay.map((data) => data.getDay());
+    return challengeDay
+      .filter((data) => new Date(data.getDay()) < new Date())
+      .map((data) => data.getDay());
   }
 
   private verifyChallengeStatus(challengeData: Challenge[]): boolean {
