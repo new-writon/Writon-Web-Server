@@ -2,9 +2,14 @@ import { InternalServerErrorException } from '@nestjs/common';
 
 export class CalendarData {
   private calendarData: CalendarData[];
+  private calendarWithGrayData: CalendarData[];
 
-  constructor(calendarData: CalendarData[]) {
+  constructor(
+    calendarData: CalendarData[],
+    calendarWithGrayData: CalendarData[],
+  ) {
     this.setCalendarData(calendarData);
+    this.setCalendarWithGrayData(calendarWithGrayData);
   }
 
   setCalendarData(calendarData: CalendarData[]) {
@@ -15,7 +20,18 @@ export class CalendarData {
     this.calendarData = calendarData;
   }
 
-  public static of(calendarData: CalendarData[]) {
-    return new CalendarData(calendarData);
+  setCalendarWithGrayData(calendarWithGrayData: CalendarData[]) {
+    if (calendarWithGrayData === null)
+      throw new InternalServerErrorException(
+        `${__dirname} : calendarData값이 존재하지 않습니다.`,
+      );
+    this.calendarWithGrayData = calendarWithGrayData;
+  }
+
+  public static of(
+    calendarData: CalendarData[],
+    calendarWithGrayData: CalendarData[],
+  ) {
+    return new CalendarData(calendarData, calendarWithGrayData);
   }
 }
