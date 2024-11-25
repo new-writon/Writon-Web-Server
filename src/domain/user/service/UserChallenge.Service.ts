@@ -4,7 +4,7 @@ import { Affiliation } from '../domain/entity/Affiliation';
 import { checkData } from '../../auth/util/checker';
 import { TemplateStatus } from '../dto/response/TemplateStatus';
 import { UserChallengeSituation } from '../dto/response/UserChallengeSituation';
-import { sortCallendarDateBadge } from '../util/badge';
+import { sortCallendarBadge, sortCallendarBadgeWithGray } from '../util/badge';
 import { CalendarData } from '../dto/response/CalendarData';
 import { ChallengeApi } from '../infrastruture/Challenge.Api';
 import { ChallengeInformation } from '../../challenge/dto/values/ChallengeInformation';
@@ -275,11 +275,16 @@ export class UserChallengeService {
       await this.templateApi.requestUserTemplateByUserChallengeId(
         userChallengeData.getId(),
       );
-    const calendarData: CalendarData[] = sortCallendarDateBadge(
+    const calendarWithGrayData: CalendarData[] = sortCallendarBadgeWithGray(
       challengeDayData,
       userTemplateData,
     );
-    return CalendarData.of(calendarData);
+
+    const calendarData: CalendarData[] = sortCallendarBadge(
+      challengeDayData,
+      userTemplateData,
+    );
+    return CalendarData.of(calendarData, calendarWithGrayData);
   }
 
   public async bringChallengesPerOrganization(
