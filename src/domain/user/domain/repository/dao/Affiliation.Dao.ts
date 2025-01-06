@@ -73,7 +73,11 @@ export class AffiliationDao
       ])
       .from(Affiliation, 'a')
       .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
-      .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id')
+      .innerJoin(
+        UserChallenge,
+        'uc',
+        'uc.affiliation_id = a.affiliation_id AND uc.withdrawn = 0',
+      )
       .where('a.user_id = :userId', { userId })
       .orderBy('uc.created_at', 'DESC')
       .getRawMany();
