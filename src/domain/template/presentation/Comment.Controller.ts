@@ -97,19 +97,15 @@ export class CommentController {
     return SuccessResponseDto.of(result);
   }
 
-  // @Delete()
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // public async eraseComment(
-  //   @Body() commentDelete: CommentDelete,
-  //   @CurrentUser() user: User,
-  // ): Promise<SuccessResponseDto<void>> {
-  //   await this.commentService.eraseComment(
-  //     user.userId,
-  //     commentDelete.getOrganization(),
-  //     commentDelete.getCommentId(),
-  //   );
-  //   this.logger.log('댓글 삭제 완료');
-  //   return SuccessResponseDto.of();
-  // }
+  @Delete()
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async eraseComment(
+    @Body() commentDelete: CommentDelete,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<void>> {
+    await this.commentService.execute('DELETE_COMMENT', commentDelete, user.userId);
+    this.logger.log('댓글 삭제 완료');
+    return SuccessResponseDto.of();
+  }
 }

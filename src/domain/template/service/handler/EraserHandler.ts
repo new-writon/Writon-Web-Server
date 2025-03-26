@@ -1,0 +1,27 @@
+import { Injectable } from '@nestjs/common';
+import { CommentHandler } from './CommentHandler';
+import { CommentDelete } from '../../dto/request/CommentDelete';
+import { UserApi } from '../../infrastructure/User.Api';
+import { CommentHelper } from '../../helper/Comment.Helper';
+
+@Injectable()
+export class EraserHandler implements CommentHandler<[CommentDelete, number], Promise<void>> {
+  operation = 'DELETE_COMMENT';
+  constructor(
+    private readonly userApi: UserApi,
+    private readonly commentHelper: CommentHelper,
+  ) {}
+
+  async handle(request: [CommentDelete, number]): Promise<void> {
+    const [commentDelete, userId] = request;
+    console.log(commentDelete);
+    const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(
+      userId,
+      commentDelete.getOrganization(),
+    );
+    await this.commentHelper.executeDeleteComment(
+      affiliationData.getAffiliationId(),
+      commentDelete.getCommentId(),
+    );
+  }
+}
