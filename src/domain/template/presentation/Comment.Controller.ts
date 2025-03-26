@@ -69,22 +69,17 @@ export class CommentController {
     return SuccessResponseDto.of();
   }
 
-  // @Patch()
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // public async modifyComment(
-  //   @Body() commentUpdate: CommentUpdate,
-  //   @CurrentUser() user: User,
-  // ): Promise<SuccessResponseDto<void>> {
-  //   await this.commentService.modifyComment(
-  //     user.userId,
-  //     commentUpdate.getOrganization(),
-  //     commentUpdate.getCommentId(),
-  //     commentUpdate.getContent(),
-  //   );
-  //   this.logger.log('댓글 수정 완료');
-  //   return SuccessResponseDto.of();
-  // }
+  @Patch()
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async modifyComment(
+    @Body() commentUpdate: CommentUpdate,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<void>> {
+    await this.commentService.execute('UPDATE_COMMENT', commentUpdate, user.userId);
+    this.logger.log('댓글 수정 완료');
+    return SuccessResponseDto.of();
+  }
 
   // @Post()
   // @HttpCode(200)

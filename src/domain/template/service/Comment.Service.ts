@@ -33,7 +33,10 @@ export class CommentService {
     this.handleMap.set(handler.operation, handler);
   }
 
-  async execute<Request, Response>(operation: string, request: Request): Promise<Response> {
+  async execute<Request, Response>(
+    operation: string,
+    ...request: Request extends unknown[] ? Request : [Request]
+  ): Promise<Response> {
     const handler = this.handleMap.get(operation);
     if (!handler) throw Error('Handler Empty Error');
     return handler.handle(request) as Response;
@@ -137,10 +140,6 @@ export class CommentService {
   //   return customedCommentData;
   // }
 
-  // public async checkComment(commentId: number) {
-  //   await this.commentHelper.executeUpdateCommentCheck(commentId);
-  // }
-
   // public async penetrateComment(
   //   userId: number,
   //   commentInsert: CommentInsert,
@@ -205,24 +204,6 @@ export class CommentService {
   //       `/detail/${userTemplateData.getId()}`,
   //     );
   //   }
-  // }
-
-  // public async modifyComment(
-  //   userId: number,
-  //   organization: string,
-  //   commentId: number,
-  //   content: string,
-  // ): Promise<void> {
-  //   const affiliationData =
-  //     await this.userApi.requestAffiliationByUserIdAndOrganization(
-  //       userId,
-  //       organization,
-  //     );
-  //   await this.commentHelper.executeUpdateComment(
-  //     affiliationData.getAffiliationId(),
-  //     commentId,
-  //     content,
-  //   );
   // }
 
   // public async eraseComment(
