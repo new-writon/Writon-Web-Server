@@ -19,6 +19,7 @@ import { UserTemplate } from '../domain/entity/UserTemplate';
 import { checkFirebaseToken } from '../util/checker';
 import { CommentHandler } from './handler/CommentHandler';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { CommentOperation } from './types/comment';
 
 @Injectable()
 export class CommentService {
@@ -34,7 +35,7 @@ export class CommentService {
   }
 
   async execute<Request extends unknown[] | unknown, Response>(
-    operation: string,
+    operation: CommentOperation,
     ...request: Request extends unknown[] ? Request : [Request]
   ): Promise<Response> {
     const handler = this.handleMap.get(operation);

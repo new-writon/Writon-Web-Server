@@ -27,7 +27,7 @@ import { LikeDao } from './domain/repository/dao/Like.Dao';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
-import { CommentChecker } from './service/handler/CheckerHandler';
+import { CommentChecker } from './service/handler/CommentChecker';
 import { CommentEditor } from './service/handler/CommentEditor';
 import { CommentEraser } from './service/handler/CommentEraser';
 import { CommentRegistrant } from './service/handler/CommentRegistrant';

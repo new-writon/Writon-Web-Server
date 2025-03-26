@@ -7,12 +7,13 @@ import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { checkData } from '../../util/checker';
 import { DataMapperService } from '../../domain/service/DataMappper.Service';
 import { Comment } from '../../domain/entity/Comment';
+import { CommentOperation } from '../types/comment';
 
 @Injectable()
 export class MyCommentCollector
   implements CommentHandler<[string, number, number], Promise<MyComment[]>>
 {
-  operation = 'SELECT_MY_COMMENT';
+  operation: CommentOperation = 'SELECT_MY_COMMENT';
   constructor(
     private readonly commentHelper: CommentHelper,
     private readonly userApi: UserApi,

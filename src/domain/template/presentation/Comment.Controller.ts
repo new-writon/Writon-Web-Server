@@ -62,7 +62,7 @@ export class CommentController {
   @Patch('/check')
   @HttpCode(200)
   public async checkComment(@Body() commentCheck: CommentCheck): Promise<SuccessResponseDto<void>> {
-    await this.commentService.execute('COMMENT_CHECK', commentCheck);
+    await this.commentService.execute('CHECK_COMMENT', commentCheck);
     this.logger.log('댓글 확인 체킹 완료');
     return SuccessResponseDto.of();
   }

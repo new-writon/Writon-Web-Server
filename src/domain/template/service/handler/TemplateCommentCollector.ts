@@ -8,12 +8,13 @@ import { Comment } from '../../domain/entity/Comment';
 import { sortCompanyPublic } from '../../util/data';
 import { CommentInformation } from '../../dto/response/CommentInformation';
 import { formatDate } from '../../util/date';
+import { CommentOperation } from '../types/comment';
 
 @Injectable()
 export class TemplateCommentCollector
   implements CommentHandler<[string, number, number], Promise<CommentWithReplies[]>>
 {
-  operation = 'SELECT_TEMPLATE_COMMENT';
+  operation: CommentOperation = 'SELECT_TEMPLATE_COMMENT';
   constructor(
     private readonly commentHelper: CommentHelper,
     private readonly userApi: UserApi,

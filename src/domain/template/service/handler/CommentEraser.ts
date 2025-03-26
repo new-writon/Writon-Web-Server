@@ -3,10 +3,11 @@ import { CommentHandler } from './CommentHandler';
 import { CommentDelete } from '../../dto/request/CommentDelete';
 import { UserApi } from '../../infrastructure/User.Api';
 import { CommentHelper } from '../../helper/Comment.Helper';
+import { CommentOperation } from '../types/comment';
 
 @Injectable()
 export class CommentEraser implements CommentHandler<[CommentDelete, number], Promise<void>> {
-  operation = 'DELETE_COMMENT';
+  operation: CommentOperation = 'DELETE_COMMENT';
   constructor(
     private readonly userApi: UserApi,
     private readonly commentHelper: CommentHelper,

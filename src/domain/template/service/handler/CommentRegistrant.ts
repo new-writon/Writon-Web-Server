@@ -13,12 +13,13 @@ import { UserTemplate } from '../../domain/entity/UserTemplate';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
 import { formatDateToPushAlarmStatus } from '../../util/date';
+import { CommentOperation } from '../types/comment';
 
 @Injectable()
 export class CommentRegistrant
   implements CommentHandler<[CommentInsert, number], Promise<CommentId>>
 {
-  operation = 'INSERT_COMMENT';
+  operation: CommentOperation = 'INSERT_COMMENT';
   constructor(
     private readonly userApi: UserApi,
     private readonly userTemplateHelper: UserTemplateHelper,
