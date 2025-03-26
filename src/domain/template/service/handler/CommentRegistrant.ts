@@ -15,7 +15,7 @@ import { AlarmService } from 'src/global/alarm/Alarm.Service';
 import { formatDateToPushAlarmStatus } from '../../util/date';
 
 @Injectable()
-export class RegistrantHandler
+export class CommentRegistrant
   implements CommentHandler<[CommentInsert, number], Promise<CommentId>>
 {
   operation = 'INSERT_COMMENT';

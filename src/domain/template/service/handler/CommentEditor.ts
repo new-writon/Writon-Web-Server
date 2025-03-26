@@ -6,7 +6,7 @@ import { UserApi } from '../../infrastructure/User.Api';
 import { CommentHelper } from '../../helper/Comment.Helper';
 
 @Injectable()
-export class EditorHandler implements CommentHandler<[CommentUpdate, number], void> {
+export class CommentEditor implements CommentHandler<[CommentUpdate, number], void> {
   operation = 'UPDATE_COMMENT';
   constructor(
     private readonly userApi: UserApi,

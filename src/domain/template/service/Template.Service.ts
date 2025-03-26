@@ -41,10 +41,7 @@ export class TemplateService {
     visibility: boolean,
   ): Promise<TemplateContent[]> {
     const [affiliationData, userTemplateData] = await Promise.all([
-      this.userApi.requestAffiliationAndUserByUserIdAndOrganization(
-        userId,
-        organization,
-      ),
+      this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
       this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(
         userTemplateId,
         visibility,
@@ -59,8 +56,7 @@ export class TemplateService {
     userTemplateData: UserTemplate,
     affiliationData: Affiliation,
   ) {
-    const questionIds =
-      this.dataMapperService.extractQuestionId(userTemplateData);
+    const questionIds = this.dataMapperService.extractQuestionId(userTemplateData);
     const [questionData, userChallengeData] = await Promise.all([
       this.challengeApi.requestQuestionById(questionIds),
       this.userApi.requestUserChallengeAndAffiliationAndUserAndFirebaseTokenById(
@@ -73,9 +69,7 @@ export class TemplateService {
       questionData,
       userChallengeData,
     );
-    const sortedCompanyData = sortCompanyPublic(
-      mergedForOneTemplate,
-    ) as TemplateContent[];
+    const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
     return sortedCompanyData;
   }
 
@@ -115,13 +109,8 @@ export class TemplateService {
     date: Date,
   ): Promise<TemplateInformation | []> {
     const [affiliationData, userChallengeDatas] = await Promise.all([
-      this.userApi.requestAffiliationAndUserByUserIdAndOrganization(
-        userId,
-        organization,
-      ),
-      this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(
-        challengeId,
-      ),
+      this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
+      this.userApi.requestUserChallengeAndAffiliationAndUserByChallengeId(challengeId),
     ]);
     const userChallengeIds = this.extractUserChallengeId(userChallengeDatas);
     const userTemplateData =
@@ -143,12 +132,9 @@ export class TemplateService {
     affiliationData: Affiliation,
     userChallengeDatas: UserChallenge[],
   ) {
-    const questionIds =
-      this.dataMapperService.extractQuestionIds(userTemplateData);
-    const questionData =
-      await this.challengeApi.requestQuestionById(questionIds);
-    const challengeCompleteCount =
-      this.dataMapperService.extractCompleteCount(userTemplateData);
+    const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
+    const questionData = await this.challengeApi.requestQuestionById(questionIds);
+    const challengeCompleteCount = this.dataMapperService.extractCompleteCount(userTemplateData);
     const mergedForManyTemplates = this.mergeForAllManyTemplates(
       affiliationData,
       userTemplateData,
@@ -171,8 +157,7 @@ export class TemplateService {
           .getQuestionContents()
           .find((content) => content.getQuestionId() === questionData.getId());
         const userChallengeData = userChallengeDatas.find(
-          (content) =>
-            content.getId() === userTemplateData.getUserChallengeId(),
+          (content) => content.getId() === userTemplateData.getUserChallengeId(),
         );
         const myLikeSign = userTemplateData.likes.some(
           (like) => like.getAffiliationId() === affiliationData.getId(),
@@ -209,17 +194,15 @@ export class TemplateService {
     organization: string,
     challengeId: number,
   ): Promise<TemplateInformation | []> {
-    const affiliationData =
-      await this.userApi.requestAffiliationAndUserByUserIdAndOrganization(
-        userId,
-        organization,
-      );
+    const affiliationData = await this.userApi.requestAffiliationAndUserByUserIdAndOrganization(
+      userId,
+      organization,
+    );
     // 검증하기
-    const userChallengeData =
-      await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(
-        affiliationData.getId(),
-        challengeId,
-      );
+    const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(
+      affiliationData.getId(),
+      challengeId,
+    );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
     const userTemplateData =
       await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(
@@ -234,10 +217,8 @@ export class TemplateService {
     userTemplateData: UserTemplate[],
     affiliationData: Affiliation,
   ) {
-    const questionIds =
-      this.dataMapperService.extractQuestionIds(userTemplateData);
-    const questionData =
-      await this.challengeApi.requestQuestionById(questionIds);
+    const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
+    const questionData = await this.challengeApi.requestQuestionById(questionIds);
     const mergedForManyTemplates = this.mergeForMyManyTemplates(
       affiliationData,
       userTemplateData,
@@ -284,31 +265,20 @@ export class TemplateService {
 
   @MutexAlgorithm()
   @Transactional()
-  public async penetrateTemplate(
-    userId: number,
-    templateWrite: TemplateWrite,
-  ): Promise<void> {
-    const [userChallengeData, userTemplateComplete, questionDatas] =
-      await Promise.all([
-        // 검증하기
-        this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
-          templateWrite.getChallengeId(),
-          userId,
-          templateWrite.getOrganization(),
-        ),
-        this.signUserChallengeComplete(
-          templateWrite.getChallengeId(),
-          templateWrite.getDate(),
-        ),
-        this.challengeApi.requestQuestionsByChallengeId(
-          templateWrite.getChallengeId(),
-        ),
-      ]);
+  public async penetrateTemplate(userId: number, templateWrite: TemplateWrite): Promise<void> {
+    const [userChallengeData, userTemplateComplete, questionDatas] = await Promise.all([
+      // 검증하기
+      this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
+        templateWrite.getChallengeId(),
+        userId,
+        templateWrite.getOrganization(),
+      ),
+      this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate()),
+      this.challengeApi.requestQuestionsByChallengeId(templateWrite.getChallengeId()),
+    ]);
     this.userVerifyService.verifyUserChallenge(userChallengeData);
-    const questionIds =
-      this.dataMapperService.extractQuestionIdFromQuetion(questionDatas);
-    const templateWriteQuestionIds =
-      this.extractTemplateWriteQuestionId(templateWrite);
+    const questionIds = this.dataMapperService.extractQuestionIdFromQuetion(questionDatas);
+    const templateWriteQuestionIds = this.extractTemplateWriteQuestionId(templateWrite);
     // this.templateVerifyService.verifyQuestionId(
     //   this.checkQuestionContain(questionIds, templateWriteQuestionIds),
     // );
@@ -317,35 +287,25 @@ export class TemplateService {
         userChallengeData.getId(),
         templateWrite.getDate(),
       );
-    this.templateVerifyService.verifyExistUserTemplate(
-      existingUserTemplateData,
+    this.templateVerifyService.verifyExistUserTemplate(existingUserTemplateData);
+    const userTemplateData = await this.userTemplateHelper.exexuteInsertUserTemplate(
+      userChallengeData.getId(),
+      new Date(templateWrite.getDate()),
+      userTemplateComplete,
     );
-    const userTemplateData =
-      await this.userTemplateHelper.exexuteInsertUserTemplate(
-        userChallengeData.getId(),
-        new Date(templateWrite.getDate()),
-        userTemplateComplete,
-      );
     const changedTemplate = this.changeUserTemplateType(
       templateWrite.getTemplateContent(),
       userTemplateData.getId(),
     );
-    await this.questionContentHelper.executeInsertQuestionContent(
-      changedTemplate,
-    );
+    await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
   }
 
-  private checkQuestionContain(
-    relativeQuestion: number[],
-    targetQuestion: number[],
-  ) {
+  private checkQuestionContain(relativeQuestion: number[], targetQuestion: number[]) {
     return relativeQuestion.every((data) => targetQuestion.includes(data));
   }
 
   private extractTemplateWriteQuestionId(templateWrite: TemplateWrite) {
-    return templateWrite
-      .getTemplateContent()
-      .map((data) => data.getQuestionId());
+    return templateWrite.getTemplateContent().map((data) => data.getQuestionId());
   }
 
   private changeUserTemplateType(
@@ -367,16 +327,9 @@ export class TemplateService {
     userTemplateId: number,
     templateContent: Array<WriteTemplateContent>,
   ): Promise<void> {
-    await this.questionContentHelper.executeDeleteQuestionContent(
-      userTemplateId,
-    );
-    const changedTemplate = this.changeUserTemplateType(
-      templateContent,
-      userTemplateId,
-    );
-    await this.questionContentHelper.executeInsertQuestionContent(
-      changedTemplate,
-    );
+    await this.questionContentHelper.executeDeleteQuestionContent(userTemplateId);
+    const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateId);
+    await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
   }
 
   public async bringNotify(
@@ -400,32 +353,22 @@ export class TemplateService {
       !userTemplateAndCommentAndLikeData.some(
         (item) => item.comments && item.comments.length > 0,
       ) ||
-      !userTemplateAndCommentAndLikeData.some(
-        (item) => item.likes && item.likes.length > 0,
-      );
+      !userTemplateAndCommentAndLikeData.some((item) => item.likes && item.likes.length > 0);
     return hasNoData
       ? []
-      : this.proccessNotifyData(
-          userTemplateAndCommentAndLikeData,
-          userChallengeAndAffiliationData,
-        );
+      : this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData);
   }
 
   private async proccessNotifyData(
     userTemplateAndCommentAndLikeData: UserTemplate[],
     userChallengeAndAffiliationData: UserChallenge,
   ) {
-    const extractAffiliationId =
-      this.extractAffiliationIdAccordingToCommentAndLike(
-        userTemplateAndCommentAndLikeData,
-      );
+    const extractAffiliationId = this.extractAffiliationIdAccordingToCommentAndLike(
+      userTemplateAndCommentAndLikeData,
+    );
     const [commentAffiliationData, likeAffiliationData] = await Promise.all([
-      this.userApi.requestAffiliationById(
-        extractAffiliationId.commentAffiliationIds,
-      ),
-      this.userApi.requestAffiliationById(
-        extractAffiliationId.likeAffiliationIds,
-      ),
+      this.userApi.requestAffiliationById(extractAffiliationId.commentAffiliationIds),
+      this.userApi.requestAffiliationById(extractAffiliationId.likeAffiliationIds),
     ]);
     const sortedComment = this.makeCommentShapeAccordingToUserTemplate(
       userTemplateAndCommentAndLikeData,
@@ -437,19 +380,13 @@ export class TemplateService {
       userChallengeAndAffiliationData,
       likeAffiliationData,
     );
-    const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(
-      sortedComment,
-      sortedLike,
-    );
+    const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
     return mergedCommentAndLike;
   }
 
-  private extractAffiliationIdAccordingToCommentAndLike(
-    userTemplate: UserTemplate[],
-  ) {
-    const commentAffiliationIds: number[] = userTemplate.flatMap(
-      (userTemplate) =>
-        userTemplate.comments.map((comment) => comment.getAffiliationId()),
+  private extractAffiliationIdAccordingToCommentAndLike(userTemplate: UserTemplate[]) {
+    const commentAffiliationIds: number[] = userTemplate.flatMap((userTemplate) =>
+      userTemplate.comments.map((comment) => comment.getAffiliationId()),
     );
     const likeAffiliationIds: number[] = userTemplate.flatMap((userTemplate) =>
       userTemplate.likes.map((like) => like.getAffiliationId()),
@@ -472,8 +409,7 @@ export class TemplateService {
       userTemplate.comments
         .filter(
           (comment) =>
-            comment.getAffiliationId() !==
-            userChallengeAndAffiliationData.affiliation.getId(),
+            comment.getAffiliationId() !== userChallengeAndAffiliationData.affiliation.getId(),
         )
         .map((comment) => {
           const matchedAffiliation = affiliation.find(
@@ -501,9 +437,7 @@ export class TemplateService {
     return userTemplate.flatMap((userTemplate) =>
       userTemplate.likes
         .filter(
-          (like) =>
-            like.getAffiliationId() !==
-            userChallengeAndAffiliationData.affiliation.getId(),
+          (like) => like.getAffiliationId() !== userChallengeAndAffiliationData.affiliation.getId(),
         )
         .map((like) => {
           const matchedAffiliation = affiliation.find(
@@ -522,14 +456,8 @@ export class TemplateService {
     );
   }
 
-  private mergeAndSortTimeCommentAndLike(
-    comments: GetCommentNotify[],
-    likes: GetLikeNotify[],
-  ) {
-    const mergedArray: (GetCommentNotify | GetLikeNotify)[] = [
-      ...comments,
-      ...likes,
-    ];
+  private mergeAndSortTimeCommentAndLike(comments: GetCommentNotify[], likes: GetLikeNotify[]) {
+    const mergedArray: (GetCommentNotify | GetLikeNotify)[] = [...comments, ...likes];
     mergedArray.sort((a, b) => {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
@@ -544,12 +472,7 @@ export class TemplateService {
     ) {
       complete = false;
     }
-    if (
-      !(await this.challengeApi.requestChallengeDayByChallengeIdAndDate(
-        challengeId,
-        date,
-      ))
-    ) {
+    if (!(await this.challengeApi.requestChallengeDayByChallengeIdAndDate(challengeId, date))) {
       complete = false;
     }
     return complete;

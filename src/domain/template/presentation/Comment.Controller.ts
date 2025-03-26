@@ -27,39 +27,37 @@ export class CommentController {
   private readonly logger = new Logger(CommentController.name);
   constructor(private readonly commentService: CommentService) {}
 
-  // @Get('/:organization/challengeId/:challengeId')
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // public async bringMyComment(
-  //   @Param('organization') organization: string,
-  //   @Param('challengeId') challengeId: number,
-  //   @CurrentUser() user: User,
-  // ): Promise<SuccessResponseDto<MyComment[]>> {
-  //   const result = await this.commentService.bringMyComment(
-  //     user.userId,
-  //     organization,
-  //     challengeId,
-  //   );
-  //   this.logger.log('챌린지에 따른 내가 단 댓글 조회 완료');
-  //   return SuccessResponseDto.of(result);
-  // }
+  @Get('/:organization/challengeId/:challengeId')
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringMyComment(
+    @Param('organization') organization: string,
+    @Param('challengeId') challengeId: number,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<MyComment[]>> {
+    const result = await this.commentService.execute<
+      [string, number, number],
+      Promise<MyComment[]>
+    >('SELECT_MY_COMMENT', organization, challengeId, user.userId);
+    this.logger.log('챌린지에 따른 내가 단 댓글 조회 완료');
+    return SuccessResponseDto.of(result);
+  }
 
-  // @Get('/:organization/userTemplateId/:userTemplateId')
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // public async bringCommentInformation(
-  //   @Param('userTemplateId') userTemplateId: number,
-  //   @Param('organization') organization: string,
-  //   @CurrentUser() user: User,
-  // ): Promise<SuccessResponseDto<CommentWithReplies[]>> {
-  //   const result = await this.commentService.bringCommentInformation(
-  //     user.userId,
-  //     organization,
-  //     userTemplateId,
-  //   );
-  //   this.logger.log('템플릿 댓글 조회 완료');
-  //   return SuccessResponseDto.of(result);
-  // }
+  @Get('/:organization/userTemplateId/:userTemplateId')
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async bringCommentInformation(
+    @Param('userTemplateId') userTemplateId: number,
+    @Param('organization') organization: string,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<CommentWithReplies[]>> {
+    const result = await this.commentService.execute<
+      [string, number, number],
+      Promise<CommentWithReplies[]>
+    >('SELECT_TEMPLATE_COMMENT', organization, userTemplateId, user.userId);
+    this.logger.log('템플릿 댓글 조회 완료');
+    return SuccessResponseDto.of(result);
+  }
 
   @Patch('/check')
   @HttpCode(200)

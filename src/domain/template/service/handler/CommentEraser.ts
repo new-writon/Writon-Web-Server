@@ -5,7 +5,7 @@ import { UserApi } from '../../infrastructure/User.Api';
 import { CommentHelper } from '../../helper/Comment.Helper';
 
 @Injectable()
-export class EraserHandler implements CommentHandler<[CommentDelete, number], Promise<void>> {
+export class CommentEraser implements CommentHandler<[CommentDelete, number], Promise<void>> {
   operation = 'DELETE_COMMENT';
   constructor(
     private readonly userApi: UserApi,

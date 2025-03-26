@@ -4,7 +4,7 @@ import { CommentCheck } from '../../dto/request/CommentCheck';
 import { CommentHelper } from '../../helper/Comment.Helper';
 
 @Injectable()
-export class CheckerHandler implements CommentHandler<CommentCheck, void> {
+export class CommentChecker implements CommentHandler<CommentCheck, void> {
   constructor(private readonly commentHelper: CommentHelper) {}
   operation = 'COMMENT_CHECK';
   async handle(commentCheck: CommentCheck) {

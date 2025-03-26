@@ -27,12 +27,13 @@ import { LikeDao } from './domain/repository/dao/Like.Dao';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
-import { CheckerHandler } from './service/handler/CheckerHandler';
-import { CollectorHandler } from './service/handler/CollectorHandler';
-import { EditorHandler } from './service/handler/EditorHandler';
-import { EraserHandler } from './service/handler/EraserHandler';
-import { RegistrantHandler } from './service/handler/RegistrantHandler';
+import { CommentChecker } from './service/handler/CheckerHandler';
+import { CommentEditor } from './service/handler/CommentEditor';
+import { CommentEraser } from './service/handler/CommentEraser';
+import { CommentRegistrant } from './service/handler/CommentRegistrant';
 import { Check } from 'typeorm';
+import { MyCommentCollector } from './service/handler/MyCommentCollector';
+import { TemplateCommentCollector } from './service/handler/TemplateCommentCollector';
 
 @Module({
   imports: [
@@ -59,21 +60,37 @@ import { Check } from 'typeorm';
     TemplateVerifyService,
     UserVerifyService,
     AlarmService,
-    CheckerHandler,
-    CollectorHandler,
-    EditorHandler,
-    EraserHandler,
-    RegistrantHandler,
+    CommentChecker,
+    CommentEditor,
+    CommentEraser,
+    CommentRegistrant,
+    MyCommentCollector,
+    TemplateCommentCollector,
     {
       provide: 'COMMENT_HANDLERS',
       useFactory: (
-        checkerHandler: CheckerHandler,
-        collectorHandler: CollectorHandler,
-        editorHandler: EditorHandler,
-        eraserHandler: EraserHandler,
-        registrantHandler: RegistrantHandler,
-      ) => [checkerHandler, collectorHandler, editorHandler, eraserHandler, registrantHandler],
-      inject: [CheckerHandler, CollectorHandler, EditorHandler, EraserHandler, RegistrantHandler],
+        commentChecker: CommentChecker,
+        myCommentCollector: MyCommentCollector,
+        templateCommentCollector: TemplateCommentCollector,
+        commentEditor: CommentEditor,
+        commentEraser: CommentEraser,
+        commentRegistrant: CommentRegistrant,
+      ) => [
+        commentChecker,
+        myCommentCollector,
+        templateCommentCollector,
+        commentEditor,
+        commentEraser,
+        commentRegistrant,
+      ],
+      inject: [
+        CommentChecker,
+        MyCommentCollector,
+        TemplateCommentCollector,
+        CommentEditor,
+        CommentEraser,
+        CommentRegistrant,
+      ],
     },
   ],
   controllers: [TemplateController, CommentController, LikeController],
