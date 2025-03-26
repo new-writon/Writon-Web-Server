@@ -81,20 +81,21 @@ export class CommentController {
     return SuccessResponseDto.of();
   }
 
-  // @Post()
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // public async penetrateComment(
-  //   @Body() commentInsert: CommentInsert,
-  //   @CurrentUser() user: User,
-  // ): Promise<SuccessResponseDto<CommentId>> {
-  //   const result = await this.commentService.penetrateComment(
-  //     user.userId,
-  //     commentInsert,
-  //   );
-  //   this.logger.log('댓글 추가 완료');
-  //   return SuccessResponseDto.of(result);
-  // }
+  @Post()
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async penetrateComment(
+    @Body() commentInsert: CommentInsert,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<CommentId>> {
+    const result = await this.commentService.execute<[CommentInsert, number], CommentId>(
+      'INSERT_COMMENT',
+      commentInsert,
+      user.userId,
+    );
+    this.logger.log('댓글 추가 완료');
+    return SuccessResponseDto.of(result);
+  }
 
   // @Delete()
   // @HttpCode(200)

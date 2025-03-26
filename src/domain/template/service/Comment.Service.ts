@@ -33,7 +33,7 @@ export class CommentService {
     this.handleMap.set(handler.operation, handler);
   }
 
-  async execute<Request, Response>(
+  async execute<Request extends unknown[] | unknown, Response>(
     operation: string,
     ...request: Request extends unknown[] ? Request : [Request]
   ): Promise<Response> {
