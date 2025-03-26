@@ -27,31 +27,56 @@ import { LikeDao } from './domain/repository/dao/Like.Dao';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
-
-
-
+import { CheckerHandler } from './service/handler/CheckerHandler';
+import { CollectorHandler } from './service/handler/CollectorHandler';
+import { EditorHandler } from './service/handler/EditorHandler';
+import { EraserHandler } from './service/handler/EraserHandler';
+import { RegistrantHandler } from './service/handler/RegistrantHandler';
+import { Check } from 'typeorm';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Comment, Likes, QuestionContent, UserTemplate]),
     forwardRef(() => UserModule),
-    ChallengeModule
+    ChallengeModule,
   ],
   providers: [
-    {provide: 'usertemplateImpl',  useClass: UserTemplateDao}, 
-    {provide: 'questionContentImpl',  useClass: QuestionContentDao}, 
-    {provide: 'commentImpl',  useClass: CommentDao}, 
-    {provide: 'likeImpl',  useClass: LikeDao}, 
-    UserTemplateHelper, LikeHelper, QuestionContentHelper, CommentHelper, 
-    UserApi, ChallengeApi, 
-    TemplateService, CommentService, LikeServie, DataMapperService,
-    UserTemplateTransaction, TemplateVerifyService,UserVerifyService,
-    AlarmService
+    { provide: 'usertemplateImpl', useClass: UserTemplateDao },
+    { provide: 'questionContentImpl', useClass: QuestionContentDao },
+    { provide: 'commentImpl', useClass: CommentDao },
+    { provide: 'likeImpl', useClass: LikeDao },
+    UserTemplateHelper,
+    LikeHelper,
+    QuestionContentHelper,
+    CommentHelper,
+    UserApi,
+    ChallengeApi,
+    TemplateService,
+    CommentService,
+    LikeServie,
+    DataMapperService,
+    UserTemplateTransaction,
+    TemplateVerifyService,
+    UserVerifyService,
+    AlarmService,
+    CheckerHandler,
+    CollectorHandler,
+    EditorHandler,
+    EraserHandler,
+    RegistrantHandler,
+    {
+      provide: 'COMMENT_HANDLERS',
+      useFactory: (
+        checkerHandler: CheckerHandler,
+        collectorHandler: CollectorHandler,
+        editorHandler: EditorHandler,
+        eraserHandler: EraserHandler,
+        registrantHandler: RegistrantHandler,
+      ) => [checkerHandler, collectorHandler, editorHandler, eraserHandler, registrantHandler],
+      inject: [CheckerHandler, CollectorHandler, EditorHandler, EraserHandler, RegistrantHandler],
+    },
   ],
   controllers: [TemplateController, CommentController, LikeController],
-  exports:[
-    UserTemplateHelper,
-  
-  ]
+  exports: [UserTemplateHelper],
 })
 export class TemplateModule {}
