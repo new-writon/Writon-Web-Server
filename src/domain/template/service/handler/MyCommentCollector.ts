@@ -7,7 +7,7 @@ import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { checkData } from '../../util/checker';
 import { DataMapperService } from '../../domain/service/DataMappper.Service';
 import { Comment } from '../../domain/entity/Comment';
-import { TemplateOperation } from '../types/comment';
+import { TemplateOperation } from '../types/Operation';
 
 @Injectable()
 export class MyCommentCollector

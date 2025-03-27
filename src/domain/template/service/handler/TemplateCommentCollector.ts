@@ -8,7 +8,7 @@ import { Comment } from '../../domain/entity/Comment';
 import { sortCompanyPublic } from '../../util/data';
 import { CommentInformation } from '../../dto/response/CommentInformation';
 import { formatDate } from '../../util/date';
-import { TemplateOperation } from '../types/comment';
+import { TemplateOperation } from '../types/Operation';
 
 @Injectable()
 export class TemplateCommentCollector

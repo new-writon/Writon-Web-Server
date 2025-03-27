@@ -20,8 +20,8 @@ import { ChallengeApi } from '../infrastructure/Challenge.Api';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { checkFirebaseToken, compareValues } from '../util/checker';
 import { TemplateHandler } from './handler/TemplateHandler';
-import { TemplateOperation } from './types/comment';
-import { BaseTemplateService } from './handler/BaseTemplate.Service';
+import { TemplateOperation } from './types/Operation';
+import { BaseTemplateService } from './BaseTemplate.Service';
 
 @Injectable()
 export class LikeServie extends BaseTemplateService {
@@ -38,7 +38,7 @@ export class LikeServie extends BaseTemplateService {
   // ) {}
 
   //private handleMap = new Map<string, TemplateHandler<any, any>>();
-  constructor(@Inject('Like_HANDLERS') handlers: TemplateHandler<any, any>[]) {
+  constructor(@Inject('LIKE_HANDLERS') handlers: TemplateHandler<any, any>[]) {
     super(handlers);
   }
 

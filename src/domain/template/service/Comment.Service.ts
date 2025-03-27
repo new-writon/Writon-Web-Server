@@ -1,7 +1,7 @@
 import { TemplateHandler } from './handler/TemplateHandler';
 import { Inject, Injectable } from '@nestjs/common';
-import { TemplateOperation } from './types/comment';
-import { BaseTemplateService } from './handler/BaseTemplate.Service';
+import { TemplateOperation } from './types/Operation';
+import { BaseTemplateService } from './BaseTemplate.Service';
 
 @Injectable()
 export class CommentService extends BaseTemplateService {

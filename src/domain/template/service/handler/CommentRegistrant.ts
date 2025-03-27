@@ -13,7 +13,7 @@ import { UserTemplate } from '../../domain/entity/UserTemplate';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
 import { formatDateToPushAlarmStatus } from '../../util/date';
-import { TemplateOperation } from '../types/comment';
+import { TemplateOperation } from '../types/Operation';
 
 @Injectable()
 export class CommentRegistrant

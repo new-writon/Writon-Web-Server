@@ -34,6 +34,7 @@ import { CommentRegistrant } from './service/handler/CommentRegistrant';
 import { Check } from 'typeorm';
 import { MyCommentCollector } from './service/handler/MyCommentCollector';
 import { TemplateCommentCollector } from './service/handler/TemplateCommentCollector';
+import { LikeChecker } from './service/handler/LikeChecker';
 
 @Module({
   imports: [
@@ -66,6 +67,7 @@ import { TemplateCommentCollector } from './service/handler/TemplateCommentColle
     CommentRegistrant,
     MyCommentCollector,
     TemplateCommentCollector,
+    LikeChecker,
     {
       provide: 'COMMENT_HANDLERS',
       useFactory: (
@@ -91,6 +93,11 @@ import { TemplateCommentCollector } from './service/handler/TemplateCommentColle
         CommentEraser,
         CommentRegistrant,
       ],
+    },
+    {
+      provide: 'LIKE_HANDLERS',
+      useFactory: (likeChecker: LikeChecker) => [likeChecker],
+      inject: [LikeChecker],
     },
   ],
   controllers: [TemplateController, CommentController, LikeController],

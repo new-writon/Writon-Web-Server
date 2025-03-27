@@ -1,4 +1,4 @@
-import { TemplateOperation } from '../types/comment';
+import { TemplateOperation } from '../types/Operation';
 
 export interface TemplateHandler<Request, Response> {
   handle(request: Request): Response;

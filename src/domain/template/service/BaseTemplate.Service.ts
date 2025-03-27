@@ -1,5 +1,5 @@
-import { TemplateOperation } from '../types/comment';
-import { TemplateHandler } from './TemplateHandler';
+import { TemplateOperation } from './types/Operation';
+import { TemplateHandler } from './handler/TemplateHandler';
 
 export abstract class BaseTemplateService {
   private handleMap = new Map<string, TemplateHandler<any, any>>();
@@ -16,6 +16,7 @@ export abstract class BaseTemplateService {
     operation: TemplateOperation,
     ...request: Request extends unknown[] ? Request : [Request]
   ): Promise<Response> {
+    console.log(request);
     const handler = this.handleMap.get(operation);
     if (!handler) throw Error('Handler Empty Error');
     return handler.handle(request) as Response;
