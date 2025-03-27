@@ -18,6 +18,7 @@ import { UserTemplate } from '../../domain/entity/UserTemplate';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { formatDateToPushAlarmStatus } from '../../util/date';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class LikeRegistrant implements TemplateHandler<[LikeClick, number], Promise<LikeCount>> {
@@ -30,6 +31,7 @@ export class LikeRegistrant implements TemplateHandler<[LikeClick, number], Prom
     private readonly likeHelper: LikeHelper,
     private readonly templateVerifyService: TemplateVerifyService,
     private readonly alarmService: AlarmService,
+    private readonly dataSource: DataSource,
   ) {}
 
   @Transactional()
