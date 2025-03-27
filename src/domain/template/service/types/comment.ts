@@ -1,4 +1,6 @@
-export type CommentOperation =
+export type TemplateOperation = CommentOperation;
+
+type CommentOperation =
   | 'INSERT_COMMENT'
   | 'DELETE_COMMENT'
   | 'UPDATE_COMMENT'

@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CommentHandler } from './CommentHandler';
+import { TemplateHandler } from './TemplateHandler';
 import { CommentUpdate } from '../../dto/request/CommentUpdate';
 import { User } from 'src/domain/user/domain/entity/User';
 import { UserApi } from '../../infrastructure/User.Api';
 import { CommentHelper } from '../../helper/Comment.Helper';
-import { CommentOperation } from '../types/comment';
+import { TemplateOperation } from '../types/comment';
 
 @Injectable()
-export class CommentEditor implements CommentHandler<[CommentUpdate, number], void> {
-  operation: CommentOperation = 'UPDATE_COMMENT';
+export class CommentEditor implements TemplateHandler<[CommentUpdate, number], void> {
+  operation: TemplateOperation = 'UPDATE_COMMENT';
   constructor(
     private readonly userApi: UserApi,
     private readonly commentHelper: CommentHelper,

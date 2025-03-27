@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CommentHandler } from './CommentHandler';
+import { TemplateHandler } from './TemplateHandler';
 import { CommentHelper } from '../../helper/Comment.Helper';
 import { UserApi } from '../../infrastructure/User.Api';
 import { MyComment } from '../../dto/response/MyComment';
@@ -7,13 +7,13 @@ import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { checkData } from '../../util/checker';
 import { DataMapperService } from '../../domain/service/DataMappper.Service';
 import { Comment } from '../../domain/entity/Comment';
-import { CommentOperation } from '../types/comment';
+import { TemplateOperation } from '../types/comment';
 
 @Injectable()
 export class MyCommentCollector
-  implements CommentHandler<[string, number, number], Promise<MyComment[]>>
+  implements TemplateHandler<[string, number, number], Promise<MyComment[]>>
 {
-  operation: CommentOperation = 'SELECT_MY_COMMENT';
+  operation: TemplateOperation = 'SELECT_MY_COMMENT';
   constructor(
     private readonly commentHelper: CommentHelper,
     private readonly userApi: UserApi,

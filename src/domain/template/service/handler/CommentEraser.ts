@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CommentHandler } from './CommentHandler';
+import { TemplateHandler } from './TemplateHandler';
 import { CommentDelete } from '../../dto/request/CommentDelete';
 import { UserApi } from '../../infrastructure/User.Api';
 import { CommentHelper } from '../../helper/Comment.Helper';
-import { CommentOperation } from '../types/comment';
+import { TemplateOperation } from '../types/comment';
 
 @Injectable()
-export class CommentEraser implements CommentHandler<[CommentDelete, number], Promise<void>> {
-  operation: CommentOperation = 'DELETE_COMMENT';
+export class CommentEraser implements TemplateHandler<[CommentDelete, number], Promise<void>> {
+  operation: TemplateOperation = 'DELETE_COMMENT';
   constructor(
     private readonly userApi: UserApi,
     private readonly commentHelper: CommentHelper,

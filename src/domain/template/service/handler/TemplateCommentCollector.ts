@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CommentHandler } from './CommentHandler';
+import { TemplateHandler } from './TemplateHandler';
 import { CommentHelper } from '../../helper/Comment.Helper';
 import { UserApi } from '../../infrastructure/User.Api';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
@@ -8,13 +8,13 @@ import { Comment } from '../../domain/entity/Comment';
 import { sortCompanyPublic } from '../../util/data';
 import { CommentInformation } from '../../dto/response/CommentInformation';
 import { formatDate } from '../../util/date';
-import { CommentOperation } from '../types/comment';
+import { TemplateOperation } from '../types/comment';
 
 @Injectable()
 export class TemplateCommentCollector
-  implements CommentHandler<[string, number, number], Promise<CommentWithReplies[]>>
+  implements TemplateHandler<[string, number, number], Promise<CommentWithReplies[]>>
 {
-  operation: CommentOperation = 'SELECT_TEMPLATE_COMMENT';
+  operation: TemplateOperation = 'SELECT_TEMPLATE_COMMENT';
   constructor(
     private readonly commentHelper: CommentHelper,
     private readonly userApi: UserApi,

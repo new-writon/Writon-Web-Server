@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CommentHandler } from './CommentHandler';
+import { TemplateHandler } from './TemplateHandler';
 import { CommentInsert } from '../../dto/request/CommentInsert';
 import { CommentId } from '../../dto/response/CommentId';
 import { UserApi } from '../../infrastructure/User.Api';
@@ -13,13 +13,13 @@ import { UserTemplate } from '../../domain/entity/UserTemplate';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
 import { formatDateToPushAlarmStatus } from '../../util/date';
-import { CommentOperation } from '../types/comment';
+import { TemplateOperation } from '../types/comment';
 
 @Injectable()
 export class CommentRegistrant
-  implements CommentHandler<[CommentInsert, number], Promise<CommentId>>
+  implements TemplateHandler<[CommentInsert, number], Promise<CommentId>>
 {
-  operation: CommentOperation = 'INSERT_COMMENT';
+  operation: TemplateOperation = 'INSERT_COMMENT';
   constructor(
     private readonly userApi: UserApi,
     private readonly userTemplateHelper: UserTemplateHelper,

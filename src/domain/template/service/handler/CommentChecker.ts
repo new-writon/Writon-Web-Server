@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CommentHandler } from './CommentHandler';
+import { TemplateHandler } from './TemplateHandler';
 import { CommentCheck } from '../../dto/request/CommentCheck';
 import { CommentHelper } from '../../helper/Comment.Helper';
-import { CommentOperation } from '../types/comment';
+import { TemplateOperation } from '../types/comment';
 
 @Injectable()
-export class CommentChecker implements CommentHandler<CommentCheck, void> {
+export class CommentChecker implements TemplateHandler<CommentCheck, void> {
   constructor(private readonly commentHelper: CommentHelper) {}
-  operation: CommentOperation = 'CHECK_COMMENT';
+  operation: TemplateOperation = 'CHECK_COMMENT';
   async handle(commentCheck: CommentCheck) {
     await this.commentHelper.executeUpdateCommentCheck(commentCheck.getCommentId());
   }
