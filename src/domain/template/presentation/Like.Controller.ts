@@ -48,31 +48,35 @@ export class LikeController {
     return SuccessResponseDto.of(result);
   }
 
-  // @Put()
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // public async eraseLike(
-  //   @Body() likeCheck: LikeClick,
-  //   @CurrentUser() user: User,
-  // ): Promise<SuccessResponseDto<LikeCount>> {
-  //   const result = await this.likeService.eraseLike(
-  //     user.userId,
-  //     likeCheck.getUserTemplateId(),
-  //     likeCheck.getOrganization(),
-  //   );
-  //   this.logger.log('좋아요 취소 완료');
-  //   return SuccessResponseDto.of(result);
-  // }
+  @Put()
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async eraseLike(
+    @Body() likeClick: LikeClick,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<LikeCount>> {
+    const result = await this.likeService.execute<[LikeClick, number], Promise<LikeCount>>(
+      'PUT_LIKE',
+      likeClick,
+      user.userId,
+    );
+    this.logger.log('좋아요 취소 완료');
+    return SuccessResponseDto.of(result);
+  }
 
-  // @Get('/:userTemplateId')
-  // @HttpCode(200)
-  // public async bringLikeCount(
-  //   @Param('userTemplateId') userTemplateId: number,
-  // ): Promise<SuccessResponseDto<LikeCount>> {
-  //   const result = await this.likeService.bringLikeCount(userTemplateId);
-  //   this.logger.log('좋아요 개수 조회 완료');
-  //   return SuccessResponseDto.of(result);
-  // }
+  @Get('/:userTemplateId')
+  @HttpCode(200)
+  public async bringLikeCount(
+    @Param('userTemplateId') userTemplateId: number,
+  ): Promise<SuccessResponseDto<LikeCount>> {
+    // const result = await this.likeService.bringLikeCount(userTemplateId);
+    const result = await this.likeService.execute<[number], LikeCount>(
+      'SELECT_LIKE_COUNT',
+      userTemplateId,
+    );
+    this.logger.log('좋아요 개수 조회 완료');
+    return SuccessResponseDto.of(result);
+  }
 
   // @Get('/click/:userTemplateId')
   // @HttpCode(200)

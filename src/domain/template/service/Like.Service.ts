@@ -37,29 +37,9 @@ export class LikeServie extends BaseTemplateService {
   //   private readonly challengeApi: ChallengeApi,
   // ) {}
 
-  //private handleMap = new Map<string, TemplateHandler<any, any>>();
   constructor(@Inject('LIKE_HANDLERS') handlers: TemplateHandler<any, any>[]) {
     super(handlers);
   }
-
-  // public async eraseLike(
-  //   userId: number,
-  //   userTemplateId: number,
-  //   organization: string,
-  // ): Promise<LikeCount> {
-  //   const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(
-  //     userId,
-  //     organization,
-  //   );
-  //   await this.likeHelper.executeDeleteLike(affiliationData.getAffiliationId(), userTemplateId);
-  //   const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
-  //   return LikeCount.of(likeCount);
-  // }
-
-  // public async bringLikeCount(userTemplateId: number): Promise<LikeCount> {
-  //   const likeCount = await this.likeHelper.giveLikeCountByUserTemplateId(userTemplateId);
-  //   return LikeCount.of(likeCount);
-  // }
 
   // public async bringLikeClickedUser(userTemplateId: number) {
   //   const likeDatas = await this.likeHelper.giveLikesByUserTemplateId(userTemplateId);
