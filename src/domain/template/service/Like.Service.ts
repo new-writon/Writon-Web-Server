@@ -19,10 +19,12 @@ import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
 import { ChallengeApi } from '../infrastructure/Challenge.Api';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { checkFirebaseToken, compareValues } from '../util/checker';
-import { CommentHandler } from './handler/CommentHandler';
+import { TemplateHandler } from './handler/TemplateHandler';
+import { TemplateOperation } from './types/comment';
+import { BaseTemplateService } from './handler/BaseTemplate.Service';
 
 @Injectable()
-export class LikeServie {
+export class LikeServie extends BaseTemplateService {
   // constructor(
   //   private readonly dataSource: DataSource,
   //   private readonly likeHelper: LikeHelper,
@@ -35,24 +37,9 @@ export class LikeServie {
   //   private readonly challengeApi: ChallengeApi,
   // ) {}
 
-  private handleMap = new Map<string, LikeHandler<any, any>>();
-  constructor(@Inject('Like_HANDLERS') handlers: LikeHandler<any, any>[]) {
-    handlers.forEach((handler) => {
-      this.registerHandler(handler);
-    });
-  }
-
-  private registerHandler(handler: LikeHandler<any, any>) {
-    this.handleMap.set(handler.operation, handler);
-  }
-
-  async execute<Request extends unknown[] | unknown, Response>(
-    operation: LikeOperation,
-    ...request: Request extends unknown[] ? Request : [Request]
-  ): Promise<Response> {
-    const handler = this.handleMap.get(operation);
-    if (!handler) throw Error('Handler Empty Error');
-    return handler.handle(request) as Response;
+  //private handleMap = new Map<string, TemplateHandler<any, any>>();
+  constructor(@Inject('Like_HANDLERS') handlers: TemplateHandler<any, any>[]) {
+    super(handlers);
   }
 
   // public async checkLike(likeId: number) {
