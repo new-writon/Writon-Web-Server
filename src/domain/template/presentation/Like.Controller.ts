@@ -18,6 +18,7 @@ import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
 import { User } from '../../user/domain/entity/User';
 import { LikeClick } from '../dto/request/LikeClick';
 import { LikeCount } from '../dto/response/LikeCount';
+import { LikeClickedUser } from '../dto/values/LikeClickedUser.js';
 
 @Controller('/api/template/like')
 export class LikeController {
@@ -69,7 +70,6 @@ export class LikeController {
   public async bringLikeCount(
     @Param('userTemplateId') userTemplateId: number,
   ): Promise<SuccessResponseDto<LikeCount>> {
-    // const result = await this.likeService.bringLikeCount(userTemplateId);
     const result = await this.likeService.execute<[number], LikeCount>(
       'SELECT_LIKE_COUNT',
       userTemplateId,
@@ -78,13 +78,16 @@ export class LikeController {
     return SuccessResponseDto.of(result);
   }
 
-  // @Get('/click/:userTemplateId')
-  // @HttpCode(200)
-  // public async bringLikeClickedUser(
-  //   @Param('userTemplateId') userTemplateId: number,
-  // ): Promise<SuccessResponseDto<any>> {
-  //   const result = await this.likeService.bringLikeClickedUser(userTemplateId);
-  //   this.logger.log('좋아요 누른 유저 정보 조회 완료');
-  //   return SuccessResponseDto.of(result);
-  // }
+  @Get('/click/:userTemplateId')
+  @HttpCode(200)
+  public async bringLikeClickedUser(
+    @Param('userTemplateId') userTemplateId: number,
+  ): Promise<SuccessResponseDto<LikeClickedUser[]>> {
+    const result = await this.likeService.execute<[number], Promise<LikeClickedUser[]>>(
+      'SELECT_PRESS_USER',
+      userTemplateId,
+    );
+    this.logger.log('좋아요 누른 유저 정보 조회 완료');
+    return SuccessResponseDto.of(result);
+  }
 }
