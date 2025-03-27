@@ -1,24 +1,5 @@
-import { CommentHelper } from '../helper/Comment.Helper';
-import { UserApi } from '../infrastructure/User.Api';
-import { DataMapperService } from '../domain/service/DataMappper.Service';
-import { MyComment } from '../dto/response/MyComment';
-import { CommentId } from '../dto/response/CommentId';
-import { Comment } from '../domain/entity/Comment';
-import { Affiliation } from '../../../domain/user/domain/entity/Affiliation';
-import { CommentInformation } from '../dto/response/CommentInformation';
-import { sortCompanyPublic } from '../util/data';
-import { formatDate, formatDateToPushAlarmStatus } from '../util/date';
-import { checkData, compareValues } from '../util/checker';
-import { CommentInsert } from '../dto/request/CommentInsert';
-import { AlarmService } from '../../../global/alarm/Alarm.Service';
-import { UserTemplateHelper } from '../helper/UserTemplate.Helper';
-import { UserChallenge } from '../../../domain/user/domain/entity/UserChallenge';
-import { ChallengeApi } from '../infrastructure/Challenge.Api';
-import { Challenge } from '../../../domain/challenge/domain/entity/Challenge';
-import { UserTemplate } from '../domain/entity/UserTemplate';
-import { checkFirebaseToken } from '../util/checker';
 import { CommentHandler } from './handler/CommentHandler';
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CommentOperation } from './types/comment';
 
 @Injectable()
