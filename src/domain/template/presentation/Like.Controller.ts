@@ -32,21 +32,21 @@ export class LikeController {
     return SuccessResponseDto.of();
   }
 
-  // @Post()
-  // @HttpCode(200)
-  // @UseGuards(JWTAuthGuard)
-  // public async penetrateLike(
-  //   @Body() likeCheck: LikeClick,
-  //   @CurrentUser() user: User,
-  // ): Promise<SuccessResponseDto<LikeCount>> {
-  //   const result = await this.likeService.penetrateLike(
-  //     user.userId,
-  //     likeCheck.getUserTemplateId(),
-  //     likeCheck.getOrganization(),
-  //   );
-  //   this.logger.log('좋아요 추가 완료');
-  //   return SuccessResponseDto.of(result);
-  // }
+  @Post()
+  @HttpCode(200)
+  @UseGuards(JWTAuthGuard)
+  public async penetrateLike(
+    @Body() likeClick: LikeClick,
+    @CurrentUser() user: User,
+  ): Promise<SuccessResponseDto<LikeCount>> {
+    const result = await this.likeService.execute<[LikeClick, number], Promise<LikeCount>>(
+      'INSERT_LIKE',
+      likeClick,
+      user.userId,
+    );
+    this.logger.log('좋아요 추가 완료');
+    return SuccessResponseDto.of(result);
+  }
 
   // @Put()
   // @HttpCode(200)
