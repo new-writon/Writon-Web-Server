@@ -16,7 +16,6 @@ export abstract class BaseTemplateService {
     operation: TemplateOperation,
     ...request: Request extends unknown[] ? Request : [Request]
   ): Promise<Response> {
-    console.log(request);
     const handler = this.handleMap.get(operation);
     if (!handler) throw Error('Handler Empty Error');
     return handler.handle(request) as Response;

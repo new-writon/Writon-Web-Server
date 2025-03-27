@@ -5,11 +5,11 @@ import { TemplateOperation } from '../types/Operation';
 import { LikeHelper } from '../../helper/Like.Helper';
 
 @Injectable()
-export class LikeChecker implements TemplateHandler<LikeCheck, void> {
+export class LikeChecker implements TemplateHandler<[LikeCheck], Promise<void>> {
   operation: TemplateOperation = 'CHECK_LIKE';
   constructor(private readonly likeHelper: LikeHelper) {}
-  async handle(likeCheck: LikeCheck) {
-    console.log(likeCheck);
+  async handle(request: [LikeCheck]) {
+    const [likeCheck] = request;
     await this.likeHelper.executeUpdateLikeCheck(likeCheck.getLikeId());
   }
 }
