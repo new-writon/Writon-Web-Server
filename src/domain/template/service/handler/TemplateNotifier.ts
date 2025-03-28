@@ -1,19 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { TemplateHandler } from './TemplateHandler';
 import { TemplateOperation } from '../types/Operation';
-import { TemplateContent } from '../../dto/response/TemplateContent';
 import { UserTemplate } from '../../domain/entity/UserTemplate';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
-import { sortCompanyPublic, sortCompanyPublicArray } from '../../util/data';
-import { formatDate } from '../../util/date';
-import { Question } from 'src/domain/challenge/domain/entity/Question';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
 import { UserTemplateHelper } from '../../helper/UserTemplate.Helper';
 import { UserApi } from '../../infrastructure/User.Api';
-import { DataMapperService } from '../../domain/service/DataMappper.Service';
-import { ChallengeApi } from '../../infrastructure/Challenge.Api';
-import { TemplateInformation } from '../../dto/response/TemplateInformation';
-import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 
 @Injectable()
 export class TemplateNotifier
