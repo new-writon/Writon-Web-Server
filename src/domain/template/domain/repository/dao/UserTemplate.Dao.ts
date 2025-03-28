@@ -7,17 +7,12 @@ import { UserTemplateRepository } from '../UserTemplate.Repository';
  * User DAO Class
  */
 @Injectable()
-export class UserTemplateDao
-  extends Repository<UserTemplate>
-  implements UserTemplateRepository
-{
+export class UserTemplateDao extends Repository<UserTemplate> implements UserTemplateRepository {
   constructor(private dataSource: DataSource) {
     super(UserTemplate, dataSource.createEntityManager());
   }
 
-  async findUserTemplateByUserChallengeId(
-    userChallengeId: number,
-  ): Promise<UserTemplate[]> {
+  async findUserTemplateByUserChallengeId(userChallengeId: number): Promise<UserTemplate[]> {
     return this.dataSource
       .createQueryBuilder()
       .select('ut')
@@ -27,9 +22,7 @@ export class UserTemplateDao
       .getMany();
   }
 
-  async findChallengeSuccessChallengeCount(
-    userChallengeId: number,
-  ): Promise<number> {
+  async findChallengeSuccessChallengeCount(userChallengeId: number): Promise<number> {
     const data = await this.query(`
         select count(*) as count from user_templates as ut
         where ut.complete = 1
@@ -57,11 +50,7 @@ export class UserTemplateDao
     date: Date,
     complete: boolean,
   ): Promise<UserTemplate> {
-    const newUserTemplate = UserTemplate.createUserTemplate(
-      userChallnegeId,
-      date,
-      complete,
-    );
+    const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
     return this.save(newUserTemplate);
   }
 
@@ -70,16 +59,8 @@ export class UserTemplateDao
   ): Promise<UserTemplate[]> {
     return this.dataSource
       .createQueryBuilder(UserTemplate, 'ut')
-      .leftJoinAndSelect(
-        'ut.comments',
-        'c',
-        'c.user_template_id = ut.user_template_id',
-      )
-      .leftJoinAndSelect(
-        'ut.likes',
-        'l',
-        'l.user_template_id = ut.user_template_id',
-      )
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
       .where('ut.user_challenge_id = :userChallengeId', { userChallengeId })
       .getMany();
   }
@@ -90,16 +71,8 @@ export class UserTemplateDao
   ): Promise<UserTemplate[]> {
     return this.dataSource
       .createQueryBuilder(UserTemplate, 'ut')
-      .leftJoinAndSelect(
-        'ut.comments',
-        'c',
-        'c.user_template_id = ut.user_template_id',
-      )
-      .leftJoinAndSelect(
-        'ut.likes',
-        'l',
-        'l.user_template_id = ut.user_template_id',
-      )
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
       .innerJoinAndSelect(
         'ut.questionContents',
         'qc',
@@ -117,21 +90,9 @@ export class UserTemplateDao
   ): Promise<UserTemplate[]> {
     return this.dataSource
       .createQueryBuilder(UserTemplate, 'ut')
-      .leftJoinAndSelect(
-        'ut.comments',
-        'c',
-        'c.user_template_id = ut.user_template_id',
-      )
-      .leftJoinAndSelect(
-        'ut.likes',
-        'l',
-        'l.user_template_id = ut.user_template_id',
-      )
-      .innerJoinAndSelect(
-        'ut.questionContents',
-        'qc',
-        'qc.user_template_id = ut.user_template_id',
-      )
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .innerJoinAndSelect('ut.questionContents', 'qc', 'qc.user_template_id = ut.user_template_id')
       .where('ut.user_challenge_id = :userChallengeId', { userChallengeId })
       .getMany();
   }
@@ -144,16 +105,8 @@ export class UserTemplateDao
       .createQueryBuilder()
       .select('ut')
       .from(UserTemplate, 'ut')
-      .leftJoinAndSelect(
-        'ut.comments',
-        'c',
-        'c.user_template_id = ut.user_template_id',
-      )
-      .leftJoinAndSelect(
-        'ut.likes',
-        'l',
-        'l.user_template_id = ut.user_template_id',
-      )
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
       .innerJoinAndSelect(
         'ut.questionContents',
         'qc',
@@ -164,9 +117,7 @@ export class UserTemplateDao
       .getOne();
   }
 
-  async findUserTemplateSuccessCountByUserChallengeIds(
-    userChallengeIds: number[],
-  ) {
+  async findUserTemplateSuccessCountByUserChallengeIds(userChallengeIds: number[]) {
     return this.dataSource
       .createQueryBuilder()
       .select('ut.user_challenge_id', 'userChallengeId')

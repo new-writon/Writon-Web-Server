@@ -2,15 +2,9 @@ import { Repository } from 'typeorm';
 import { UserTemplate } from '../entity/UserTemplate';
 
 export interface UserTemplateRepository extends Repository<UserTemplate> {
-  findUserTemplateByUserChallengeId(
-    userChallengeId: number,
-  ): Promise<UserTemplate[]>;
+  findUserTemplateByUserChallengeId(userChallengeId: number): Promise<UserTemplate[]>;
   findChallengeSuccessChallengeCount(userChallengeId: number): Promise<number>;
-  insertUserTemplate(
-    userChallnegeId: number,
-    date: Date,
-    complete: boolean,
-  ): Promise<UserTemplate>;
+  insertUserTemplate(userChallnegeId: number, date: Date, complete: boolean): Promise<UserTemplate>;
   findUserTemplateAndCommentAndLikeByUserChallengeId(
     userChallengeId: number,
   ): Promise<UserTemplate[]>;

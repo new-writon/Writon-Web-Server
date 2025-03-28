@@ -29,7 +29,6 @@ export class TemplateQueryByDate
     private readonly userTemplateHelper: UserTemplateHelper,
     private readonly dataMapperService: DataMapperService,
     private readonly challengeApi: ChallengeApi,
-    private readonly userVerifyService: UserVerifyService,
   ) {
     super();
   }
@@ -46,6 +45,7 @@ export class TemplateQueryByDate
         userChallengeIds,
         date,
       );
+    console.log(userTemplateData);
     return userTemplateData.length === 0
       ? []
       : this.proccessTemplateAccordingToDateData(
@@ -70,6 +70,7 @@ export class TemplateQueryByDate
       userChallengeDatas,
     );
     const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates);
+
     return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
   }
 
