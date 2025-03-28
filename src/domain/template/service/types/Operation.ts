@@ -1,4 +1,4 @@
-export type TemplateOperation = CommentOperation | LikeOperation;
+export type TemplateOperation = CommentOperation | LikeOperation | TemplateSpecificOperation;
 
 type CommentOperation =
   | 'INSERT_COMMENT'
@@ -14,3 +14,11 @@ type LikeOperation =
   | 'PUT_LIKE'
   | 'SELECT_LIKE_COUNT'
   | 'SELECT_PRESS_USER';
+
+type TemplateSpecificOperation =
+  | 'UPDATE_TEMPLATE'
+  | 'INSERT_TEMPLATE'
+  | 'SELECT_TEMPLATE_BY_DATE'
+  | 'SELECT_SINGLE_TEMPLATE'
+  | 'SELECT_MY_TEMPLATE'
+  | 'SEND_NOTIFY';
