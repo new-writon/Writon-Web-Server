@@ -42,9 +42,10 @@ import { LikePressUserCollector } from './service/handler/implement/LikePressUse
 import { MyTemplateCollector } from './service/handler/implement/MyTemplateCollector';
 import { TemplateEditor } from './service/handler/implement/TemplateEditor';
 import { TemplateFetcher } from './service/handler/implement/TemplateFetcher';
-import { TemplateNotifier } from './service/handler/TemplateNotifier';
+
 import { TemplateQueryByDate } from './service/handler/implement/TemplateQueryByDate';
 import { TemplateRegistrant } from './service/handler/implement/TemplateRegistrant';
+import { TemplateNotifier } from './service/handler/implement/TemplateNotifier';
 
 @Module({
   imports: [
