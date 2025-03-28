@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { TemplateContent } from '../dto/response/TemplateContent';
 import { UserApi } from '../infrastructure/User.Api';
 import { WriteTemplateContent } from '../dto/values/TemplateContent';
@@ -20,20 +20,25 @@ import { QuestionContentHelper } from '../helper/QuestionContent.Helper';
 import { TemplateVerifyService } from '../../../global/exception/template/TemplateVerify.Service';
 import { MutexAlgorithm } from 'src/global/decorator/mutex';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
+import { BaseTemplateService } from './BaseTemplate.Service';
+import { TemplateHandler } from './handler/TemplateHandler';
 
 @Injectable()
-export class TemplateService {
-  constructor(
-    private readonly dataSource: DataSource,
-    private readonly userApi: UserApi,
-    private readonly challengeApi: ChallengeApi,
-    private readonly userTemplateHelper: UserTemplateHelper,
-    private readonly dataMapperService: DataMapperService,
-    private readonly questionContentHelper: QuestionContentHelper,
-    private readonly templateVerifyService: TemplateVerifyService,
-    private readonly userVerifyService: UserVerifyService,
-  ) {}
+export class TemplateService extends BaseTemplateService {
+  // constructor(
+  //   private readonly dataSource: DataSource,
+  //   private readonly userApi: UserApi,
+  //   private readonly challengeApi: ChallengeApi,
+  //   private readonly userTemplateHelper: UserTemplateHelper,
+  //   private readonly dataMapperService: DataMapperService,
+  //   private readonly questionContentHelper: QuestionContentHelper,
+  //   private readonly templateVerifyService: TemplateVerifyService,
+  //   private readonly userVerifyService: UserVerifyService,
+  // ) {}
 
+  constructor(@Inject('TEMPLATE_HANDLERS') handlers: TemplateHandler<any, any>[]) {
+    super(handlers);
+  }
   public async bringTemplateContent(
     userId: number,
     userTemplateId: number,
@@ -51,7 +56,6 @@ export class TemplateService {
       ? []
       : this.proccessTemplateContent(userTemplateData, affiliationData);
   }
-
   private async proccessTemplateContent(
     userTemplateData: UserTemplate,
     affiliationData: Affiliation,
@@ -72,7 +76,6 @@ export class TemplateService {
     const sortedCompanyData = sortCompanyPublic(mergedForOneTemplate) as TemplateContent[];
     return sortedCompanyData;
   }
-
   private mergeForOneTemplate(
     affiliationData: Affiliation,
     userTemplateData: UserTemplate,
@@ -126,7 +129,6 @@ export class TemplateService {
           userChallengeDatas,
         );
   }
-
   private async proccessTemplateAccordingToDateData(
     userTemplateData: UserTemplate[],
     affiliationData: Affiliation,
@@ -144,7 +146,6 @@ export class TemplateService {
     const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates);
     return TemplateInformation.of(challengeCompleteCount, sortedCompanyData);
   }
-
   private mergeForAllManyTemplates(
     affiliationData: Affiliation,
     userTemplateDatas: UserTemplate[],
@@ -184,11 +185,9 @@ export class TemplateService {
       }, []);
     });
   }
-
   private extractUserChallengeId(userChallenge: UserChallenge[]) {
     return userChallenge.map((data) => data.getId());
   }
-
   public async bringAllTemplateContent(
     userId: number,
     organization: string,
@@ -212,7 +211,6 @@ export class TemplateService {
       ? []
       : this.proccessTemplateData(userTemplateData, affiliationData);
   }
-
   private async proccessTemplateData(
     userTemplateData: UserTemplate[],
     affiliationData: Affiliation,
@@ -227,7 +225,6 @@ export class TemplateService {
     const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates);
     return TemplateInformation.of(undefined, sortedCompanyData);
   }
-
   private mergeForMyManyTemplates(
     affiliationData: Affiliation,
     userTemplateDatas: UserTemplate[],
@@ -262,7 +259,6 @@ export class TemplateService {
       }, []);
     });
   }
-
   @MutexAlgorithm()
   @Transactional()
   public async penetrateTemplate(userId: number, templateWrite: TemplateWrite): Promise<void> {
@@ -299,15 +295,12 @@ export class TemplateService {
     );
     await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
   }
-
   private checkQuestionContain(relativeQuestion: number[], targetQuestion: number[]) {
     return relativeQuestion.every((data) => targetQuestion.includes(data));
   }
-
   private extractTemplateWriteQuestionId(templateWrite: TemplateWrite) {
     return templateWrite.getTemplateContent().map((data) => data.getQuestionId());
   }
-
   private changeUserTemplateType(
     writeTempletes: WriteTemplateContent[],
     userTempleteId: number,
@@ -320,16 +313,6 @@ export class TemplateService {
         userTempleteId,
       ),
     );
-  }
-
-  @Transactional()
-  public async modifyMyTemplate(
-    userTemplateId: number,
-    templateContent: Array<WriteTemplateContent>,
-  ): Promise<void> {
-    await this.questionContentHelper.executeDeleteQuestionContent(userTemplateId);
-    const changedTemplate = this.changeUserTemplateType(templateContent, userTemplateId);
-    await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
   }
 
   public async bringNotify(
@@ -358,7 +341,6 @@ export class TemplateService {
       ? []
       : this.proccessNotifyData(userTemplateAndCommentAndLikeData, userChallengeAndAffiliationData);
   }
-
   private async proccessNotifyData(
     userTemplateAndCommentAndLikeData: UserTemplate[],
     userChallengeAndAffiliationData: UserChallenge,
@@ -383,7 +365,6 @@ export class TemplateService {
     const mergedCommentAndLike = this.mergeAndSortTimeCommentAndLike(sortedComment, sortedLike);
     return mergedCommentAndLike;
   }
-
   private extractAffiliationIdAccordingToCommentAndLike(userTemplate: UserTemplate[]) {
     const commentAffiliationIds: number[] = userTemplate.flatMap((userTemplate) =>
       userTemplate.comments.map((comment) => comment.getAffiliationId()),
@@ -393,7 +374,6 @@ export class TemplateService {
     );
     return { commentAffiliationIds, likeAffiliationIds };
   }
-
   /**
    *
    * @param userTemplate 유저 챌린지에서 작성한 템플릿 데이터
@@ -428,7 +408,6 @@ export class TemplateService {
         }),
     );
   }
-
   private makeLikeShapeAccordingToUserTemplate(
     userTemplate: UserTemplate[],
     userChallengeAndAffiliationData: UserChallenge,
@@ -455,7 +434,6 @@ export class TemplateService {
         }),
     );
   }
-
   private mergeAndSortTimeCommentAndLike(comments: GetCommentNotify[], likes: GetLikeNotify[]) {
     const mergedArray: (GetCommentNotify | GetLikeNotify)[] = [...comments, ...likes];
     mergedArray.sort((a, b) => {
@@ -463,7 +441,6 @@ export class TemplateService {
     });
     return mergedArray;
   }
-
   private async signUserChallengeComplete(challengeId: number, date: string) {
     let complete = true;
     if (
