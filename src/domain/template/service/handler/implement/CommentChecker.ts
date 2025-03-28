@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from './TemplateHandler';
-import { CommentCheck } from '../../dto/request/CommentCheck';
-import { CommentHelper } from '../../helper/Comment.Helper';
-import { TemplateOperation } from '../types/Operation';
+import { TemplateHandler } from '../TemplateHandler';
+import { CommentCheck } from '../../../dto/request/CommentCheck';
+import { CommentHelper } from '../../../helper/Comment.Helper';
+import { TemplateOperation } from '../../types/Operation';
 
 @Injectable()
 export class CommentChecker implements TemplateHandler<[CommentCheck], Promise<void>> {

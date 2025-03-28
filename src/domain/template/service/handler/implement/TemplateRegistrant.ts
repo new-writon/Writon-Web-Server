@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { TemplateException } from 'src/global/exception/template/TemplateException';
-import { TemplateHandler } from './TemplateHandler';
-import { TemplateUpdate } from '../../dto/request/TemplateUpdate';
-import { TemplateOperation } from '../types/Operation';
+import { TemplateHandler } from '../TemplateHandler';
+import { TemplateUpdate } from '../../../dto/request/TemplateUpdate';
+import { TemplateOperation } from '../../types/Operation';
 import { Transactional } from 'src/global/decorator/transaction';
-import { QuestionContentHelper } from '../../helper/QuestionContent.Helper';
-import { TemplateWrite } from '../../dto/request/TemplateWrite';
-import { UserApi } from '../../infrastructure/User.Api';
+import { QuestionContentHelper } from '../../../helper/QuestionContent.Helper';
+import { TemplateWrite } from '../../../dto/request/TemplateWrite';
+import { UserApi } from '../../../infrastructure/User.Api';
 import { DataSource } from 'typeorm';
-import { UserTemplateHelper } from '../../helper/UserTemplate.Helper';
+import { UserTemplateHelper } from '../../../helper/UserTemplate.Helper';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
-import { DataMapperService } from '../../domain/service/DataMappper.Service';
+import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
-import { ChallengeApi } from '../../infrastructure/Challenge.Api';
-import { TemplateWriter } from './TemplateWriter';
+import { ChallengeApi } from '../../../infrastructure/Challenge.Api';
+import { TemplateWriter } from '../TemplateWriter';
 
 @Injectable()
 export class TemplateRegistrant

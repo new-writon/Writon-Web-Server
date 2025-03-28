@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from './TemplateHandler';
-import { TemplateUpdate } from '../../dto/request/TemplateUpdate';
-import { TemplateOperation } from '../types/Operation';
+import { TemplateHandler } from '../TemplateHandler';
+import { TemplateUpdate } from '../../../dto/request/TemplateUpdate';
+import { TemplateOperation } from '../../types/Operation';
 import { Transactional } from 'src/global/decorator/transaction';
-import { QuestionContentHelper } from '../../helper/QuestionContent.Helper';
-import { TemplateWriter } from './TemplateWriter';
+import { QuestionContentHelper } from '../../../helper/QuestionContent.Helper';
+import { TemplateWriter } from '../TemplateWriter';
 
 @Injectable()
 export class TemplateEditor

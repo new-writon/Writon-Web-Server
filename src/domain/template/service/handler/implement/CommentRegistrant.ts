@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from './TemplateHandler';
-import { CommentInsert } from '../../dto/request/CommentInsert';
-import { CommentId } from '../../dto/response/CommentId';
-import { UserApi } from '../../infrastructure/User.Api';
-import { UserTemplateHelper } from '../../helper/UserTemplate.Helper';
-import { checkFirebaseToken, compareValues } from '../../util/checker';
-import { ChallengeApi } from '../../infrastructure/Challenge.Api';
-import { CommentHelper } from '../../helper/Comment.Helper';
+import { TemplateHandler } from '../TemplateHandler';
+import { CommentInsert } from '../../../dto/request/CommentInsert';
+import { CommentId } from '../../../dto/response/CommentId';
+import { UserApi } from '../../../infrastructure/User.Api';
+import { UserTemplateHelper } from '../../../helper/UserTemplate.Helper';
+import { checkFirebaseToken, compareValues } from '../../../util/checker';
+import { ChallengeApi } from '../../../infrastructure/Challenge.Api';
+import { CommentHelper } from '../../../helper/Comment.Helper';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
-import { UserTemplate } from '../../domain/entity/UserTemplate';
+import { UserTemplate } from '../../../domain/entity/UserTemplate';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
-import { formatDateToPushAlarmStatus } from '../../util/date';
-import { TemplateOperation } from '../types/Operation';
+import { formatDateToPushAlarmStatus } from '../../../util/date';
+import { TemplateOperation } from '../../types/Operation';
 
 @Injectable()
 export class CommentRegistrant

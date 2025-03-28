@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from './TemplateHandler';
-import { TemplateOperation } from '../types/Operation';
-import { TemplateContent } from '../../dto/response/TemplateContent';
-import { UserTemplate } from '../../domain/entity/UserTemplate';
+import { TemplateHandler } from '../TemplateHandler';
+import { TemplateOperation } from '../../types/Operation';
+import { TemplateContent } from '../../../dto/response/TemplateContent';
+import { UserTemplate } from '../../../domain/entity/UserTemplate';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
-import { sortCompanyPublic } from '../../util/data';
-import { formatDate } from '../../util/date';
+import { sortCompanyPublic } from '../../../util/data';
+import { formatDate } from '../../../util/date';
 import { Question } from 'src/domain/challenge/domain/entity/Question';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
-import { UserTemplateHelper } from '../../helper/UserTemplate.Helper';
-import { UserApi } from '../../infrastructure/User.Api';
-import { DataMapperService } from '../../domain/service/DataMappper.Service';
-import { ChallengeApi } from '../../infrastructure/Challenge.Api';
+import { UserTemplateHelper } from '../../../helper/UserTemplate.Helper';
+import { UserApi } from '../../../infrastructure/User.Api';
+import { DataMapperService } from '../../../domain/service/DataMappper.Service';
+import { ChallengeApi } from '../../../infrastructure/Challenge.Api';
 
 @Injectable()
 export class TemplateFetcher
@@ -39,6 +39,7 @@ export class TemplateFetcher
       ? []
       : this.proccessTemplateContent(userTemplateData, affiliationData);
   }
+
   private async proccessTemplateContent(
     userTemplateData: UserTemplate,
     affiliationData: Affiliation,

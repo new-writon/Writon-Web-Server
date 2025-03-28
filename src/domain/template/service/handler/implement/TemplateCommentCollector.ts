@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from './TemplateHandler';
-import { CommentHelper } from '../../helper/Comment.Helper';
-import { UserApi } from '../../infrastructure/User.Api';
+import { TemplateHandler } from '../TemplateHandler';
+import { CommentHelper } from '../../../helper/Comment.Helper';
+import { UserApi } from '../../../infrastructure/User.Api';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
-import { DataMapperService } from '../../domain/service/DataMappper.Service';
-import { Comment } from '../../domain/entity/Comment';
-import { sortCompanyPublic } from '../../util/data';
-import { CommentInformation } from '../../dto/response/CommentInformation';
-import { formatDate } from '../../util/date';
-import { TemplateOperation } from '../types/Operation';
+import { DataMapperService } from '../../../domain/service/DataMappper.Service';
+import { Comment } from '../../../domain/entity/Comment';
+import { sortCompanyPublic } from '../../../util/data';
+import { CommentInformation } from '../../../dto/response/CommentInformation';
+import { formatDate } from '../../../util/date';
+import { TemplateOperation } from '../../types/Operation';
 
 @Injectable()
 export class TemplateCommentCollector
