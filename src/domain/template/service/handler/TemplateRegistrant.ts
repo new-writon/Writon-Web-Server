@@ -13,11 +13,13 @@ import { TemplateVerifyService } from 'src/global/exception/template/TemplateVer
 import { DataMapperService } from '../../domain/service/DataMappper.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { ChallengeApi } from '../../infrastructure/Challenge.Api';
-import { WriteTemplateContent } from '../../dto/values/TemplateContent';
-import { InsertUserTemplateContent } from '../../dto/values/InsertUserTemplateContent';
+import { TemplateWriter } from './TemplateWriter';
 
 @Injectable()
-export class TemplateRegistrant implements TemplateHandler<[TemplateWrite, number], Promise<void>> {
+export class TemplateRegistrant
+  extends TemplateWriter
+  implements TemplateHandler<[TemplateWrite, number], Promise<void>>
+{
   operation: TemplateOperation = 'INSERT_TEMPLATE';
 
   constructor(
@@ -27,9 +29,10 @@ export class TemplateRegistrant implements TemplateHandler<[TemplateWrite, numbe
     private readonly questionContentHelper: QuestionContentHelper,
     private readonly userTemplateHelper: UserTemplateHelper,
     private readonly templateVerifyService: TemplateVerifyService,
-    private readonly dataMapperService: DataMapperService,
     private readonly userVerifyService: UserVerifyService,
-  ) {}
+  ) {
+    super();
+  }
 
   @Transactional()
   async handle(request: [TemplateWrite, number]): Promise<void> {
@@ -60,25 +63,11 @@ export class TemplateRegistrant implements TemplateHandler<[TemplateWrite, numbe
       new Date(templateWrite.getDate()),
       userTemplateComplete,
     );
-    const changedTemplate = this.changeUserTemplateType(
+    const changedTemplate = super.changeUserTemplateType(
       templateWrite.getTemplateContent(),
       userTemplateData.getId(),
     );
     await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
-  }
-
-  private changeUserTemplateType(
-    writeTempletes: WriteTemplateContent[],
-    userTempleteId: number,
-  ): InsertUserTemplateContent[] {
-    return writeTempletes.map((writeTemplete) =>
-      InsertUserTemplateContent.of(
-        writeTemplete.getQuestionId(),
-        writeTemplete.getContent(),
-        writeTemplete.getVisibility(),
-        userTempleteId,
-      ),
-    );
   }
 
   private async signUserChallengeComplete(challengeId: number, date: string) {
