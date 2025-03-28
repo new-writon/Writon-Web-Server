@@ -39,6 +39,12 @@ import { LikeCountCollector } from './service/handler/LikeCountCollector';
 import { LikeEraser } from './service/handler/LikeEraser';
 import { LikeRegistrant } from './service/handler/LikeRegistrant';
 import { LikePressUserCollector } from './service/handler/LikePressUserCollector';
+import { MyTemplateCollector } from './service/handler/MyTemplateCollector';
+import { TemplateEditor } from './service/handler/TemplateEditor';
+import { TemplateFetcher } from './service/handler/TemplateFetcher';
+import { TemplateNotifier } from './service/handler/TemplateNotifier';
+import { TemplateQueryByDate } from './service/handler/TemplateQueryByDate';
+import { TemplateRegistrant } from './service/handler/TemplateRegistrant';
 
 @Module({
   imports: [
@@ -76,6 +82,12 @@ import { LikePressUserCollector } from './service/handler/LikePressUserCollector
     LikeEraser,
     LikeRegistrant,
     LikePressUserCollector,
+    MyTemplateCollector,
+    TemplateEditor,
+    TemplateFetcher,
+    TemplateNotifier,
+    TemplateQueryByDate,
+    TemplateRegistrant,
     {
       provide: 'COMMENT_HANDLERS',
       useFactory: (
@@ -112,6 +124,32 @@ import { LikePressUserCollector } from './service/handler/LikePressUserCollector
         likePressUserCollector: LikePressUserCollector,
       ) => [likeChecker, likeCountCollector, likeEraser, likeRegistrant, likePressUserCollector],
       inject: [LikeChecker, LikeCountCollector, LikeEraser, LikeRegistrant, LikePressUserCollector],
+    },
+    {
+      provide: 'TEMPLATE_HANDLERS',
+      useFactory: (
+        myTemplateCollector: MyTemplateCollector,
+        templateEditor: TemplateEditor,
+        templateFetcher: TemplateFetcher,
+        templateNotifier: TemplateNotifier,
+        templateQueryByDate: TemplateQueryByDate,
+        templateRegistrant: TemplateRegistrant,
+      ) => [
+        myTemplateCollector,
+        templateEditor,
+        templateFetcher,
+        templateNotifier,
+        templateQueryByDate,
+        templateRegistrant,
+      ],
+      inject: [
+        MyTemplateCollector,
+        TemplateEditor,
+        TemplateFetcher,
+        TemplateNotifier,
+        TemplateQueryByDate,
+        TemplateRegistrant,
+      ],
     },
   ],
   controllers: [TemplateController, CommentController, LikeController],
