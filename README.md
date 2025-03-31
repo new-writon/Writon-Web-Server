@@ -120,7 +120,8 @@
 ## 🔗 ERD(기획성에 따라 변동)
 
 ---
-![Writon (2)](https://github.com/new-writon/Writon-Be/assets/106163272/4ee03183-9018-45cf-83dd-a6f41d57ad7d)
+![Writon(v2)](https://github.com/user-attachments/assets/00ced521-951f-4b34-b100-a62217434f92)
+
 
 
 ## ♻ CI/CD
