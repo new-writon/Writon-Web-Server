@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../TemplateHandler';
+import { TemplateHandler } from '../../port/input/TemplateHandler';
 import { TemplateOperation } from '../types/Operation';
 import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { LikeClickedUser } from '../../../dto/values/LikeClickedUser';

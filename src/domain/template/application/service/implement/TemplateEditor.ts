@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../TemplateHandler';
+import { TemplateHandler } from '../../port/input/TemplateHandler';
 import { TemplateUpdate } from '../../../dto/request/TemplateUpdate';
 import { TemplateOperation } from '../types/Operation';
 import { Transactional } from 'src/global/decorator/transaction';

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../TemplateHandler';
+import { TemplateHandler } from '../../port/input/TemplateHandler';
 import { MyComment } from '../../../dto/response/MyComment';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { checkData } from '../../../util/checker';

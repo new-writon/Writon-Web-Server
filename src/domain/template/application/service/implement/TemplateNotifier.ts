@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
-import { TemplateHandler } from '../TemplateHandler';
+import { TemplateHandler } from '../../port/input/TemplateHandler';
 import { TemplateOperation } from '../types/Operation';
 import { UserTemplate } from 'src/domain/template/domain/entity/UserTemplate';
 import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';

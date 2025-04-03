@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../TemplateHandler';
+import { TemplateHandler } from '../../port/input/TemplateHandler';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { Comment } from '../../../domain/entity/Comment';

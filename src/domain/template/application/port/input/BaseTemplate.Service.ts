@@ -1,4 +1,4 @@
-import { TemplateHandler } from '../../service/TemplateHandler';
+import { TemplateHandler } from './TemplateHandler';
 import { TemplateOperation } from '../../service/types/Operation';
 
 export abstract class BaseTemplateService {

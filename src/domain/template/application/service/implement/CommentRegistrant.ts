@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../TemplateHandler';
+import { TemplateHandler } from '../../port/input/TemplateHandler';
 import { CommentInsert } from '../../../dto/request/CommentInsert';
 import { CommentId } from '../../../dto/response/CommentId';
 import { checkFirebaseToken, compareValues } from '../../../util/checker';

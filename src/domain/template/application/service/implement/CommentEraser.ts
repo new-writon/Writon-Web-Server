@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../TemplateHandler';
+import { TemplateHandler } from '../../port/input/TemplateHandler';
 import { CommentDelete } from '../../../dto/request/CommentDelete';
 import { TemplateOperation } from '../types/Operation';
 import { CommentHelper } from 'src/domain/template/infrastructure/adapter/input/helper/Comment.Helper';

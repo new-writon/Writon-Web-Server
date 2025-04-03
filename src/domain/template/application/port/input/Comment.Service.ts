@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BaseTemplateService } from './BaseTemplate.Service';
-import { TemplateHandler } from '../../service/TemplateHandler';
+import { TemplateHandler } from './TemplateHandler';
 
 @Injectable()
 export class CommentService extends BaseTemplateService {
