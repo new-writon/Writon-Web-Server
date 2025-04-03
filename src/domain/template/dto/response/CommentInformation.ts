@@ -68,9 +68,7 @@ export class CommentInformation {
 
   private setPosition(position: string): void {
     if (position === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : position 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : position 값이 존재하지 않습니다.`);
     this.position = position;
   }
 
@@ -80,9 +78,7 @@ export class CommentInformation {
 
   private setCompany(company: string): void {
     if (company === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : company 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : company 값이 존재하지 않습니다.`);
     this.company = company;
   }
 
@@ -112,9 +108,7 @@ export class CommentInformation {
 
   private setCommentId(commentId: number): void {
     if (commentId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : commentId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : commentId 값이 존재하지 않습니다.`);
     this.commentId = commentId;
   }
 
@@ -124,9 +118,7 @@ export class CommentInformation {
 
   private setNickname(nickname: string): void {
     if (nickname === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : nickname 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
     this.nickname = nickname;
   }
 
@@ -149,9 +141,7 @@ export class CommentInformation {
 
   private setContent(content: string): void {
     if (content === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : content 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
     this.content = content;
   }
 
@@ -161,9 +151,7 @@ export class CommentInformation {
 
   private setCreatedAt(createdAt: string): void {
     if (createdAt === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : createdAt 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : createdAt 값이 존재하지 않습니다.`);
     this.createdAt = createdAt;
   }
 
@@ -185,9 +173,7 @@ export class CommentInformation {
 
   private setCommentGroup(commentGroup: string): void {
     if (commentGroup === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : commentGroup 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : commentGroup 값이 존재하지 않습니다.`);
     this.commentGroup = commentGroup;
   }
 

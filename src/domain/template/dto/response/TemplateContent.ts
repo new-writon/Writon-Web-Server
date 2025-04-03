@@ -95,25 +95,19 @@ export class TemplateContent {
 
   private setPosition(position: string): void {
     if (position === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : position 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : position 값이 존재하지 않습니다.`);
     this.position = position;
   }
 
   private setNickname(nickname: string): void {
     if (nickname === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : nickname 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
     this.nickname = nickname;
   }
 
   private setCompany(company: string): void {
     if (company === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : company 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : company 값이 존재하지 않습니다.`);
     this.company = company;
   }
 
@@ -131,9 +125,7 @@ export class TemplateContent {
 
   private setQuestionId(questionId: number): void {
     if (questionId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : questionId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : questionId 값이 존재하지 않습니다.`);
     this.questionId = questionId;
   }
 
@@ -155,65 +147,49 @@ export class TemplateContent {
 
   private setContent(content: string): void {
     if (content === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : content 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
     this.content = content;
   }
 
   private setCreatedAt(createdAt: string): void {
     if (createdAt === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : createdAt 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : createdAt 값이 존재하지 않습니다.`);
     this.createdAt = createdAt;
   }
 
   private setVisibility(visibility: boolean): void {
     if (visibility === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : visibility 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : visibility 값이 존재하지 않습니다.`);
     this.visibility = visibility;
   }
 
   private setCategory(category: string): void {
     if (category === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : category 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : category 값이 존재하지 않습니다.`);
     this.category = category;
   }
 
   private setQuestion(question: string): void {
     if (question === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : question 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : question 값이 존재하지 않습니다.`);
     this.question = question;
   }
 
   private setLikeCount(likeCount: string): void {
     if (likeCount === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : likeCount 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : likeCount 값이 존재하지 않습니다.`);
     this.likeCount = likeCount;
   }
 
   private setCommentCount(commentCount: string): void {
     if (commentCount === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : commentCount 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : commentCount 값이 존재하지 않습니다.`);
     this.commentCount = commentCount;
   }
 
   private setMyLikeSign(myLikeSign: string): void {
     if (myLikeSign === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : myLikeSign 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : myLikeSign 값이 존재하지 않습니다.`);
     this.myLikeSign = myLikeSign;
   }
 

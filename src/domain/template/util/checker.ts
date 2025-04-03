@@ -19,12 +19,8 @@ export const compareValues = (first: number, second: number) => {
   return 'others';
 };
 
-export const checkFirebaseToken = (
-  userChallengeData: UserChallenge,
-): boolean => {
-  if (
-    userChallengeData.getAffiliation().getUser().getFirebaseTokens().length > 0
-  ) {
+export const checkFirebaseToken = (userChallengeData: UserChallenge): boolean => {
+  if (userChallengeData.getAffiliation().getUser().getFirebaseTokens().length > 0) {
     return true;
   }
   return false;

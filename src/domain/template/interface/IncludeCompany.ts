@@ -1,4 +1,4 @@
 interface IncludeCompany {
-    company_public: boolean,
-    company: string | null
+  company_public: boolean;
+  company: string | null;
 }

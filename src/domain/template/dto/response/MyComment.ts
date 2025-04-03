@@ -39,9 +39,7 @@ export class MyComment {
 
   setCommentId(commentId: number): void {
     if (commentId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : commentId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : commentId 값이 존재하지 않습니다.`);
     this.commentId = commentId;
   }
 
@@ -55,9 +53,7 @@ export class MyComment {
 
   setContent(content: string): void {
     if (content === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : content 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
     this.content = content;
   }
 
