@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
-import { TemplateContent } from '../../../dto/response/TemplateContent';
 import { UserTemplate } from '../../../domain/entity/UserTemplate';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { sortCompanyPublicArray } from '../../../util/data';
@@ -17,7 +16,7 @@ import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/
 @Injectable()
 export class MyTemplateCollector
   extends TemplateCollector
-  implements TemplateHandler<[number, string, number], Promise<TemplateInformation | []>>
+  implements TemplateUseCase<[number, string, number], Promise<TemplateInformation | []>>
 {
   operation: TemplateOperation = 'SELECT_MY_TEMPLATE';
 

@@ -19,10 +19,10 @@ import { LikeHelper } from './infrastructure/adapter/input/helper/Like.Helper';
 import { QuestionContentHelper } from './infrastructure/adapter/input/helper/QuestionContent.Helper';
 import { CommentHelper } from './infrastructure/adapter/input/helper/Comment.Helper';
 import { ChallengeApi } from './infrastructure/adapter/output/apis/Challenge.Api';
-import { TemplateService } from './application/port/input/Template.Service';
-import { CommentService } from './application/port/input/Comment.Service';
+import { TemplateInputPort } from './application/port/input/TemplateInputPort';
+import { CommentInputPort } from './application/port/input/CommentInputPort';
 import { UserTemplateTransaction } from './infrastructure/adapter/output/transaction/UserTemplate.Transaction';
-import { LikeServie } from './application/port/input/Like.Service';
+import { LikeInputPort } from './application/port/input/LikeInputPort';
 import { TemplateRegistrant } from './application/service/implement/TemplateRegistrant';
 import { TemplateQueryByDate } from './application/service/implement/TemplateQueryByDate';
 import { TemplateNotifier } from './application/service/implement/TemplateNotifier';
@@ -62,9 +62,9 @@ import { UserApi } from './infrastructure/adapter/output/apis/User.Api';
     CommentHelper,
     UserApi,
     ChallengeApi,
-    TemplateService,
-    CommentService,
-    LikeServie,
+    TemplateInputPort,
+    CommentInputPort,
+    LikeInputPort,
     DataMapperService,
     UserTemplateTransaction,
     TemplateVerifyService,

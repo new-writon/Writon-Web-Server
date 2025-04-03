@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from 'src/domain/auth/decorators/Auth.Decorator';
 import { JWTAuthGuard } from 'src/domain/auth/guards/JwtAuth.Guard';
-import { CommentService } from 'src/domain/template/application/port/input/Comment.Service';
+import { CommentInputPort } from 'src/domain/template/application/port/input/CommentInputPort';
 import { CommentCheck } from 'src/domain/template/dto/request/CommentCheck';
 import { CommentDelete } from 'src/domain/template/dto/request/CommentDelete';
 import { CommentInsert } from 'src/domain/template/dto/request/CommentInsert';
@@ -25,7 +25,7 @@ import { SuccessResponseDto } from 'src/global/response/SuccessResponseDto';
 @Controller('/api/template/comment')
 export class CommentController {
   private readonly logger = new Logger(CommentController.name);
-  constructor(private readonly commentService: CommentService) {}
+  constructor(private readonly commentService: CommentInputPort) {}
 
   @Get('/:organization/challengeId/:challengeId')
   @HttpCode(200)

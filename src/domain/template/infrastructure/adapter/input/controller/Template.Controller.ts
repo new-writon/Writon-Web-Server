@@ -15,14 +15,14 @@ import { SuccessResponseDto } from '../../../../../../global/response/SuccessRes
 import { TemplateContent } from '../../../../dto/response/TemplateContent';
 import { TemplateWrite } from '../../../../dto/request/TemplateWrite';
 import { TemplateUpdate } from '../../../../dto/request/TemplateUpdate';
-import { TemplateService } from 'src/domain/template/application/port/input/Template.Service';
+import { TemplateInputPort } from 'src/domain/template/application/port/input/TemplateInputPort';
 import { TemplateInformation } from 'src/domain/template/dto/response/TemplateInformation';
 import { JWTAuthGuard } from 'src/domain/auth/guards/JwtAuth.Guard';
 
 @Controller('/api/template/root')
 export class TemplateController {
   private readonly logger = new Logger(TemplateController.name);
-  constructor(private readonly templateService: TemplateService) {}
+  constructor(private readonly templateService: TemplateInputPort) {}
 
   @Put('/update')
   @HttpCode(200)

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateUpdate } from '../../../dto/request/TemplateUpdate';
 import { TemplateOperation } from '../types/Operation';
 import { Transactional } from 'src/global/decorator/transaction';
@@ -10,7 +10,7 @@ import { QuestionContentHelper } from 'src/domain/template/infrastructure/adapte
 @Injectable()
 export class TemplateEditor
   extends TemplateWriter
-  implements TemplateHandler<[TemplateUpdate], Promise<void>>
+  implements TemplateUseCase<[TemplateUpdate], Promise<void>>
 {
   operation: TemplateOperation = 'UPDATE_TEMPLATE';
 

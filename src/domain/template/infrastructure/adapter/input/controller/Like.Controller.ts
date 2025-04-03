@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CurrentUser } from 'src/domain/auth/decorators/Auth.Decorator';
 import { JWTAuthGuard } from 'src/domain/auth/guards/JwtAuth.Guard';
-import { LikeServie } from 'src/domain/template/application/port/input/Like.Service';
+import { LikeInputPort } from 'src/domain/template/application/port/input/LikeInputPort';
 import { LikeCheck } from 'src/domain/template/dto/request/LikeCheck';
 import { LikeClick } from 'src/domain/template/dto/request/LikeClick';
 import { LikeCount } from 'src/domain/template/dto/response/LikeCount';
@@ -23,7 +23,7 @@ import { SuccessResponseDto } from 'src/global/response/SuccessResponseDto';
 @Controller('/api/template/like')
 export class LikeController {
   private readonly logger = new Logger(LikeController.name);
-  constructor(private readonly likeService: LikeServie) {}
+  constructor(private readonly likeService: LikeInputPort) {}
 
   @Patch('/check')
   @HttpCode(200)

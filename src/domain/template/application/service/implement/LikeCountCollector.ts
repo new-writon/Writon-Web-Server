@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { LikeCount } from '../../../dto/response/LikeCount';
 import { TemplateOperation } from '../types/Operation';
 import { LikeHelper } from 'src/domain/template/infrastructure/adapter/input/helper/Like.Helper';
 
 @Injectable()
-export class LikeCountCollector implements TemplateHandler<[number], Promise<LikeCount>> {
+export class LikeCountCollector implements TemplateUseCase<[number], Promise<LikeCount>> {
   operation: TemplateOperation = 'SELECT_LIKE_COUNT';
 
   constructor(private readonly likeHelper: LikeHelper) {}

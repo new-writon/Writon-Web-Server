@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { TemplateContent } from '../../../dto/response/TemplateContent';
 import { UserTemplate } from '../../../domain/entity/UserTemplate';
@@ -15,7 +15,7 @@ import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/
 
 @Injectable()
 export class TemplateFetcher
-  implements TemplateHandler<[number, string, boolean, number], Promise<TemplateContent[]>>
+  implements TemplateUseCase<[number, string, boolean, number], Promise<TemplateContent[]>>
 {
   operation: TemplateOperation = 'SELECT_SINGLE_TEMPLATE';
 

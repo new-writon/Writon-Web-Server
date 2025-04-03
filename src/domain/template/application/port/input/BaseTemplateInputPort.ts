@@ -1,14 +1,14 @@
-import { TemplateHandler } from './TemplateHandler';
+import { TemplateUseCase } from '../../service/TemplateUseCase';
 import { TemplateOperation } from '../../service/types/Operation';
 
-export abstract class BaseTemplateService {
-  private handleMap = new Map<string, TemplateHandler<any, any>>();
-  constructor(handlers: TemplateHandler<any, any>[]) {
+export abstract class BaseTemplateInputPort {
+  private handleMap = new Map<string, TemplateUseCase<any, any>>();
+  constructor(handlers: TemplateUseCase<any, any>[]) {
     handlers.forEach((handler) => {
       this.registerHandler(handler);
     });
   }
-  protected registerHandler(handler: TemplateHandler<any, any>) {
+  protected registerHandler(handler: TemplateUseCase<any, any>) {
     this.handleMap.set(handler.operation, handler);
   }
 

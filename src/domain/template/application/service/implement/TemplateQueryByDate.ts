@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { UserTemplate } from '../../../domain/entity/UserTemplate';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
@@ -16,7 +16,7 @@ import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/
 @Injectable()
 export class TemplateQueryByDate
   extends TemplateCollector
-  implements TemplateHandler<[number, string, number, Date], Promise<TemplateInformation | []>>
+  implements TemplateUseCase<[number, string, number, Date], Promise<TemplateInformation | []>>
 {
   operation: TemplateOperation = 'SELECT_TEMPLATE_BY_DATE';
 

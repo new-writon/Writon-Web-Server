@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { LikeClickedUser } from '../../../dto/values/LikeClickedUser';
@@ -10,7 +10,7 @@ import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/
 
 @Injectable()
 export class LikePressUserCollector
-  implements TemplateHandler<[number], Promise<LikeClickedUser[]>>
+  implements TemplateUseCase<[number], Promise<LikeClickedUser[]>>
 {
   operation: TemplateOperation = 'SELECT_PRESS_USER';
 

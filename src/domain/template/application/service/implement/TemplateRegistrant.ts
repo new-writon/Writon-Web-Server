@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { Transactional } from 'src/global/decorator/transaction';
 import { TemplateWrite } from '../../../dto/request/TemplateWrite';
@@ -16,7 +16,7 @@ import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/i
 @Injectable()
 export class TemplateRegistrant
   extends TemplateWriter
-  implements TemplateHandler<[TemplateWrite, number], Promise<void>>
+  implements TemplateUseCase<[TemplateWrite, number], Promise<void>>
 {
   operation: TemplateOperation = 'INSERT_TEMPLATE';
 

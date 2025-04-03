@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateHandler } from '../../port/input/TemplateHandler';
+import { TemplateUseCase } from '../TemplateUseCase';
 import { CommentInsert } from '../../../dto/request/CommentInsert';
 import { CommentId } from '../../../dto/response/CommentId';
 import { checkFirebaseToken, compareValues } from '../../../util/checker';
@@ -18,7 +18,7 @@ import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/
 
 @Injectable()
 export class CommentRegistrant
-  implements TemplateHandler<[CommentInsert, number], Promise<CommentId>>
+  implements TemplateUseCase<[CommentInsert, number], Promise<CommentId>>
 {
   operation: TemplateOperation = 'INSERT_COMMENT';
   constructor(
