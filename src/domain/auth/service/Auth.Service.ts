@@ -31,15 +31,13 @@ export class AuthService {
     kakaoToken: string,
   ): Promise<LoginResponse> {
     const kakaoData = await this.socialLogin.getKakaoData(kakaoToken);
-    const userData: User =
-      await this.userApi.requestUserDataBySocialNumberOrIdentifier(
-        kakaoData.data.id,
-      );
+    const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(
+      kakaoData.data.id,
+    );
     await this.signInDependingOnRegistrationStatus(userData, kakaoData);
-    const checkedUserData: User =
-      await this.userApi.requestUserDataBySocialNumberOrIdentifier(
-        kakaoData.data.id,
-      );
+    const checkedUserData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(
+      kakaoData.data.id,
+    );
     const accessToken = this.jwtManager.makeAccessToken(
       checkedUserData.getId(),
       checkedUserData.getRole(),
@@ -60,16 +58,9 @@ export class AuthService {
     await this.addAuthToken(checkFlag, checkedUserData.getId(), refreshToken);
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(organization, checkedUserData.getId()),
-      this.checkOngoingChallenge(
-        organization,
-        checkedUserData.getId(),
-        challengeId,
-      ),
+      this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId),
     ]);
-    affiliatedConfirmation = this.checkOrganization(
-      organization,
-      affiliatedConfirmation,
-    );
+    affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
     return LoginResponse.of(
       accessToken,
       refreshToken,
@@ -80,19 +71,12 @@ export class AuthService {
   }
 
   public async localLogin(loginLocal: LocalLogin): Promise<LoginResponse> {
-    const userData: User =
-      await this.userApi.requestUserDataBySocialNumberOrIdentifier(
-        loginLocal.getIdentifier(),
-      );
+    const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(
+      loginLocal.getIdentifier(),
+    );
     this.authVerifyService.vefifyIdentifier(userData);
-    await this.authVerifyService.verifyPassword(
-      loginLocal.getPassword(),
-      userData.getPassword(),
-    );
-    const accessToken = this.jwtManager.makeAccessToken(
-      userData.getId(),
-      userData.getRole(),
-    );
+    await this.authVerifyService.verifyPassword(loginLocal.getPassword(), userData.getPassword());
+    const accessToken = this.jwtManager.makeAccessToken(userData.getId(), userData.getRole());
     const refreshToken = this.jwtManager.makeRefreshToken();
     await this.loginTokenManager.setToken(
       String(userData.getId()),
@@ -108,10 +92,7 @@ export class AuthService {
     const checkFlag = checkData(authToken);
     await this.addAuthToken(checkFlag, userData.getId(), refreshToken);
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
-      this.checkAffiliationStatus(
-        loginLocal.getOrganization(),
-        userData.getId(),
-      ),
+      this.checkAffiliationStatus(loginLocal.getOrganization(), userData.getId()),
       this.checkOngoingChallenge(
         loginLocal.getOrganization(),
         userData.getId(),
@@ -138,21 +119,14 @@ export class AuthService {
   }
 
   @Transactional()
-  public async logout(
-    userId: string,
-    refreshToken: string,
-    engineValue: string,
-  ): Promise<void> {
+  public async logout(userId: string, refreshToken: string, engineValue: string): Promise<void> {
     await this.loginTokenManager.deleteToken(userId, refreshToken);
     await this.userApi.executeDeleteFirebaseToken(Number(userId), engineValue);
     // 디비 토큰 삭제
     await this.userApi.executeDeleteAuthToken(Number(userId), refreshToken);
   }
 
-  private checkOrganization(
-    organization: string,
-    affiliatedConfirmation: boolean,
-  ): null | boolean {
+  private checkOrganization(organization: string, affiliatedConfirmation: boolean): null | boolean {
     if (organization === 'null') {
       return (affiliatedConfirmation = null);
     }
@@ -177,10 +151,7 @@ export class AuthService {
     userId: number,
   ): Promise<boolean | null> {
     const checkAffiliation: Affiliation =
-      await this.userApi.requestAffiliationByUserIdAndOrganization(
-        userId,
-        organization,
-      );
+      await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
     const affiliatedConfirmation: boolean = checkData(checkAffiliation);
     return affiliatedConfirmation;
   }
