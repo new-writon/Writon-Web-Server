@@ -1,23 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { Question } from '../../entity/Question';
-import { QuestionRepository } from '../Question.Repository';
-import { Keyword } from '../../entity/Keyword';
-import { SpecialQuestion } from '../../../dto/response/SpecialQuestion';
-import { BasicQuestion } from '../../../dto/response/BasicQuestion';
+import { Question } from '../../../../domain/entity/Question';
+import { Keyword } from '../../../../domain/entity/Keyword';
+import { SpecialQuestion } from '../../../../dto/response/SpecialQuestion';
+import { BasicQuestion } from '../../../../dto/response/BasicQuestion';
+import { QuestionRepository } from 'src/domain/challenge/application/port/output/Question.Repository';
 
 @Injectable()
-export class QuestionDao
-  extends Repository<Question>
-  implements QuestionRepository
-{
+export class QuestionDao extends Repository<Question> implements QuestionRepository {
   constructor(private dataSource: DataSource) {
     super(Question, dataSource.createEntityManager());
   }
 
-  async findBasicQuestionByChallengeId(
-    challengeId: number,
-  ): Promise<BasicQuestion[]> {
+  async findBasicQuestionByChallengeId(challengeId: number): Promise<BasicQuestion[]> {
     return this.dataSource
       .createQueryBuilder()
       .select(['q.question_id AS questionId', 'q.question AS question'])
@@ -28,16 +23,10 @@ export class QuestionDao
       .getRawMany();
   }
 
-  async findSpecialQuestionByChallengeId(
-    challengeId: number,
-  ): Promise<SpecialQuestion[]> {
+  async findSpecialQuestionByChallengeId(challengeId: number): Promise<SpecialQuestion[]> {
     return this.dataSource
       .createQueryBuilder()
-      .select([
-        'q.question_id AS questionId',
-        'q.question AS question',
-        'k.keyword AS keyword',
-      ])
+      .select(['q.question_id AS questionId', 'q.question AS question', 'k.keyword AS keyword'])
       .from(Question, 'q')
       .innerJoin(Keyword, 'k', 'k.keyword_id = q.keyword_id')
       .where('q.challenge_id = :challengeId', { challengeId })

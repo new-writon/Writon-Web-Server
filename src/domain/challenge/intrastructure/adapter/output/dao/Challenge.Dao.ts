@@ -1,17 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Challenge } from '../../entity/Challenge';
+import { Challenge } from '../../../../domain/entity/Challenge';
 import { DataSource, Repository } from 'typeorm';
-import { ChallengeRepository } from '../Challenge.Repository';
-import { ChallengeInformation } from '../../../dto/values/ChallengeInformation';
-import { ChallengeDay } from '../../entity/ChallengeDay';
-import { ChallengeDepositDeduction } from '../../entity/ChallengeDepositDeduction';
-import { ChallengesPerOrganization } from '../../../../user/dto/values/ChallengesPerOrganization';
+import { ChallengeInformation } from '../../../../dto/values/ChallengeInformation';
+import { ChallengeDay } from '../../../../domain/entity/ChallengeDay';
+import { ChallengeDepositDeduction } from '../../../../domain/entity/ChallengeDepositDeduction';
+import { ChallengesPerOrganization } from '../../../../../user/dto/values/ChallengesPerOrganization';
+import { ChallengeRepository } from 'src/domain/challenge/application/port/output/Challenge.Repository';
 
 @Injectable()
-export class ChallengeDao
-  extends Repository<Challenge>
-  implements ChallengeRepository
-{
+export class ChallengeDao extends Repository<Challenge> implements ChallengeRepository {
   constructor(private dataSource: DataSource) {
     super(Challenge, dataSource.createEntityManager());
   }
@@ -44,9 +41,7 @@ export class ChallengeDao
     });
   }
 
-  async findChallengeWithCondition(
-    challengeId: number,
-  ): Promise<ChallengeInformation[]> {
+  async findChallengeWithCondition(challengeId: number): Promise<ChallengeInformation[]> {
     return this.dataSource
       .createQueryBuilder()
       .select([
@@ -59,16 +54,10 @@ export class ChallengeDao
       ])
       .from(Challenge, 'c')
       .innerJoin(ChallengeDay, 'cd', 'cd.challenge_id = c.challenge_id')
-      .innerJoin(
-        ChallengeDepositDeduction,
-        'cdd',
-        'cdd.challenge_id = c.challenge_id',
-      )
+      .innerJoin(ChallengeDepositDeduction, 'cdd', 'cdd.challenge_id = c.challenge_id')
       .where('cd.day < CURDATE()')
       .andWhere('c.challenge_id = :challengeId', { challengeId })
-      .groupBy(
-        'c.challenge_id, c.deposit, cdd.start_count, cdd.end_count, cdd.deduction_amount',
-      )
+      .groupBy('c.challenge_id, c.deposit, cdd.start_count, cdd.end_count, cdd.deduction_amount')
       .getRawMany();
   }
 
@@ -80,9 +69,7 @@ export class ChallengeDao
     });
   }
 
-  async findChallengeByOrgnizationIds(
-    organizationIds: number[],
-  ): Promise<Challenge[]> {
+  async findChallengeByOrgnizationIds(organizationIds: number[]): Promise<Challenge[]> {
     return this.dataSource
       .createQueryBuilder()
       .select('c')
@@ -102,11 +89,7 @@ export class ChallengeDao
         'cdd.deduction_amount AS deductionAmount',
       ])
       .innerJoin(ChallengeDay, 'cd', 'cd.challenge_id = c.challenge_id')
-      .innerJoin(
-        ChallengeDepositDeduction,
-        'cdd',
-        'cdd.challenge_id = c.challenge_id',
-      )
+      .innerJoin(ChallengeDepositDeduction, 'cdd', 'cdd.challenge_id = c.challenge_id')
       .where('CURDATE() <= c.finish_at')
       .andWhere('cd.day < CURDATE()')
       .groupBy('c.challenge_id')
@@ -127,9 +110,7 @@ export class ChallengeDao
     });
   }
 
-  async findChallengesByIds(
-    challengeIds: number[],
-  ): Promise<ChallengesPerOrganization[]> {
+  async findChallengesByIds(challengeIds: number[]): Promise<ChallengesPerOrganization[]> {
     const result = await this.createQueryBuilder()
       .select([
         'c.challenge_id AS challengeId',

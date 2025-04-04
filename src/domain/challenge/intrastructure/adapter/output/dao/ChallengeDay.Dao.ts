@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common';
-
 import { DataSource, Repository } from 'typeorm';
-import { ChallengeDay } from '../../entity/ChallengeDay';
-import { ChallengeDayRepository } from '../ChallengeDay.Repository';
+import { ChallengeDay } from '../../../../domain/entity/ChallengeDay';
+import { ChallengeDayRepository } from 'src/domain/challenge/application/port/output/ChallengeDay.Repository';
 
 @Injectable()
-export class ChallengeDayDao
-  extends Repository<ChallengeDay>
-  implements ChallengeDayRepository
-{
+export class ChallengeDayDao extends Repository<ChallengeDay> implements ChallengeDayRepository {
   constructor(private dataSource: DataSource) {
     super(ChallengeDay, dataSource.createEntityManager());
   }
@@ -35,9 +31,7 @@ export class ChallengeDayDao
       .getCount();
   }
 
-  async findChallengeDayByChallengeId(
-    challengeId: number,
-  ): Promise<ChallengeDay[]> {
+  async findChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]> {
     return (
       this.dataSource
         .createQueryBuilder()
