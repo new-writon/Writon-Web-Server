@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ChallengeDayRepository } from '../domain/repository/ChallengeDay.Repository';
-import { ChallengeDay } from '../domain/entity/ChallengeDay';
-import { ChallengeVerifyService } from '../../../global/exception/challenge/ChallengeVerify.Service';
+import { ChallengeDayRepository } from '../port/output/ChallengeDay.Repository';
+import { ChallengeVerifyService } from 'src/global/exception/challenge/ChallengeVerify.Service';
+import { ChallengeDay } from '../../domain/entity/ChallengeDay';
 
 @Injectable()
 export class ChallengeDayHelper {
@@ -15,21 +15,14 @@ export class ChallengeDayHelper {
     return this.challengeDayRepository.findChallengeOverlapCount(challengeId);
   }
 
-  public async giveChallengeDayByChallengeId(
-    challengeId: number,
-  ): Promise<ChallengeDay[]> {
-    return this.challengeDayRepository.findChallengeDayByChallengeId(
-      challengeId,
-    );
+  public async giveChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]> {
+    return this.challengeDayRepository.findChallengeDayByChallengeId(challengeId);
   }
 
   public async giveChallengeDayByChallengeIdAndDate(
     challengeId: number,
     date: string,
   ): Promise<ChallengeDay> {
-    return this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(
-      challengeId,
-      date,
-    );
+    return this.challengeDayRepository.findChallengeDayByChallengeIdAndDate(challengeId, date);
   }
 }

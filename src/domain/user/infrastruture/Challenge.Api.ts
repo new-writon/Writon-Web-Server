@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ChallengeHelper } from '../../../domain/challenge/helper/Challenge.Helper';
-import { ChallengeDayHelper } from '../../../domain/challenge/helper/ChallengeDay.Helper';
 import { ChallengeDay } from '../../../domain/challenge/domain/entity/ChallengeDay';
+import { ChallengeHelper } from 'src/domain/challenge/application/helper/Challenge.Helper';
+import { ChallengeDayHelper } from 'src/domain/challenge/application/helper/ChallengeDay.Helper';
 
 @Injectable()
 export class ChallengeApi {
@@ -22,22 +22,16 @@ export class ChallengeApi {
     return this.challengeHelper.giveOverlapPeriod(challengeId);
   }
 
-  public async requestChallengeOverlapCount(
-    challengeId: number,
-  ): Promise<number> {
+  public async requestChallengeOverlapCount(challengeId: number): Promise<number> {
     // 검증 x
     return this.challengeDayHelper.giveChallengeOverlapCount(challengeId);
   }
 
-  public async requestChallengeDayByChallengeId(
-    challengeId: number,
-  ): Promise<ChallengeDay[]> {
+  public async requestChallengeDayByChallengeId(challengeId: number): Promise<ChallengeDay[]> {
     return this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
   }
 
-  public async requestAllChallengingInformation(): Promise<
-    ChallengeAllInformation[]
-  > {
+  public async requestAllChallengingInformation(): Promise<ChallengeAllInformation[]> {
     return this.challengeHelper.giveAllChallengingInformation();
   }
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ChallengeHelper } from 'src/domain/challenge/helper/Challenge.Helper';
+import { ChallengeHelper } from 'src/domain/challenge/application/helper/Challenge.Helper';
+import { ChallengeDayHelper } from 'src/domain/challenge/application/helper/ChallengeDay.Helper';
+import { QuestionHelper } from 'src/domain/challenge/application/helper/Question.Helper';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
-import { ChallengeDayHelper } from 'src/domain/challenge/helper/ChallengeDay.Helper';
-import { QuestionHelper } from 'src/domain/challenge/helper/Question.Helper';
 import { ChallengeDay } from 'src/domain/challenge/domain/entity/ChallengeDay';
 import { Question } from 'src/domain/challenge/domain/entity/Question';
 
