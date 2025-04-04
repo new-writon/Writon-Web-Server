@@ -14,7 +14,6 @@ export class QuestionController {
   public async bringBasicQuestion(
     @Param('challengeId') challengeId: number,
   ): Promise<SuccessResponseDto<BasicQuestion[]>> {
-    // const result = await this.challengeQuestionService.bringBasicQuestion(challengeId);
     const result = await this.questionInputPort.execute<[number], BasicQuestion[]>(
       'SELECT_BASIC_QUESTION',
       challengeId,
@@ -28,7 +27,6 @@ export class QuestionController {
   public async bringSpecialQuestion(
     @Param('challengeId') challengeId: number,
   ): Promise<SuccessResponseDto<SpecialQuestion[]>> {
-    // const result = await this.challengeQuestionService.bringSpecialQuestion(challengeId);
     const result = await this.questionInputPort.execute<[number], SpecialQuestion[]>(
       'SELECT_SPECIAL_QUESTION',
       challengeId,
