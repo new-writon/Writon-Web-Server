@@ -14,11 +14,11 @@ import { UserTemplateDao } from './infrastructure/adapter/output/dao/UserTemplat
 import { QuestionContentDao } from './infrastructure/adapter/output/dao/QuestionContent.Dao';
 import { CommentDao } from './infrastructure/adapter/output/dao/Comment.Dao';
 import { LikeDao } from './infrastructure/adapter/output/dao/Like.Dao';
-import { UserTemplateHelper } from './infrastructure/adapter/input/helper/UserTemplate.Helper';
-import { LikeHelper } from './infrastructure/adapter/input/helper/Like.Helper';
-import { QuestionContentHelper } from './infrastructure/adapter/input/helper/QuestionContent.Helper';
-import { CommentHelper } from './infrastructure/adapter/input/helper/Comment.Helper';
-import { ChallengeApi } from './infrastructure/adapter/output/apis/Challenge.Api';
+import { UserTemplateHelper } from './application/helper/UserTemplate.Helper';
+import { LikeHelper } from './application/helper/Like.Helper';
+import { QuestionContentHelper } from './application/helper/QuestionContent.Helper';
+import { CommentHelper } from './application/helper/Comment.Helper';
+import { ChallengeApi } from './application/apis/Challenge.Api';
 import { TemplateInputPort } from './application/port/input/TemplateInputPort';
 import { CommentInputPort } from './application/port/input/CommentInputPort';
 import { UserTemplateTransaction } from './infrastructure/adapter/output/transaction/UserTemplate.Transaction';
@@ -43,7 +43,7 @@ import { TemplateFetcher } from './application/service/implement/TemplateFetcher
 import { TemplateController } from './infrastructure/adapter/input/controller/Template.Controller';
 import { CommentController } from './infrastructure/adapter/input/controller/Comment.Controller';
 import { LikeController } from './infrastructure/adapter/input/controller/Like.Controller';
-import { UserApi } from './infrastructure/adapter/output/apis/User.Api';
+import { UserApi } from './application/apis/User.Api';
 
 @Module({
   imports: [

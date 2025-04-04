@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateUpdate } from '../../../dto/request/TemplateUpdate';
 import { TemplateOperation } from '../types/Operation';
 import { Transactional } from 'src/global/decorator/transaction';
 import { TemplateWriter } from '../TemplateWriter';
 import { DataSource } from 'typeorm';
-import { QuestionContentHelper } from 'src/domain/template/infrastructure/adapter/input/helper/QuestionContent.Helper';
+import { QuestionContentHelper } from 'src/domain/template/application/helper/QuestionContent.Helper';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class TemplateEditor

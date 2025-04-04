@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserTemplate } from 'src/domain/template/domain/entity/UserTemplate';
-import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/input/helper/UserTemplate.Helper';
+import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 
 @Injectable()
 export class TemplateApi {

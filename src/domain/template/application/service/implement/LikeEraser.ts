@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { LikeClick } from '../../../dto/request/LikeClick';
 import { LikeCount } from '../../../dto/response/LikeCount';
 import { TemplateOperation } from '../types/Operation';
-import { LikeHelper } from 'src/domain/template/infrastructure/adapter/input/helper/Like.Helper';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
+import { LikeHelper } from 'src/domain/template/application/helper/Like.Helper';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class LikeEraser implements TemplateUseCase<[LikeClick, number], Promise<LikeCount>> {

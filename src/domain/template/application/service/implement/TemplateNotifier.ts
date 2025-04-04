@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { UserTemplate } from 'src/domain/template/domain/entity/UserTemplate';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
-import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/input/helper/UserTemplate.Helper';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
+import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class TemplateNotifier

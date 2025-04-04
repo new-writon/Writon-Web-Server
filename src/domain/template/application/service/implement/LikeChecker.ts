@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { LikeCheck } from '../../../dto/request/LikeCheck';
 import { TemplateOperation } from '../types/Operation';
-import { LikeHelper } from 'src/domain/template/infrastructure/adapter/input/helper/Like.Helper';
+import { LikeHelper } from 'src/domain/template/application/helper/Like.Helper';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class LikeChecker implements TemplateUseCase<[LikeCheck], Promise<void>> {

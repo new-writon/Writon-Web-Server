@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { Transactional } from 'src/global/decorator/transaction';
 import { TemplateWrite } from '../../../dto/request/TemplateWrite';
@@ -8,10 +7,11 @@ import { TemplateVerifyService } from 'src/global/exception/template/TemplateVer
 import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { TemplateWriter } from '../TemplateWriter';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
-import { QuestionContentHelper } from 'src/domain/template/infrastructure/adapter/input/helper/QuestionContent.Helper';
-import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/apis/Challenge.Api';
-import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/input/helper/UserTemplate.Helper';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
+import { QuestionContentHelper } from 'src/domain/template/application/helper/QuestionContent.Helper';
+import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
+import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class TemplateRegistrant

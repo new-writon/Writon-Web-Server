@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { TemplateContent } from '../../../dto/response/TemplateContent';
 import { UserTemplate } from '../../../domain/entity/UserTemplate';
@@ -9,9 +8,10 @@ import { formatDate } from '../../../util/date';
 import { Question } from 'src/domain/challenge/domain/entity/Question';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
 import { DataMapperService } from '../../../domain/service/DataMappper.Service';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
-import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/input/helper/UserTemplate.Helper';
-import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/apis/Challenge.Api';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
+import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
+import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class TemplateFetcher

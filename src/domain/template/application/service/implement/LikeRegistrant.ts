@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { LikeClick } from '../../../dto/request/LikeClick';
 import { LikeCount } from '../../../dto/response/LikeCount';
 import { TemplateOperation } from '../types/Operation';
@@ -15,10 +14,11 @@ import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { formatDateToPushAlarmStatus } from '../../../util/date';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
 import { DataSource } from 'typeorm';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
-import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/input/helper/UserTemplate.Helper';
-import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/apis/Challenge.Api';
-import { LikeHelper } from 'src/domain/template/infrastructure/adapter/input/helper/Like.Helper';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
+import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
+import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
+import { LikeHelper } from 'src/domain/template/application/helper/Like.Helper';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class LikeRegistrant implements TemplateUseCase<[LikeClick, number], Promise<LikeCount>> {

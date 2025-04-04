@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { CommentInsert } from '../../../dto/request/CommentInsert';
 import { CommentId } from '../../../dto/response/CommentId';
 import { checkFirebaseToken, compareValues } from '../../../util/checker';
@@ -10,11 +9,12 @@ import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
 import { formatDateToPushAlarmStatus } from '../../../util/date';
 import { TemplateOperation } from '../types/Operation';
-import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/input/helper/UserTemplate.Helper';
-import { CommentHelper } from 'src/domain/template/infrastructure/adapter/input/helper/Comment.Helper';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
+import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
+import { CommentHelper } from 'src/domain/template/application/helper/Comment.Helper';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
 import { Comment } from 'src/domain/template/domain/entity/Comment';
-import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/apis/Challenge.Api';
+import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class CommentRegistrant

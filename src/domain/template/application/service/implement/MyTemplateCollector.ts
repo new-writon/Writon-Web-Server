@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { TemplateOperation } from '../types/Operation';
 import { UserTemplate } from '../../../domain/entity/UserTemplate';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
@@ -9,9 +8,10 @@ import { TemplateInformation } from '../../../dto/response/TemplateInformation';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { TemplateCollector } from '../TemplateCollector';
 import { QuestionContent } from 'src/domain/template/domain/entity/QuestionContent';
-import { UserTemplateHelper } from 'src/domain/template/infrastructure/adapter/input/helper/UserTemplate.Helper';
-import { ChallengeApi } from 'src/domain/template/infrastructure/adapter/output/apis/Challenge.Api';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
+import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
+import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class MyTemplateCollector

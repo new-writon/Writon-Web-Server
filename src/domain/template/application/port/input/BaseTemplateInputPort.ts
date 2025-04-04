@@ -1,5 +1,5 @@
-import { TemplateUseCase } from '../../service/TemplateUseCase';
 import { TemplateOperation } from '../../service/types/Operation';
+import { TemplateUseCase } from './TemplateUseCase';
 
 export abstract class BaseTemplateInputPort {
   private handleMap = new Map<string, TemplateUseCase<any, any>>();

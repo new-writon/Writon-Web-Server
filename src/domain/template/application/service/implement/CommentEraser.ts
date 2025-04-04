@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { TemplateUseCase } from '../TemplateUseCase';
 import { CommentDelete } from '../../../dto/request/CommentDelete';
 import { TemplateOperation } from '../types/Operation';
-import { CommentHelper } from 'src/domain/template/infrastructure/adapter/input/helper/Comment.Helper';
-import { UserApi } from 'src/domain/template/infrastructure/adapter/output/apis/User.Api';
+import { CommentHelper } from 'src/domain/template/application/helper/Comment.Helper';
+import { UserApi } from 'src/domain/template/application/apis/User.Api';
+import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 
 @Injectable()
 export class CommentEraser implements TemplateUseCase<[CommentDelete, number], Promise<void>> {
