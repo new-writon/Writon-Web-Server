@@ -1,9 +1,10 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { QuestionRepository } from '../port/output/Question.Repository';
 import { BasicQuestion } from '../../dto/response/BasicQuestion';
 import { SpecialQuestion } from '../../dto/response/SpecialQuestion';
 import { Question } from '../../domain/entity/Question';
 
+@Injectable()
 export class QuestionHelper {
   constructor(
     @Inject('questionImpl')

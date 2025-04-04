@@ -4,7 +4,7 @@ import { BasicQuestion } from 'src/domain/challenge/dto/response/BasicQuestion';
 import { ChallengeOperation } from '../types/Operation';
 import { QuestionHelper } from '../../helper/Question.Helper';
 
-Injectable();
+@Injectable()
 export class BasicQuestionCollector
   implements ChallengeUseCase<[number], Promise<BasicQuestion[]>>
 {

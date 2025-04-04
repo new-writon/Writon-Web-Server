@@ -4,7 +4,7 @@ import { ChallengeUseCase } from '../../port/input/ChallengeUseCase';
 import { ChallengeOperation } from '../types/Operation';
 import { QuestionHelper } from '../../helper/Question.Helper';
 
-Injectable();
+@Injectable()
 export class SpecialQuestionCollector
   implements ChallengeUseCase<[number], Promise<SpecialQuestion[]>>
 {

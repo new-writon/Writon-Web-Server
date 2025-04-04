@@ -13,7 +13,6 @@ import { UserModule } from '../user/user.module';
 import { DataMapperService } from './domain/service/DataMapper.Service';
 import { UserApi } from './application/apis/User.Api';
 import { ChallengeVerifyService } from 'src/global/exception/challenge/ChallengeVerify.Service';
-import { QuestionHelper } from './application/helper/Question.Helper';
 import { ChallengeDayHelper } from './application/helper/ChallengeDay.Helper';
 import { ChallengeHelper } from './application/helper/Challenge.Helper';
 import { QuestionController } from './intrastructure/adapter/input/controller/Question.Controller';
@@ -29,6 +28,7 @@ import { ChallengeDateChecker } from './application/service/implements/Challenge
 import { ChallengeDateCollector } from './application/service/implements/ChallengeDateCollector';
 import { Invitor } from './application/service/implements/Invitor';
 import { StatusCollector } from './application/service/implements/StatusCollector';
+import { QuestionHelper } from './application/helper/Question.Helper';
 
 @Module({
   imports: [
