@@ -43,27 +43,17 @@ export class UserTemplate extends BaseEntity {
   @OneToMany(() => Likes, (likes) => likes.userTemplate)
   likes: Relation<Likes>[];
 
-  @OneToMany(
-    () => QuestionContent,
-    (questionContent) => questionContent.userTemplate,
-  )
+  @OneToMany(() => QuestionContent, (questionContent) => questionContent.userTemplate)
   questionContents: Relation<QuestionContent>[];
 
-  @ManyToOne(
-    () => UserChallenge,
-    (userChallenge) => userChallenge.userTemplates,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
-  )
-  @JoinColumn([
-    { name: 'user_challenge_id', referencedColumnName: 'userChallengeId' },
-  ])
+  @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.userTemplates, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'user_challenge_id', referencedColumnName: 'userChallengeId' }])
   userChallenge: Relation<UserChallenge>;
 
-  public static createUserTemplate(
-    userChallengeId: number,
-    finished_at: Date,
-    complete: boolean,
-  ) {
+  public static createUserTemplate(userChallengeId: number, finished_at: Date, complete: boolean) {
     return new UserTemplate(userChallengeId, finished_at, complete);
   }
 
@@ -77,17 +67,13 @@ export class UserTemplate extends BaseEntity {
 
   private setTemplateDate(templateDate: Date) {
     if (templateDate === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : templateDate 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : templateDate 값이 존재하지 않습니다.`);
     this.templateDate = templateDate;
   }
 
   private setComplete(complete: boolean) {
     if (complete === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : complete값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : complete값이 존재하지 않습니다.`);
     this.complete = complete;
   }
 

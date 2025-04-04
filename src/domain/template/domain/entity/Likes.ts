@@ -37,18 +37,14 @@ export class Likes extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'affiliation_id', referencedColumnName: 'affiliationId' },
-  ])
+  @JoinColumn([{ name: 'affiliation_id', referencedColumnName: 'affiliationId' }])
   affiliation: Relation<Affiliation>;
 
   @ManyToOne(() => UserTemplate, (userTemplate) => userTemplate.likes, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'user_template_id', referencedColumnName: 'userTemplateId' },
-  ])
+  @JoinColumn([{ name: 'user_template_id', referencedColumnName: 'userTemplateId' }])
   userTemplate: Relation<UserTemplate>;
 
   public static createLike(affiliationId: number, userTemplateId: number) {

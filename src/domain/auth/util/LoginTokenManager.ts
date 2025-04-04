@@ -5,11 +5,7 @@ import { CacheImpl } from '../../../global/util/CacheImpl';
 export class LoginTokenManager {
   constructor(private readonly cacheImpl: CacheImpl) {}
 
-  public async setToken(
-    key: string,
-    value: string | string[],
-    ttl: number,
-  ): Promise<void> {
+  public async setToken(key: string, value: string | string[], ttl: number): Promise<void> {
     const existingValue = await this.cacheImpl.getValue(key);
     if (Array.isArray(value)) {
       value = this.mergeValues(existingValue, value);
@@ -31,10 +27,7 @@ export class LoginTokenManager {
     }
   }
 
-  private mergeValues(
-    existingValue: string | string[] | undefined,
-    newValue: string[],
-  ): string[] {
+  private mergeValues(existingValue: string | string[] | undefined, newValue: string[]): string[] {
     if (existingValue === undefined || existingValue === null) {
       return newValue;
     }

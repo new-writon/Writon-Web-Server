@@ -16,12 +16,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 @Index('question_contents_user_templates_fkey', ['userTemplateId'], {})
 @Entity('question_contents', { schema: 'nest' })
 export class QuestionContent extends BaseEntity {
-  constructor(
-    questionId: number,
-    content: string,
-    visibility: boolean,
-    userTemplateId: number,
-  ) {
+  constructor(questionId: number, content: string, visibility: boolean, userTemplateId: number) {
     super(), this.setQuestionId(questionId);
     this.setContent(content);
     this.setVisibility(visibility);
@@ -50,14 +45,11 @@ export class QuestionContent extends BaseEntity {
   @JoinColumn([{ name: 'question_id', referencedColumnName: 'questionId' }])
   question: Relation<Question>;
 
-  @ManyToOne(
-    () => UserTemplate,
-    (userTemplate) => userTemplate.questionContents,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
-  )
-  @JoinColumn([
-    { name: 'user_template_id', referencedColumnName: 'userTemplateId' },
-  ])
+  @ManyToOne(() => UserTemplate, (userTemplate) => userTemplate.questionContents, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'user_template_id', referencedColumnName: 'userTemplateId' }])
   userTemplate: Relation<UserTemplate>;
 
   public getId() {
@@ -87,25 +79,19 @@ export class QuestionContent extends BaseEntity {
 
   private setQuestionId(questionId: number) {
     if (questionId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : questionId값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : questionId값이 존재하지 않습니다.`);
     this.questionId = questionId;
   }
 
   private setContent(content: string) {
     if (content === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : content값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : content값이 존재하지 않습니다.`);
     this.content = content;
   }
 
   private setVisibility(visibility: boolean) {
     if (visibility === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : visibility값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : visibility값이 존재하지 않습니다.`);
     this.visibility = visibility;
   }
 

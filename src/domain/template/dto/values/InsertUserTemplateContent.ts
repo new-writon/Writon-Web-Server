@@ -6,12 +6,7 @@ export class InsertUserTemplateContent {
   private visibility: boolean;
   private user_templete_id: number;
 
-  constructor(
-    question_id: number,
-    content: string,
-    visibility: boolean,
-    user_templete_id: number,
-  ) {
+  constructor(question_id: number, content: string, visibility: boolean, user_templete_id: number) {
     this.setQuestionId(question_id);
     this.setContent(content);
     this.setVisibility(visibility);
@@ -24,36 +19,25 @@ export class InsertUserTemplateContent {
     visibility: boolean,
     user_templete_id: number,
   ) {
-    return new InsertUserTemplateContent(
-      question_id,
-      content,
-      visibility,
-      user_templete_id,
-    );
+    return new InsertUserTemplateContent(question_id, content, visibility, user_templete_id);
   }
 
   private setQuestionId(question_id: number): void {
     if (question_id === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : question_id 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : question_id 값이 존재하지 않습니다.`);
 
     this.question_id = question_id;
   }
 
   private setContent(content: string): void {
     if (content === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : content 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
     this.content = content;
   }
 
   private setVisibility(visibility: boolean): void {
     if (visibility === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : visibility 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : visibility 값이 존재하지 않습니다.`);
     this.visibility = visibility;
   }
 
