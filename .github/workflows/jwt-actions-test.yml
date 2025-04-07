@@ -27,6 +27,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # FIREBASE SDK 세팅
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: 'writon-firebase-admin.json'
+          json: ${{ secrets.FIREBASE }}
+
       # 빌드
       - name: Build
         run: npm run build
