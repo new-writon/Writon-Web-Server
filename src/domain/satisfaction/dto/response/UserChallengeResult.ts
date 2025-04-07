@@ -53,25 +53,19 @@ export class UserChallengeResult {
 
   private setNickname(nickname: string): void {
     if (nickname === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : nickname값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : nickname값이 존재하지 않습니다.`);
     this.nickname = nickname;
   }
 
   private setOrganization(organization: string): void {
     if (organization === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : organization 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : organization 값이 존재하지 않습니다.`);
     this.organization = organization;
   }
 
   private setChallenge(challenge: string): void {
     if (challenge === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : challenge 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : challenge 값이 존재하지 않습니다.`);
     this.challenge = challenge;
   }
 

@@ -32,17 +32,13 @@ export class SatisfactionQuestion {
 
   private setType(type: string) {
     if (type === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : type 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : type 값이 존재하지 않습니다.`);
     this.type = type;
   }
 
   private setQuestion(question: string) {
     if (question === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : question 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : question 값이 존재하지 않습니다.`);
     this.question = question;
   }
 }

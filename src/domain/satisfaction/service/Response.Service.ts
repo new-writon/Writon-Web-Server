@@ -75,17 +75,13 @@ export class ResponseService {
     satisfationAnswer: Array<ObjectiveAnswer>,
     userChallengeId: number,
   ): ObjectiveAnswerType[] {
-    return satisfationAnswer.map((answer) =>
-      ObjectiveAnswerType.of(answer, userChallengeId),
-    );
+    return satisfationAnswer.map((answer) => ObjectiveAnswerType.of(answer, userChallengeId));
   }
 
   private convertSubjectiveAnswerType(
     satisfationAnswer: Array<SubjectiveAnswer>,
     userChallengeId: number,
   ) {
-    return satisfationAnswer.map((answer) =>
-      SubjectiveAnswerType.of(answer, userChallengeId),
-    );
+    return satisfationAnswer.map((answer) => SubjectiveAnswerType.of(answer, userChallengeId));
   }
 }

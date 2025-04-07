@@ -52,18 +52,14 @@ export class SmallTalkCommentRead {
 
   private setContent(content: string) {
     if (!content) {
-      throw new InternalServerErrorException(
-        `${__dirname} : content 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
     }
     this.content = content;
   }
 
   private setNickname(nickname: string) {
     if (!nickname) {
-      throw new InternalServerErrorException(
-        `${__dirname} : nickname 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
     }
     this.nickname = nickname;
   }
@@ -74,9 +70,7 @@ export class SmallTalkCommentRead {
 
   private setCreatedTime(createdTime: string) {
     if (!createdTime) {
-      throw new InternalServerErrorException(
-        `${__dirname} : createdTime 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : createdTime 값이 존재하지 않습니다.`);
     }
     this.createdTime = createdTime;
   }

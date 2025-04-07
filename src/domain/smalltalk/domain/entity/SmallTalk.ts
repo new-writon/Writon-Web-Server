@@ -25,11 +25,7 @@ export class SmallTalk extends BaseEntity {
     this.setQuestion(question);
   }
 
-  public static createSmallTalk(
-    challengeId: number,
-    userChallengeId: number,
-    question: string,
-  ) {
+  public static createSmallTalk(challengeId: number, userChallengeId: number, question: string) {
     return new SmallTalk(challengeId, userChallengeId, question);
   }
 
@@ -56,30 +52,21 @@ export class SmallTalk extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'user_challenge_id', referencedColumnName: 'userChallengeId' },
-  ])
+  @JoinColumn([{ name: 'user_challenge_id', referencedColumnName: 'userChallengeId' }])
   userChallenge: Relation<UserChallenge>;
 
-  @OneToMany(
-    () => SmallTalkComment,
-    (smallTalkComment) => smallTalkComment.smallTalk,
-  )
+  @OneToMany(() => SmallTalkComment, (smallTalkComment) => smallTalkComment.smallTalk)
   smallTalkComments: Relation<SmallTalkComment>[];
 
   private setChallengeId(challengeId: number) {
     if (challengeId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : challengeId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : challengeId 값이 존재하지 않습니다.`);
     this.challengeId = challengeId;
   }
 
   private setQuestion(question: string) {
     if (question === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : question 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : question 값이 존재하지 않습니다.`);
     this.question = question;
   }
 

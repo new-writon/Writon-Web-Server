@@ -70,12 +70,11 @@ export class UserChallengeController {
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<CalendarData>> {
-    const result: CalendarData =
-      await this.userChallengeService.bringCalendarData(
-        user.userId,
-        organization,
-        challengeId,
-      );
+    const result: CalendarData = await this.userChallengeService.bringCalendarData(
+      user.userId,
+      organization,
+      challengeId,
+    );
     this.logger.log('챌린지 캘린더 데이터 조회 완료');
     return SuccessResponseDto.of(result);
   }
@@ -110,10 +109,7 @@ export class UserChallengeController {
   public async bringChallengesPerOrganization(
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<ChallengesPerOrganization[]>> {
-    const result =
-      await this.userChallengeService.bringChallengesPerOrganization(
-        user.userId,
-      );
+    const result = await this.userChallengeService.bringChallengesPerOrganization(user.userId);
     this.logger.log('조직별 챌린지 조회 완료');
     return SuccessResponseDto.of(result);
   }

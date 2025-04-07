@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Logger, Param, Post, UseGuards } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
 import { User } from '../domain/entity/User';
@@ -29,10 +20,7 @@ export class CheeringPhraseController {
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<Participant>> {
-    const result = await this.cheeringPhraseService.bringParticipant(
-      user.userId,
-      challengeId,
-    );
+    const result = await this.cheeringPhraseService.bringParticipant(user.userId, challengeId);
     this.logger.log('나의 정보 조회 완료');
     return SuccessResponseDto.of(result);
   }

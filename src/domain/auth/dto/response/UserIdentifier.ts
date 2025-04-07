@@ -13,9 +13,7 @@ export class UserIdentifier {
 
   private setIdentifier(idenfitier: string) {
     if (idenfitier === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : code 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : code 값이 존재하지 않습니다.`);
     this.identifier = idenfitier;
   }
 }

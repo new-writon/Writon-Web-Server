@@ -12,10 +12,7 @@ export class SubjectiveAnswerType {
     this.setUserChallengeId(userChallengeId);
   }
 
-  public static of(
-    subjectiveAnswer: SubjectiveAnswer,
-    userChallengeId: number,
-  ) {
+  public static of(subjectiveAnswer: SubjectiveAnswer, userChallengeId: number) {
     return new SubjectiveAnswerType(
       subjectiveAnswer.getSatisfactionId(),
       subjectiveAnswer.getAnswer(),
@@ -45,9 +42,7 @@ export class SubjectiveAnswerType {
   s;
   private setAnswer(answer: string) {
     if (answer === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : answer 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : answer 값이 존재하지 않습니다.`);
     this.answer = answer;
   }
 

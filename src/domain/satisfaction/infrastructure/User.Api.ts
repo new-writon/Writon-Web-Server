@@ -54,10 +54,7 @@ export class UserApi {
     organization: string,
   ): Promise<Affiliation> {
     // 검증 0
-    return this.affiliatinHelper.giveAffiliationByUserIdWithOrganization(
-      userId,
-      organization,
-    );
+    return this.affiliatinHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
   }
 
   public async requestUserChallengeByAffiliationIdAndChallengeId(

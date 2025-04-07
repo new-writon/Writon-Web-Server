@@ -5,10 +5,7 @@ import { OrganizationRepository } from '../Organization.Repository';
 import { Position } from '../../entity/Position';
 
 @Injectable()
-export class OrganizationDao
-  extends Repository<Organization>
-  implements OrganizationRepository
-{
+export class OrganizationDao extends Repository<Organization> implements OrganizationRepository {
   constructor(private dataSource: DataSource) {
     super(Organization, dataSource.createEntityManager());
   }
@@ -22,15 +19,10 @@ export class OrganizationDao
   }
 
   async findAllOrganization(): Promise<Organization[]> {
-    return this.createQueryBuilder()
-      .select('o')
-      .from(Organization, 'o')
-      .getMany();
+    return this.createQueryBuilder().select('o').from(Organization, 'o').getMany();
   }
 
-  async findPositionsByOrganizationId(
-    organization: string,
-  ): Promise<Position[]> {
+  async findPositionsByOrganizationId(organization: string): Promise<Position[]> {
     return this.createQueryBuilder()
       .select('p')
       .from(Position, 'p')

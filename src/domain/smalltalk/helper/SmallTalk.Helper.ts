@@ -16,10 +16,7 @@ export class SmallTalkHelper {
     challengeId: number,
     date: string,
   ): Promise<ParticularSmallTalkData[]> {
-    return this.smallTalkRepository.findParticularSmallTalkByChallengeIdAndDate(
-      challengeId,
-      date,
-    );
+    return this.smallTalkRepository.findParticularSmallTalkByChallengeIdAndDate(challengeId, date);
   }
 
   public async executeInsertSmallTalk(
@@ -27,20 +24,13 @@ export class SmallTalkHelper {
     userChallengeId: number,
     question: string,
   ): Promise<void> {
-    return this.smallTalkRepository.insertSmallTalk(
-      challengeId,
-      userChallengeId,
-      question,
-    );
+    return this.smallTalkRepository.insertSmallTalk(challengeId, userChallengeId, question);
   }
 
   public async giveSmallTalkByChallengeIdAndDate(
     challengeId: number,
     date: string,
   ): Promise<SmallTalk[]> {
-    return this.smallTalkRepository.findSmallTalkByChallengeIdAndDate(
-      challengeId,
-      date,
-    );
+    return this.smallTalkRepository.findSmallTalkByChallengeIdAndDate(challengeId, date);
   }
 }

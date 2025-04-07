@@ -4,17 +4,12 @@ import { SatisfactionRepository } from '../Satisfaction.Repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class SatisfactionDao
-  extends Repository<Satisfaction>
-  implements SatisfactionRepository
-{
+export class SatisfactionDao extends Repository<Satisfaction> implements SatisfactionRepository {
   constructor(private dataSource: DataSource) {
     super(Satisfaction, dataSource.createEntityManager());
   }
 
-  async findSatisfactionByChallengeId(
-    challengeId: number,
-  ): Promise<Satisfaction[]> {
+  async findSatisfactionByChallengeId(challengeId: number): Promise<Satisfaction[]> {
     return this.dataSource
       .createQueryBuilder()
       .select('s')

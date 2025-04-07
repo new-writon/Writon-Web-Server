@@ -13,9 +13,7 @@ export class SatisfactionObjectiveResultDao
     super(SatisfactionObjectiveResult, dataSource.createEntityManager());
   }
 
-  async insertSatisfactionObjectiveResult(
-    objectiveAnswer: ObjectiveAnswerType[],
-  ): Promise<void> {
+  async insertSatisfactionObjectiveResult(objectiveAnswer: ObjectiveAnswerType[]): Promise<void> {
     const objectiveAnswerObject = objectiveAnswer.map((objectiveAnswer) => {
       return SatisfactionObjectiveResult.createSatisfactionObjectiveResult(
         objectiveAnswer.getSatisfactionId(),

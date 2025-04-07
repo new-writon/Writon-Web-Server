@@ -19,15 +19,13 @@ export class AffiliationService {
     userId: number,
     affiliationStartDto: AffiliationStart,
   ): Promise<void> {
-    const organizationData: Organization =
-      await this.organizationHelper.giveOrganizationByName(
-        affiliationStartDto.getOrganization(),
-      );
-    const affiliationData =
-      await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-        userId,
-        affiliationStartDto.getOrganization(),
-      );
+    const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(
+      affiliationStartDto.getOrganization(),
+    );
+    const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
+      userId,
+      affiliationStartDto.getOrganization(),
+    );
     this.userVerifyService.verifyExistAffiliation(affiliationData);
     await this.affiliationHelper.insertAffiliation(
       userId,
@@ -36,15 +34,9 @@ export class AffiliationService {
     );
   }
 
-  public async bringUserProfile(
-    userId: number,
-    organization: string,
-  ): Promise<UserProfile> {
+  public async bringUserProfile(userId: number, organization: string): Promise<UserProfile> {
     const userProfileData: UserProfile =
-      await this.affiliationHelper.giveUserProfileByUserIdAndOrganization(
-        userId,
-        organization,
-      );
+      await this.affiliationHelper.giveUserProfileByUserIdAndOrganization(userId, organization);
     return UserProfile.of(userProfileData);
   }
 

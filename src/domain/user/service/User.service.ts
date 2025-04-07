@@ -11,31 +11,22 @@ export class UserService {
     private readonly userVerifyService: UserVerifyService,
   ) {}
 
-  public async modifyAccount(
-    accountNumber: string,
-    bank: string,
-    userId: number,
-  ): Promise<void> {
+  public async modifyAccount(accountNumber: string, bank: string, userId: number): Promise<void> {
     const userData = await this.userHelper.giveUserById(userId);
     this.userVerifyService.verifyUser(userData);
     await this.userHelper.executeUpdateAccount(accountNumber, bank, userId);
   }
 
   public async penetrateEngineValue(userId: number, engineValue: string) {
-    const firebaseTokenData =
-      await this.userHelper.giveFirebaseTokenByUserIdAndEngineValue(
-        userId,
-        engineValue,
-      );
+    const firebaseTokenData = await this.userHelper.giveFirebaseTokenByUserIdAndEngineValue(
+      userId,
+      engineValue,
+    );
     const flag = checkData(firebaseTokenData);
     await this.insertFirebaseTokenIfNotExists(flag, userId, engineValue);
   }
 
-  private async insertFirebaseTokenIfNotExists(
-    flag: boolean,
-    userId: number,
-    engineValue: string,
-  ) {
+  private async insertFirebaseTokenIfNotExists(flag: boolean, userId: number, engineValue: string) {
     if (!flag) {
       await this.userHelper.executeInsertFirebaseToken(userId, engineValue);
     }
