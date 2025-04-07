@@ -45,22 +45,25 @@ jobs:
         uses: jsdaniell/create-json@1.1.2
         with:
           name: 'writon-firebase-admin.json'
-          json: ${{ secrets.FIREBASE }}
+          json:
+            ${{ secrets.FIREBASE }}
 
+            # Save node_modules
+      - name: Save node_modules
+        uses: actions/upload-artifact@v3
+        with:
+          name: node_modules
+          path: node_modules
   CD:
     needs: CI
     runs-on: ubuntu-latest
-    # main 브랜치인 경우에만 실행
     if: github.ref == 'refs/heads/develop'
     steps:
-      # 소스코드 다운로드
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Restore node_modules
+        uses: actions/download-artifact@v3
         with:
-          node-version: '16'
+          name: node_modules
+          path: node_modules
 
       - name: Build Docker Image For Node.js
         run: |
