@@ -11,16 +11,8 @@ import { Satisfaction } from './Satisfaction';
 import { UserChallenge } from '../../../user/domain/entity/UserChallenge';
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 
-@Index(
-  'satisfaction_subjective_result_satisfaction_fkey',
-  ['satisfactionId'],
-  {},
-)
-@Index(
-  'satisfaction_subjective_result_user_challenges_fkey',
-  ['userChallengeId'],
-  {},
-)
+@Index('satisfaction_subjective_result_satisfaction_fkey', ['satisfactionId'], {})
+@Index('satisfaction_subjective_result_user_challenges_fkey', ['userChallengeId'], {})
 @Entity('satisfaction_subjective_result', { schema: 'nest' })
 export class SatisfactionSubjectiveResult extends BaseEntity {
   constructor(answer: string, satisfactionId: number, userChallengeId: number) {
@@ -35,11 +27,7 @@ export class SatisfactionSubjectiveResult extends BaseEntity {
     satisfactionId: number,
     userChallengeId: number,
   ) {
-    return new SatisfactionSubjectiveResult(
-      answer,
-      satisfactionId,
-      userChallengeId,
-    );
+    return new SatisfactionSubjectiveResult(answer, satisfactionId, userChallengeId);
   }
 
   @PrimaryGeneratedColumn({
@@ -57,24 +45,18 @@ export class SatisfactionSubjectiveResult extends BaseEntity {
   @Column('int', { name: 'user_challenge_id' })
   userChallengeId: number;
 
-  @ManyToOne(
-    () => Satisfaction,
-    (satisfaction) => satisfaction.satisfactionSubjectiveResults,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
-  )
-  @JoinColumn([
-    { name: 'satisfaction_id', referencedColumnName: 'satisfactionId' },
-  ])
+  @ManyToOne(() => Satisfaction, (satisfaction) => satisfaction.satisfactionSubjectiveResults, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'satisfaction_id', referencedColumnName: 'satisfactionId' }])
   satisfaction: Relation<Satisfaction>;
 
-  @ManyToOne(
-    () => UserChallenge,
-    (userChallenge) => userChallenge.satisfactionSubjectiveResults,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
-  )
-  @JoinColumn([
-    { name: 'user_challenge_id', referencedColumnName: 'userChallengeId' },
-  ])
+  @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.satisfactionSubjectiveResults, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'user_challenge_id', referencedColumnName: 'userChallengeId' }])
   userChallenge: Relation<UserChallenge>;
 
   private setAnswer(answer: string) {

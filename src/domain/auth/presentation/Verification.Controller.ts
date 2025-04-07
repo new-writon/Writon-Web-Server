@@ -39,15 +39,10 @@ export class VerificationController {
 
   @Post('/token-reissue')
   @HttpCode(200)
-  public async reissueToken(
-    @Req() req: Request,
-  ): Promise<SuccessResponseDto<Token>> {
+  public async reissueToken(@Req() req: Request): Promise<SuccessResponseDto<Token>> {
     const accessToken = req.headers.authorization;
     const refreshToken = req.headers.refresh as string;
-    const result = await this.verificationService.reissueToken(
-      accessToken,
-      refreshToken,
-    );
+    const result = await this.verificationService.reissueToken(accessToken, refreshToken);
     this.logger.log('토큰 재발급 완료');
     return SuccessResponseDto.of(result);
   }

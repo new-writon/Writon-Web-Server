@@ -82,9 +82,7 @@ export class Affiliation extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'organization_id', referencedColumnName: 'organizationId' },
-  ])
+  @JoinColumn([{ name: 'organization_id', referencedColumnName: 'organizationId' }])
   organization: Relation<Organization>;
 
   @ManyToOne(() => User, (user) => user.affiliations, {
@@ -94,10 +92,7 @@ export class Affiliation extends BaseEntity {
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'userId' }])
   user: User;
 
-  @OneToMany(
-    () => SmallTalkComment,
-    (smallTalkComment) => smallTalkComment.affiliation,
-  )
+  @OneToMany(() => SmallTalkComment, (smallTalkComment) => smallTalkComment.affiliation)
   smallTalkComments: Relation<SmallTalkComment>[];
 
   // @OneToMany(() => Challenge, (challenge) => challenge.affiliation)
@@ -114,9 +109,7 @@ export class Affiliation extends BaseEntity {
 
   private setUserId(userId: number) {
     if (userId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : userId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : userId 값이 존재하지 않습니다.`);
     this.userId = userId;
   }
 
@@ -130,17 +123,13 @@ export class Affiliation extends BaseEntity {
 
   private setNickname(nickname: string) {
     if (nickname === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : nickname 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
     this.nickname = nickname;
   }
 
   private setPosition(position: string) {
     if (position === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : position 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : position 값이 존재하지 않습니다.`);
     this.position = position;
   }
 
@@ -154,17 +143,13 @@ export class Affiliation extends BaseEntity {
 
   private setHireDate(hireDate: string) {
     if (hireDate === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : hireDate 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : hireDate 값이 존재하지 않습니다.`);
     this.hireDate = hireDate;
   }
 
   private setCompany(company: string) {
     if (company === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : company 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : company 값이 존재하지 않습니다.`);
     this.company = company;
   }
 

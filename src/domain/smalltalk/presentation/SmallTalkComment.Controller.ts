@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Logger, Param, Post, UseGuards } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
 import { SmallTalkCommentService } from '../service/SmallTalkComment.Service';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
@@ -19,9 +10,7 @@ import { SmallTalkCommentRead } from '../dto/response/SmallTalkCommentRead';
 @Controller('/api/small-talk/comment')
 export class SmallTalkCommentController {
   private readonly logger = new Logger(SmallTalkCommentController.name);
-  constructor(
-    private readonly smallTalkCommentService: SmallTalkCommentService,
-  ) {}
+  constructor(private readonly smallTalkCommentService: SmallTalkCommentService) {}
 
   @Get('/read/:smallTalkId')
   @HttpCode(200)

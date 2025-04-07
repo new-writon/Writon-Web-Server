@@ -15,10 +15,7 @@ import { ProfileUpdate } from 'src/domain/user/dto/request/ProfileUpdate';
  * User DAO Class
  */
 @Injectable()
-export class AffiliationDao
-  extends Repository<Affiliation>
-  implements AffiliationRepository
-{
+export class AffiliationDao extends Repository<Affiliation> implements AffiliationRepository {
   constructor(private dataSource: DataSource) {
     super(Affiliation, dataSource.createEntityManager());
   }
@@ -73,11 +70,7 @@ export class AffiliationDao
       ])
       .from(Affiliation, 'a')
       .innerJoin(Organization, 'o', 'o.organization_id = a.organization_id')
-      .innerJoin(
-        UserChallenge,
-        'uc',
-        'uc.affiliation_id = a.affiliation_id AND uc.withdrawn = 0',
-      )
+      .innerJoin(UserChallenge, 'uc', 'uc.affiliation_id = a.affiliation_id AND uc.withdrawn = 0')
       .where('a.user_id = :userId', { userId })
       .orderBy('uc.created_at', 'DESC')
       .getRawMany();
@@ -161,16 +154,10 @@ export class AffiliationDao
       .execute();
   }
 
-  async findAffilaitonWithChallengeIdArray(
-    userChallengeId: number[],
-  ): Promise<Affiliation[]> {
+  async findAffilaitonWithChallengeIdArray(userChallengeId: number[]): Promise<Affiliation[]> {
     return this.dataSource
       .createQueryBuilder(Affiliation, 'a')
-      .innerJoinAndSelect(
-        'a.userChallenges',
-        'uc',
-        'uc.affiliation_id = a.affiliation_id',
-      )
+      .innerJoinAndSelect('a.userChallenges', 'uc', 'uc.affiliation_id = a.affiliation_id')
       .where('uc.user_challenge_id IN (:...userChallengeId)', {
         userChallengeId,
       })
@@ -183,11 +170,7 @@ export class AffiliationDao
   ): Promise<Affiliation[]> {
     return this.dataSource
       .createQueryBuilder(Affiliation, 'a')
-      .innerJoinAndSelect(
-        'a.userChallenges',
-        'uc',
-        'uc.affiliation_id = a.affiliation_id',
-      )
+      .innerJoinAndSelect('a.userChallenges', 'uc', 'uc.affiliation_id = a.affiliation_id')
       .where('uc.challenge_id = :challengeId', { challengeId })
       .andWhere('uc.user_challenge_id IN (:...userChallengeIds)', {
         userChallengeIds: userChallengeId,
@@ -206,9 +189,7 @@ export class AffiliationDao
       .getMany();
   }
 
-  async findAffiliationAndUserById(
-    affiliationIds: number[],
-  ): Promise<Affiliation[]> {
+  async findAffiliationAndUserById(affiliationIds: number[]): Promise<Affiliation[]> {
     return this.dataSource
       .createQueryBuilder(Affiliation, 'a')
       .leftJoinAndSelect('a.user', 'u', 'u.user_id = a.user_id')

@@ -24,8 +24,6 @@ export class SmallTalkCommentHelper {
   public async giveSmallTalkCommentBySmallTalkId(
     smallTalkId: number,
   ): Promise<ParticularSmallTalkCommentData[]> {
-    return this.smallTalkCommentRepository.findSmallTalkCommentBySmallTalkId(
-      smallTalkId,
-    );
+    return this.smallTalkCommentRepository.findSmallTalkCommentBySmallTalkId(smallTalkId);
   }
 }

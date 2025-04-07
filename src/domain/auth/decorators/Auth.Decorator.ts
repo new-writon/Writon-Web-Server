@@ -8,8 +8,6 @@ declare module 'express' {
   }
 }
 
-export const CurrentUser = createParamDecorator(
-  (_: never, context: ExecutionContext) => {
-    return context.switchToHttp().getRequest<Request>().user as User;
-  },
-);
+export const CurrentUser = createParamDecorator((_: never, context: ExecutionContext) => {
+  return context.switchToHttp().getRequest<Request>().user as User;
+});

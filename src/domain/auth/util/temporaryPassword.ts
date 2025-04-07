@@ -39,8 +39,7 @@ const generateRandomPassword = () => {
   ];
   let result = '';
   for (let i = 0; i < 10; i++) {
-    const randomIndex =
-      characters[Math.floor(Math.random() * characters.length)];
+    const randomIndex = characters[Math.floor(Math.random() * characters.length)];
     result = result + randomIndex;
   }
   return result;

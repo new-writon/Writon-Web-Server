@@ -8,9 +8,7 @@ export class DataMapperService {
     return userChallenges.map((data) => data.getId());
   }
 
-  public extractChallengeIds(
-    challengesPerOrganizations: ChallengesPerOrganization[],
-  ) {
+  public extractChallengeIds(challengesPerOrganizations: ChallengesPerOrganization[]) {
     return challengesPerOrganizations.map((data) => data.getChallengeId());
   }
 }

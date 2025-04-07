@@ -12,8 +12,7 @@ export class DuplicationCheckService {
   ) {}
 
   public async checkDuplicateIdentifier(identifier: string): Promise<void> {
-    const userData: User =
-      await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
+    const userData: User = await this.userApi.requestUserDataBySocialNumberOrIdentifier(identifier);
     this.authValidateService.validateIdentifier(userData);
   }
 
@@ -22,15 +21,9 @@ export class DuplicationCheckService {
     this.authValidateService.validateEmail(userData);
   }
 
-  public async checkDuplicateNickname(
-    nickname: string,
-    organization: string,
-  ): Promise<void> {
+  public async checkDuplicateNickname(nickname: string, organization: string): Promise<void> {
     const affiliationData: Affiliation =
-      await this.userApi.requestAffiliationByNicknameAndOrganization(
-        nickname,
-        organization,
-      );
+      await this.userApi.requestAffiliationByNicknameAndOrganization(nickname, organization);
     this.authValidateService.validateNickname(affiliationData);
   }
 }

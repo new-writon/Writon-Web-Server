@@ -15,20 +15,14 @@ export class UserApi {
     userId: number,
     organization: string,
   ): Promise<Affiliation> {
-    return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-      userId,
-      organization,
-    );
+    return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
   }
 
   public async requestAffiliationByNicknameAndOrganization(
     nickname: string,
     organization: string,
   ): Promise<Affiliation> {
-    return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(
-      nickname,
-      organization,
-    );
+    return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization);
   }
 
   public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(
@@ -56,9 +50,7 @@ export class UserApi {
   public async requestAffilaitonWithChallengeIdArray(
     userChallengeId: number[],
   ): Promise<Affiliation[]> {
-    return this.affiliationHelper.giveAffilaitonWithChallengeIdArray(
-      userChallengeId,
-    );
+    return this.affiliationHelper.giveAffilaitonWithChallengeIdArray(userChallengeId);
   }
 
   public async requestAffilaitonWithChallengeIdAndUserChallengeId(
@@ -83,9 +75,7 @@ export class UserApi {
     );
   }
 
-  public async requestAffiliationById(
-    affiliationId: number[],
-  ): Promise<Affiliation[]> {
+  public async requestAffiliationById(affiliationId: number[]): Promise<Affiliation[]> {
     return this.affiliationHelper.giveAffiliationById(affiliationId);
   }
 
@@ -99,9 +89,7 @@ export class UserApi {
     );
   }
 
-  public async requestAffiliationAndUserById(
-    affiliationId: number[],
-  ): Promise<Affiliation[]> {
+  public async requestAffiliationAndUserById(affiliationId: number[]): Promise<Affiliation[]> {
     // 검증 x
     return this.affiliationHelper.giveAffiliationAndUserById(affiliationId);
   }

@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Relation,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 import { Organization } from './Organization';
@@ -25,9 +18,7 @@ export class Position extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'organization_id', referencedColumnName: 'organizationId' },
-  ])
+  @JoinColumn([{ name: 'organization_id', referencedColumnName: 'organizationId' }])
   organization: Relation<Organization>;
 
   public getName() {

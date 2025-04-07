@@ -45,10 +45,7 @@ export class UserController {
     @CurrentUser() user: User,
     @Req() req: Request,
   ): Promise<SuccessResponseDto<string>> {
-    await this.userService.penetrateEngineValue(
-      user.userId,
-      req.headers['engine'] as string,
-    );
+    await this.userService.penetrateEngineValue(user.userId, req.headers['engine'] as string);
     this.logger.log('기기 값 저장 완료');
     return SuccessResponseDto.of();
   }
@@ -60,10 +57,7 @@ export class UserController {
     @CurrentUser() user: User,
     @Body() alarmStatus: AlarmStatus,
   ): Promise<SuccessResponseDto<void>> {
-    await this.userService.updateAlarmStatus(
-      user.userId,
-      alarmStatus.getContent(),
-    );
+    await this.userService.updateAlarmStatus(user.userId, alarmStatus.getContent());
     this.logger.log('알람 수정 완료');
     return SuccessResponseDto.of();
   }

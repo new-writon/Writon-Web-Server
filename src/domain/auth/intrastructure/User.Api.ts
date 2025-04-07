@@ -17,11 +17,7 @@ export class UserApi {
     return this.userHelper.giveUserDataBySocialNumberOrIdentifier(idenfitier);
   }
 
-  public async requestLocalSignUp(
-    identifier: string,
-    password: string,
-    email: string,
-  ) {
+  public async requestLocalSignUp(identifier: string, password: string, email: string) {
     return this.userHelper.executeLocalSignUp(identifier, password, email);
   }
 
@@ -29,11 +25,7 @@ export class UserApi {
     return this.userHelper.giveUserByEmail(email);
   }
 
-  public async requestUpdatePassword(
-    idenfitier: string,
-    email: string,
-    password: string,
-  ) {
+  public async requestUpdatePassword(idenfitier: string, email: string, password: string) {
     return this.userHelper.executeUpdatePassword(idenfitier, email, password);
   }
 
@@ -45,11 +37,7 @@ export class UserApi {
     return this.userHelper.executeUpdatePasswordByUserId(userId, password);
   }
 
-  public async executeKakaoSignUp(
-    email: string,
-    kakaoId: string,
-    profileImage: string,
-  ) {
+  public async executeKakaoSignUp(email: string, kakaoId: string, profileImage: string) {
     return this.userHelper.executeKakaoSignUp(email, kakaoId, profileImage);
   }
 
@@ -57,20 +45,14 @@ export class UserApi {
     userId: number,
     organization: string,
   ): Promise<Affiliation> {
-    return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-      userId,
-      organization,
-    );
+    return this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
   }
 
   public async requestAffiliationByNicknameAndOrganization(
     nickname: string,
     organization: string,
   ): Promise<Affiliation> {
-    return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(
-      nickname,
-      organization,
-    );
+    return this.affiliationHelper.giveAffiliationByNicknameAndOrganization(nickname, organization);
   }
 
   public async requestUserChallengeByUserIdAndOrganizationAndChallengeId(
@@ -85,14 +67,8 @@ export class UserApi {
     );
   }
 
-  public async requestFirebaseTokenByUserIdAndEngineValue(
-    userId: number,
-    engineValue: string,
-  ) {
-    return this.userHelper.giveFirebaseTokenByUserIdAndEngineValue(
-      userId,
-      engineValue,
-    );
+  public async requestFirebaseTokenByUserIdAndEngineValue(userId: number, engineValue: string) {
+    return this.userHelper.giveFirebaseTokenByUserIdAndEngineValue(userId, engineValue);
   }
 
   public async executeInsertFirebaseToken(userId: number, engineValue: string) {
@@ -111,10 +87,7 @@ export class UserApi {
     await this.userHelper.executeInsertAuthToken(userId, token);
   }
 
-  public async requestAuthTokenByUserIdAndToken(
-    userId: number,
-    token: string,
-  ): Promise<AuthToken> {
+  public async requestAuthTokenByUserIdAndToken(userId: number, token: string): Promise<AuthToken> {
     return this.userHelper.giveAuthTokenByUserIdAndToken(userId, token);
   }
 }

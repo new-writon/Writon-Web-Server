@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  Relation,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { Affiliation } from './Affiliation';
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 import { Challenge } from '../../../../domain/challenge/domain/entity/Challenge';

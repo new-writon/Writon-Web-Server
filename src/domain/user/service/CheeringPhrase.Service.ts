@@ -16,18 +16,13 @@ export class CheeringPhraseService {
     private readonly userVerifyService: UserVerifyService,
   ) {}
 
-  public async bringParticipant(
-    userId: number,
-    challengeId: number,
-  ): Promise<Participant> {
+  public async bringParticipant(userId: number, challengeId: number): Promise<Participant> {
     const myInformationData =
       await this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithUserIdAndChallengeId(
         userId,
         challengeId,
       );
-    const sortedMyInformationData = this.sortCheeringAndPublic(
-      new Array(myInformationData),
-    );
+    const sortedMyInformationData = this.sortCheeringAndPublic(new Array(myInformationData));
     return sortedMyInformationData[0];
   }
 
@@ -35,20 +30,15 @@ export class CheeringPhraseService {
     userId: number,
     challengeId: number,
   ): Promise<ParticipantComponent> {
-    const [participantData, participantCount, challengePeriod] =
-      await Promise.all([
-        this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(
-          userId,
-          challengeId,
-        ),
-        this.userChallengeHelper.giveUserChallengePaticipantCount(challengeId),
-        this.challengeApi.requestOverlapPeriod(challengeId),
-      ]);
-    return ParticipantComponent.of(
-      challengePeriod,
-      participantCount,
-      participantData,
-    );
+    const [participantData, participantCount, challengePeriod] = await Promise.all([
+      this.affiliationHelper.giveAffiliationAndUserAndUserChallengeWithExceptUserIdAndChallengeId(
+        userId,
+        challengeId,
+      ),
+      this.userChallengeHelper.giveUserChallengePaticipantCount(challengeId),
+      this.challengeApi.requestOverlapPeriod(challengeId),
+    ]);
+    return ParticipantComponent.of(challengePeriod, participantCount, participantData);
   }
 
   public async penetrateCheeringPhrase(
@@ -58,11 +48,10 @@ export class CheeringPhraseService {
     content: string,
   ) {
     // 검증하기
-    const affiliationData =
-      await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-        userId,
-        organization,
-      );
+    const affiliationData = await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
+      userId,
+      organization,
+    );
     this.userVerifyService.verifyAffiliation(affiliationData);
     await this.userChallengeHelper.executeInsertCheeringPhrase(
       affiliationData.getAffiliationId(),

@@ -1,11 +1,7 @@
 import { Mutex } from 'async-mutex';
 
 function MutexAlgorithm() {
-  return function (
-    target: any,
-    propertyName: string,
-    descriptor: PropertyDescriptor,
-  ) {
+  return function (target: any, propertyName: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     const mutex = new Mutex();
     descriptor.value = async function (...args: any[]) {

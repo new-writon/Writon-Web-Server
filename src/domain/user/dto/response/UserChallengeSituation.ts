@@ -64,9 +64,7 @@ export class UserChallengeSituation {
 
   setNickname(nickname: string): void {
     if (nickname === null) {
-      throw new InternalServerErrorException(
-        `${__dirname} : nickname 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
     }
     this.nickname = nickname;
   }
@@ -77,18 +75,14 @@ export class UserChallengeSituation {
 
   setOrganization(organization: string): void {
     if (organization === null) {
-      throw new InternalServerErrorException(
-        `${__dirname} : organization 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : organization 값이 존재하지 않습니다.`);
     }
     this.organization = organization;
   }
 
   setChallenge(challenge: string): void {
     if (challenge === null) {
-      throw new InternalServerErrorException(
-        `${__dirname} : challenge 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : challenge 값이 존재하지 않습니다.`);
     }
     this.challenge = challenge;
   }

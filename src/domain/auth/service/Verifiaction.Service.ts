@@ -19,16 +19,9 @@ export class VerificationService {
     private readonly userApi: UserApi,
   ) {}
 
-  public async reissueToken(
-    accessToken: string,
-    refreshToken: string,
-  ): Promise<Token> {
-    const accessTokenVerifyResult = this.jwtManager.verify(
-      accessToken.split('Bearer ')[1],
-    );
-    const accessTokenDecodedData = this.jwtManager.decode(
-      accessToken.split('Bearer ')[1],
-    );
+  public async reissueToken(accessToken: string, refreshToken: string): Promise<Token> {
+    const accessTokenVerifyResult = this.jwtManager.verify(accessToken.split('Bearer ')[1]);
+    const accessTokenDecodedData = this.jwtManager.decode(accessToken.split('Bearer ')[1]);
     const refreshTokenVerifyesult = await this.jwtManager.refreshVerify(
       refreshToken,
       accessTokenDecodedData.userId,
@@ -71,37 +64,24 @@ export class VerificationService {
   ) {
     switch (refreshTokenVerifyesult.state) {
       case 'not found':
-        return this.userApi.requestAuthTokenByUserIdAndToken(
-          userId,
-          refreshTokenVerifyesult.token,
-        );
+        return this.userApi.requestAuthTokenByUserIdAndToken(userId, refreshTokenVerifyesult.token);
       case 'ok':
         return refreshTokenVerifyesult;
 
       case 'fail':
-        return this.userApi.executeDeleteAuthToken(
-          userId,
-          refreshTokenVerifyesult.token,
-        );
+        return this.userApi.executeDeleteAuthToken(userId, refreshTokenVerifyesult.token);
     }
   }
 
-  public async issueAuthenticationCode(
-    email: string,
-  ): Promise<AuthenticationCodeResponse> {
+  public async issueAuthenticationCode(email: string): Promise<AuthenticationCodeResponse> {
     const verificationCode = random.generateRandom(100000, 999999);
     await this.loginTokenManager.setToken(email, String(verificationCode), 180);
     await this.mailManager.sendCodeEmail(email, verificationCode);
     return AuthenticationCodeResponse.of(verificationCode);
   }
 
-  public async verifyAuthenticationCode(
-    email: string,
-    code: string,
-  ): Promise<void> {
-    const authenticationCode: string = (await this.loginTokenManager.getToken(
-      email,
-    )) as string;
+  public async verifyAuthenticationCode(email: string, code: string): Promise<void> {
+    const authenticationCode: string = (await this.loginTokenManager.getToken(email)) as string;
     this.authVerifyService.verifyCode(code, authenticationCode);
   }
 }

@@ -44,17 +44,13 @@ export class ChallengesPerOrganization {
 
   private setOrganization(organization: string) {
     if (organization === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : organization 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : organization 값이 존재하지 않습니다.`);
     this.organization = organization;
   }
 
   private setChallengeId(challengeId: number) {
     if (challengeId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : challengeId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : challengeId 값이 존재하지 않습니다.`);
     this.challengeId = challengeId;
   }
 
@@ -68,25 +64,19 @@ export class ChallengesPerOrganization {
 
   private setThemeColor(themeColor: string) {
     if (themeColor === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : themeColor 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : themeColor 값이 존재하지 않습니다.`);
     this.themeColor = themeColor;
   }
 
   private setLogo(logo: string) {
     if (logo === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : logo값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : logo값이 존재하지 않습니다.`);
     this.logo = logo;
   }
 
   private setChallenge(challenge: string) {
     if (challenge === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : challenge 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : challenge 값이 존재하지 않습니다.`);
     this.challenge = challenge;
   }
 

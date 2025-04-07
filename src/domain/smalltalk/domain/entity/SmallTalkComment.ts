@@ -16,11 +16,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 @Index('small_talk_comment_affiliations_fkey', ['affiliationId'], {})
 @Entity('small_talk_comment', { schema: 'nest' })
 export class SmallTalkComment extends BaseEntity {
-  constructor(
-    smallTalkId: number,
-    affiliationId: number,
-    smallTalkComment: string,
-  ) {
+  constructor(smallTalkId: number, affiliationId: number, smallTalkComment: string) {
     super();
     this.setSmallTalkId(smallTalkId);
     this.setAffiliationId(affiliationId);
@@ -47,17 +43,11 @@ export class SmallTalkComment extends BaseEntity {
   @Column('int', { name: 'affiliation_id' })
   affiliationId: number;
 
-  @ManyToOne(
-    () => Affiliation,
-    (affiliation) => affiliation.smallTalkComments,
-    {
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-    },
-  )
-  @JoinColumn([
-    { name: 'affiliation_id', referencedColumnName: 'affiliationId' },
-  ])
+  @ManyToOne(() => Affiliation, (affiliation) => affiliation.smallTalkComments, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'affiliation_id', referencedColumnName: 'affiliationId' }])
   affiliation: Relation<Affiliation>;
 
   @ManyToOne(() => SmallTalk, (smallTalk) => smallTalk.smallTalkComments, {
@@ -69,17 +59,13 @@ export class SmallTalkComment extends BaseEntity {
 
   private setSmallTalkId(smallTalkId: number) {
     if (smallTalkId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : smallTalkId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : smallTalkId 값이 존재하지 않습니다.`);
     this.smallTalkId = smallTalkId;
   }
 
   private setContent(content: string) {
     if (content === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : content값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : content값이 존재하지 않습니다.`);
     this.content = content;
   }
 

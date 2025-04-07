@@ -12,10 +12,7 @@ export class ObjectiveAnswerType {
     this.setUserChallengeId(userChallengeId);
   }
 
-  public static of(
-    satisfationAnswer: ObjectiveAnswer,
-    userChallengeId: number,
-  ) {
+  public static of(satisfationAnswer: ObjectiveAnswer, userChallengeId: number) {
     return new ObjectiveAnswerType(
       satisfationAnswer.getSatisfactionId(),
       satisfationAnswer.getScore(),
@@ -45,9 +42,7 @@ export class ObjectiveAnswerType {
 
   private setScore(score: number) {
     if (score === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : score값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : score값이 존재하지 않습니다.`);
     this.score = score;
   }
 

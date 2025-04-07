@@ -18,11 +18,10 @@ export class SmallTalkCommentService {
     organization: string,
     agoraComment: string,
   ): Promise<void> {
-    const affiliationData =
-      await this.userApi.requestAffiliationByUserIdAndOrganization(
-        userId,
-        organization,
-      );
+    const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(
+      userId,
+      organization,
+    );
     await this.smallTalkCommentHelper.executeInsertSmallTalkComment(
       smallTalkId,
       affiliationData.getId(),
@@ -35,9 +34,7 @@ export class SmallTalkCommentService {
     smallTalkId: number,
   ): Promise<SmallTalkCommentRead[]> {
     const agoraCommentData =
-      await this.smallTalkCommentHelper.giveSmallTalkCommentBySmallTalkId(
-        smallTalkId,
-      );
+      await this.smallTalkCommentHelper.giveSmallTalkCommentBySmallTalkId(smallTalkId);
     return agoraCommentData.length === 0
       ? []
       : this.proccessSmallTalkCommentData(agoraCommentData, userId);
@@ -47,21 +44,13 @@ export class SmallTalkCommentService {
     smallTalkCommentData: ParticularSmallTalkCommentData[],
     userId: number,
   ) {
-    const extractedAffiliationId =
-      this.extractAffiliationId(smallTalkCommentData);
-    const affiliationData = await this.userApi.requestAffiliationAndUserById(
-      extractedAffiliationId,
-    );
-    return this.mergeParticularSmallTalkComment(
-      smallTalkCommentData,
-      affiliationData,
-      userId,
-    );
+    const extractedAffiliationId = this.extractAffiliationId(smallTalkCommentData);
+    const affiliationData =
+      await this.userApi.requestAffiliationAndUserById(extractedAffiliationId);
+    return this.mergeParticularSmallTalkComment(smallTalkCommentData, affiliationData, userId);
   }
 
-  private extractAffiliationId(
-    particularCommentData: ParticularSmallTalkCommentData[],
-  ) {
+  private extractAffiliationId(particularCommentData: ParticularSmallTalkCommentData[]) {
     return particularCommentData.map((particularCommentData) =>
       particularCommentData.getAffiliationId(),
     );
@@ -76,14 +65,10 @@ export class SmallTalkCommentService {
       return particularCommentData
         .filter(
           (particularCommentData) =>
-            affiliationData.getId() ===
-            particularCommentData.getAffiliationId(),
+            affiliationData.getId() === particularCommentData.getAffiliationId(),
         )
         .map((particularCommentData) => {
-          const distinguishedUser = this.distinguishUser(
-            affiliationData.user.getId(),
-            userId,
-          );
+          const distinguishedUser = this.distinguishUser(affiliationData.user.getId(), userId);
           return SmallTalkCommentRead.of(
             particularCommentData,
             affiliationData.getNickname(),
@@ -94,10 +79,7 @@ export class SmallTalkCommentService {
     });
   }
 
-  private distinguishUser(
-    relativeUserId: number,
-    relativedUserId: number,
-  ): string {
+  private distinguishUser(relativeUserId: number, relativedUserId: number): string {
     if (relativeUserId === relativedUserId) {
       return '1';
     }

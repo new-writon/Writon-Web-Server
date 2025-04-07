@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, HttpCode, Logger, Param, Query } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
 import { DuplicationCheckService } from '../service/DuplicationCheck.Service';
 
@@ -13,9 +6,7 @@ import { DuplicationCheckService } from '../service/DuplicationCheck.Service';
 export class DuplicationCheckController {
   private readonly logger = new Logger(DuplicationCheckController.name);
 
-  constructor(
-    private readonly duplicationCheckService: DuplicationCheckService,
-  ) {}
+  constructor(private readonly duplicationCheckService: DuplicationCheckService) {}
 
   @Get('/identifier')
   @HttpCode(200)
@@ -43,10 +34,7 @@ export class DuplicationCheckController {
     @Query('nickname') nickname: string,
     @Param('organization') organization: string,
   ): Promise<SuccessResponseDto<void>> {
-    await this.duplicationCheckService.checkDuplicateNickname(
-      nickname,
-      organization,
-    );
+    await this.duplicationCheckService.checkDuplicateNickname(nickname, organization);
     this.logger.log('닉네임 중복 체크 완료');
     return SuccessResponseDto.of();
   }

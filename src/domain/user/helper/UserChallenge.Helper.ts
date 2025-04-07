@@ -74,10 +74,7 @@ export class UserChallengeHelper {
     userChallengeId: number,
     checkCount: number,
   ): Promise<void> {
-    await this.userChallengeRepository.updateUserChallengeCheckCount(
-      userChallengeId,
-      checkCount,
-    );
+    await this.userChallengeRepository.updateUserChallengeCheckCount(userChallengeId, checkCount);
   }
 
   public async giveUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
@@ -104,9 +101,7 @@ export class UserChallengeHelper {
         challengeId,
       );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
-    await this.userChallengeRepository.updateUserChallengeReview(
-      userChallengeData.getId(),
-    );
+    await this.userChallengeRepository.updateUserChallengeReview(userChallengeData.getId());
   }
 
   public async executeUpdateUserChallengeReEngagement(
@@ -139,9 +134,7 @@ export class UserChallengeHelper {
   }
 
   async giveUserChallengePaticipantCount(challengeId: number): Promise<number> {
-    return this.userChallengeRepository.findUserChallengePaticipantCount(
-      challengeId,
-    );
+    return this.userChallengeRepository.findUserChallengePaticipantCount(challengeId);
   }
 
   async executeInsertCheeringPhrase(
@@ -155,11 +148,7 @@ export class UserChallengeHelper {
         challengeId,
       );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
-    return this.userChallengeRepository.insertCheeringPhrase(
-      affiliationId,
-      challengeId,
-      content,
-    );
+    return this.userChallengeRepository.insertCheeringPhrase(affiliationId, challengeId, content);
   }
 
   async giveUserChallengeAndAffiliationAndUserByChallengeId(
@@ -179,16 +168,10 @@ export class UserChallengeHelper {
   }
 
   async giveUserChallengeByChallengeId(challengeId: number) {
-    return this.userChallengeRepository.findUserChallengeByChallengeId(
-      challengeId,
-    );
+    return this.userChallengeRepository.findUserChallengeByChallengeId(challengeId);
   }
 
-  async executeUpdateUserChallengeDeposit(
-    challengeDeposit: ChallengeDeposit[],
-  ): Promise<void> {
-    return this.userChallengeRepository.updateUserChallengeDeposit(
-      challengeDeposit,
-    );
+  async executeUpdateUserChallengeDeposit(challengeDeposit: ChallengeDeposit[]): Promise<void> {
+    return this.userChallengeRepository.updateUserChallengeDeposit(challengeDeposit);
   }
 }

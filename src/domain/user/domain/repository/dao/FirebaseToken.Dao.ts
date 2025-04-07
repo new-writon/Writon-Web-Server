@@ -10,10 +10,7 @@ import { UserChallenge } from '../../entity/UserChallenge';
  * User DAO Class
  */
 @Injectable()
-export class FirebaseTokenDao
-  extends Repository<FirebaseToken>
-  implements FirebaseTokenRepository
-{
+export class FirebaseTokenDao extends Repository<FirebaseToken> implements FirebaseTokenRepository {
   constructor(private dataSource: DataSource) {
     super(FirebaseToken, dataSource.createEntityManager());
   }
@@ -31,21 +28,12 @@ export class FirebaseTokenDao
       .getOne();
   }
 
-  async insertFirebaseToken(
-    userId: number,
-    engineValue: string,
-  ): Promise<void> {
-    const newFirebaseToken = FirebaseToken.createFirebaseToken(
-      engineValue,
-      userId,
-    );
+  async insertFirebaseToken(userId: number, engineValue: string): Promise<void> {
+    const newFirebaseToken = FirebaseToken.createFirebaseToken(engineValue, userId);
     await this.save(newFirebaseToken);
   }
 
-  async deleteFirebaseToken(
-    userId: number,
-    engineValue: string,
-  ): Promise<void> {
+  async deleteFirebaseToken(userId: number, engineValue: string): Promise<void> {
     await this.dataSource
       .createQueryBuilder()
       .delete()
@@ -66,10 +54,7 @@ export class FirebaseTokenDao
       .getMany();
   }
 
-  async deleteFirebaseTokens(
-    userId: number,
-    engineValues: string[],
-  ): Promise<void> {
+  async deleteFirebaseTokens(userId: number, engineValues: string[]): Promise<void> {
     await this.dataSource
       .createQueryBuilder()
       .delete()

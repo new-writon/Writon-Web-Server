@@ -20,9 +20,7 @@ export class JwtManager {
     return (
       'Bearer ' +
       jwt.sign(payload, this.configService.get<string>('jwt.secret'), {
-        algorithm: this.configService.get<string>(
-          'jwt.algorithm',
-        ) as jwt.Algorithm,
+        algorithm: this.configService.get<string>('jwt.algorithm') as jwt.Algorithm,
         expiresIn: this.configService.get<string>('jwt.access_token'),
       })
     );
@@ -32,9 +30,7 @@ export class JwtManager {
     return (
       'Bearer ' +
       jwt.sign({}, this.configService.get<string>('jwt.secret'), {
-        algorithm: this.configService.get<string>(
-          'jwt.algorithm',
-        ) as jwt.Algorithm,
+        algorithm: this.configService.get<string>('jwt.algorithm') as jwt.Algorithm,
         expiresIn: this.configService.get<string>('jwt.refresh_token'),
       })
     );
@@ -55,10 +51,7 @@ export class JwtManager {
 
   public verify = (token: string) => {
     try {
-      const decoded = jwt.verify(
-        token,
-        this.configService.get<string>('jwt.secret'),
-      ) as JwtPayload;
+      const decoded = jwt.verify(token, this.configService.get<string>('jwt.secret')) as JwtPayload;
       return {
         state: true,
         userId: decoded!.userId,
@@ -77,9 +70,7 @@ export class JwtManager {
         requestToken.split('Bearer ')[1],
         this.configService.get<string>('jwt.secret'),
       ) as JwtPayload;
-      const responseToken = (await this.loginTokenManager.getToken(
-        String(userId),
-      )) as string[];
+      const responseToken = (await this.loginTokenManager.getToken(String(userId))) as string[];
 
       if (this.verifyToken(requestToken, responseToken)) {
         return { state: 'ok', token: requestToken };
@@ -96,10 +87,7 @@ export class JwtManager {
   //     return false;
   // }
 
-  private verifyToken(
-    externalToken: string,
-    internalTokens: string[],
-  ): boolean {
+  private verifyToken(externalToken: string, internalTokens: string[]): boolean {
     if (internalTokens !== null && internalTokens.includes(externalToken)) {
       return true;
     }

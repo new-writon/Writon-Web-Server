@@ -56,6 +56,7 @@ export class AuthService {
     );
     const checkFlag = checkData(authToken);
     await this.addAuthToken(checkFlag, checkedUserData.getId(), refreshToken);
+    // eslint-disable-next-line prefer-const
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(organization, checkedUserData.getId()),
       this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId),
@@ -91,6 +92,7 @@ export class AuthService {
     );
     const checkFlag = checkData(authToken);
     await this.addAuthToken(checkFlag, userData.getId(), refreshToken);
+    // eslint-disable-next-line prefer-const
     let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
       this.checkAffiliationStatus(loginLocal.getOrganization(), userData.getId()),
       this.checkOngoingChallenge(
