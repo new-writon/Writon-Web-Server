@@ -52,12 +52,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
-      - name: Restore node_modules
-        uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: node_modules
-
       - name: Build Docker Image For Node.js
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
