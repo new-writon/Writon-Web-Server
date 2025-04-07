@@ -47,13 +47,6 @@ jobs:
           name: 'writon-firebase-admin.json'
           json: ${{ secrets.FIREBASE }}
 
-      # Docker 이미지 저장
-      - name: Save Docker Image
-        uses: actions/upload-artifact@v3
-        with:
-          name: docker-image
-          path: .
-          retention-days: 1
   CD:
     needs: CI
     runs-on: ubuntu-latest
