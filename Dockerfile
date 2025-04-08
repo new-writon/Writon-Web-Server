@@ -24,4 +24,5 @@ COPY --from=build /app /app
 RUN npm run build
 
 EXPOSE 3003
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "pm2:start"]
+CMD ["npm", "run", "pm2:monit"]
