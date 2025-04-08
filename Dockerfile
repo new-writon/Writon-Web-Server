@@ -22,5 +22,5 @@ COPY --from=build /app /app
 
 
 EXPOSE 3003
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "pm2:start"]
 
