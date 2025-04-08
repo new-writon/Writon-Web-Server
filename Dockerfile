@@ -20,14 +20,7 @@ WORKDIR /app
 # Copy the necessary files from the build stage
 COPY --from=build /app /app
 
-# Build the application
-RUN npm run build
-
-RUN npm install pm2 -g
-ENV PM2_PUBLIC_KEY uztt3e0ushwyvv0
-ENV PM2_SECRET_KEY tfzsvwxt5uozaa8
-
 
 EXPOSE 3003
-CMD ["sh", "-c", "npm run pm2:start && npm run pm2:monit"]
+CMD ["npm", "run", "pm2:start"]
 
