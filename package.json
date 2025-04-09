@@ -34,7 +34,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.4.0",
-    "@nestjs/terminus": "^10.2.3",
+    "@nestjs/terminus": "^10.3.0",
     "@nestjs/typeorm": "^10.0.2",
     "@types/bcryptjs": "^2.4.6",
     "async-mutex": "^0.5.0",
