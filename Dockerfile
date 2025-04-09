@@ -22,5 +22,5 @@ WORKDIR /app
 # Copy the necessary files from the build stage
 COPY --from=build /app /app
 EXPOSE 3003
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "pm2:start"]
 
