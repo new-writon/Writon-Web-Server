@@ -7,6 +7,7 @@ COPY package-lock.json /app
 RUN npm install
 COPY ./ ./
 
+
 # Production stage (Stage 2)
 FROM node:18.6.0-alpine
 
