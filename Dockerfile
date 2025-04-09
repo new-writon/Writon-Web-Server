@@ -6,7 +6,7 @@ COPY package.json /app
 COPY package-lock.json /app
 RUN npm install
 COPY ./ ./
-
+RUN npm run build 
 
 
 # Production stage (Stage 2)
