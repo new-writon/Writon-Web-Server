@@ -17,7 +17,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /app
 
-
 # Copy the necessary files from the build stage
 COPY --from=build /app /app
 EXPOSE 3003
