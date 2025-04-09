@@ -4,9 +4,11 @@ FROM node:18.6.0-alpine as build
 WORKDIR /app
 COPY package.json /app
 COPY package-lock.json /app
+RUN npm install  pm2
 RUN npm install
 COPY ./ ./
 RUN npm run build 
+
 
 
 # Production stage (Stage 2)
