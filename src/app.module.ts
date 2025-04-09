@@ -14,6 +14,8 @@ import { TemplateModule } from './domain/template/template.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisConfig } from './global/config/RedisConfig';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { HealthController } from './global/health/HealthController';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -52,7 +54,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
     SatisfactionModule,
     ChallengeModule,
     TemplateModule,
+    TerminusModule,
+    HttpModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
 })
 export class AppModule {}
