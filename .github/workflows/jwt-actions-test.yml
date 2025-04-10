@@ -76,11 +76,17 @@ jobs:
           name: 'writon-firebase-admin.json'
           json: ${{ secrets.FIREBASE }}
 
-      - name: Build Docker Image For Node.js
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker image
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0 -f Dockerfile .
-          docker push ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
+          docker build -t ghcr.io/${{ github.repository_owner }}/writon-test:1.0 -f Dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/writon-test:1.0
 
       # 서버에서 Docker 이미지 실행
       - name: EC2 Docker Run
@@ -93,6 +99,6 @@ jobs:
 
             docker stop writon-test
             docker rm writon-test
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
-            docker pull ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
-            docker run -d -p 86:3003 --name writon-test ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
+            docker rmi ghcr.io/${{ github.repository_owner }}/writon-test:1.0
+            docker pull ghcr.io/${{ github.repository_owner }}/writon-test:1.0
+            docker run -d -p 86:3003 --name writon-test ghcr.io/${{ github.repository_owner }}/writon-test:1.0
