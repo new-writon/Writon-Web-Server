@@ -12,7 +12,12 @@ import { MetricsInterceptor } from './global/monitor/MetricsInterceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: true,
+    origin: [
+      'https://grafana.writon.co.kr',
+      'https://api.writon.co.kr',
+      'https://yourfrontend.writon.co.kr',
+      'https://www.writon.co.kr',
+    ],
     credentials: true,
     exposedHeaders: ['Authorization'], // * 사용할 헤더 추가.
   });
