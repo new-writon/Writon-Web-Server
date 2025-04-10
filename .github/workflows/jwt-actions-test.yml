@@ -28,12 +28,8 @@ jobs:
         run: npm install
 
       # FIREBASE SDK 세팅
-      - name: create-json
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: 'writon-firebase-admin.json'
-          json: ${{ secrets.FIREBASE }}
+      - name: Create firebase-admin json
+        run: echo "${{ secrets.FIREBASE }}" | base64 -d > writon-firebase-admin.json
 
       # 빌드
       - name: Build
@@ -63,18 +59,11 @@ jobs:
 
       # ENV SDK 세팅
       - name: Setting env file
-        run: |
-          touch .env
-          echo "${{ secrets.ENVTEST }}" >> .env
-        shell: bash
+        run: echo "${{ secrets.ENVTEST }}" | base64 -d > .env
 
       # FIREBASE SDK 세팅
-      - name: create-json
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: 'writon-firebase-admin.json'
-          json: ${{ secrets.FIREBASE }}
+      - name: Create firebase-admin json
+        run: echo "${{ secrets.FIREBASE }}" | base64 -d > writon-firebase-admin.json
 
       - name: Build Docker Image For Node.js
         run: |
