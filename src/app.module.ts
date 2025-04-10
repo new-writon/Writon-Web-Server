@@ -14,9 +14,16 @@ import { TemplateModule } from './domain/template/template.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisConfig } from './global/config/RedisConfig';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { HealthController } from './global/health/HealthController';
+import { HttpModule } from '@nestjs/axios';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
   imports: [
+    PrometheusModule.register({
+      path: '/api/metrics', // 메트릭 데이터를 노출할 엔드포인트
+      defaultMetrics: { enabled: true },
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
@@ -52,7 +59,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
     SatisfactionModule,
     ChallengeModule,
     TemplateModule,
+    TerminusModule,
+    HttpModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
 })
 export class AppModule {}
