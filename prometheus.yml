@@ -1,0 +1,4 @@
+scrape_configs:
+  - job_name: 'nestjs'
+    static_configs:
+      - targets: ['host.docker.internal:3000'] # NestJS가 3000 포트에서 실행 중인 경우
