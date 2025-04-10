@@ -7,6 +7,7 @@ import type { ConfigObject } from './global/config/configuration';
 import { HttpExceptionFilter } from './global/exception/HttpExceptionFilter';
 import { SwaggerModule } from '@nestjs/swagger';
 import { BaseAPIDocument } from './swagger.documment';
+import { MetricsInterceptor } from './global/monitor/MetricsInterceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,7 @@ async function bootstrap() {
     credentials: true,
     exposedHeaders: ['Authorization'], // * 사용할 헤더 추가.
   });
+  app.useGlobalInterceptors(app.get(MetricsInterceptor));
   const config = app.get<ConfigService<ConfigObject, true>>(ConfigService);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe(config.get('validation')));

@@ -17,13 +17,17 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HealthController } from './global/health/HealthController';
 import { HttpModule } from '@nestjs/axios';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { MetricsModule } from './global/monitor/metrics.module';
 
 @Module({
   imports: [
     PrometheusModule.register({
-      path: '/api/metrics', // 메트릭 데이터를 노출할 엔드포인트
-      defaultMetrics: { enabled: true },
+      defaultLabels: {
+        app: 'nestjs-app',
+      },
+      path: '/metrics', // 👈 여기서 자동으로 /metrics 등록해줌
     }),
+    MetricsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
