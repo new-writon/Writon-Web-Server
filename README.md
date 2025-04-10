@@ -50,25 +50,6 @@
     4. 약어는 되도록 사용하지 않는다.
         - 부득이하게 약어가 필요하다고 판단되는 경우 팀원과 상의를 거친다.
 
-- **주석**
-    1. 한 줄 주석 `//`은 응용 서비스 함수가 10줄 이내일 경우 매 줄마다 설명을 추가할 때 사용한다.
-        
-        ```tsx
-        // 한줄 주석일 때
-        /**
-        * 여러줄
-        * 주석일 때
-        */
-        ```
-    2. 함수 주석 모든 함수에 docs를 붙여 사용한다.
-        
-        ```tsx
-        /**
-         * @route Method /Route
-         * @desc Function Description
-         * @access Public
-         */
-        ```
 
 - **비동기 함수의 사용**
     1. `async`, `await` 함수 사용을 지향한다.
@@ -120,7 +101,8 @@
 ## 🔗 ERD(기획성에 따라 변동)
 
 ---
-![Writon (2)](https://github.com/new-writon/Writon-Be/assets/106163272/4ee03183-9018-45cf-83dd-a6f41d57ad7d)
+![Writon(v2)](https://github.com/user-attachments/assets/00ced521-951f-4b34-b100-a62217434f92)
+
 
 
 ## ♻ CI/CD
@@ -157,36 +139,7 @@
 
 Code : [Repository](https://github.com/new-writon/program)
 
-
-
-
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+ 
 
 ## Installation
 
@@ -207,6 +160,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## pm2 monitor
+(docker-alpine)
+
+```
+  docker exec -it container-id /bin/sh
+  npm install -g pm2
+  pm2 monit
+
+```
+
 ## Test
 
 ```bash
@@ -219,15 +182,3 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
