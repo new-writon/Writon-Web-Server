@@ -31,11 +31,10 @@ export class ChallengeDepositDeduction extends BaseEntity {
   @Column('int', { name: 'end_count' })
   endCount: number;
 
-  @ManyToOne(
-    () => Challenge,
-    (challenge) => challenge.challengeDepositDeductions,
-    { onDelete: 'CASCADE', onUpdate: 'CASCADE' },
-  )
+  @ManyToOne(() => Challenge, (challenge) => challenge.challengeDepositDeductions, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn([{ name: 'challenge_id', referencedColumnName: 'challengeId' }])
   challenge: Relation<Challenge>;
 }

@@ -1,0 +1,11 @@
+# scrape_configs:
+#   - job_name: 'nestjs-app'
+#     metrics_path: '/metrics'
+#     static_configs:
+#       - targets: ['host.docker.internal:3000']
+
+scrape_configs:
+  - job_name: 'nestjs-app'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['192.0.1.253:3001', '192.0.1.253:3002']

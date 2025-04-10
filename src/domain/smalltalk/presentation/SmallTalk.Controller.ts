@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Logger, Param, Post, UseGuards } from '@nestjs/common';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
 import { User } from '../../user/domain/entity/User';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
@@ -29,11 +20,7 @@ export class SmallTalkController {
     @Param('date') date: string,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<any>> {
-    const result = await this.smallTalkService.bringSmallTalk(
-      user.userId,
-      challengeId,
-      date,
-    );
+    const result = await this.smallTalkService.bringSmallTalk(user.userId, challengeId, date);
     this.logger.log('스몰톡 조회 완료');
     return SuccessResponseDto.of(result);
   }
@@ -44,10 +31,7 @@ export class SmallTalkController {
     @Param('challengeId') challengeId: number,
     @Param('date') date: string,
   ): Promise<SuccessResponseDto<SmallTalkResult>> {
-    const result = await this.smallTalkService.checkSmallTalk(
-      challengeId,
-      date,
-    );
+    const result = await this.smallTalkService.checkSmallTalk(challengeId, date);
     this.logger.log('아고라 추가 여부 조회 완료');
     return SuccessResponseDto.of(result);
   }

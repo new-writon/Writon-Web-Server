@@ -19,16 +19,10 @@ export class UserHelper {
   ) {}
 
   public async giveUserDataBySocialNumberOrIdentifier(idenfitier: string) {
-    return this.userRepository.selectUserDataBySocialNumberOrIdentifier(
-      idenfitier,
-    );
+    return this.userRepository.selectUserDataBySocialNumberOrIdentifier(idenfitier);
   }
 
-  public async executeLocalSignUp(
-    identifier: string,
-    password: string,
-    email: string,
-  ) {
+  public async executeLocalSignUp(identifier: string, password: string, email: string) {
     return this.userRepository.localSignUp(identifier, password, email);
   }
 
@@ -36,11 +30,7 @@ export class UserHelper {
     return this.userRepository.findUserByEmail(email);
   }
 
-  public async executeUpdatePassword(
-    idenfitier: string,
-    email: string,
-    password: string,
-  ) {
+  public async executeUpdatePassword(idenfitier: string, email: string, password: string) {
     return this.userRepository.updatePassword(idenfitier, email, password);
   }
 
@@ -52,11 +42,7 @@ export class UserHelper {
     return this.userRepository.updatePasswordByUserId(userId, password);
   }
 
-  public async executeKakaoSignUp(
-    email: string,
-    kakaoId: string,
-    profileImage: string,
-  ) {
+  public async executeKakaoSignUp(email: string, kakaoId: string, profileImage: string) {
     return this.userRepository.kakaoSignUp(email, kakaoId, profileImage);
   }
 
@@ -75,10 +61,7 @@ export class UserHelper {
     return this.userRepository.updateAccount(accountNumber, bank, userId);
   }
 
-  public async giveFirebaseTokenByUserIdAndEngineValue(
-    userId: number,
-    engineValue: string,
-  ) {
+  public async giveFirebaseTokenByUserIdAndEngineValue(userId: number, engineValue: string) {
     return this.firebaseTokenRepository.findFirebaseTokenByUserIdAndEngineValue(
       userId,
       engineValue,
@@ -93,27 +76,16 @@ export class UserHelper {
     await this.firebaseTokenRepository.deleteFirebaseToken(userId, engineValue);
   }
 
-  public async executeDeleteFirebaseTokens(
-    userId: number,
-    engineValues: string[],
-  ) {
-    await this.firebaseTokenRepository.deleteFirebaseTokens(
-      userId,
-      engineValues,
-    );
+  public async executeDeleteFirebaseTokens(userId: number, engineValues: string[]) {
+    await this.firebaseTokenRepository.deleteFirebaseTokens(userId, engineValues);
   }
   public async giveFirebaseTokenWithUserChallengeId(
     userChallengeId: number,
   ): Promise<FirebaseToken[]> {
-    return this.firebaseTokenRepository.findFirebaseTokenWithUserChallengeId(
-      userChallengeId,
-    );
+    return this.firebaseTokenRepository.findFirebaseTokenWithUserChallengeId(userChallengeId);
   }
 
-  public async executeUpdateAlarm(
-    userId: number,
-    content: string,
-  ): Promise<void> {
+  public async executeUpdateAlarm(userId: number, content: string): Promise<void> {
     await this.userRepository.updateAlarm(userId, content);
   }
 
@@ -125,13 +97,7 @@ export class UserHelper {
     await this.authTokenRepository.insertAuthToken(userId, token);
   }
 
-  public async giveAuthTokenByUserIdAndToken(
-    userId: number,
-    token: string,
-  ): Promise<AuthToken> {
-    return this.authTokenRepository.findAuthTokenByUserIdAndToken(
-      userId,
-      token,
-    );
+  public async giveAuthTokenByUserIdAndToken(userId: number, token: string): Promise<AuthToken> {
+    return this.authTokenRepository.findAuthTokenByUserIdAndToken(userId, token);
   }
 }

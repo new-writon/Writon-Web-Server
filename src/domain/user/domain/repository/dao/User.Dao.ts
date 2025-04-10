@@ -21,9 +21,7 @@ export class UserDao extends Repository<User> implements UserRepository {
     });
   }
 
-  async selectUserDataBySocialNumberOrIdentifier(
-    socialNumber: string,
-  ): Promise<User> {
+  async selectUserDataBySocialNumberOrIdentifier(socialNumber: string): Promise<User> {
     return await this.findOne({
       where: {
         identifier: socialNumber,
@@ -32,12 +30,7 @@ export class UserDao extends Repository<User> implements UserRepository {
   }
 
   async kakaoSignUp(email: string, kakaoNumber: string, kakaoProfile: string) {
-    const newUser = User.createKakaoUser(
-      email,
-      kakaoNumber,
-      kakaoProfile,
-      'USER',
-    );
+    const newUser = User.createKakaoUser(email, kakaoNumber, kakaoProfile, 'USER');
     return await this.save(newUser);
   }
 
@@ -68,21 +61,14 @@ export class UserDao extends Repository<User> implements UserRepository {
   }
 
   async updatePassword(idenfitier: string, email: string, password: string) {
-    await this.update(
-      { identifier: idenfitier, email: email },
-      { password: password },
-    );
+    await this.update({ identifier: idenfitier, email: email }, { password: password });
   }
 
   async updatePasswordByUserId(userId: number, newPassword: string) {
     await this.update({ userId: userId }, { password: newPassword });
   }
 
-  async updateAccount(
-    accountNumber: string,
-    bank: string,
-    userId: number,
-  ): Promise<void> {
+  async updateAccount(accountNumber: string, bank: string, userId: number): Promise<void> {
     await this.dataSource
       .createQueryBuilder()
       .update(User)

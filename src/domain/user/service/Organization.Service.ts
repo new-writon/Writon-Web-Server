@@ -8,8 +8,7 @@ export class OrganizationService {
   constructor(private readonly organizationHelper: OrganizationHelper) {}
 
   public async bringPositions(organization: string): Promise<PositionNames> {
-    const positionDatas =
-      await this.organizationHelper.givePositionsByOrganizationId(organization);
+    const positionDatas = await this.organizationHelper.givePositionsByOrganizationId(organization);
     const mappedPositionDatas = this.mappingPositionDatas(positionDatas);
     return PositionNames.of(mappedPositionDatas);
   }

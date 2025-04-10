@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Logger,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, Logger, Patch, Post, UseGuards } from '@nestjs/common';
 import { ResponseService } from '../service/Response.Service';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';

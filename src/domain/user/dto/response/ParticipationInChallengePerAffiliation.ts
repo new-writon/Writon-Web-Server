@@ -4,18 +4,12 @@ export class ParticipationInChallengePerAffiliation {
   private affiliatedConfirmation: boolean;
   private challengedConfirmation: boolean;
 
-  constructor(
-    affiliatedConfirmation: boolean,
-    challengedConfirmation: boolean,
-  ) {
+  constructor(affiliatedConfirmation: boolean, challengedConfirmation: boolean) {
     this.setAffiliatedConfirmation(affiliatedConfirmation);
     this.setChallengedConfirmation(challengedConfirmation);
   }
 
-  public static of(
-    affiliatedConfirmation: boolean,
-    challengedConfirmation: boolean,
-  ) {
+  public static of(affiliatedConfirmation: boolean, challengedConfirmation: boolean) {
     return new ParticipationInChallengePerAffiliation(
       affiliatedConfirmation,
       challengedConfirmation,

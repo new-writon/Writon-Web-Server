@@ -14,9 +14,20 @@ import { TemplateModule } from './domain/template/template.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { RedisConfig } from './global/config/RedisConfig';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { HealthController } from './global/health/HealthController';
+import { HttpModule } from '@nestjs/axios';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { MetricsModule } from './global/monitor/metrics.module';
 
 @Module({
   imports: [
+    PrometheusModule.register({
+      defaultLabels: {
+        app: 'nestjs-app',
+      },
+      path: '/metrics', // 👈 여기서 자동으로 /metrics 등록해줌
+    }),
+    MetricsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
@@ -52,7 +63,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
     SatisfactionModule,
     ChallengeModule,
     TemplateModule,
+    TerminusModule,
+    HttpModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
 })
 export class AppModule {}

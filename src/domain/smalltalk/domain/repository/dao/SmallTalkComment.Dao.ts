@@ -29,19 +29,18 @@ export class SmallTalkCommentDao
   async findSmallTalkCommentBySmallTalkId(
     smallTalkId: number,
   ): Promise<ParticularSmallTalkCommentData[]> {
-    const particularCommentData: ParticularSmallTalkCommentData[] =
-      await this.dataSource
-        .createQueryBuilder()
-        .select([
-          'stc.small_talk_comment_id AS smallTalkCommentId',
-          'stc.content AS content',
-          "TIME_FORMAT(stc.created_at, '%H:%i') AS createdTime",
-          'stc.affiliation_id AS affiliationId',
-        ])
-        .from(SmallTalkComment, 'stc')
-        .where('stc.small_talk_id = :smallTalkId', { smallTalkId })
-        .orderBy('stc.created_at', 'ASC')
-        .getRawMany();
+    const particularCommentData: ParticularSmallTalkCommentData[] = await this.dataSource
+      .createQueryBuilder()
+      .select([
+        'stc.small_talk_comment_id AS smallTalkCommentId',
+        'stc.content AS content',
+        "TIME_FORMAT(stc.created_at, '%H:%i') AS createdTime",
+        'stc.affiliation_id AS affiliationId',
+      ])
+      .from(SmallTalkComment, 'stc')
+      .where('stc.small_talk_id = :smallTalkId', { smallTalkId })
+      .orderBy('stc.created_at', 'ASC')
+      .getRawMany();
     return particularCommentData.map(
       (data) =>
         new ParticularSmallTalkCommentData(

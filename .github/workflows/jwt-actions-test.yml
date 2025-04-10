@@ -11,14 +11,56 @@ permissions:
   contents: read
 
 jobs:
-  CI-CD:
+  CI:
     runs-on: ubuntu-latest
     steps:
       # 소스코드 다운로드
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # 또는 프로젝트에 맞는 Node.js 버전
+
+      # NPM 종속성 설치
+      - name: Install dependencies
+        run: npm install
+
+      # FIREBASE SDK 세팅
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: 'writon-firebase-admin.json'
+          json: ${{ secrets.FIREBASE }}
+
+      # 빌드
+      - name: Build
+        run: npm run build
+
+      # 린팅
+      - name: Run Lint
+        run: npm run lint # package.json에 정의된 lint 스크립트 실행
+
+      # # 보안 검사 (예: npm audit)
+      # - name: Run Security Audit
+      #   run: npm audit --production --audit-level=high # 높은 수준의 취약점 검사
+
+  CD:
+    needs: CI
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      # 소스코드 다운로드
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # 또는 프로젝트에 맞는 Node.js 버전
+
       # ENV SDK 세팅
       - name: Setting env file
         run: |
@@ -34,11 +76,17 @@ jobs:
           name: 'writon-firebase-admin.json'
           json: ${{ secrets.FIREBASE }}
 
-      - name: Build Docker Image For Node.js
+      - name: Log in to GHCR with PAT
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build and Push Docker image
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0 -f Dockerfile .
-          docker push ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
+          docker build -t ghcr.io/${{ github.repository_owner }}/writon-test:1.0 -f Dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/writon-test:1.0
 
       # 서버에서 Docker 이미지 실행
       - name: EC2 Docker Run
@@ -49,8 +97,11 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
 
-            docker stop writon-test
-            docker rm writon-test
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
-            docker pull ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
-            docker run -d -p 86:3003 --name writon-test ${{ secrets.DOCKER_USERNAME }}/writon-test:1.0
+            echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+            docker stop writon-test || true
+            docker rm writon-test || true
+            docker rmi ghcr.io/${{ github.repository_owner }}/writon-test:1.0 || true
+
+            docker pull ghcr.io/${{ github.repository_owner }}/writon-test:1.0
+            docker run -d -p 86:3003 --name writon-test ghcr.io/${{ github.repository_owner }}/writon-test:1.0

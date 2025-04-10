@@ -47,10 +47,7 @@ export class AlarmService {
     }
   }
 
-  private async handleFailedTokens(
-    userId: number,
-    failedTokens: string[],
-  ): Promise<void> {
+  private async handleFailedTokens(userId: number, failedTokens: string[]): Promise<void> {
     if (failedTokens.length > 0) {
       await this.removeTokensFromDatabase(userId, failedTokens);
     }
@@ -58,10 +55,7 @@ export class AlarmService {
 
   private getFailedTokens(response: any, originalTokens: string[]): string[] {
     return response.responses.reduce((acc, res, index) => {
-      if (
-        !res.success &&
-        res.error?.code === 'messaging/registration-token-not-registered'
-      ) {
+      if (!res.success && res.error?.code === 'messaging/registration-token-not-registered') {
         acc.push(originalTokens[index]);
       }
       return acc;

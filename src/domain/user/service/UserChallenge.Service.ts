@@ -40,10 +40,7 @@ export class UserChallengeService {
     challengeId: number,
   ): Promise<TemplateStatus> {
     const affiliationData: Affiliation =
-      await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-        userId,
-        organization,
-      );
+      await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
     const userChallengeData: UserChallenge =
       await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(
         affiliationData.getAffiliationId(),
@@ -51,11 +48,8 @@ export class UserChallengeService {
       );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
     const userTemplateData: UserTemplate[] =
-      await this.templateApi.requestUserTemplateByUserChallengeId(
-        userChallengeData.getId(),
-      );
-    const todayTemplateStatus: boolean =
-      this.verifyTodayTemplateStatus(userTemplateData);
+      await this.templateApi.requestUserTemplateByUserChallengeId(userChallengeData.getId());
+    const todayTemplateStatus: boolean = this.verifyTodayTemplateStatus(userTemplateData);
     return TemplateStatus.of(todayTemplateStatus);
   }
 
@@ -65,31 +59,21 @@ export class UserChallengeService {
     challengeId: number,
   ): Promise<UserChallengeSituation> {
     const affiliationData: Affiliation =
-      await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-        userId,
-        organization,
-      );
+      await this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization);
     const userChallengeData: UserChallenge =
       await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(
         affiliationData.getAffiliationId(),
         challengeId,
       );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
-    const [
-      userData,
-      overlapPeriod,
-      challengeOverlapCount,
-      challengeSuccessCount,
-      challengeData,
-    ] = await Promise.all([
-      this.userHelper.giveUserById(userId),
-      this.challengeApi.requestOverlapPeriod(challengeId),
-      this.challengeApi.requestChallengeOverlapCount(challengeId),
-      this.templateApi.requestChallengeSuccessChallengeCount(
-        userChallengeData.getId(),
-      ),
-      this.challengeApi.requestChallengeById(challengeId),
-    ]);
+    const [userData, overlapPeriod, challengeOverlapCount, challengeSuccessCount, challengeData] =
+      await Promise.all([
+        this.userHelper.giveUserById(userId),
+        this.challengeApi.requestOverlapPeriod(challengeId),
+        this.challengeApi.requestChallengeOverlapCount(challengeId),
+        this.templateApi.requestChallengeSuccessChallengeCount(userChallengeData.getId()),
+        this.challengeApi.requestChallengeById(challengeId),
+      ]);
     this.challengeVerifyService.verifyChallenge(challengeData);
     return UserChallengeSituation.of(
       affiliationData.getNickname(),
@@ -116,16 +100,12 @@ export class UserChallengeService {
     organization: string,
     challengeId: number,
   ): Promise<void> {
-    const [challengeAllData, userAffiliation, challengeData] =
-      await Promise.all([
-        this.challengeApi.requestChallengeWithCondition(challengeId),
-        this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-          userId,
-          organization,
-        ),
-        // 검증하기
-        this.challengeApi.requestChallengeById(challengeId),
-      ]);
+    const [challengeAllData, userAffiliation, challengeData] = await Promise.all([
+      this.challengeApi.requestChallengeWithCondition(challengeId),
+      this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization),
+      // 검증하기
+      this.challengeApi.requestChallengeById(challengeId),
+    ]);
     this.challengeVerifyService.verifyChallenge(challengeData);
     const userChallengeData =
       await this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(
@@ -141,8 +121,7 @@ export class UserChallengeService {
         challengeData.getDeposit(),
         0,
       ); // 미리 챌린지에 참여 시
-    const caculateDepositResult =
-      await this.makeChallengeUserDeposit(challengeAllData);
+    const caculateDepositResult = await this.makeChallengeUserDeposit(challengeAllData);
     await this.userChallengeHelper.executeInsertUserChallenge(
       userAffiliation.getAffiliationId(),
       challengeData.getId(),
@@ -152,15 +131,12 @@ export class UserChallengeService {
   }
 
   public async initializeDeposit(): Promise<void> {
-    const challengeData =
-      await this.challengeApi.requestAllChallengingInformation();
-    const sortedChallengeData =
-      this.sortChallengeDataByChallengeId(challengeData);
+    const challengeData = await this.challengeApi.requestAllChallengingInformation();
+    const sortedChallengeData = this.sortChallengeDataByChallengeId(challengeData);
     for (const challengeId in sortedChallengeData) {
-      const userChallenges =
-        await this.userChallengeHelper.giveUserChallengeByChallengeId(
-          Number(challengeId),
-        );
+      const userChallenges = await this.userChallengeHelper.giveUserChallengeByChallengeId(
+        Number(challengeId),
+      );
       const extractedUserChallengeIds =
         this.dataMapperService.extractUserChallengeIds(userChallenges);
       const userChallengeSuccessData =
@@ -172,9 +148,7 @@ export class UserChallengeService {
         userChallengeSuccessData,
         Number(challengeId),
       );
-      await this.userChallengeHelper.executeUpdateUserChallengeDeposit(
-        userDepositInformation,
-      );
+      await this.userChallengeHelper.executeUpdateUserChallengeDeposit(userDepositInformation);
     }
   }
 
@@ -190,10 +164,7 @@ export class UserChallengeService {
         userChallengeId,
         challengeId,
       );
-      return ChallengeDeposit.of(
-        mappedData.userChallengeId,
-        mappedData.calculatedDeposit,
-      );
+      return ChallengeDeposit.of(mappedData.userChallengeId, mappedData.calculatedDeposit);
     });
   }
 
@@ -203,17 +174,12 @@ export class UserChallengeService {
     userChallengeId: number,
     challengeId: number,
   ) {
-    const failCount =
-      sortedChallengeData[challengeId].challengeDayCount - successCount;
-    const deduction = this.findDeduction(
-      sortedChallengeData[challengeId].deductions,
-      failCount,
-    );
+    const failCount = sortedChallengeData[challengeId].challengeDayCount - successCount;
+    const deduction = this.findDeduction(sortedChallengeData[challengeId].deductions, failCount);
     return {
       userChallengeId: userChallengeId,
       calculatedDeposit: Math.floor(
-        sortedChallengeData[challengeId].deposit -
-          (deduction?.deductionAmount || 0),
+        sortedChallengeData[challengeId].deposit - (deduction?.deductionAmount || 0),
       ),
     };
   }
@@ -227,14 +193,11 @@ export class UserChallengeService {
     failCount: number,
   ) {
     return deductions.find(
-      ({ startCount, endCount }) =>
-        failCount >= startCount && failCount <= endCount,
+      ({ startCount, endCount }) => failCount >= startCount && failCount <= endCount,
     );
   }
 
-  private sortChallengeDataByChallengeId(
-    challengeData: ChallengeAllInformation[],
-  ) {
+  private sortChallengeDataByChallengeId(challengeData: ChallengeAllInformation[]) {
     return challengeData.reduce((acc, item) => {
       if (!acc[item.getChallengeId()]) {
         acc[item.getChallengeId()] = {
@@ -259,10 +222,7 @@ export class UserChallengeService {
     challengeId: number,
   ): Promise<CalendarData> {
     const [affiliationData, challengeDayData] = await Promise.all([
-      this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-        userId,
-        organization,
-      ),
+      this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization),
       this.challengeApi.requestChallengeDayByChallengeId(challengeId),
     ]);
     const userChallengeData: UserChallenge =
@@ -271,19 +231,15 @@ export class UserChallengeService {
         challengeId,
       );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
-    const userTemplateData =
-      await this.templateApi.requestUserTemplateByUserChallengeId(
-        userChallengeData.getId(),
-      );
+    const userTemplateData = await this.templateApi.requestUserTemplateByUserChallengeId(
+      userChallengeData.getId(),
+    );
     const calendarWithGrayData: CalendarData[] = sortCallendarBadgeWithGray(
       challengeDayData,
       userTemplateData,
     );
 
-    const calendarData: CalendarData[] = sortCallendarBadge(
-      challengeDayData,
-      userTemplateData,
-    );
+    const calendarData: CalendarData[] = sortCallendarBadge(challengeDayData, userTemplateData);
     return CalendarData.of(calendarData, calendarWithGrayData);
   }
 
@@ -291,9 +247,7 @@ export class UserChallengeService {
     userId: number,
   ): Promise<ChallengesPerOrganization[]> {
     const challengesPerOrganization: ChallengesPerOrganization[] =
-      await this.affiliationHelper.giveChallengesPerOrganizationByUserId(
-        userId,
-      );
+      await this.affiliationHelper.giveChallengesPerOrganizationByUserId(userId);
     return challengesPerOrganization.length === 0
       ? []
       : this.handleChallengesPerOrganization(challengesPerOrganization);
@@ -302,17 +256,13 @@ export class UserChallengeService {
   private async handleChallengesPerOrganization(
     challengesPerOrganization: ChallengesPerOrganization[],
   ) {
-    const extractedChallengeIds = this.dataMapperService.extractChallengeIds(
+    const extractedChallengeIds =
+      this.dataMapperService.extractChallengeIds(challengesPerOrganization);
+    const challengeDatas = await this.challengeApi.requestChallengesByIds(extractedChallengeIds);
+    const mappedChallengesPerOrganization = this.mappingChallengesPerOrganization(
       challengesPerOrganization,
+      challengeDatas,
     );
-    const challengeDatas = await this.challengeApi.requestChallengesByIds(
-      extractedChallengeIds,
-    );
-    const mappedChallengesPerOrganization =
-      this.mappingChallengesPerOrganization(
-        challengesPerOrganization,
-        challengeDatas,
-      );
     return mappedChallengesPerOrganization;
   }
 
@@ -342,10 +292,7 @@ export class UserChallengeService {
   ): Promise<ParticipationInChallengePerAffiliation> {
     const [affiliationData, userChallengeData] = await Promise.all([
       // 검증하기
-      this.affiliationHelper.giveAffiliationByUserIdWithOrganization(
-        userId,
-        organization,
-      ),
+      this.affiliationHelper.giveAffiliationByUserIdWithOrganization(userId, organization),
       // 검증하기
       this.userChallengeHelper.giveUserChallengeWithUserIdAndOragnizationByChallengeId(
         userId,
@@ -404,9 +351,7 @@ export class UserChallengeService {
     return false;
   }
 
-  private async makeChallengeUserDeposit(
-    challengeData: ChallengeInformation[],
-  ) {
+  private async makeChallengeUserDeposit(challengeData: ChallengeInformation[]) {
     const sortedChallengeData = this.sortChallengeData(challengeData);
     const challengeIdKeys = Object.keys(sortedChallengeData);
     for (const challengeIdKey of challengeIdKeys) {
@@ -444,11 +389,9 @@ export class UserChallengeService {
     successCount: number,
     key: number,
   ) {
-    const failCount =
-      Number(sortedChallengeData[key].challengeDayCount) - successCount;
+    const failCount = Number(sortedChallengeData[key].challengeDayCount) - successCount;
     const targetDeduction = sortedChallengeData[key].deductions.find(
-      ({ startCount, endCount }) =>
-        failCount >= startCount && failCount <= endCount,
+      ({ startCount, endCount }) => failCount >= startCount && failCount <= endCount,
     );
     if (targetDeduction) {
       const { deduction_amount } = targetDeduction;

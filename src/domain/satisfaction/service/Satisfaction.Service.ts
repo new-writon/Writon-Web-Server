@@ -21,11 +21,7 @@ export class SatisfactionService {
     private readonly challengeVerifyService: ChallengeVerifyService,
   ) {}
 
-  public async bringSatisfactionStatus(
-    userId: number,
-    organization: string,
-    challengeId: number,
-  ) {
+  public async bringSatisfactionStatus(userId: number, organization: string, challengeId: number) {
     // 검증하기
     const userChallengeData =
       await this.userApi.requestUserChallengeWithUserIdAndOragnizationByChallengeId(
@@ -37,16 +33,8 @@ export class SatisfactionService {
     return SatisfactionStatus.of(userChallengeData.getReview());
   }
 
-  public async modifySatisfactionStatus(
-    userId: number,
-    organization: string,
-    challengeId: number,
-  ) {
-    await this.userApi.requestUpdateUserChallengeReview(
-      userId,
-      organization,
-      challengeId,
-    );
+  public async modifySatisfactionStatus(userId: number, organization: string, challengeId: number) {
+    await this.userApi.requestUpdateUserChallengeReview(userId, organization, challengeId);
   }
 
   public async bringUserChallengeResult(
@@ -55,29 +43,24 @@ export class SatisfactionService {
     challengeId: number,
   ): Promise<UserChallengeResult> {
     // 검증하기
-    const affiliationData =
-      await this.userApi.requestAffiliationByUserIdWithOrganization(
-        userId,
-        organization,
-      );
+    const affiliationData = await this.userApi.requestAffiliationByUserIdWithOrganization(
+      userId,
+      organization,
+    );
     this.userVerifyService.verifyAffiliation(affiliationData);
     // 검증하기
-    const userChallengeData =
-      await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(
-        affiliationData.getId(),
-        challengeId,
-      );
+    const userChallengeData = await this.userApi.requestUserChallengeByAffiliationIdAndChallengeId(
+      affiliationData.getId(),
+      challengeId,
+    );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
 
-    const [challengeData, challengeOverlapCount, challengeSuccessCount] =
-      await Promise.all([
-        // 검증하기
-        this.challengeApi.requestChallengeById(challengeId),
-        this.challengeApi.requestChallengeOverlapCount(challengeId),
-        this.templateApi.reqeustChallengeSuccessChallengeCount(
-          userChallengeData.getId(),
-        ),
-      ]);
+    const [challengeData, challengeOverlapCount, challengeSuccessCount] = await Promise.all([
+      // 검증하기
+      this.challengeApi.requestChallengeById(challengeId),
+      this.challengeApi.requestChallengeOverlapCount(challengeId),
+      this.templateApi.reqeustChallengeSuccessChallengeCount(userChallengeData.getId()),
+    ]);
     this.challengeVerifyService.verifyChallenge(challengeData);
     return UserChallengeResult.of(
       affiliationData.getNickname(),
@@ -89,22 +72,18 @@ export class SatisfactionService {
     );
   }
 
-  public async bringSatisfactionQuestion(
-    challengeId: number,
-  ): Promise<SatisfactionQuestion[]> {
+  public async bringSatisfactionQuestion(challengeId: number): Promise<SatisfactionQuestion[]> {
     // 검증하기
-    const satisfactionData =
-      await this.satisfactionHelper.giveSatisfactionByChallengeId(
-        challengeId,
-        true,
-      );
+    const satisfactionData = await this.satisfactionHelper.giveSatisfactionByChallengeId(
+      challengeId,
+      true,
+    );
     return SatisfactionQuestion.of(satisfactionData);
   }
 
   public async bringReEngagement(challengeId: number) {
     // 검증하기
-    const challengeData =
-      await this.challengeApi.requestChallengeById(challengeId);
+    const challengeData = await this.challengeApi.requestChallengeById(challengeId);
     this.challengeVerifyService.verifyChallenge(challengeData);
     return Restart.of(challengeData.getRestart());
   }

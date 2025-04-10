@@ -9,9 +9,7 @@ export class ChallengeAndOrganization {
     this.setChallenge(challenges);
   }
 
-  public static of(
-    challengeAndOrganizationArrayData: ChallengeAndOrganization[],
-  ) {
+  public static of(challengeAndOrganizationArrayData: ChallengeAndOrganization[]) {
     return challengeAndOrganizationArrayData.map((data) => {
       return new ChallengeAndOrganization(data.organizations, data.challenges);
     });
@@ -27,17 +25,13 @@ export class ChallengeAndOrganization {
 
   private setOrganization(organization: string) {
     if (organization === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : organization 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : organization 값이 존재하지 않습니다.`);
     this.organizations = organization;
   }
 
   private setChallenge(challenge: string) {
     if (challenge === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : challenge 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : challenge 값이 존재하지 않습니다.`);
     this.challenges = challenge;
   }
 }

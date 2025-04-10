@@ -20,8 +20,6 @@ export class OrganizationHelper {
   }
 
   public async givePositionsByOrganizationId(organization: string) {
-    return this.organizationRepository.findPositionsByOrganizationId(
-      organization,
-    );
+    return this.organizationRepository.findPositionsByOrganizationId(organization);
   }
 }

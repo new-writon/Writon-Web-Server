@@ -4,7 +4,5 @@ import { SubjectiveAnswerType } from '../../dto/values/SubjectiveAnswerType';
 
 export interface SatisfactionSubjectiveResultRepository
   extends Repository<SatisfactionSubjectiveResult> {
-  insertSatisfactionSubjectiveResult(
-    subjectiveAnswer: SubjectiveAnswerType[],
-  ): Promise<void>;
+  insertSatisfactionSubjectiveResult(subjectiveAnswer: SubjectiveAnswerType[]): Promise<void>;
 }

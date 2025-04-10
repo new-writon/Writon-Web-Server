@@ -51,17 +51,13 @@ export class SmallTalkDataResult {
 
   private setSmallTalkId(smallTalkId: number) {
     if (smallTalkId === null || smallTalkId === undefined)
-      throw new InternalServerErrorException(
-        `${__dirname} : smallTalkId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : smallTalkId 값이 존재하지 않습니다.`);
     this.smallTalkId = smallTalkId;
   }
 
   private setQuestion(question: string) {
     if (question === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : question 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : question 값이 존재하지 않습니다.`);
     this.question = question;
   }
 
@@ -75,25 +71,19 @@ export class SmallTalkDataResult {
 
   private setNickname(nickname: string) {
     if (nickname === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : nickname 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
     this.nickname = nickname;
   }
 
   private setCreatedTime(createdTime: Date) {
     if (createdTime === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : createdTime 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : createdTime 값이 존재하지 않습니다.`);
     this.createdTime = createdTime;
   }
 
   private setCreatedDate(createdDate: Date) {
     if (createdDate === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : createdDate 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : createdDate 값이 존재하지 않습니다.`);
     this.createdDate = createdDate;
   }
 

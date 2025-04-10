@@ -11,11 +11,7 @@ import { Affiliation } from '../../../user/domain/entity/Affiliation';
 import { UserTemplate } from './UserTemplate';
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 
-@Index(
-  'comments_user_templates_fkeyComment_user_template_id_fkey',
-  ['userTemplateId'],
-  {},
-)
+@Index('comments_user_templates_fkeyComment_user_template_id_fkey', ['userTemplateId'], {})
 @Index('comments_affiliations_fkey', ['affiliationId'], {})
 @Entity('comments')
 export class Comment extends BaseEntity {
@@ -54,18 +50,14 @@ export class Comment extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'affiliation_id', referencedColumnName: 'affiliationId' },
-  ])
+  @JoinColumn([{ name: 'affiliation_id', referencedColumnName: 'affiliationId' }])
   affiliation: Relation<Affiliation>;
 
   @ManyToOne(() => UserTemplate, (userTemplate) => userTemplate.comments, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'user_template_id', referencedColumnName: 'userTemplateId' },
-  ])
+  @JoinColumn([{ name: 'user_template_id', referencedColumnName: 'userTemplateId' }])
   userTemplate: Relation<UserTemplate>;
 
   public static createComment(

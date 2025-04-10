@@ -21,12 +21,7 @@ import { InternalServerErrorException } from '@nestjs/common';
 @Index('user_challenges_challenges_fkey', ['challengeId'], {})
 @Entity('user_challenges', { schema: 'nest' })
 export class UserChallenge extends BaseEntity {
-  constructor(
-    affiliationId: number,
-    challengeId: number,
-    deposit: number,
-    review: number,
-  ) {
+  constructor(affiliationId: number, challengeId: number, deposit: number, review: number) {
     super();
     this.setAffiliationId(affiliationId);
     this.setChallengeId(challengeId);
@@ -75,8 +70,7 @@ export class UserChallenge extends BaseEntity {
 
   @OneToMany(
     () => SatisfactionSubjectiveResult,
-    (satisfactionSubjectiveResult) =>
-      satisfactionSubjectiveResult.userChallenge,
+    (satisfactionSubjectiveResult) => satisfactionSubjectiveResult.userChallenge,
   )
   satisfactionSubjectiveResults: Relation<SatisfactionSubjectiveResult>[];
 
@@ -84,9 +78,7 @@ export class UserChallenge extends BaseEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([
-    { name: 'affiliation_id', referencedColumnName: 'affiliationId' },
-  ])
+  @JoinColumn([{ name: 'affiliation_id', referencedColumnName: 'affiliationId' }])
   affiliation: Relation<Affiliation>;
 
   @ManyToOne(() => Challenge, (challenge) => challenge.userChallenges, {
@@ -109,25 +101,19 @@ export class UserChallenge extends BaseEntity {
 
   private setChallengeId(challengeId: number) {
     if (challengeId === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : challengeId 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : challengeId 값이 존재하지 않습니다.`);
     this.challengeId = challengeId;
   }
 
   private setDeposit(deposit: number) {
     if (deposit === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : deposit 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : deposit 값이 존재하지 않습니다.`);
     this.userDeposit = deposit;
   }
 
   private setReview(review: number) {
     if (review === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : review 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : review 값이 존재하지 않습니다.`);
     this.review = review;
   }
 

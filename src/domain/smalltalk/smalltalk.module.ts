@@ -14,29 +14,19 @@ import { SmallTalkCommentDao } from './domain/repository/dao/SmallTalkComment.Da
 import { UserApi } from './infrastructure/User.Api';
 import { SmallTalkVerifyService } from 'src/global/exception/smalltalk/SmallTalkVerify.Service';
 
-
-
-
 @Module({
-  imports: [
-    TypeOrmModule.forFeature(
-      [SmallTalk, SmallTalkComment],
-    ),
-    UserModule
-
-  
-  ],
-  providers:[
-    {provide: 'smallTalkImpl',  useClass: SmallTalkDao},
-    {provide: 'smallTalkCommentImpl',  useClass: SmallTalkCommentDao},
+  imports: [TypeOrmModule.forFeature([SmallTalk, SmallTalkComment]), UserModule],
+  providers: [
+    { provide: 'smallTalkImpl', useClass: SmallTalkDao },
+    { provide: 'smallTalkCommentImpl', useClass: SmallTalkCommentDao },
     SmallTalkService,
     SmallTalkCommentService,
     SmallTalkHelper,
     SmallTalkCommentHelper,
     UserApi,
-    SmallTalkVerifyService
+    SmallTalkVerifyService,
   ],
   controllers: [SmallTalkController, SmallTalkCommentController],
-  exports:[SmallTalkHelper, SmallTalkCommentHelper]
+  exports: [SmallTalkHelper, SmallTalkCommentHelper],
 })
 export class SmallTalkModule {}

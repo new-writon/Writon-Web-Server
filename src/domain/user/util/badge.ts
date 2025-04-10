@@ -8,21 +8,14 @@ const sortCallendarBadgeWithGray = (
   const result = [];
   for (const challengeDay of challengeDays) {
     const hasMatchingDate = userTemplateDays!.some((userTemplateDay) =>
-      isSameDate(
-        new Date(challengeDay.getDay()),
-        new Date(userTemplateDay.getTemplateDate()),
-      ),
+      isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDay.getTemplateDate())),
     );
     const customObject: { date: string; badge?: string } = {
       date: challengeDay.day,
     };
     if (hasMatchingDate) {
-      const matchingUserTemplateDays = userTemplateDays!.filter(
-        (userTemplateDays) =>
-          isSameDate(
-            new Date(challengeDay.getDay()),
-            new Date(userTemplateDays.getTemplateDate()),
-          ),
+      const matchingUserTemplateDays = userTemplateDays!.filter((userTemplateDays) =>
+        isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDays.getTemplateDate())),
       );
       for (const matchingUserTemplateDay of matchingUserTemplateDays) {
         if (matchingUserTemplateDay.getComplete()) {
@@ -46,28 +39,18 @@ const sortCallendarBadgeWithGray = (
   return result;
 };
 
-const sortCallendarBadge = (
-  challengeDays: ChallengeDay[],
-  userTemplateDays: UserTemplate[],
-) => {
+const sortCallendarBadge = (challengeDays: ChallengeDay[], userTemplateDays: UserTemplate[]) => {
   const result = [];
   for (const challengeDay of challengeDays) {
     const hasMatchingDate = userTemplateDays!.some((userTemplateDay) =>
-      isSameDate(
-        new Date(challengeDay.getDay()),
-        new Date(userTemplateDay.getTemplateDate()),
-      ),
+      isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDay.getTemplateDate())),
     );
     const customObject: { date: string; badge?: string } = {
       date: challengeDay.day,
     };
     if (hasMatchingDate) {
-      const matchingUserTemplateDays = userTemplateDays!.filter(
-        (userTemplateDays) =>
-          isSameDate(
-            new Date(challengeDay.getDay()),
-            new Date(userTemplateDays.getTemplateDate()),
-          ),
+      const matchingUserTemplateDays = userTemplateDays!.filter((userTemplateDays) =>
+        isSameDate(new Date(challengeDay.getDay()), new Date(userTemplateDays.getTemplateDate())),
       );
       for (const matchingUserTemplateDay of matchingUserTemplateDays) {
         if (matchingUserTemplateDay.getComplete()) {

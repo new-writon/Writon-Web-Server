@@ -4,7 +4,5 @@ import { ObjectiveAnswerType } from '../../dto/values/ObjectiveAnswerType';
 
 export interface SatisfactionObjectiveResultRepository
   extends Repository<SatisfactionObjectiveResult> {
-  insertSatisfactionObjectiveResult(
-    objectiveAnswer: ObjectiveAnswerType[],
-  ): Promise<void>;
+  insertSatisfactionObjectiveResult(objectiveAnswer: ObjectiveAnswerType[]): Promise<void>;
 }

@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, HttpCode, Logger, Param, Put, UseGuards } from '@nestjs/common';
 import { JWTAuthGuard } from '../../auth/guards/JwtAuth.Guard';
 import { SuccessResponseDto } from '../../../global/response/SuccessResponseDto';
 import { CurrentUser } from '../../auth/decorators/Auth.Decorator';
@@ -28,8 +20,7 @@ export class SatisfactionController {
   public async bringSatisfactionQuestion(
     @Param('challengeId') challengeId: number,
   ): Promise<SuccessResponseDto<SatisfactionQuestion[]>> {
-    const result =
-      await this.satisfactionService.bringSatisfactionQuestion(challengeId);
+    const result = await this.satisfactionService.bringSatisfactionQuestion(challengeId);
     this.logger.log('챌린지 만족도 조사 질문 조회 완료');
     return SuccessResponseDto.of(result);
   }
@@ -40,8 +31,7 @@ export class SatisfactionController {
   public async bringReEngagement(
     @Param('challengeId') challengeId: number,
   ): Promise<SuccessResponseDto<Restart>> {
-    const result =
-      await this.satisfactionService.bringReEngagement(challengeId);
+    const result = await this.satisfactionService.bringReEngagement(challengeId);
     this.logger.log('유저의 챌린지 재참여 여부 조회 완료');
     return SuccessResponseDto.of(result);
   }
@@ -88,11 +78,7 @@ export class SatisfactionController {
     @Param('challengeId') challengeId: number,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<void>> {
-    await this.satisfactionService.modifySatisfactionStatus(
-      user.userId,
-      organization,
-      challengeId,
-    );
+    await this.satisfactionService.modifySatisfactionStatus(user.userId, organization, challengeId);
     this.logger.log('유저 챌린지 만족도 조사 완료');
     return SuccessResponseDto.of();
   }

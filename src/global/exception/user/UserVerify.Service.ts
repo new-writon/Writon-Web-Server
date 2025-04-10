@@ -10,13 +10,11 @@ import { User } from '../../../domain/user/domain/entity/User';
 @Injectable()
 export class UserVerifyService {
   public verifyUserChallenge(userChallenge: UserChallenge) {
-    if (!checkData(userChallenge))
-      throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
+    if (!checkData(userChallenge)) throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
   }
 
   public verifyUserChallenges(userChallenges: UserChallenge[]) {
-    if (!checkData(userChallenges))
-      throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
+    if (!checkData(userChallenges)) throw new UserException(UserErrorCode.NOT_FOUND_USERCHALLENGE);
   }
 
   public verifyExistUserChallenge(userChallenge: UserChallenge) {
@@ -25,23 +23,19 @@ export class UserVerifyService {
   }
 
   public verifyAffiliation(affiliation: Affiliation) {
-    if (!checkData(affiliation))
-      throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
+    if (!checkData(affiliation)) throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
   }
 
   public verifyExistAffiliation(affiliation: Affiliation) {
-    if (checkData(affiliation))
-      throw new UserException(UserErrorCode.ALREADY_EXIST_AFFILIATION);
+    if (checkData(affiliation)) throw new UserException(UserErrorCode.ALREADY_EXIST_AFFILIATION);
   }
 
   public verifyAffiliations(affiliations: Affiliation[]) {
-    if (!checkData(affiliations))
-      throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
+    if (!checkData(affiliations)) throw new UserException(UserErrorCode.NOT_FOUND_AFFILIATION);
   }
 
   public verifyOrganization(organization: Organization) {
-    if (!checkData(organization))
-      throw new UserException(UserErrorCode.NOT_FOUND_ORGANIZATION);
+    if (!checkData(organization)) throw new UserException(UserErrorCode.NOT_FOUND_ORGANIZATION);
   }
 
   /**

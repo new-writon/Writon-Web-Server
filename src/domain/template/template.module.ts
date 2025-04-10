@@ -4,54 +4,154 @@ import { Comment } from './domain/entity/Comment';
 import { Likes } from './domain/entity/Likes';
 import { QuestionContent } from './domain/entity/QuestionContent';
 import { UserTemplate } from './domain/entity/UserTemplate';
-import { UserTemplateHelper } from './helper/UserTemplate.Helper';
-import { UserTemplateDao } from './domain/repository/dao/UserTemplate.Dao';
-import { TemplateController } from './presentation/Template.Controller';
-import { TemplateService } from './service/Template.Service';
 import { UserModule } from '../user/user.module';
-import { UserApi } from './infrastructure/User.Api';
-import { ChallengeApi } from './infrastructure/Challenge.Api';
-import { ChallengeModule } from '../challenge/challenge.module';
-import { QuestionContentDao } from './domain/repository/dao/QuestionContent.Dao';
-import { UserTemplateTransaction } from './domain/repository/transaction/UserTemplate.Transaction';
-import { QuestionContentHelper } from './helper/QuestionContent.Helper';
-import { CommentService } from './service/Comment.Service';
-import { CommentController } from './presentation/Comment.Controller';
-import { CommentDao } from './domain/repository/dao/Comment.Dao';
-import { CommentHelper } from './helper/Comment.Helper';
 import { DataMapperService } from './domain/service/DataMappper.Service';
-import { LikeController } from './presentation/Like.Controller';
-import { LikeServie } from './service/Like.Service';
-import { LikeHelper } from './helper/Like.Helper';
-import { LikeDao } from './domain/repository/dao/Like.Dao';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { AlarmService } from 'src/global/alarm/Alarm.Service';
-
-
-
+import { ChallengeModule } from '../challenge/challenge.module';
+import { UserTemplateDao } from './infrastructure/adapter/output/dao/UserTemplate.Dao';
+import { QuestionContentDao } from './infrastructure/adapter/output/dao/QuestionContent.Dao';
+import { CommentDao } from './infrastructure/adapter/output/dao/Comment.Dao';
+import { LikeDao } from './infrastructure/adapter/output/dao/Like.Dao';
+import { UserTemplateHelper } from './application/helper/UserTemplate.Helper';
+import { LikeHelper } from './application/helper/Like.Helper';
+import { QuestionContentHelper } from './application/helper/QuestionContent.Helper';
+import { CommentHelper } from './application/helper/Comment.Helper';
+import { ChallengeApi } from './application/apis/Challenge.Api';
+import { TemplateInputPort } from './application/port/input/TemplateInputPort';
+import { CommentInputPort } from './application/port/input/CommentInputPort';
+import { UserTemplateTransaction } from './infrastructure/adapter/output/transaction/UserTemplate.Transaction';
+import { LikeInputPort } from './application/port/input/LikeInputPort';
+import { TemplateRegistrant } from './application/service/implement/TemplateRegistrant';
+import { TemplateQueryByDate } from './application/service/implement/TemplateQueryByDate';
+import { TemplateNotifier } from './application/service/implement/TemplateNotifier';
+import { TemplateEditor } from './application/service/implement/TemplateEditor';
+import { MyTemplateCollector } from './application/service/implement/MyTemplateCollector';
+import { LikePressUserCollector } from './application/service/implement/LikePressUserCollector';
+import { LikeRegistrant } from './application/service/implement/LikeRegistrant';
+import { LikeEraser } from './application/service/implement/LikeEraser';
+import { CommentChecker } from './application/service/implement/CommentChecker';
+import { CommentEditor } from './application/service/implement/CommentEditor';
+import { CommentEraser } from './application/service/implement/CommentEraser';
+import { CommentRegistrant } from './application/service/implement/CommentRegistrant';
+import { TemplateCommentCollector } from './application/service/implement/TemplateCommentCollector';
+import { MyCommentCollector } from './application/service/implement/MyCommentCollector';
+import { LikeCountCollector } from './application/service/implement/LikeCountCollector';
+import { LikeChecker } from './application/service/implement/LikeChecker';
+import { TemplateFetcher } from './application/service/implement/TemplateFetcher';
+import { TemplateController } from './infrastructure/adapter/input/controller/Template.Controller';
+import { CommentController } from './infrastructure/adapter/input/controller/Comment.Controller';
+import { LikeController } from './infrastructure/adapter/input/controller/Like.Controller';
+import { UserApi } from './application/apis/User.Api';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Comment, Likes, QuestionContent, UserTemplate]),
     forwardRef(() => UserModule),
-    ChallengeModule
+    ChallengeModule,
   ],
   providers: [
-    {provide: 'usertemplateImpl',  useClass: UserTemplateDao}, 
-    {provide: 'questionContentImpl',  useClass: QuestionContentDao}, 
-    {provide: 'commentImpl',  useClass: CommentDao}, 
-    {provide: 'likeImpl',  useClass: LikeDao}, 
-    UserTemplateHelper, LikeHelper, QuestionContentHelper, CommentHelper, 
-    UserApi, ChallengeApi, 
-    TemplateService, CommentService, LikeServie, DataMapperService,
-    UserTemplateTransaction, TemplateVerifyService,UserVerifyService,
-    AlarmService
+    { provide: 'usertemplateImpl', useClass: UserTemplateDao },
+    { provide: 'questionContentImpl', useClass: QuestionContentDao },
+    { provide: 'commentImpl', useClass: CommentDao },
+    { provide: 'likeImpl', useClass: LikeDao },
+    UserTemplateHelper,
+    LikeHelper,
+    QuestionContentHelper,
+    CommentHelper,
+    UserApi,
+    ChallengeApi,
+    TemplateInputPort,
+    CommentInputPort,
+    LikeInputPort,
+    DataMapperService,
+    UserTemplateTransaction,
+    TemplateVerifyService,
+    UserVerifyService,
+    AlarmService,
+    CommentChecker,
+    CommentEditor,
+    CommentEraser,
+    CommentRegistrant,
+    MyCommentCollector,
+    TemplateCommentCollector,
+    LikeChecker,
+    LikeCountCollector,
+    LikeEraser,
+    LikeRegistrant,
+    LikePressUserCollector,
+    MyTemplateCollector,
+    TemplateEditor,
+    TemplateFetcher,
+    TemplateNotifier,
+    TemplateQueryByDate,
+    TemplateRegistrant,
+    {
+      provide: 'COMMENT_HANDLERS',
+      useFactory: (
+        commentChecker: CommentChecker,
+        myCommentCollector: MyCommentCollector,
+        templateCommentCollector: TemplateCommentCollector,
+        commentEditor: CommentEditor,
+        commentEraser: CommentEraser,
+        commentRegistrant: CommentRegistrant,
+      ) => [
+        commentChecker,
+        myCommentCollector,
+        templateCommentCollector,
+        commentEditor,
+        commentEraser,
+        commentRegistrant,
+      ],
+      inject: [
+        CommentChecker,
+        MyCommentCollector,
+        TemplateCommentCollector,
+        CommentEditor,
+        CommentEraser,
+        CommentRegistrant,
+      ],
+    },
+    {
+      provide: 'LIKE_HANDLERS',
+      useFactory: (
+        likeChecker: LikeChecker,
+        likeCountCollector: LikeCountCollector,
+        likeEraser: LikeEraser,
+        likeRegistrant: LikeRegistrant,
+        likePressUserCollector: LikePressUserCollector,
+      ) => [likeChecker, likeCountCollector, likeEraser, likeRegistrant, likePressUserCollector],
+      inject: [LikeChecker, LikeCountCollector, LikeEraser, LikeRegistrant, LikePressUserCollector],
+    },
+    {
+      provide: 'TEMPLATE_HANDLERS',
+      useFactory: (
+        myTemplateCollector: MyTemplateCollector,
+        templateEditor: TemplateEditor,
+        templateFetcher: TemplateFetcher,
+        templateNotifier: TemplateNotifier,
+        templateQueryByDate: TemplateQueryByDate,
+        templateRegistrant: TemplateRegistrant,
+      ) => [
+        myTemplateCollector,
+        templateEditor,
+        templateFetcher,
+        templateNotifier,
+        templateQueryByDate,
+        templateRegistrant,
+      ],
+      inject: [
+        MyTemplateCollector,
+        TemplateEditor,
+        TemplateFetcher,
+        TemplateNotifier,
+        TemplateQueryByDate,
+        TemplateRegistrant,
+      ],
+    },
   ],
   controllers: [TemplateController, CommentController, LikeController],
-  exports:[
-    UserTemplateHelper,
-  
-  ]
+  exports: [UserTemplateHelper],
 })
 export class TemplateModule {}

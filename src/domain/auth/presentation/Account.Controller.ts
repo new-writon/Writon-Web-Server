@@ -26,9 +26,7 @@ export class AccountController {
 
   @Post('/sign-up')
   @HttpCode(200)
-  public async penetratelocalUser(
-    @Body() signUp: SiginUp,
-  ): Promise<SuccessResponseDto<void>> {
+  public async penetratelocalUser(@Body() signUp: SiginUp): Promise<SuccessResponseDto<void>> {
     await this.accountService.penetratelocalUser(
       signUp.geIdentifier(),
       signUp.getPassword(),
@@ -44,10 +42,7 @@ export class AccountController {
     @Query('email') email: string,
     @Query('code') code: string,
   ): Promise<SuccessResponseDto<UserIdentifier>> {
-    const result: UserIdentifier = await this.accountService.findIdentifier(
-      email,
-      code,
-    );
+    const result: UserIdentifier = await this.accountService.findIdentifier(email, code);
     this.logger.log('아이디 찾기 완료');
     return SuccessResponseDto.of(result);
   }

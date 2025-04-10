@@ -30,10 +30,7 @@ export class AffiliationController {
     @Body() affiliationStartDto: AffiliationStart,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<void>> {
-    await this.affiliationService.penetrateAffiliation(
-      user.userId,
-      affiliationStartDto,
-    );
+    await this.affiliationService.penetrateAffiliation(user.userId, affiliationStartDto);
     this.logger.log('소속 참여 완료');
     return SuccessResponseDto.of();
   }
@@ -46,11 +43,7 @@ export class AffiliationController {
     @Param('organization') organization: string,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<void>> {
-    await this.affiliationService.modifyProfileUpdate(
-      user.userId,
-      organization,
-      profileUpdate,
-    );
+    await this.affiliationService.modifyProfileUpdate(user.userId, organization, profileUpdate);
     this.logger.log('소속 프로필 업데이트 완료');
     return SuccessResponseDto.of();
   }
@@ -62,10 +55,7 @@ export class AffiliationController {
     @Param('organization') organization: string,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<UserProfile>> {
-    const result = await this.affiliationService.bringUserProfile(
-      user.userId,
-      organization,
-    );
+    const result = await this.affiliationService.bringUserProfile(user.userId, organization);
     this.logger.log('소속 프로필 조회 완료');
     return SuccessResponseDto.of(result);
   }

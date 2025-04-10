@@ -20,10 +20,7 @@ export class AffiliationHelper {
     userId: number,
     organization: string,
   ): Promise<Affiliation> {
-    return this.affiliationRepository.findAffiliationByUserIdWithOrganization(
-      userId,
-      organization,
-    );
+    return this.affiliationRepository.findAffiliationByUserIdWithOrganization(userId, organization);
   }
 
   public async giveAffiliationByNicknameAndOrganization(
@@ -51,19 +48,14 @@ export class AffiliationHelper {
   public async giveChallengesPerOrganizationByUserId(
     userId: number,
   ): Promise<ChallengesPerOrganization[]> {
-    return this.affiliationRepository.findChallengesPerOrganizationByUserId(
-      userId,
-    );
+    return this.affiliationRepository.findChallengesPerOrganizationByUserId(userId);
   }
 
   public async giveUserProfileByUserIdAndOrganization(
     userId: number,
     organization: string,
   ): Promise<UserProfile> {
-    return this.affiliationRepository.findUserProfileByUserIdAndOrganization(
-      userId,
-      organization,
-    );
+    return this.affiliationRepository.findUserProfileByUserIdAndOrganization(userId, organization);
   }
 
   public async executeUpdateUserProfileByUserIdAndOrganization(
@@ -81,9 +73,7 @@ export class AffiliationHelper {
   public async giveAffilaitonWithChallengeIdArray(
     userChallengeId: number[],
   ): Promise<Affiliation[]> {
-    return this.affiliationRepository.findAffilaitonWithChallengeIdArray(
-      userChallengeId,
-    );
+    return this.affiliationRepository.findAffilaitonWithChallengeIdArray(userChallengeId);
   }
 
   public async giveAffilaitonWithChallengeIdAndUserChallengeId(
@@ -96,15 +86,11 @@ export class AffiliationHelper {
     );
   }
 
-  public async giveAffiliationById(
-    affiliationId: number[],
-  ): Promise<Affiliation[]> {
+  public async giveAffiliationById(affiliationId: number[]): Promise<Affiliation[]> {
     return this.affiliationRepository.findAffiliationById(affiliationId);
   }
 
-  public async giveAffiliationAndUserById(
-    affiliationId: number[],
-  ): Promise<Affiliation[]> {
+  public async giveAffiliationAndUserById(affiliationId: number[]): Promise<Affiliation[]> {
     return this.affiliationRepository.findAffiliationAndUserById(affiliationId);
   }
 

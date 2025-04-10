@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  Relation,
-} from 'typeorm';
+import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { Affiliation } from './Affiliation';
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 import { InternalServerErrorException } from '@nestjs/common';
@@ -84,37 +77,26 @@ export class User extends BaseEntity {
     return new User(kakaoNumber, email, role, kakaoProfileImage, password);
   }
 
-  public static createLocalUser(
-    identifier: string,
-    password: string,
-    email: string,
-    role: string,
-  ) {
+  public static createLocalUser(identifier: string, password: string, email: string, role: string) {
     const kakaoProfileImage = null;
     return new User(identifier, email, role, kakaoProfileImage, password);
   }
 
   private setEmail(email: string) {
     if (email === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : Email 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : Email 값이 존재하지 않습니다.`);
     this.email = email;
   }
 
   private setIdentifier(kakaoNumber: string) {
     if (kakaoNumber === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : KakaoNumber 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : KakaoNumber 값이 존재하지 않습니다.`);
     this.identifier = kakaoNumber;
   }
 
   private setRole(role: string) {
     if (role === null)
-      throw new InternalServerErrorException(
-        `${__dirname} : Role 값이 존재하지 않습니다.`,
-      );
+      throw new InternalServerErrorException(`${__dirname} : Role 값이 존재하지 않습니다.`);
     this.role = role;
   }
 

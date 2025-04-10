@@ -7,10 +7,7 @@ import { AuthTokenRepository } from '../AuthToken.Repository';
  * User DAO Class
  */
 @Injectable()
-export class AuthTokenDao
-  extends Repository<AuthToken>
-  implements AuthTokenRepository
-{
+export class AuthTokenDao extends Repository<AuthToken> implements AuthTokenRepository {
   constructor(private dataSource: DataSource) {
     super(AuthToken, dataSource.createEntityManager());
   }
@@ -30,10 +27,7 @@ export class AuthTokenDao
     await this.save(newAuthToken);
   }
 
-  async findAuthTokenByUserIdAndToken(
-    userId: number,
-    token: string,
-  ): Promise<AuthToken> {
+  async findAuthTokenByUserIdAndToken(userId: number, token: string): Promise<AuthToken> {
     return this.dataSource
       .createQueryBuilder()
       .select('*')

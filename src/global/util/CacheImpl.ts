@@ -6,11 +6,7 @@ import { CacheManager } from './CacheManager';
 export class CacheImpl implements CacheManager {
   constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
-  public async setValue(
-    key: string,
-    value: string | string[],
-    ttl: number,
-  ): Promise<void> {
+  public async setValue(key: string, value: string | string[], ttl: number): Promise<void> {
     await this.cacheManager.set(key, value, { ttl });
   }
 

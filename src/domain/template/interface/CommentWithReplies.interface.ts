@@ -1,4 +1,3 @@
-interface CommentWithReplies extends SelectComment{
-
-    reply: CommentWithReplies[];
-  }
+interface CommentWithReplies extends SelectComment {
+  reply: CommentWithReplies[];
+}

@@ -27,30 +27,20 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
     userChallengeId: number[],
     challengeId: number,
   ): Promise<UserChallenge[]>;
-  updateUserChallengeCheckCount(
-    userChallengeId: number,
-    checkCount: number,
-  ): Promise<void>;
+  updateUserChallengeCheckCount(userChallengeId: number, checkCount: number): Promise<void>;
   findUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
     challengeId: number,
     userId: number,
     organization: string,
   ): Promise<UserChallenge>;
   updateUserChallengeReview(userChallengeId: number): Promise<void>;
-  updateUserChallengeReEngagement(
-    userChallengeId: number,
-    check: boolean,
-  ): Promise<void>;
+  updateUserChallengeReEngagement(userChallengeId: number, check: boolean): Promise<void>;
   findUserChallengeAndAffiliationAndUserByUserChallengeIdAndChallengeId(
     userChallengeId: number[],
     challengeId: number,
   ): Promise<UserChallenge[]>;
   findUserChallengePaticipantCount(challengeId: number): Promise<number>;
-  insertCheeringPhrase(
-    affiliationId: number,
-    challengeId: number,
-    content: string,
-  ): Promise<void>;
+  insertCheeringPhrase(affiliationId: number, challengeId: number, content: string): Promise<void>;
   findUserChallengeAndAffiliationAndUserByChallengeId(
     challengeId: number,
   ): Promise<UserChallenge[]>;
@@ -58,7 +48,5 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
     userChallengeId: number,
   ): Promise<UserChallenge>;
   findUserChallengeByChallengeId(challengeId: number): Promise<UserChallenge[]>;
-  updateUserChallengeDeposit(
-    challengeDeposit: ChallengeDeposit[],
-  ): Promise<void>;
+  updateUserChallengeDeposit(challengeDeposit: ChallengeDeposit[]): Promise<void>;
 }

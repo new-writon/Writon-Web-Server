@@ -11,8 +11,7 @@ import { Question } from '../../../domain/challenge/domain/entity/Question';
 @Injectable()
 export class ChallengeVerifyService {
   public verifyChallenge(challenge: Challenge) {
-    if (!checkData(challenge))
-      throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE);
+    if (!checkData(challenge)) throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE);
   }
 
   public verifyChallenges(challenges: Challenge[]) {
@@ -37,9 +36,7 @@ export class ChallengeVerifyService {
 
   public verifySpecialQuestion(question: SpecialQuestion[]) {
     if (!checkData(question[0]))
-      throw new ChallengeException(
-        ChallengeErrorCode.NOT_FOUND_SPECIAL_QUESTION,
-      );
+      throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_SPECIAL_QUESTION);
   }
 
   public verifyQuestion(question: Question[]) {

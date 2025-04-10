@@ -20,9 +20,7 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     organizationId: number,
     affiliationStartDto: AffiliationStart,
   ): Promise<void>;
-  findChallengesPerOrganizationByUserId(
-    userId: number,
-  ): Promise<ChallengesPerOrganization[]>;
+  findChallengesPerOrganizationByUserId(userId: number): Promise<ChallengesPerOrganization[]>;
   findUserProfileByUserIdAndOrganization(
     userId: number,
     organization: string,
@@ -32,9 +30,7 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     organization: string,
     profileUpdate: ProfileUpdate,
   ): Promise<void>;
-  findAffilaitonWithChallengeIdArray(
-    userChallengeId: number[],
-  ): Promise<Affiliation[]>;
+  findAffilaitonWithChallengeIdArray(userChallengeId: number[]): Promise<Affiliation[]>;
   findAffilaitonWithChallengeIdAndUserChallengeId(
     challengeId: number,
     userChallengeId: number[],

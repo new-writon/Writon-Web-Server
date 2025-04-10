@@ -18,18 +18,10 @@ export class SmallTalkService {
     private readonly userApi: UserApi,
   ) {}
 
-  public async checkSmallTalk(
-    challengeId: number,
-    date: string,
-  ): Promise<SmallTalkResult> {
+  public async checkSmallTalk(challengeId: number, date: string): Promise<SmallTalkResult> {
     const particularSmallTalkData =
-      await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(
-        challengeId,
-        date,
-      );
-    const smallTalkLimitResult = this.checkSmallTalkLimit(
-      particularSmallTalkData,
-    );
+      await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date);
+    const smallTalkLimitResult = this.checkSmallTalkLimit(particularSmallTalkData);
     return SmallTalkResult.of(smallTalkLimitResult);
   }
 
@@ -55,33 +47,21 @@ export class SmallTalkService {
   }
 
   private async validateSmallTalkCount(challengeId: number, date: string) {
-    const smallTalkData =
-      await this.smallTalkHelper.giveSmallTalkByChallengeIdAndDate(
-        challengeId,
-        date,
-      );
+    const smallTalkData = await this.smallTalkHelper.giveSmallTalkByChallengeIdAndDate(
+      challengeId,
+      date,
+    );
     if (!this.checkSmallTalkLimit(smallTalkData)) {
       throw new SmallTalkException(SmallTalkErrorCode.CANT_ADD_SMALL_TALK);
     }
   }
 
-  public async bringSmallTalk(
-    userId: number,
-    challengeId: number,
-    date: string,
-  ) {
+  public async bringSmallTalk(userId: number, challengeId: number, date: string) {
     const particularSmallTalkData =
-      await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(
-        challengeId,
-        date,
-      );
+      await this.smallTalkHelper.giveParticularSmallTalkByChallengeIdAndDate(challengeId, date);
     return particularSmallTalkData.length === 0
       ? []
-      : this.proccessSmallTalkData(
-          particularSmallTalkData,
-          userId,
-          challengeId,
-        );
+      : this.proccessSmallTalkData(particularSmallTalkData, userId, challengeId);
   }
 
   private async proccessSmallTalkData(
@@ -95,11 +75,7 @@ export class SmallTalkService {
         userChallengeId,
         challengeId,
       );
-    return this.mergeUserChallenge(
-      particularSmallTalkData,
-      userChallengeData,
-      userId,
-    );
+    return this.mergeUserChallenge(particularSmallTalkData, userChallengeData, userId);
   }
 
   private sortUserChallengeId(smallTalk: ParticularSmallTalkData[]) {
@@ -115,8 +91,7 @@ export class SmallTalkService {
       return particularSmallTalkData
         .filter(
           (particularSmallTalkData) =>
-            userChallenge.getId() ===
-            particularSmallTalkData.getUserChallengeId(),
+            userChallenge.getId() === particularSmallTalkData.getUserChallengeId(),
         )
         .map((particularSmallTalkData) => {
           const distinguishedUser = this.distinguishUser(
@@ -133,19 +108,14 @@ export class SmallTalkService {
     });
   }
 
-  private distinguishUser(
-    relativeUserId: number,
-    relativedUserId: number,
-  ): string {
+  private distinguishUser(relativeUserId: number, relativedUserId: number): string {
     if (relativeUserId === relativedUserId) {
       return '1';
     }
     return '0';
   }
 
-  private checkSmallTalkLimit(
-    smallTalk: ParticularSmallTalkData[] | SmallTalk[],
-  ) {
+  private checkSmallTalkLimit(smallTalk: ParticularSmallTalkData[] | SmallTalk[]) {
     if (smallTalk.length >= 3) {
       return false;
     }

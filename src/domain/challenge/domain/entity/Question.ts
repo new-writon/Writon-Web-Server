@@ -46,10 +46,7 @@ export class Question extends BaseEntity {
   @JoinColumn([{ name: 'keyword_id', referencedColumnName: 'keywordId' }])
   keyword: Relation<Keyword>;
 
-  @OneToMany(
-    () => QuestionContent,
-    (questionContent) => questionContent.question,
-  )
+  @OneToMany(() => QuestionContent, (questionContent) => questionContent.question)
   questionContents: Relation<QuestionContent>[];
 
   // @OneToMany(() => Keyword, (keywords) => keywords.question)

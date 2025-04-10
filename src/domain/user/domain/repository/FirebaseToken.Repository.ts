@@ -9,7 +9,5 @@ export interface FirebaseTokenRepository extends Repository<FirebaseToken> {
   insertFirebaseToken(userId: number, engineValue: string): Promise<void>;
   deleteFirebaseToken(userId: number, engineValue: string): Promise<void>;
   deleteFirebaseTokens(userId: number, engineValues: string[]): Promise<void>;
-  findFirebaseTokenWithUserChallengeId(
-    userChallengeId: number,
-  ): Promise<FirebaseToken[]>;
+  findFirebaseTokenWithUserChallengeId(userChallengeId: number): Promise<FirebaseToken[]>;
 }
