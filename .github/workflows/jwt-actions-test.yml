@@ -97,8 +97,11 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
 
-            docker stop writon-test
-            docker rm writon-test
-            docker rmi ghcr.io/${{ github.repository_owner }}/writon-test:1.0
+            echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+            docker stop writon-test || true
+            docker rm writon-test || true
+            docker rmi ghcr.io/${{ github.repository_owner }}/writon-test:1.0 || true
+
             docker pull ghcr.io/${{ github.repository_owner }}/writon-test:1.0
             docker run -d -p 86:3003 --name writon-test ghcr.io/${{ github.repository_owner }}/writon-test:1.0
