@@ -22,10 +22,13 @@ import { MetricsModule } from './global/monitor/metrics.module';
 @Module({
   imports: [
     PrometheusModule.register({
+      defaultMetrics: {
+        enabled: true,
+      },
       defaultLabels: {
         app: 'nestjs-app',
       },
-      path: '/metrics', // 👈 여기서 자동으로 /metrics 등록해줌
+      path: '/metrics',
     }),
     MetricsModule,
     ConfigModule.forRoot({
