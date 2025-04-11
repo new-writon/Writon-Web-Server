@@ -24,6 +24,10 @@ export class MetricsInterceptor implements NestInterceptor {
     const method = request.method;
     const url = request.route?.path || request.url;
 
+    if (url.startsWith('/metrics')) {
+      return next.handle();
+    }
+
     const endTimer = this.requestDuration.startTimer({ method, url });
 
     this.requestCounter.inc({ method, url });
