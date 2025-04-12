@@ -11,23 +11,23 @@ permissions:
   contents: read
 
 jobs:
-  CI-CD:
+  CI:
     runs-on: ubuntu-latest
     steps:
       # 소스코드 다운로드
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - run: npm install
-      # ENV SDK 세팅
-      - name: Setting env file
-        run: |
-          touch .env
-          echo "${{ secrets.ENV }}" >> .env
-        shell:
-          bash
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # 또는 프로젝트에 맞는 Node.js 버전
 
-          # FIREBASE SDK 세팅
+      # NPM 종속성 설치
+      - name: Install dependencies
+        run: npm install
+
+      # FIREBASE SDK 세팅
       - name: create-json
         id: create-json
         uses: jsdaniell/create-json@1.1.2
@@ -35,13 +35,60 @@ jobs:
           name: 'writon-firebase-admin.json'
           json: ${{ secrets.FIREBASE }}
 
+      # 빌드
+      - name: Build
+        run: npm run build
+
+      # 린팅
+      - name: Run Lint
+        run: npm run lint # package.json에 정의된 lint 스크립트 실행
+
+      # # 보안 검사 (예: npm audit)
+      # - name: Run Security Audit
+      #   run: npm audit --production --audit-level=high # 높은 수준의 취약점 검사
+
+  CD:
+    needs: CI
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      # 소스코드 다운로드
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # 또는 프로젝트에 맞는 Node.js 버전
+
+      # ENV SDK 세팅
+      - name: Setting env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENVTEST }}" >> .env
+        shell: bash
+
+      # FIREBASE SDK 세팅
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: 'writon-firebase-admin.json'
+          json: ${{ secrets.FIREBASE }}
+
+      - name: Log in to GHCR with PAT
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+
       - name: Build Docker Image For Node.js
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/blue:1.0 -f blue.Dockerfile .
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/green:1.0 -f green.Dockerfile .
-          docker push ${{ secrets.DOCKER_USERNAME }}/blue:1.0
-          docker push ${{ secrets.DOCKER_USERNAME }}/green:1.0
+          docker build -t ghcr.io/${{ github.repository_owner }}/blue:1.0 -f blue.Dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/blue:1.0 
+          docker build -t ghcr.io/${{ github.repository_owner }}/green:1.0 -f green.Dockerfile .
+          docker push ghcr.io/${{ github.repository_owner }}/green:1.0
 
       # 서버에서 Docker 이미지 실행
       - name: EC2 Docker Run
@@ -51,8 +98,12 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/green:1.0
-            docker run -d -p 3001:3000 --name green ${{ secrets.DOCKER_USERNAME }}/green:1.0
+
+            echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+            docker pull ghcr.io/${{ github.repository_owner }}/green:1.0
+            docker run -d -p 3001:3000 --name green ghcr.io/${{ github.repository_owner }}/green:1.0
+
             sleep 10
 
             sudo touch /etc/nginx/green.flag
@@ -60,9 +111,10 @@ jobs:
 
             docker stop blue
             docker rm blue
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/blue:1.0
-            docker pull ${{ secrets.DOCKER_USERNAME }}/blue:1.0
-            docker run -d -p 3002:3000 --name blue ${{ secrets.DOCKER_USERNAME }}/blue:1.0
+            docker rmi ghcr.io/${{ github.repository_owner }}/blue:1.0 || true
+
+            docker pull ghcr.io/${{ github.repository_owner }}/blue:1.0
+            docker run -d -p 3002:3000 --name blue ghcr.io/${{ github.repository_owner }}/blue:1.0
 
             sleep 10
 
@@ -71,4 +123,4 @@ jobs:
 
             docker stop green 
             docker rm green 
-            docker rmi ${{ secrets.DOCKER_USERNAME }}/green:1.0
+            docker rmi ghcr.io/${{ github.repository_owner }}/green:1.0 || true
