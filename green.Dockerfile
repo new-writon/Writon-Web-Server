@@ -23,4 +23,4 @@ COPY --from=green /app /app
 RUN npm run build
 
 EXPOSE 3000
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "pm2:start"]
