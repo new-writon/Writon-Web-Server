@@ -13,7 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main.js",
     "start:repl": "nest start --entryFile repl",
-    "pm2:start": "pm2-runtime dist/src/main.js --name writons -i 1",
+    "pm2:start": "pm2-runtime dist/src/main.js --name writons -i 1 --node-args='--expose-gc'",
     "pm2:monit": "pm2 monit",
     "pm2:stop": "pm2 stop writon",
     "pm2:delete": "pm2 delete writon",
