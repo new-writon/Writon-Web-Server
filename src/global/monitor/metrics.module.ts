@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { makeCounterProvider, makeHistogramProvider } from '@willsoto/nestjs-prometheus';
 import { MetricsInterceptor } from './MetricsInterceptor';
-import { MetricsService } from './\bMetrics.Service';
 
 const metricsProviders = [
   makeCounterProvider({
@@ -28,6 +27,6 @@ const metricsProviders = [
 ];
 
 @Module({
-  providers: [MetricsInterceptor, ...metricsProviders, MetricsService],
+  providers: [MetricsInterceptor, ...metricsProviders],
 })
 export class MetricsModule {}
