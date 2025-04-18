@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TemplateOperation } from '../types/Operation';
-import { Transactional } from 'src/global/decorator/transaction';
+// import { Transactional } from 'src/global/decorator/transaction';
 import { TemplateWrite } from '../../../dto/request/TemplateWrite';
 import { DataSource } from 'typeorm';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
@@ -12,6 +12,7 @@ import { QuestionContentHelper } from 'src/domain/template/application/helper/Qu
 import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
 import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
+import { Transactional } from 'nestjs-transaction';
 
 @Injectable()
 export class TemplateRegistrant
@@ -34,6 +35,9 @@ export class TemplateRegistrant
 
   @Transactional()
   async handle(request: [TemplateWrite, number]): Promise<void> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.startTransaction();
+
     const [templateWrite, userId] = request;
     const [userChallengeData, userTemplateComplete, questionDatas] = await Promise.all([
       this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
@@ -44,27 +48,28 @@ export class TemplateRegistrant
       this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate()),
       this.challengeApi.requestQuestionsByChallengeId(templateWrite.getChallengeId()),
     ]);
+
     this.userVerifyService.verifyUserChallenge(userChallengeData);
-    // const questionIds = this.dataMapperService.extractQuestionIdFromQuetion(questionDatas);
-    // const templateWriteQuestionIds = this.extractTemplateWriteQuestionId(templateWrite);
-    // this.templateVerifyService.verifyQuestionId(
-    //   this.checkQuestionContain(questionIds, templateWriteQuestionIds),
-    // );
+
     const existingUserTemplateData =
       await this.userTemplateHelper.giveUserTemplateByUserChallengeIdAndDate(
         userChallengeData.getId(),
         templateWrite.getDate(),
       );
+
     this.templateVerifyService.verifyExistUserTemplate(existingUserTemplateData);
+
     const userTemplateData = await this.userTemplateHelper.exexuteInsertUserTemplate(
       userChallengeData.getId(),
       new Date(templateWrite.getDate()),
       userTemplateComplete,
     );
+
     const changedTemplate = super.changeUserTemplateType(
       templateWrite.getTemplateContent(),
       userTemplateData.getId(),
     );
+
     await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
   }
 

@@ -1,3 +1,24 @@
+# version: '3.7'
+# services:
+#   prometheus:
+#     image: prom/prometheus
+#     container_name: prometheus
+#     volumes:
+#       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#       - ./prometheus-data:/prometheus
+#     ports:
+#       - '90:9090'
+#   grafana:
+#     image: grafana/grafana
+#     container_name: grafana
+#     ports:
+#       - '91:3000'
+#     environment:
+#       - GF_SECURITY_ALLOW_EMBEDDING=true
+#       - GF_SECURITY_CORS_ENABLED=true
+#       - GF_AUTH_DISABLE_CSRF=true
+#       - GF_SECURITY_CORS_ALLOW_ORIGIN=https://grafana.writon.co.kr
+
 version: '3.7'
 services:
   prometheus:
@@ -13,8 +34,3 @@ services:
     container_name: grafana
     ports:
       - '91:3000'
-    environment:
-      - GF_SECURITY_ALLOW_EMBEDDING=true
-      - GF_SECURITY_CORS_ENABLED=true
-      - GF_AUTH_DISABLE_CSRF=true
-      - GF_SECURITY_CORS_ALLOW_ORIGIN=https://grafana.writon.co.kr

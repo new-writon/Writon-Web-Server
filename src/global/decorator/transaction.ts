@@ -7,6 +7,8 @@ function Transactional() {
       const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
       await queryRunner.connect();
       await queryRunner.startTransaction();
+      const originalEntityManager = this.dataSource.manager;
+      this.dataSource.manager = queryRunner.manager;
 
       try {
         const result = await originalMethod.apply(this, args);
@@ -16,6 +18,7 @@ function Transactional() {
         await queryRunner.rollbackTransaction();
         throw error;
       } finally {
+        this.dataSource.manager = originalEntityManager;
         await queryRunner.release();
       }
     };
