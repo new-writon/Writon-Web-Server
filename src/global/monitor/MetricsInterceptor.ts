@@ -1,4 +1,10 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  HttpException,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
 import { Counter, Histogram } from 'prom-client';
 import { Observable, tap } from 'rxjs';
@@ -38,11 +44,13 @@ export class MetricsInterceptor implements NestInterceptor {
           const response = context.switchToHttp().getResponse();
           const statusCode = response.statusCode;
           this.statusCodeCounter.inc({ statusCode });
-          endTimer(); // 정상 종료
+          endTimer();
         },
-        error: () => {
+        error: (err) => {
+          const statusCode = err instanceof HttpException ? err.getStatus() : 500;
+          this.statusCodeCounter.inc({ statusCode });
           this.exceptionsCounter.inc({ method, url });
-          endTimer(); // 에러 시에도 타이머 종료
+          endTimer();
         },
       }),
     );
