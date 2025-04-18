@@ -4,9 +4,9 @@ function Transactional() {
   return function (target: any, propertyName: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     descriptor.value = async function (...args: any[]) {
-      const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
-      await queryRunner.connect();
+      const queryRunner = this.dataSource.createQueryRunner();
       await queryRunner.startTransaction();
+
       const originalEntityManager = this.dataSource.manager;
       this.dataSource.manager = queryRunner.manager;
 

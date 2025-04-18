@@ -35,9 +35,10 @@ export class TemplateRegistrant
 
   @Transactional()
   async handle(request: [TemplateWrite, number]): Promise<void> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.startTransaction();
+    // const queryRunner = this.dataSource.createQueryRunner();
+    // await queryRunner.startTransaction();
 
+    // try {
     const [templateWrite, userId] = request;
     const [userChallengeData, userTemplateComplete, questionDatas] = await Promise.all([
       this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
@@ -64,13 +65,22 @@ export class TemplateRegistrant
       new Date(templateWrite.getDate()),
       userTemplateComplete,
     );
-
     const changedTemplate = super.changeUserTemplateType(
       templateWrite.getTemplateContent(),
       userTemplateData.getId(),
     );
 
     await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
+
+    // 트랜잭션 커밋
+    //   await queryRunner.commitTransaction();
+    // } catch (error) {
+    //   // 트랜잭션 롤백
+    //   await queryRunner.rollbackTransaction();
+    //   throw error; // 예외를 다시 던져서 외부에서 처리하도록 함
+    // } finally {
+    //   await queryRunner.release(); // 쿼리 실행 종료
+    // }
   }
 
   private async signUserChallengeComplete(challengeId: number, date: string) {
