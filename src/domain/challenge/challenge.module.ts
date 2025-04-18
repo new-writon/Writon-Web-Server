@@ -29,6 +29,8 @@ import { ChallengeDateCollector } from './application/service/implements/Challen
 import { Invitor } from './application/service/implements/Invitor';
 import { StatusCollector } from './application/service/implements/StatusCollector';
 import { QuestionHelper } from './application/helper/Question.Helper';
+import { MongooseModule } from '@nestjs/mongoose';
+import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/DefaultQuestion';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { QuestionHelper } from './application/helper/Question.Helper';
       Keyword,
     ]),
     forwardRef(() => UserModule),
+
+    MongooseModule.forFeature([{ name: DefaultQuestion.name, schema: DefaultQuestionSchema }]),
   ],
   providers: [
     InformationInputPort,

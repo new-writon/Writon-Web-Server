@@ -17,10 +17,19 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HealthController } from './global/health/HealthController';
 import { HttpModule } from '@nestjs/axios';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { MongooseModule } from '@nestjs/mongoose';
 import { MetricsModule } from './global/monitor/metrics.module';
 
 @Module({
   imports: [
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('mongo.url'),
+        dbName: configService.get<string>('mongo.db_name'),
+      }),
+    }),
     PrometheusModule.register({
       defaultMetrics: {
         enabled: true,
