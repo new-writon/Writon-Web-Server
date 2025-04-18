@@ -8,4 +8,7 @@ type InformationOperation =
 
 type InviteOperation = 'SEND_INVITATION';
 
-type QuestionOperation = 'SELECT_BASIC_QUESTION' | 'SELECT_SPECIAL_QUESTION';
+type QuestionOperation =
+  | 'SELECT_BASIC_QUESTION'
+  | 'SELECT_SPECIAL_QUESTION'
+  | 'SELECT_DEFAULT_QUESTION';
