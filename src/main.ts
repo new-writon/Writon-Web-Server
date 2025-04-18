@@ -8,8 +8,10 @@ import { HttpExceptionFilter } from './global/exception/HttpExceptionFilter';
 import { SwaggerModule } from '@nestjs/swagger';
 import { BaseAPIDocument } from './swagger.documment';
 import { MetricsInterceptor } from './global/monitor/MetricsInterceptor';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 async function bootstrap() {
+  initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: [

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { TemplateOperation } from '../types/Operation';
-// import { Transactional } from 'src/global/decorator/transaction';
 import { TemplateWrite } from '../../../dto/request/TemplateWrite';
 import { DataSource } from 'typeorm';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
@@ -12,7 +11,7 @@ import { QuestionContentHelper } from 'src/domain/template/application/helper/Qu
 import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
 import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
-import { Transactional } from 'nestjs-transaction';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class TemplateRegistrant
@@ -35,10 +34,7 @@ export class TemplateRegistrant
 
   @Transactional()
   async handle(request: [TemplateWrite, number]): Promise<void> {
-    // const queryRunner = this.dataSource.createQueryRunner();
-    // await queryRunner.startTransaction();
-
-    // try {
+    console.log(1);
     const [templateWrite, userId] = request;
     const [userChallengeData, userTemplateComplete, questionDatas] = await Promise.all([
       this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
@@ -69,18 +65,7 @@ export class TemplateRegistrant
       templateWrite.getTemplateContent(),
       userTemplateData.getId(),
     );
-
     await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
-
-    // 트랜잭션 커밋
-    //   await queryRunner.commitTransaction();
-    // } catch (error) {
-    //   // 트랜잭션 롤백
-    //   await queryRunner.rollbackTransaction();
-    //   throw error; // 예외를 다시 던져서 외부에서 처리하도록 함
-    // } finally {
-    //   await queryRunner.release(); // 쿼리 실행 종료
-    // }
   }
 
   private async signUserChallengeComplete(challengeId: number, date: string) {

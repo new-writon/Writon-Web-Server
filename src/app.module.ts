@@ -19,6 +19,8 @@ import { HttpModule } from '@nestjs/axios';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MetricsModule } from './global/monitor/metrics.module';
+import { DataSource } from 'typeorm';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 @Module({
   imports: [
@@ -46,11 +48,22 @@ import { MetricsModule } from './global/monitor/metrics.module';
       load: [configuration],
     }),
     TerminusModule.forRoot(),
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule.forFeature(dataSource)],
+    //   inject: [ConfigService],
+    //   useFactory(config: ConfigService) {
+    //     return config.getOrThrow('data-source');
+    //   },
+    // }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule.forFeature(dataSource)],
       inject: [ConfigService],
-      useFactory(config: ConfigService) {
-        return config.getOrThrow('data-source');
+      useFactory: (config: ConfigService) => config.getOrThrow('data-source'),
+      dataSourceFactory: async (options) => {
+        const dataSource = new DataSource(options);
+        await dataSource.initialize();
+        addTransactionalDataSource(dataSource); // ✅ 트랜잭션 컨텍스트 등록
+        return dataSource;
       },
     }),
     CacheModule.registerAsync({ isGlobal: true, useClass: RedisConfig }),

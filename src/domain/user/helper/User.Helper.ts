@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserRepository } from '../domain/repository/User.Repository';
 import { UserAffiliationOrganization } from '../dto/values/UserAffilatiionOrganization.interface';
 import { UserVerifyService } from '../../../global/exception/user/UserVerify.Service';
@@ -7,6 +7,7 @@ import { FirebaseToken } from '../domain/entity/FirebaseToken';
 import { AuthTokenRepository } from '../domain/repository/AuthToken.Repository';
 import { AuthToken } from '../domain/entity/AuthToken';
 
+@Injectable()
 export class UserHelper {
   constructor(
     @Inject('userImpl')
