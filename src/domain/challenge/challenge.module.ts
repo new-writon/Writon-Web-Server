@@ -31,6 +31,9 @@ import { StatusCollector } from './application/service/implements/StatusCollecto
 import { QuestionHelper } from './application/helper/Question.Helper';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/DefaultQuestion';
+import { DefaultQuestionCollector } from './application/service/implements/DefaultQuestionCollector';
+import { UserHelper } from '../user/helper/User.Helper';
+import { DefaultQuestionDao } from './intrastructure/adapter/output/dao/DefaultQuestion.Dao';
 
 @Module({
   imports: [
@@ -42,7 +45,6 @@ import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/De
       Keyword,
     ]),
     forwardRef(() => UserModule),
-
     MongooseModule.forFeature([{ name: DefaultQuestion.name, schema: DefaultQuestionSchema }]),
   ],
   providers: [
@@ -59,6 +61,7 @@ import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/De
     { provide: 'challengeImpl', useClass: ChallengeDao },
     { provide: 'challengedayImpl', useClass: ChallengeDayDao },
     { provide: 'questionImpl', useClass: QuestionDao },
+    { provide: 'defaultquestionImpl', useClass: DefaultQuestionDao },
     AllChallengeCollector,
     BasicQuestionCollector,
     SpecialQuestionCollector,
@@ -66,6 +69,7 @@ import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/De
     ChallengeDateCollector,
     Invitor,
     StatusCollector,
+    DefaultQuestionCollector,
     {
       provide: 'INFORMATION_HANDLERS',
       useFactory: (
@@ -91,8 +95,9 @@ import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/De
       useFactory: (
         basicQuestionCollector: BasicQuestionCollector,
         specialQuestionCollector: SpecialQuestionCollector,
-      ) => [basicQuestionCollector, specialQuestionCollector],
-      inject: [BasicQuestionCollector, SpecialQuestionCollector],
+        defaultQuestionCollector: DefaultQuestionCollector,
+      ) => [basicQuestionCollector, specialQuestionCollector, defaultQuestionCollector],
+      inject: [BasicQuestionCollector, SpecialQuestionCollector, DefaultQuestionCollector],
     },
   ],
   controllers: [InformationController, QuestionController, InviteController],
