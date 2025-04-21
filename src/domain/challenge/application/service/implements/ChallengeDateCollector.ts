@@ -17,7 +17,7 @@ export class ChallengeDateCollector implements ChallengeUseCase<[number], Promis
 
   private sortChallnegeDay(challengeDay: ChallengeDay[]) {
     return challengeDay
-      .filter((data) => new Date(data.getDay()) < new Date())
+      .filter((data) => new Date(data.getDay()) <= new Date())
       .map((data) => data.getDay());
   }
 }
