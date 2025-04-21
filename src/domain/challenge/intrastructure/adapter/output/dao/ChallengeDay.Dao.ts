@@ -37,7 +37,7 @@ export class ChallengeDayDao extends Repository<ChallengeDay> implements Challen
         .createQueryBuilder()
         .select('cd')
         .from(ChallengeDay, 'cd')
-        .where('cd.challenge_id= :challengeId', { challengeId: challengeId })
+        .where('cd.challenge_id =:challengeId', { challengeId: challengeId })
         // .andWhere(
         //   'cd.day BETWEEN (SELECT c.start_at FROM challenges as c WHERE c.challenge_id = :challengeId) AND CURDATE()',
         // )

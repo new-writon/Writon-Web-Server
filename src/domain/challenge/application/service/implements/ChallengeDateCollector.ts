@@ -11,13 +11,16 @@ export class ChallengeDateCollector implements ChallengeUseCase<[number], Promis
   async handle(request: [number]): Promise<string[]> {
     const [challengeId] = request;
     const challengeDay = await this.challengeDayHelper.giveChallengeDayByChallengeId(challengeId);
+    console.log(challengeDay);
     const challengeDays = this.sortChallnegeDay(challengeDay);
+    // console.log(challengeDays);
     return challengeDays;
   }
 
   private sortChallnegeDay(challengeDay: ChallengeDay[]) {
-    return challengeDay
-      .filter((data) => new Date(data.getDay()) <= new Date())
-      .map((data) => data.getDay());
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    console.log(todayStr);
+    return challengeDay.filter((data) => data.getDay() <= todayStr).map((data) => data.getDay());
   }
 }
