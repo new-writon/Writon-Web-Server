@@ -59,22 +59,25 @@ export class SmallTalk extends BaseEntity {
   smallTalkComments: Relation<SmallTalkComment>[];
 
   private setChallengeId(challengeId: number) {
-    if (challengeId === null)
+    if (challengeId === null) {
       throw new InternalServerErrorException(`${__dirname} : challengeId 값이 존재하지 않습니다.`);
+    }
     this.challengeId = challengeId;
   }
 
   private setQuestion(question: string) {
-    if (question === null)
+    if (question === null) {
       throw new InternalServerErrorException(`${__dirname} : question 값이 존재하지 않습니다.`);
+    }
     this.question = question;
   }
 
   private setUserChallengeId(userChallengeId: number) {
-    if (userChallengeId === null)
+    if (userChallengeId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : userChallengeId 값이 존재하지 않습니다.`,
       );
+    }
     this.userChallengeId = userChallengeId;
   }
 }

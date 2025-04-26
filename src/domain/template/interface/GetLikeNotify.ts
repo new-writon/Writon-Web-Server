@@ -1,9 +1,9 @@
-interface GetLikeNotify {
-  likeId: number;
-  createdAt: Date;
-  sign: number;
-  userTemplateId: number;
-  templateName: Date;
-  nickname: string;
-  type: string;
-}
+// interface GetLikeNotify {
+//   likeId: number;
+//   createdAt: Date;
+//   sign: number;
+//   userTemplateId: number;
+//   templateName: Date;
+//   nickname: string;
+//   type: string;
+// }

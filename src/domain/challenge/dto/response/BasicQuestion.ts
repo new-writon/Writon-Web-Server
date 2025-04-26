@@ -16,14 +16,16 @@ export class BasicQuestion {
   }
 
   private setQuestionId(questionId: number) {
-    if (questionId === null)
+    if (questionId === null) {
       throw new InternalServerErrorException(`${__dirname} : questionId값이 존재하지 않습니다.`);
+    }
     this.questionId = questionId;
   }
 
   private setQuestion(question: string) {
-    if (question === null)
+    if (question === null) {
       throw new InternalServerErrorException(`${__dirname} : question값이 존재하지 않습니다.`);
+    }
     this.question = question;
   }
 }

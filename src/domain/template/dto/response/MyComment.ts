@@ -38,46 +38,52 @@ export class MyComment {
   }
 
   setCommentId(commentId: number): void {
-    if (commentId === null)
+    if (commentId === null) {
       throw new InternalServerErrorException(`${__dirname} : commentId 값이 존재하지 않습니다.`);
+    }
     this.commentId = commentId;
   }
 
   setCommentCreateAt(commentCreateAt: Date): void {
-    if (commentCreateAt === null)
+    if (commentCreateAt === null) {
       throw new InternalServerErrorException(
         `${__dirname} : commentCreateAt 값이 존재하지 않습니다.`,
       );
+    }
     this.commentCreateAt = commentCreateAt;
   }
 
   setContent(content: string): void {
-    if (content === null)
+    if (content === null) {
       throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
+    }
     this.content = content;
   }
 
   setUserTemplateFinishedAt(userTemplateFinishedAt: Date): void {
-    if (userTemplateFinishedAt === null)
+    if (userTemplateFinishedAt === null) {
       throw new InternalServerErrorException(
         `${__dirname} : userTemplateFinishedAt 값이 존재하지 않습니다.`,
       );
+    }
     this.userTemplateFinishedAt = userTemplateFinishedAt;
   }
 
   setWritorNickname(writorNickname: string): void {
-    if (writorNickname === null)
+    if (writorNickname === null) {
       throw new InternalServerErrorException(
         `${__dirname} : writorNickname 값이 존재하지 않습니다.`,
       );
+    }
     this.writorNickname = writorNickname;
   }
 
   setUserTemplateId(userTemplateId: number): void {
-    if (userTemplateId === null)
+    if (userTemplateId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : userTemplateId 값이 존재하지 않습니다.`,
       );
+    }
     this.userTemplateId = userTemplateId;
   }
 }

@@ -14,18 +14,20 @@ export class ChallengeDeposit {
   }
 
   private setUserChallengeId(userChallengeId: number) {
-    if (userChallengeId === null)
+    if (userChallengeId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : userChallengeId값이 존재하지 않습니다.`,
       );
+    }
     this.userChallengeId = userChallengeId;
   }
 
   private setCalculatedDeposit(calculatedDeposit: number) {
-    if (calculatedDeposit === null)
+    if (calculatedDeposit === null) {
       throw new InternalServerErrorException(
         `${__dirname} : calculatedDeposit 값이 존재하지 않습니다.`,
       );
+    }
     this.calculatedDeposit = calculatedDeposit;
   }
 

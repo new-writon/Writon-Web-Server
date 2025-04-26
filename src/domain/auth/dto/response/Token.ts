@@ -14,14 +14,16 @@ export class Token {
   }
 
   private setAccessToken(accessToken: string) {
-    if (accessToken === null)
+    if (accessToken === null) {
       throw new InternalServerErrorException(`${__dirname} : AccessToken 값이 존재하지 않습니다.`);
+    }
     this.accessToken = accessToken;
   }
 
   private setRefreshToken(refreshToken: string) {
-    if (refreshToken === null)
+    if (refreshToken === null) {
       throw new InternalServerErrorException(`${__dirname} : RefreshToken 값이 존재하지 않습니다.`);
+    }
     this.refreshToken = refreshToken;
   }
 }

@@ -1,5 +1,4 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthController } from './presentation/Auth.Controller';
 import { AuthService } from './service/Auth.Service';

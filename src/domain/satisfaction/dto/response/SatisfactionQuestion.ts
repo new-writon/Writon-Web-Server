@@ -23,22 +23,25 @@ export class SatisfactionQuestion {
   }
 
   private setSatisfactionId(satisfaction_id: number) {
-    if (satisfaction_id === null)
+    if (satisfaction_id === null) {
       throw new InternalServerErrorException(
         `${__dirname} : satisfaction_id 값이 존재하지 않습니다.`,
       );
+    }
     this.satisfactionId = satisfaction_id;
   }
 
   private setType(type: string) {
-    if (type === null)
+    if (type === null) {
       throw new InternalServerErrorException(`${__dirname} : type 값이 존재하지 않습니다.`);
+    }
     this.type = type;
   }
 
   private setQuestion(question: string) {
-    if (question === null)
+    if (question === null) {
       throw new InternalServerErrorException(`${__dirname} : question 값이 존재하지 않습니다.`);
+    }
     this.question = question;
   }
 }

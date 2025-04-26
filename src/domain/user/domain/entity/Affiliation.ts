@@ -108,56 +108,64 @@ export class Affiliation extends BaseEntity {
   userChallenges: Relation<UserChallenge>[];
 
   private setUserId(userId: number) {
-    if (userId === null)
+    if (userId === null) {
       throw new InternalServerErrorException(`${__dirname} : userId 값이 존재하지 않습니다.`);
+    }
     this.userId = userId;
   }
 
   private setOrganizationId(organizationId: number) {
-    if (organizationId === null)
+    if (organizationId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : organizationId 값이 존재하지 않습니다.`,
       );
+    }
     this.organizationId = organizationId;
   }
 
   private setNickname(nickname: string) {
-    if (nickname === null)
+    if (nickname === null) {
       throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
+    }
     this.nickname = nickname;
   }
 
   private setPosition(position: string) {
-    if (position === null)
+    if (position === null) {
       throw new InternalServerErrorException(`${__dirname} : position 값이 존재하지 않습니다.`);
+    }
     this.position = position;
   }
 
   private setPositionIntroduce(positionIntroduce: string) {
-    if (positionIntroduce === null)
+    if (positionIntroduce === null) {
       throw new InternalServerErrorException(
         `${__dirname} : positionIntroduce 값이 존재하지 않습니다.`,
       );
+    }
     this.positionIntroduce = positionIntroduce;
   }
 
   private setHireDate(hireDate: string) {
-    if (hireDate === null)
+    if (hireDate === null) {
       throw new InternalServerErrorException(`${__dirname} : hireDate 값이 존재하지 않습니다.`);
+    }
     this.hireDate = hireDate;
   }
 
   private setCompany(company: string) {
-    if (company === null)
+    if (company === null) {
       throw new InternalServerErrorException(`${__dirname} : company 값이 존재하지 않습니다.`);
+    }
     this.company = company;
   }
 
   private setCompanyPublic(companyPublic: boolean) {
-    if (companyPublic === null)
+    if (companyPublic === null) {
       throw new InternalServerErrorException(
         `${__dirname} : companyPublic 값이 존재하지 않습니다.`,
       );
+    }
     this.companyPublic = companyPublic;
   }
 

@@ -19,31 +19,35 @@ export class ParticularSmallTalkCommentData {
   }
 
   private setSmallTalkCommentId(smallTalkCommentId: number) {
-    if (smallTalkCommentId === undefined || smallTalkCommentId === null)
+    if (smallTalkCommentId === undefined || smallTalkCommentId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : smallTalkCommentId 값이 존재하지 않습니다.`,
       );
+    }
     this.smallTalkCommentId = smallTalkCommentId;
   }
 
   private setContent(content: string) {
-    if (!content)
+    if (!content) {
       throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
+    }
 
     this.content = content;
   }
 
   private setCreatedTime(createdTime: string) {
-    if (!createdTime)
+    if (!createdTime) {
       throw new InternalServerErrorException(`${__dirname} : createdTime 값이 존재하지 않습니다.`);
+    }
     this.createdTime = createdTime;
   }
 
   private setAffiliationId(affiliationId: number) {
-    if (!affiliationId)
+    if (!affiliationId) {
       throw new InternalServerErrorException(
         `${__dirname} : affiliationId 값이 존재하지 않습니다.`,
       );
+    }
     this.affiliationId = affiliationId;
   }
 

@@ -83,20 +83,23 @@ export class User extends BaseEntity {
   }
 
   private setEmail(email: string) {
-    if (email === null)
+    if (email === null) {
       throw new InternalServerErrorException(`${__dirname} : Email 값이 존재하지 않습니다.`);
+    }
     this.email = email;
   }
 
   private setIdentifier(kakaoNumber: string) {
-    if (kakaoNumber === null)
+    if (kakaoNumber === null) {
       throw new InternalServerErrorException(`${__dirname} : KakaoNumber 값이 존재하지 않습니다.`);
+    }
     this.identifier = kakaoNumber;
   }
 
   private setRole(role: string) {
-    if (role === null)
+    if (role === null) {
       throw new InternalServerErrorException(`${__dirname} : Role 값이 존재하지 않습니다.`);
+    }
     this.role = role;
   }
 

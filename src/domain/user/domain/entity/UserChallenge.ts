@@ -92,28 +92,32 @@ export class UserChallenge extends BaseEntity {
   userTemplates: Relation<UserTemplate>[];
 
   private setAffiliationId(affiliationId: number) {
-    if (affiliationId === null)
+    if (affiliationId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : affiliationId 값이 존재하지 않습니다.`,
       );
+    }
     this.affiliationId = affiliationId;
   }
 
   private setChallengeId(challengeId: number) {
-    if (challengeId === null)
+    if (challengeId === null) {
       throw new InternalServerErrorException(`${__dirname} : challengeId 값이 존재하지 않습니다.`);
+    }
     this.challengeId = challengeId;
   }
 
   private setDeposit(deposit: number) {
-    if (deposit === null)
+    if (deposit === null) {
       throw new InternalServerErrorException(`${__dirname} : deposit 값이 존재하지 않습니다.`);
+    }
     this.userDeposit = deposit;
   }
 
   private setReview(review: number) {
-    if (review === null)
+    if (review === null) {
       throw new InternalServerErrorException(`${__dirname} : review 값이 존재하지 않습니다.`);
+    }
     this.review = review;
   }
 

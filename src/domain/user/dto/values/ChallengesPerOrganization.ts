@@ -43,40 +43,46 @@ export class ChallengesPerOrganization {
   }
 
   private setOrganization(organization: string) {
-    if (organization === null)
+    if (organization === null) {
       throw new InternalServerErrorException(`${__dirname} : organization 값이 존재하지 않습니다.`);
+    }
     this.organization = organization;
   }
 
   private setChallengeId(challengeId: number) {
-    if (challengeId === null)
+    if (challengeId === null) {
       throw new InternalServerErrorException(`${__dirname} : challengeId 값이 존재하지 않습니다.`);
+    }
     this.challengeId = challengeId;
   }
 
   private setChallengeFinishSign(challengeFinishSign: string) {
-    if (challengeFinishSign === null)
+    if (challengeFinishSign === null) {
       throw new InternalServerErrorException(
         `${__dirname} : challengeFinishSign값이 존재하지 않습니다.`,
       );
+    }
     this.challengeFinishSign = challengeFinishSign;
   }
 
   private setThemeColor(themeColor: string) {
-    if (themeColor === null)
+    if (themeColor === null) {
       throw new InternalServerErrorException(`${__dirname} : themeColor 값이 존재하지 않습니다.`);
+    }
     this.themeColor = themeColor;
   }
 
   private setLogo(logo: string) {
-    if (logo === null)
+    if (logo === null) {
       throw new InternalServerErrorException(`${__dirname} : logo값이 존재하지 않습니다.`);
+    }
     this.logo = logo;
   }
 
   private setChallenge(challenge: string) {
-    if (challenge === null)
+    if (challenge === null) {
       throw new InternalServerErrorException(`${__dirname} : challenge 값이 존재하지 않습니다.`);
+    }
     this.challenge = challenge;
   }
 

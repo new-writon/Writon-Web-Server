@@ -13,7 +13,6 @@ export class AlarmService {
     body: string,
     targetUrl: string,
   ) {
-    console.log(targetUrl);
     const message = {
       tokens: engineValues,
       webpush: {
@@ -36,15 +35,9 @@ export class AlarmService {
 
     try {
       const response = await firebase.messaging().sendEachForMulticast(message);
-
-      console.log('Successfully sent message:', response);
-
       const failedTokens = this.getFailedTokens(response, engineValues);
-
       await this.handleFailedTokens(userId, failedTokens);
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
+    } catch (error) {}
   }
 
   private async handleFailedTokens(userId: number, failedTokens: string[]): Promise<void> {

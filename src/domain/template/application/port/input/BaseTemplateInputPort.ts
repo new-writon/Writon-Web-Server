@@ -17,7 +17,9 @@ export abstract class BaseTemplateInputPort {
     ...request: Request extends unknown[] ? Request : [Request]
   ): Promise<Response> {
     const handler = this.handleMap.get(operation);
-    if (!handler) throw Error('Handler Empty Error');
+    if (!handler) {
+      throw Error('Handler Empty Error');
+    }
     return handler.handle(request) as Response;
   }
 }

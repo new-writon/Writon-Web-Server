@@ -58,22 +58,25 @@ export class UserTemplate extends BaseEntity {
   }
 
   private setUserChallengeId(userChallengeId: number) {
-    if (userChallengeId === null)
+    if (userChallengeId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : userChallengeId 값이 존재하지 않습니다.`,
       );
+    }
     this.userChallengeId = userChallengeId;
   }
 
   private setTemplateDate(templateDate: Date) {
-    if (templateDate === null)
+    if (templateDate === null) {
       throw new InternalServerErrorException(`${__dirname} : templateDate 값이 존재하지 않습니다.`);
+    }
     this.templateDate = templateDate;
   }
 
   private setComplete(complete: boolean) {
-    if (complete === null)
+    if (complete === null) {
       throw new InternalServerErrorException(`${__dirname} : complete값이 존재하지 않습니다.`);
+    }
     this.complete = complete;
   }
 

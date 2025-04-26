@@ -44,9 +44,7 @@ export class MailManager {
       };
 
       this.mailerService.sendMail(mailOptions);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
   }
 
   public async sendCodeEmail(email: string, code: number) {

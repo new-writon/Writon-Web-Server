@@ -78,28 +78,32 @@ export class QuestionContent extends BaseEntity {
   }
 
   private setQuestionId(questionId: number) {
-    if (questionId === null)
+    if (questionId === null) {
       throw new InternalServerErrorException(`${__dirname} : questionId값이 존재하지 않습니다.`);
+    }
     this.questionId = questionId;
   }
 
   private setContent(content: string) {
-    if (content === null)
+    if (content === null) {
       throw new InternalServerErrorException(`${__dirname} : content값이 존재하지 않습니다.`);
+    }
     this.content = content;
   }
 
   private setVisibility(visibility: boolean) {
-    if (visibility === null)
+    if (visibility === null) {
       throw new InternalServerErrorException(`${__dirname} : visibility값이 존재하지 않습니다.`);
+    }
     this.visibility = visibility;
   }
 
   private setUserTemplateId(userTemplateId: number) {
-    if (userTemplateId === null)
+    if (userTemplateId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : userTemplateId 값이 존재하지 않습니다.`,
       );
+    }
     this.userTemplateId = userTemplateId;
   }
 }

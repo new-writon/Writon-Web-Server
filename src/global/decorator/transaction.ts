@@ -1,5 +1,3 @@
-import { QueryRunner } from 'typeorm';
-
 function Transactional() {
   return function (target: any, propertyName: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;

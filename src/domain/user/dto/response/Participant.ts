@@ -63,30 +63,34 @@ export class Participant {
   }
 
   private setPosition(position: string) {
-    if (position === null)
+    if (position === null) {
       throw new InternalServerErrorException(`${__dirname} : position값이 존재하지 않습니다.`);
+    }
     this.position = position;
   }
 
   private setJobIntroduce(positionIntroduce: string) {
-    if (positionIntroduce === null)
+    if (positionIntroduce === null) {
       throw new InternalServerErrorException(
         `${__dirname} : positionIntroduce 값이 존재하지 않습니다.`,
       );
+    }
     this.positionIntroduce = positionIntroduce;
   }
 
   private setNickname(nickname: string) {
-    if (nickname === null)
+    if (nickname === null) {
       throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
+    }
     this.nickname = nickname;
   }
 
   private setCompanyPublic(companyPublic: number) {
-    if (companyPublic === null || companyPublic === undefined)
+    if (companyPublic === null || companyPublic === undefined) {
       throw new InternalServerErrorException(
         `${__dirname} : companyPublic 값이 존재하지 않습니다.`,
       );
+    }
     this.companyPublic = companyPublic;
   }
 

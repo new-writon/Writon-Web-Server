@@ -9,19 +9,22 @@ import { SmallTalk } from '../../../domain/smalltalk/domain/entity/SmallTalk';
 @Injectable()
 export class SmallTalkVerifyService {
   public verifyParticularSmallTalk(particularSmallTalkData: ParticularSmallTalkData[]) {
-    if (!checkData(particularSmallTalkData[0]))
+    if (!checkData(particularSmallTalkData[0])) {
       throw new SmallTalkException(SmallTalkErrorCode.NOT_FOUND_PARTICULAR_SMALL_TALK);
+    }
   }
 
   public verifyParticularSmallTalkComment(
     particularSmallTalkCommentData: ParticularSmallTalkCommentData[],
   ) {
-    if (!checkData(particularSmallTalkCommentData[0]))
+    if (!checkData(particularSmallTalkCommentData[0])) {
       throw new SmallTalkException(SmallTalkErrorCode.NOT_FOUND_PARTICULAR_SMALL_TALK_COMMENT);
+    }
   }
 
   public verifySmallTalk(smallTalkData: SmallTalk[]) {
-    if (!checkData(smallTalkData[0]))
+    if (!checkData(smallTalkData[0])) {
       throw new SmallTalkException(SmallTalkErrorCode.NOT_FOUND_SMALL_TALK);
+    }
   }
 }

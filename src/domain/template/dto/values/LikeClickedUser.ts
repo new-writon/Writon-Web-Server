@@ -18,8 +18,9 @@ export class LikeClickedUser {
   }
 
   private setNickname(nickname: string) {
-    if (nickname === null)
+    if (nickname === null) {
       throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
+    }
     this.nickname = nickname;
   }
 }

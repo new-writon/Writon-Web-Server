@@ -48,14 +48,16 @@ export class UserProfile {
   }
 
   private setNickname(nickname: string): void {
-    if (nickname === null)
+    if (nickname === null) {
       throw new InternalServerErrorException(`${__dirname} :nickname값이 존재하지 않습니다.`);
+    }
     this.nickname = nickname;
   }
 
   private setEmail(email: string): void {
-    if (email === null)
+    if (email === null) {
       throw new InternalServerErrorException(`${__dirname} : email값이 존재하지 않습니다.`);
+    }
     this.email = email;
   }
 
@@ -72,28 +74,32 @@ export class UserProfile {
   }
 
   private setHiredate(hiredate: Date): void {
-    if (hiredate === null)
+    if (hiredate === null) {
       throw new InternalServerErrorException(`${__dirname} : hiredate값이 존재하지 않습니다.`);
+    }
     this.hiredate = hiredate;
   }
 
   private setCompany(company: string): void {
-    if (company === null)
+    if (company === null) {
       throw new InternalServerErrorException(`${__dirname} : company값이 존재하지 않습니다.`);
+    }
     this.company = company;
   }
 
   private setPosition(position: string): void {
-    if (position === null)
+    if (position === null) {
       throw new InternalServerErrorException(`${__dirname} : position 값이 존재하지 않습니다.`);
+    }
     this.position = position;
   }
 
   private setPositionIntroduce(positionIntroduce: string): void {
-    if (positionIntroduce === null)
+    if (positionIntroduce === null) {
       throw new InternalServerErrorException(
         `${__dirname} : positionIntroduce 값이 존재하지 않습니다.`,
       );
+    }
     this.positionIntroduce = positionIntroduce;
   }
 }

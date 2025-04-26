@@ -11,36 +11,44 @@ import { Question } from '../../../domain/challenge/domain/entity/Question';
 @Injectable()
 export class ChallengeVerifyService {
   public verifyChallenge(challenge: Challenge) {
-    if (!checkData(challenge)) throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE);
+    if (!checkData(challenge)) {
+      throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE);
+    }
   }
 
   public verifyChallenges(challenges: Challenge[]) {
-    if (!checkData(challenges[0]))
+    if (!checkData(challenges[0])) {
       throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE);
+    }
   }
 
   public verifyChallengeDays(challengeDays: ChallengeDay[]) {
-    if (!checkData(challengeDays))
+    if (!checkData(challengeDays)) {
       throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE_DAY);
+    }
   }
 
   public verifyChallengeDay(challengeDay: ChallengeDay) {
-    if (!checkData(challengeDay))
+    if (!checkData(challengeDay)) {
       throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_CHALLENGE_DAY);
+    }
   }
 
   public verifyBasicQuestion(question: BasicQuestion[]) {
-    if (!checkData(question[0]))
+    if (!checkData(question[0])) {
       throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_BASIC_QUESTION);
+    }
   }
 
   public verifySpecialQuestion(question: SpecialQuestion[]) {
-    if (!checkData(question[0]))
+    if (!checkData(question[0])) {
       throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_SPECIAL_QUESTION);
+    }
   }
 
   public verifyQuestion(question: Question[]) {
-    if (!checkData(question[0]))
+    if (!checkData(question[0])) {
       throw new ChallengeException(ChallengeErrorCode.NOT_FOUND_QUESTION);
+    }
   }
 }
