@@ -15,7 +15,9 @@ export const checkData = (data: any): boolean => {
 };
 
 export const compareValues = (first: number, second: number) => {
-  if (first === second) return 'my';
+  if (first === second) {
+    return 'my';
+  }
   return 'others';
 };
 

@@ -38,20 +38,23 @@ export class LoginResponse {
   }
 
   private setAccessToken(accessToken: string): void {
-    if (accessToken === null)
+    if (accessToken === null) {
       throw new InternalServerErrorException(`${__dirname} : AccessToken 값이 존재하지 않습니다.`);
+    }
     this.accessToken = accessToken;
   }
 
   private setRefreshToken(refreshToken: string): void {
-    if (refreshToken === null)
+    if (refreshToken === null) {
       throw new InternalServerErrorException(`${__dirname} : RefreshToken 값이 존재하지 않습니다.`);
+    }
     this.refreshToken = refreshToken;
   }
 
   private setRole(role: string): void {
-    if (role === null)
+    if (role === null) {
       throw new InternalServerErrorException(`${__dirname} : Role 값이 존재하지 않습니다.`);
+    }
     this.role = role;
   }
 

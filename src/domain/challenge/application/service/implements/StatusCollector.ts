@@ -19,7 +19,9 @@ export class StatusCollector implements ChallengeUseCase<[number], Promise<Chall
   }
 
   private verifyChallengeStatus(challengeData: Challenge[]): boolean {
-    if (!checkData(challengeData[0])) return true;
+    if (!checkData(challengeData[0])) {
+      return true;
+    }
     return false;
   }
 }

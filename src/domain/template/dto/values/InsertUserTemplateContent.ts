@@ -23,29 +23,33 @@ export class InsertUserTemplateContent {
   }
 
   private setQuestionId(question_id: number): void {
-    if (question_id === null)
+    if (question_id === null) {
       throw new InternalServerErrorException(`${__dirname} : question_id 값이 존재하지 않습니다.`);
+    }
 
     this.question_id = question_id;
   }
 
   private setContent(content: string): void {
-    if (content === null)
+    if (content === null) {
       throw new InternalServerErrorException(`${__dirname} : content 값이 존재하지 않습니다.`);
+    }
     this.content = content;
   }
 
   private setVisibility(visibility: boolean): void {
-    if (visibility === null)
+    if (visibility === null) {
       throw new InternalServerErrorException(`${__dirname} : visibility 값이 존재하지 않습니다.`);
+    }
     this.visibility = visibility;
   }
 
   private setUserTempleteId(user_templete_id: number): void {
-    if (user_templete_id === null)
+    if (user_templete_id === null) {
       throw new InternalServerErrorException(
         `${__dirname} : user_templete_id 값이 존재하지 않습니다.`,
       );
+    }
     this.user_templete_id = user_templete_id;
   }
 

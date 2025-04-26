@@ -24,14 +24,16 @@ export class ChallengeAccordingToOrganization {
   }
 
   public setOrganization(organization: string): void {
-    if (organization === null)
+    if (organization === null) {
       throw new InternalServerErrorException(`${__dirname} : organization 값이 존재하지 않습니다.`);
+    }
     this.organization = organization;
   }
 
   public setChallenges(challenges: string[]): void {
-    if (challenges === null)
+    if (challenges === null) {
       throw new InternalServerErrorException(`${__dirname} : challenges 값이 존재하지 않습니다.`);
+    }
     this.challenges = challenges;
   }
 }

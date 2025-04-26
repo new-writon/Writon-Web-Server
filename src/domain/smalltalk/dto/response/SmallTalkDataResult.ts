@@ -50,40 +50,46 @@ export class SmallTalkDataResult {
   }
 
   private setSmallTalkId(smallTalkId: number) {
-    if (smallTalkId === null || smallTalkId === undefined)
+    if (smallTalkId === null || smallTalkId === undefined) {
       throw new InternalServerErrorException(`${__dirname} : smallTalkId 값이 존재하지 않습니다.`);
+    }
     this.smallTalkId = smallTalkId;
   }
 
   private setQuestion(question: string) {
-    if (question === null)
+    if (question === null) {
       throw new InternalServerErrorException(`${__dirname} : question 값이 존재하지 않습니다.`);
+    }
     this.question = question;
   }
 
   private setParticipateCount(participateCount: number) {
-    if (participateCount === null)
+    if (participateCount === null) {
       throw new InternalServerErrorException(
         `${__dirname} : participateCount 값이 존재하지 않습니다.`,
       );
+    }
     this.participateCount = participateCount;
   }
 
   private setNickname(nickname: string) {
-    if (nickname === null)
+    if (nickname === null) {
       throw new InternalServerErrorException(`${__dirname} : nickname 값이 존재하지 않습니다.`);
+    }
     this.nickname = nickname;
   }
 
   private setCreatedTime(createdTime: Date) {
-    if (createdTime === null)
+    if (createdTime === null) {
       throw new InternalServerErrorException(`${__dirname} : createdTime 값이 존재하지 않습니다.`);
+    }
     this.createdTime = createdTime;
   }
 
   private setCreatedDate(createdDate: Date) {
-    if (createdDate === null)
+    if (createdDate === null) {
       throw new InternalServerErrorException(`${__dirname} : createdDate 값이 존재하지 않습니다.`);
+    }
     this.createdDate = createdDate;
   }
 
@@ -92,10 +98,11 @@ export class SmallTalkDataResult {
   }
 
   private setMySmallTalkSign(mySmallTalkSign: string) {
-    if (mySmallTalkSign === null)
+    if (mySmallTalkSign === null) {
       throw new InternalServerErrorException(
         `${__dirname} : mySmallTalkSign값이 존재하지 않습니다.`,
       );
+    }
     this.mySmallTalkSign = mySmallTalkSign;
   }
 }

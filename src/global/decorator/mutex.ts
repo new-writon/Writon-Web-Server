@@ -6,7 +6,6 @@ function MutexAlgorithm() {
     const mutex = new Mutex();
     descriptor.value = async function (...args: any[]) {
       const release = await mutex.acquire();
-      console.log('뮤텍스 시작');
       try {
         const result = await originalMethod.apply(this, args);
         return result;
@@ -14,7 +13,6 @@ function MutexAlgorithm() {
         throw error;
       } finally {
         release();
-        console.log('뮤텍스 완료');
       }
     };
   };

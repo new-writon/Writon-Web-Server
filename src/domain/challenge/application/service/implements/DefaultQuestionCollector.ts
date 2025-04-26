@@ -13,13 +13,11 @@ export class DefaultQuestionCollector implements ChallengeUseCase<[number], Prom
   ) {}
   operation: ChallengeOperation = 'SELECT_DEFAULT_QUESTION';
   async handle(request: [number]): Promise<any> {
-    const [userId] = request;
-    const userData = await this.userApi.requestUserById(userId);
+    // const [userId] = request;
+    // const userData = await this.userApi.requestUserById(userId);
     // 검증 로직
     await this.defaultQuestionRepository.insertDefaultQuestion();
-    const result = await this.defaultQuestionRepository.findDefaultQuestion();
-    console.log(result);
-
+    // const result = await this.defaultQuestionRepository.findDefaultQuestion();
     return 'a';
   }
 }

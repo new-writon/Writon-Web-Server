@@ -114,13 +114,14 @@ export class UserChallengeService {
         challengeId,
       );
     this.userVerifyService.verifyExistUserChallenge(userChallengeData);
-    if (checkData(challengeAllData))
+    if (checkData(challengeAllData)) {
       return this.userChallengeHelper.executeInsertUserChallenge(
         userAffiliation.getAffiliationId(),
         challengeData.getId(),
         challengeData.getDeposit(),
         0,
-      ); // 미리 챌린지에 참여 시
+      );
+    } // 미리 챌린지에 참여 시
     const caculateDepositResult = await this.makeChallengeUserDeposit(challengeAllData);
     await this.userChallengeHelper.executeInsertUserChallenge(
       userAffiliation.getAffiliationId(),
@@ -347,7 +348,9 @@ export class UserChallengeService {
   }
 
   private verifyTodayTemplateStatus(userTemplete: UserTemplate[]): boolean {
-    if (!checkData(userTemplete[0])) return true;
+    if (!checkData(userTemplete[0])) {
+      return true;
+    }
     return false;
   }
 

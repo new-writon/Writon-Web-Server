@@ -8,11 +8,15 @@ import { AuthException } from './AuthException';
 @Injectable()
 export class AuthVerifyService {
   public verifyUser(user: User) {
-    if (!checkData(user)) throw new AuthException(AuthErrorCode.NOT_VERIFY_EMAIL);
+    if (!checkData(user)) {
+      throw new AuthException(AuthErrorCode.NOT_VERIFY_EMAIL);
+    }
   }
 
   public verifyEmail(userData: User, email: string) {
-    if (userData.getEmail() !== email) throw new AuthException(AuthErrorCode.NOT_VERIFY_EMAIL);
+    if (userData.getEmail() !== email) {
+      throw new AuthException(AuthErrorCode.NOT_VERIFY_EMAIL);
+    }
   }
 
   /**
@@ -28,11 +32,15 @@ export class AuthVerifyService {
   }
 
   public verifyCode(code: string, certifyCode: string) {
-    if (code !== certifyCode) throw new AuthException(AuthErrorCode.NOT_VERIFY_CODE);
+    if (code !== certifyCode) {
+      throw new AuthException(AuthErrorCode.NOT_VERIFY_CODE);
+    }
   }
 
   public vefifyIdentifier(userData: User) {
-    if (!checkData(userData)) throw new AuthException(AuthErrorCode.IDENTIFIER_IS_INCOREECT);
+    if (!checkData(userData)) {
+      throw new AuthException(AuthErrorCode.IDENTIFIER_IS_INCOREECT);
+    }
   }
 
   public signVerifyToken(accessTokenVerifyResult: boolean, refreshTokenVerifyesult: string) {
@@ -41,10 +49,14 @@ export class AuthVerifyService {
   }
 
   public signVerifyAccessToken(status: boolean) {
-    if (status) throw new AuthException(AuthErrorCode.NOT_EXPIRED);
+    if (status) {
+      throw new AuthException(AuthErrorCode.NOT_EXPIRED);
+    }
   }
 
   public signVerifyRefreshToken(status: string) {
-    if (status === 'fail') throw new AuthException(AuthErrorCode.LOGIN_AGAIN);
+    if (status === 'fail') {
+      throw new AuthException(AuthErrorCode.LOGIN_AGAIN);
+    }
   }
 }

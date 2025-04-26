@@ -17,18 +17,20 @@ export class ParticipationInChallengePerAffiliation {
   }
 
   setAffiliatedConfirmation(affiliatedConfirmation: boolean) {
-    if (affiliatedConfirmation === null)
+    if (affiliatedConfirmation === null) {
       throw new InternalServerErrorException(
         `${__dirname} : affiliatedConfirmation 값이 존재하지 않습니다.`,
       );
+    }
     this.affiliatedConfirmation = affiliatedConfirmation;
   }
 
   setChallengedConfirmation(challengedConfirmation: boolean) {
-    if (challengedConfirmation === null)
+    if (challengedConfirmation === null) {
       throw new InternalServerErrorException(
         `${__dirname} : challengedConfirmation 값이 존재하지 않습니다.`,
       );
+    }
     this.challengedConfirmation = challengedConfirmation;
   }
 }

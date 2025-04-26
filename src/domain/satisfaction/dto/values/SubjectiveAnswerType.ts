@@ -33,24 +33,27 @@ export class SubjectiveAnswerType {
   }
 
   private setSatisfactionId(satisfactionId: number) {
-    if (satisfactionId === null)
+    if (satisfactionId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : satisfactionId 값이 존재하지 않습니다.`,
       );
+    }
     this.satisfactionId = satisfactionId;
   }
   s;
   private setAnswer(answer: string) {
-    if (answer === null)
+    if (answer === null) {
       throw new InternalServerErrorException(`${__dirname} : answer 값이 존재하지 않습니다.`);
+    }
     this.answer = answer;
   }
 
   private setUserChallengeId(userChallengeId: number) {
-    if (userChallengeId === null)
+    if (userChallengeId === null) {
       throw new InternalServerErrorException(
         `${__dirname} : userChallengeId 값이 존재하지 않습니다.`,
       );
+    }
     this.userChallengeId = userChallengeId;
   }
 }

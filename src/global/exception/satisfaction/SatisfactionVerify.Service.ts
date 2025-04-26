@@ -7,7 +7,8 @@ import { SatisfactionException } from './SatisfactionException';
 @Injectable()
 export class SatisfactionVerifyService {
   public verifySatisfaction(satisfaction: Satisfaction[]) {
-    if (!checkData(satisfaction))
+    if (!checkData(satisfaction)) {
       throw new SatisfactionException(SatisfactionErrorCode.NOT_FOUND_SATISFACTION_QUESTION);
+    }
   }
 }

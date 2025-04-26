@@ -52,52 +52,59 @@ export class UserChallengeResult {
   }
 
   private setNickname(nickname: string): void {
-    if (nickname === null)
+    if (nickname === null) {
       throw new InternalServerErrorException(`${__dirname} : nickname값이 존재하지 않습니다.`);
+    }
     this.nickname = nickname;
   }
 
   private setOrganization(organization: string): void {
-    if (organization === null)
+    if (organization === null) {
       throw new InternalServerErrorException(`${__dirname} : organization 값이 존재하지 않습니다.`);
+    }
     this.organization = organization;
   }
 
   private setChallenge(challenge: string): void {
-    if (challenge === null)
+    if (challenge === null) {
       throw new InternalServerErrorException(`${__dirname} : challenge 값이 존재하지 않습니다.`);
+    }
     this.challenge = challenge;
   }
 
   private setChallengeOverlapCount(challengeOverlapCount: number): void {
-    if (challengeOverlapCount === null)
+    if (challengeOverlapCount === null) {
       throw new InternalServerErrorException(
         `${__dirname} : challengeOverlapCount 값이 존재하지 않습니다.`,
       );
+    }
     this.challengeOverlapCount = challengeOverlapCount;
   }
 
   private setChallengeSuccessCount(challengeSuccessCount: number): void {
-    if (challengeSuccessCount === null)
+    if (challengeSuccessCount === null) {
       throw new InternalServerErrorException(
         `${__dirname} : challengeSuccessCount 값이 존재하지 않습니다.`,
       );
+    }
     this.challengeSuccessCount = challengeSuccessCount;
   }
 
   private setOverlapDeposit(overlapDeposit: number): void {
-    if (overlapDeposit === null)
+    if (overlapDeposit === null) {
       throw new InternalServerErrorException(
         `${__dirname} : overlapDeposit 값이 존재하지 않습니다.`,
       );
+    }
     this.overlapDeposit = overlapDeposit;
   }
 
   private setChallengeDeposit(challengeDeposit: number): void {
-    if (challengeDeposit === null)
+    if (challengeDeposit === null) {
       throw new InternalServerErrorException(
         `${__dirname} : challengeDeposit값이 존재하지 않습니다.`,
       );
+    }
     this.challengeDeposit = challengeDeposit;
   }
 

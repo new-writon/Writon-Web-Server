@@ -10,14 +10,16 @@ export class CalendarData {
   }
 
   setCalendarData(calendarData: CalendarData[]) {
-    if (calendarData === null)
+    if (calendarData === null) {
       throw new InternalServerErrorException(`${__dirname} : calendarData값이 존재하지 않습니다.`);
+    }
     this.calendarData = calendarData;
   }
 
   setCalendarWithGrayData(calendarWithGrayData: CalendarData[]) {
-    if (calendarWithGrayData === null)
+    if (calendarWithGrayData === null) {
       throw new InternalServerErrorException(`${__dirname} : calendarData값이 존재하지 않습니다.`);
+    }
     this.calendarWithGrayData = calendarWithGrayData;
   }
 

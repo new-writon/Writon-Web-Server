@@ -44,9 +44,7 @@ export class JwtManager {
         userId: decoded.userId,
         role: decoded.role,
       };
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   public verify = (token: string) => {

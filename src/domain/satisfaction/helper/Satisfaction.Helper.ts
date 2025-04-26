@@ -17,7 +17,9 @@ export class SatisfactionHelper {
   ): Promise<Satisfaction[]> {
     const satisfactionDatas =
       await this.satisfactionRepository.findSatisfactionByChallengeId(challengeId);
-    if (verifyFlag) this.satisfactionVerifyService.verifySatisfaction(satisfactionDatas);
+    if (verifyFlag) {
+      this.satisfactionVerifyService.verifySatisfaction(satisfactionDatas);
+    }
     return satisfactionDatas;
   }
 }
