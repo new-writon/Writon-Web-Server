@@ -7,6 +7,7 @@ import { UserApi } from 'src/domain/template/application/apis/User.Api';
 import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 import { GetLikeNotify } from 'src/domain/template/interface/GetLikeNotify';
+import { GetCommentNotify } from 'src/domain/template/interface/GetCommentNotify';
 
 @Injectable()
 export class TemplateNotifier

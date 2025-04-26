@@ -19,6 +19,7 @@ import { TemplateInputPort } from 'src/domain/template/application/port/input/Te
 import { TemplateInformation } from 'src/domain/template/dto/response/TemplateInformation';
 import { JWTAuthGuard } from 'src/domain/auth/guards/JwtAuth.Guard';
 import { GetLikeNotify } from 'src/domain/template/interface/GetLikeNotify';
+import { GetCommentNotify } from 'src/domain/template/interface/GetCommentNotify';
 
 @Controller('/api/template/root')
 export class TemplateController {
