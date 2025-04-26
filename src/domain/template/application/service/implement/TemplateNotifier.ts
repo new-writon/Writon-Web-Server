@@ -6,6 +6,7 @@ import { UserTemplate } from 'src/domain/template/domain/entity/UserTemplate';
 import { UserApi } from 'src/domain/template/application/apis/User.Api';
 import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
+import { GetLikeNotify } from 'src/domain/template/interface/GetLikeNotify';
 
 @Injectable()
 export class TemplateNotifier

@@ -18,6 +18,7 @@ import { TemplateUpdate } from '../../../../dto/request/TemplateUpdate';
 import { TemplateInputPort } from 'src/domain/template/application/port/input/TemplateInputPort';
 import { TemplateInformation } from 'src/domain/template/dto/response/TemplateInformation';
 import { JWTAuthGuard } from 'src/domain/auth/guards/JwtAuth.Guard';
+import { GetLikeNotify } from 'src/domain/template/interface/GetLikeNotify';
 
 @Controller('/api/template/root')
 export class TemplateController {
