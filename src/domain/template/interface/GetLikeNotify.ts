@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 interface GetLikeNotify {
   likeId: number;
   createdAt: Date;
