@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ChallengeRepository } from '../port/output/Challenge.Repository';
 import { Challenge } from '../../domain/entity/Challenge';
 import { ChallengeInformation } from '../../dto/values/ChallengeInformation';
+import { ChallengeAllInformation } from '../../dto/values/ChallengeAllInformation';
 
 @Injectable()
 export class ChallengeHelper {

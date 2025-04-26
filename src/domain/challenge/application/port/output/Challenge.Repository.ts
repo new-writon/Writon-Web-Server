@@ -1,4 +1,5 @@
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
+import { ChallengeAllInformation } from 'src/domain/challenge/dto/values/ChallengeAllInformation';
 import { ChallengeInformation } from 'src/domain/challenge/dto/values/ChallengeInformation';
 import { ChallengesPerOrganization } from 'src/domain/user/dto/values/ChallengesPerOrganization';
 import { Repository } from 'typeorm';

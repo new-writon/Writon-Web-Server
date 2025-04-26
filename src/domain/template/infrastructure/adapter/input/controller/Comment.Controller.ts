@@ -19,6 +19,7 @@ import { CommentInsert } from 'src/domain/template/dto/request/CommentInsert';
 import { CommentUpdate } from 'src/domain/template/dto/request/CommentUpdate';
 import { CommentId } from 'src/domain/template/dto/response/CommentId';
 import { MyComment } from 'src/domain/template/dto/response/MyComment';
+import { CommentWithReplies } from 'src/domain/template/interface/CommentWithReplies.interface';
 import { User } from 'src/domain/user/domain/entity/User';
 import { SuccessResponseDto } from 'src/global/response/SuccessResponseDto';
 

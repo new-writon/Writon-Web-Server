@@ -20,6 +20,8 @@ import { UserVerifyService } from '../../../global/exception/user/UserVerify.Ser
 import { ChallengeDeposit } from '../dto/values/ChallengeDeposit';
 import { DataMapperService } from '../domain/service/DataMapper.Service';
 import { ChallengeVerifyService } from 'src/global/exception/challenge/ChallengeVerify.Service';
+import { ChallengeAllInformation } from 'src/domain/challenge/dto/values/ChallengeAllInformation';
+import { ChallengeAllInformationCustom } from '../interface/Challenge';
 
 @Injectable()
 export class UserChallengeService {

@@ -9,6 +9,7 @@ import { TemplateOperation } from '../types/Operation';
 import { CommentHelper } from 'src/domain/template/application/helper/Comment.Helper';
 import { UserApi } from 'src/domain/template/application/apis/User.Api';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
+import { CommentWithReplies } from 'src/domain/template/interface/CommentWithReplies.interface';
 
 @Injectable()
 export class TemplateCommentCollector

@@ -6,6 +6,7 @@ import { ChallengeDay } from '../../../../domain/entity/ChallengeDay';
 import { ChallengeDepositDeduction } from '../../../../domain/entity/ChallengeDepositDeduction';
 import { ChallengesPerOrganization } from '../../../../../user/dto/values/ChallengesPerOrganization';
 import { ChallengeRepository } from 'src/domain/challenge/application/port/output/Challenge.Repository';
+import { ChallengeAllInformation } from 'src/domain/challenge/dto/values/ChallengeAllInformation';
 
 @Injectable()
 export class ChallengeDao extends Repository<Challenge> implements ChallengeRepository {

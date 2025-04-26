@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ChallengeDay } from '../../../domain/challenge/domain/entity/ChallengeDay';
 import { ChallengeHelper } from 'src/domain/challenge/application/helper/Challenge.Helper';
 import { ChallengeDayHelper } from 'src/domain/challenge/application/helper/ChallengeDay.Helper';
+import { ChallengeAllInformation } from 'src/domain/challenge/dto/values/ChallengeAllInformation';
 
 @Injectable()
 export class ChallengeApi {

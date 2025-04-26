@@ -22,7 +22,7 @@ class Deduction {
   }
 }
 
-class ChallengeAllInformationCustom {
+export class ChallengeAllInformationCustom {
   private challengeId: number;
   private deposit: number;
   private challengeDayCount: string;
