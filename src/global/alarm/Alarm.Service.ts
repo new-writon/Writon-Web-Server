@@ -56,7 +56,6 @@ export class AlarmService {
   }
 
   private async removeTokensFromDatabase(userId: number, tokens: string[]) {
-    console.log('Tokens to remove from database:', tokens);
     await this.userHelper.executeDeleteFirebaseTokens(userId, tokens);
   }
 }

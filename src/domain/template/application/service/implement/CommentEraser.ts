@@ -15,7 +15,6 @@ export class CommentEraser implements TemplateUseCase<[CommentDelete, number], P
 
   async handle(request: [CommentDelete, number]): Promise<void> {
     const [commentDelete, userId] = request;
-    console.log(commentDelete);
     const affiliationData = await this.userApi.requestAffiliationByUserIdAndOrganization(
       userId,
       commentDelete.getOrganization(),

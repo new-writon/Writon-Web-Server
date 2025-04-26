@@ -57,7 +57,7 @@ class ChallengeAllInformationCustom {
   }
 }
 
-class ChallengeAllInformationCustomContainer {
+export class ChallengeAllInformationCustomContainer {
   private data: { [key: string]: ChallengeAllInformationCustom } = {};
 
   public addChallenge(key: string, challenge: ChallengeAllInformationCustom) {

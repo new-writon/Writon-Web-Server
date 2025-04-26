@@ -1,4 +1,4 @@
-class ChallengeAllInformation {
+export class ChallengeAllInformation {
   private challengeId: number;
   private deposit: number;
   private challengeDayCount: string;

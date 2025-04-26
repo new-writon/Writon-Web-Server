@@ -1,4 +1,4 @@
-interface GetCommentNotify {
+export interface GetCommentNotify {
   commentId: number;
   content: string;
   createdAt: Date;

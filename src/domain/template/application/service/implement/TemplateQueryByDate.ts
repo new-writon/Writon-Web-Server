@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TemplateOperation } from '../types/Operation';
 import { UserTemplate } from '../../../domain/entity/UserTemplate';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
-import { sortCompanyPublic, sortCompanyPublicArray } from '../../../util/data';
+import { sortCompanyPublicArray } from '../../../util/data';
 import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
 import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { TemplateInformation } from '../../../dto/response/TemplateInformation';
@@ -41,7 +41,6 @@ export class TemplateQueryByDate
         userChallengeIds,
         date,
       );
-    console.log(userTemplateData);
     return userTemplateData.length === 0
       ? []
       : this.proccessTemplateAccordingToDateData(

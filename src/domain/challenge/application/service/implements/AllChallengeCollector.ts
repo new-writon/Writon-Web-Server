@@ -19,7 +19,7 @@ export class AllChallengeCollector
     private readonly dataMapperService: DataMapperService,
     private readonly challengeHelper: ChallengeHelper,
   ) {}
-  async handle(request: void): Promise<ChallengeAccordingToOrganization[]> {
+  async handle(): Promise<ChallengeAccordingToOrganization[]> {
     const organizationDatas = await this.userApi.requestAllOrganization();
     const extractedOrganizationIds =
       this.dataMapperService.extractOrganizationIds(organizationDatas);

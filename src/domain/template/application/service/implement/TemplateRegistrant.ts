@@ -3,7 +3,6 @@ import { TemplateOperation } from '../types/Operation';
 import { TemplateWrite } from '../../../dto/request/TemplateWrite';
 import { DataSource } from 'typeorm';
 import { TemplateVerifyService } from 'src/global/exception/template/TemplateVerify.Service';
-import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
 import { TemplateWriter } from '../TemplateWriter';
 import { UserApi } from 'src/domain/template/application/apis/User.Api';
@@ -34,16 +33,19 @@ export class TemplateRegistrant
 
   @Transactional()
   async handle(request: [TemplateWrite, number]): Promise<void> {
-    console.log(1);
     const [templateWrite, userId] = request;
-    const [userChallengeData, userTemplateComplete, questionDatas] = await Promise.all([
+    const [
+      userChallengeData,
+      userTemplateComplete,
+      // questionDatas
+    ] = await Promise.all([
       this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
         templateWrite.getChallengeId(),
         userId,
         templateWrite.getOrganization(),
       ),
       this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate()),
-      this.challengeApi.requestQuestionsByChallengeId(templateWrite.getChallengeId()),
+      // this.challengeApi.requestQuestionsByChallengeId(templateWrite.getChallengeId()),
     ]);
 
     this.userVerifyService.verifyUserChallenge(userChallengeData);

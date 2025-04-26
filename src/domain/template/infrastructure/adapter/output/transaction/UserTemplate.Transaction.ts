@@ -8,12 +8,11 @@ import { DataSource } from 'typeorm';
 export class UserTemplateTransaction {
   constructor(private dataSource: DataSource) {}
 
-  public async insertTemplateTransaction(
-    userChallnegeId: number,
-    date: Date,
-    complete: boolean,
-    templateContent: Array<WriteTemplateContent>,
-  ): Promise<void> {
+  public async insertTemplateTransaction() // userChallnegeId: number,
+  // date: Date,
+  // complete: boolean,
+  // templateContent: Array<WriteTemplateContent>,
+  : Promise<void> {
     // const newUserTemplate = UserTemplate.createUserTemplate(userChallnegeId, date, complete);
     // await this.dataSource.transaction(async (transactionalEntityManager) => {
     //  const userTemplateData = await transactionalEntityManager.save(newUserTemplate)

@@ -1,4 +1,4 @@
-interface SelectComment {
+export interface SelectComment {
   position: string;
   company: string;
   companyPublic: number;

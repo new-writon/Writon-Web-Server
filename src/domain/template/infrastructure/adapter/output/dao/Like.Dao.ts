@@ -20,11 +20,7 @@ export class LikeDao extends Repository<Likes> implements LikeRepository {
       .execute();
   }
 
-  async findLikeWithUserIdAndOrganizationAndChallengeId(
-    userId: number,
-    organization: string,
-    challengeId: number,
-  ): Promise<Likes[]> {
+  async findLikeWithUserIdAndOrganizationAndChallengeId(): Promise<Likes[]> {
     return this.dataSource
       .createQueryBuilder(Likes, 'l')
       .innerJoinAndSelect('l.user_templates', 'ut', 'ut.user_template_id = l.user_template_id')

@@ -19,7 +19,6 @@ export class CommentEditor implements TemplateUseCase<[CommentUpdate, number], v
       userId,
       commentUpdate.getOrganization(),
     );
-    console.log(affiliationData);
     await this.commentHelper.executeUpdateComment(
       affiliationData.getAffiliationId(),
       commentUpdate.getCommentId(),

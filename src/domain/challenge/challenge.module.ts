@@ -32,7 +32,6 @@ import { QuestionHelper } from './application/helper/Question.Helper';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/DefaultQuestion';
 import { DefaultQuestionCollector } from './application/service/implements/DefaultQuestionCollector';
-import { UserHelper } from '../user/helper/User.Helper';
 import { DefaultQuestionDao } from './intrastructure/adapter/output/dao/DefaultQuestion.Dao';
 
 @Module({

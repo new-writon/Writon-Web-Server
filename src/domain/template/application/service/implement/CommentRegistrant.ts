@@ -12,7 +12,6 @@ import { TemplateOperation } from '../types/Operation';
 import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 import { CommentHelper } from 'src/domain/template/application/helper/Comment.Helper';
 import { UserApi } from 'src/domain/template/application/apis/User.Api';
-import { Comment } from 'src/domain/template/domain/entity/Comment';
 import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 

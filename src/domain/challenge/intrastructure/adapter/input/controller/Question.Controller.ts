@@ -16,7 +16,7 @@ export class QuestionController {
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async bringDefaultQuestion(@CurrentUser() user: User) {
-    const result = await this.questionInputPort.execute('SELECT_DEFAULT_QUESTION', user.userId);
+    await this.questionInputPort.execute('SELECT_DEFAULT_QUESTION', user.userId);
     this.logger.log('디폴트 질문 조회 완료');
     return SuccessResponseDto.of();
   }

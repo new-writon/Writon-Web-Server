@@ -12,7 +12,7 @@ export class DefaultQuestionCollector implements ChallengeUseCase<[number], Prom
     private readonly defaultQuestionRepository: DefaultQuestionRepository,
   ) {}
   operation: ChallengeOperation = 'SELECT_DEFAULT_QUESTION';
-  async handle(request: [number]): Promise<any> {
+  async handle(): Promise<any> {
     // const [userId] = request;
     // const userData = await this.userApi.requestUserById(userId);
     // 검증 로직
