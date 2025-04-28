@@ -9,6 +9,7 @@ const checkData = (data: any): boolean => {
     // 데이터가 없을 경우
     return (result = false);
   }
+
   return result;
 };
 
