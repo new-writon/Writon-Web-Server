@@ -5,7 +5,6 @@
  */
 const checkData = (data: any): boolean => {
   let result = true;
-
   if (data === undefined || data === null) {
     // 데이터가 없을 경우
     return (result = false);
