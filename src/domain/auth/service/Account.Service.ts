@@ -52,6 +52,7 @@ export class AccountService {
     // 검증하기
     const userData: User = await this.userApi.giveUserById(userId);
     this.authVerifyService.verifyUser(userData);
+
     await this.authVerifyService.verifyPassword(oldPassword, userData.getPassword());
     await this.userApi.executeUpdatePasswordByUserId(userId, await bcrypt.hash(newPassword, 10));
   }
