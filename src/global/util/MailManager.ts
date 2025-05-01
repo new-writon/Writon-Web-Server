@@ -20,7 +20,7 @@ export class MailManager {
                     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                       <tr>
                         <td style="text-align: center;">
-                          <img src="https://writon-data.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+2.0.png" alt="Your Image" style="display: block; margin: 0 auto; margin-bottom: 20px; width: 500px; height: 500px;">
+                          <img src="https://writon-data2.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+2.0.png" alt="Your Image" style="display: block; margin: 0 auto; margin-bottom: 20px; width: 500px; height: 500px;">
                         </td>
                       </tr>
                       <tr>
@@ -35,7 +35,7 @@ export class MailManager {
                         <td style="text-align: center;">
                           <a href="${generateInvitationLink(organization, challengeId)}" style="display: block; text-align: center;"
                           target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.writon.co.kr/login?organization=${organization}&challengeId=${challengeId}">
-                            <img src="https://writon-data.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+%EB%B2%84%ED%8A%BC+2.0.png" alt="Your Button Image" style="display: block; margin: 0 auto; width: 347px; height: 105px;">
+                            <img src="https://writon-data2.s3.ap-northeast-2.amazonaws.com/invitation/%EC%B4%88%EB%8C%80%EC%9E%A5+%EB%B2%84%ED%8A%BC+2.0.png" alt="Your Button Image" style="display: block; margin: 0 auto; width: 347px; height: 105px;">
                           </a>
                         </td>
                       </tr>
