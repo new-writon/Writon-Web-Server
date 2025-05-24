@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TemplateUpdate } from '../../../dto/request/TemplateUpdate';
 import { TemplateOperation } from '../types/Operation';
-import { Transactional } from 'src/global/decorator/transaction';
+import { Transactional } from 'typeorm-transactional';
 import { TemplateWriter } from '../TemplateWriter';
 import { DataSource } from 'typeorm';
 import { QuestionContentHelper } from 'src/domain/template/application/helper/QuestionContent.Helper';

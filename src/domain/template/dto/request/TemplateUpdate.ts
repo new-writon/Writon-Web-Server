@@ -1,14 +1,15 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { WriteTemplateContent } from '../values/TemplateContent.js';
 import { Type } from 'class-transformer';
 
 export class TemplateUpdate {
-  @IsNotEmpty()
-  private userTemplateId: number;
+  @IsNotEmpty({ message: 'hi' })
+  public userTemplateId: number;
 
+  @ValidateNested({ each: true })
   @Type(() => WriteTemplateContent)
   @IsNotEmpty()
-  private templateContent: Array<WriteTemplateContent>;
+  public templateContent: Array<WriteTemplateContent>;
 
   public getUserTemplateId() {
     return this.userTemplateId;
