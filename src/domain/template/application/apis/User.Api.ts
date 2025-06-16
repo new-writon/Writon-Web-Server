@@ -128,4 +128,8 @@ export class UserApi {
   ): Promise<FirebaseToken[]> {
     return this.userHelper.giveFirebaseTokenWithUserChallengeId(userChallengeId);
   }
+
+  public async requestUserChallengeById(userTemplateId: number) {
+    return this.userChallengeHelper.giveUserChallengeById(userTemplateId);
+  }
 }

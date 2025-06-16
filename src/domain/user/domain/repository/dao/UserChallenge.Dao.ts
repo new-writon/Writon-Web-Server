@@ -229,4 +229,12 @@ export class UserChallengeDao extends Repository<UserChallenge> implements UserC
     });
     await Promise.all(updatePromises);
   }
+
+  async findUserChallengeById(userChallengeId: number): Promise<UserChallenge> {
+    return this.createQueryBuilder()
+      .where('user_challenge_id = :userChallengeId', {
+        userChallengeId: userChallengeId,
+      })
+      .getOne();
+  }
 }

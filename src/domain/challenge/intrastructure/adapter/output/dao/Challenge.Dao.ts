@@ -7,6 +7,7 @@ import { ChallengeDepositDeduction } from '../../../../domain/entity/ChallengeDe
 import { ChallengesPerOrganization } from '../../../../../user/dto/values/ChallengesPerOrganization';
 import { ChallengeRepository } from 'src/domain/challenge/application/port/output/Challenge.Repository';
 import { ChallengeAllInformation } from 'src/domain/challenge/dto/values/ChallengeAllInformation';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 @Injectable()
 export class ChallengeDao extends Repository<Challenge> implements ChallengeRepository {
@@ -40,6 +41,13 @@ export class ChallengeDao extends Repository<Challenge> implements ChallengeRepo
         challengeId: challengeId,
       },
     });
+  }
+
+  async findByStatus(status: ChallengeStatusEnum, date: string) {
+    return this.createQueryBuilder()
+      .where('status = :status', { status: status })
+      .andWhere("DATE_FORMAT(created_at, '%Y-%m') = :date", { date: date })
+      .getOne();
   }
 
   async findChallengeWithCondition(challengeId: number): Promise<ChallengeInformation[]> {

@@ -43,7 +43,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
     userId: number,
     organizationId: number,
     affiliationStartDto: AffiliationStart,
-  ): Promise<void> {
+  ): Promise<Affiliation> {
     const newAffiliation = Affiliation.createAffiliation(
       userId,
       organizationId,
@@ -54,7 +54,7 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
       affiliationStartDto.getCompany(),
       affiliationStartDto.getCompanyPublic(),
     );
-    this.save(newAffiliation);
+    return this.save(newAffiliation);
   }
 
   async findChallengesPerOrganizationByUserId(

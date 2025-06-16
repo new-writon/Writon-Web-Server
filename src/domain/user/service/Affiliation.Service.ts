@@ -6,6 +6,8 @@ import { AffiliationHelper } from '../helper/Affiliation.Helper';
 import { AffiliationStart } from '../dto/request/AffiliationStart';
 import { ProfileUpdate } from '../dto/request/ProfileUpdate';
 import { UserVerifyService } from '../../../global/exception/user/UserVerify.Service';
+import { Writoner } from '../util/Writoner';
+import { UserChallenge } from '../domain/entity/UserChallenge';
 
 @Injectable()
 export class AffiliationService {
@@ -13,12 +15,13 @@ export class AffiliationService {
     private readonly organizationHelper: OrganizationHelper,
     private readonly affiliationHelper: AffiliationHelper,
     private readonly userVerifyService: UserVerifyService,
+    private readonly writoner: Writoner,
   ) {}
 
   public async penetrateAffiliation(
     userId: number,
     affiliationStartDto: AffiliationStart,
-  ): Promise<void> {
+  ): Promise<void | UserChallenge> {
     const organizationData: Organization = await this.organizationHelper.giveOrganizationByName(
       affiliationStartDto.getOrganization(),
     );
@@ -27,11 +30,12 @@ export class AffiliationService {
       affiliationStartDto.getOrganization(),
     );
     this.userVerifyService.verifyExistAffiliation(affiliationData);
-    await this.affiliationHelper.insertAffiliation(
+    const affiliation = await this.affiliationHelper.insertAffiliation(
       userId,
       organizationData.getId(),
       affiliationStartDto,
     );
+    return this.writoner.execute(affiliation);
   }
 
   public async bringUserProfile(userId: number, organization: string): Promise<UserProfile> {

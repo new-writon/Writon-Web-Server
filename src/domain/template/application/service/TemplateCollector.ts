@@ -20,7 +20,7 @@ export abstract class TemplateCollector {
   public mergeTemplates(
     affiliationData: Affiliation,
     userTemplateDatas: UserTemplate[],
-    questionDatas: Question[],
+    questionDatas: Question[] | any,
     userChallengeDatas?: UserChallenge[],
   ): TemplateContent[][] {
     return userTemplateDatas.map((userTemplateData) => {
@@ -54,6 +54,53 @@ export abstract class TemplateCollector {
         }
         return acc;
       }, []);
+    });
+  }
+
+  public mergeTemplatesForMongoData(
+    affiliationData: Affiliation,
+    userTemplateDatas: UserTemplate[],
+    mongoQuestionDatas: any[],
+    userChallengeDatas?: UserChallenge[],
+  ): TemplateContent[][] {
+    return userTemplateDatas.map((userTemplate) => {
+      return mongoQuestionDatas.reduce((acc, mongoQuestion) => {
+        const questionId = mongoQuestion._id.toString();
+        const questionContent = userTemplate
+          .getDefaultQuestionContents()
+          .find((content) => content.getQuestionId() === questionId);
+        const userChallengeData = userChallengeDatas?.find(
+          (challenge) => challenge.getId() === userTemplate.getUserChallengeId(),
+        );
+        const myLikeSign = userTemplate.likes.some(
+          (like) => like.getAffiliationId() === affiliationData.getId(),
+        )
+          ? '1'
+          : '0';
+        if (this.getAdditionalCondition(questionContent, userChallengeData)) {
+          const affiliation = this.getAffiliation(affiliationData, userChallengeData);
+          acc.push({
+            position: affiliation.getPosition(),
+            nickname: affiliation.getNickname(),
+            company: affiliation.getCompany(),
+            companyPublic: affiliation.getCompanyPublic(),
+            profile: affiliation.getUser().getProfileImage(),
+            questionId: questionId,
+            userTemplateId: userTemplate.getId(),
+            questionContentId: questionContent!.getId(),
+            content: questionContent!.getContent(),
+            createdAt: formatDate(userTemplate.getCreatedAt().toString()),
+            visibility: questionContent.getVisibility(),
+            category: mongoQuestion.type,
+            question: mongoQuestion.content,
+            affiliationId: affiliation.getId(),
+            likeCount: userTemplate.getLikes().length.toString(),
+            commentCount: userTemplate.getComments().length.toString(),
+            myLikeSign: myLikeSign,
+          });
+        }
+        return acc;
+      }, [] as TemplateContent[]);
     });
   }
 }

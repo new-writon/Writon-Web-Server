@@ -22,3 +22,14 @@ export const sortCompanyPublicArray = (datas: TemplateContent[][]): TemplateCont
     });
   });
 };
+
+export const sortCompanyPublicArrayForObject = (datas: any[][]): any[][] => {
+  return datas.map((items) => {
+    return items.map((item) => {
+      if (Number(item.companyPublic) === 0) {
+        item.changeCompany(null);
+      }
+      return item;
+    });
+  });
+};

@@ -1,7 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { UserChallenge } from '../domain/entity/UserChallenge';
 import { UserChallengeRepository } from '../domain/repository/UserChallenge.Repository';
 import { UserVerifyService } from '../../../global/exception/user/UserVerify.Service';
+import { Affiliation } from '../domain/entity/Affiliation';
+import { Writoner } from '../util/Writoner';
 import { ChallengeDeposit } from '../dto/values/ChallengeDeposit';
 
 @Injectable()
@@ -10,6 +12,8 @@ export class UserChallengeHelper {
     @Inject('userchallengeImpl')
     private readonly userChallengeRepository: UserChallengeRepository,
     private readonly userVerifyService: UserVerifyService,
+    @Inject(forwardRef(() => Writoner))
+    protected readonly writoner: Writoner,
   ) {}
 
   public async giveUserChallengeByUserIdAndOrganizationAndChallengeId(
@@ -167,11 +171,18 @@ export class UserChallengeHelper {
     );
   }
 
+  async giveUserChallengeById(userChallengeId: number) {
+    return this.userChallengeRepository.findUserChallengeById(userChallengeId);
+  }
+
   async giveUserChallengeByChallengeId(challengeId: number) {
     return this.userChallengeRepository.findUserChallengeByChallengeId(challengeId);
   }
-
   async executeUpdateUserChallengeDeposit(challengeDeposit: ChallengeDeposit[]): Promise<void> {
     return this.userChallengeRepository.updateUserChallengeDeposit(challengeDeposit);
+  }
+
+  async executeInsertWritonerChallenge(affiliation: Affiliation) {
+    return this.writoner.execute(affiliation);
   }
 }

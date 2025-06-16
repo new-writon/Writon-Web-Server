@@ -90,4 +90,8 @@ export class UserApi {
   public async requestAuthTokenByUserIdAndToken(userId: number, token: string): Promise<AuthToken> {
     return this.userHelper.giveAuthTokenByUserIdAndToken(userId, token);
   }
+
+  public async executeInsertWritonerChallenge(affiliation: Affiliation) {
+    return this.userChallengeHelper.executeInsertWritonerChallenge(affiliation);
+  }
 }

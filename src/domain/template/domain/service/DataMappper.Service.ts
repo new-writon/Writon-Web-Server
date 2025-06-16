@@ -3,6 +3,7 @@ import { Comment } from '../entity/Comment';
 import { UserTemplate } from '../entity/UserTemplate';
 import { Question } from 'src/domain/challenge/domain/entity/Question';
 import { Likes } from '../entity/Likes';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 @Injectable()
 export class DataMapperService {
@@ -28,11 +29,13 @@ export class DataMapperService {
     return userTemplate.getQuestionContents().map((data) => data.getQuestionId());
   }
 
-  public extractQuestionIds(userTemplates: UserTemplate[]) {
+  public extractQuestionIds(userTemplates: UserTemplate[], status?: ChallengeStatusEnum) {
     return userTemplates.flatMap((userTemplate) => {
-      return userTemplate
-        .getQuestionContents()
-        .map((questionContent) => questionContent.getQuestionId());
+      const contents =
+        status === ChallengeStatusEnum.WRITON
+          ? userTemplate.getDefaultQuestionContents()
+          : userTemplate.getQuestionContents();
+      return contents.map((questionContent) => questionContent.getQuestionId());
     });
   }
 }

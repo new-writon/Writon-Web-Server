@@ -19,7 +19,7 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     userId: number,
     organizationId: number,
     affiliationStartDto: AffiliationStart,
-  ): Promise<void>;
+  ): Promise<Affiliation>;
   findChallengesPerOrganizationByUserId(userId: number): Promise<ChallengesPerOrganization[]>;
   findUserProfileByUserIdAndOrganization(
     userId: number,

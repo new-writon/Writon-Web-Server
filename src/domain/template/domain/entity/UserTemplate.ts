@@ -107,6 +107,10 @@ export class UserTemplate extends BaseEntity {
     return this.questionContents;
   }
 
+  public getDefaultQuestionContents() {
+    return this.defaultQuestionContents;
+  }
+
   public getLikes() {
     return this.likes;
   }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ChallengeHelper } from 'src/domain/challenge/application/helper/Challenge.Helper';
 import { ChallengeDayHelper } from 'src/domain/challenge/application/helper/ChallengeDay.Helper';
+import { DefaultQuestionHelper } from 'src/domain/challenge/application/helper/DefaultQuestion.Helper';
 import { QuestionHelper } from 'src/domain/challenge/application/helper/Question.Helper';
 import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
 import { ChallengeDay } from 'src/domain/challenge/domain/entity/ChallengeDay';
@@ -12,6 +13,7 @@ export class ChallengeApi {
     private readonly challengeDayHelper: ChallengeDayHelper,
     private readonly questionHelper: QuestionHelper,
     private readonly challengeHelper: ChallengeHelper,
+    private readonly defaultQuestionHelper: DefaultQuestionHelper,
   ) {}
 
   public async requestChallengeDayByChallengeIdAndDate(
@@ -31,5 +33,9 @@ export class ChallengeApi {
 
   public async requestChallengeById(challengeId: number): Promise<Challenge> {
     return this.challengeHelper.giveChallengeById(challengeId);
+  }
+
+  public async requestDefaultQuestion() {
+    return this.defaultQuestionHelper.giveDefaultQuestion();
   }
 }

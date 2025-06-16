@@ -33,6 +33,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/DefaultQuestion';
 import { DefaultQuestionCollector } from './application/service/implements/DefaultQuestionCollector';
 import { DefaultQuestionDao } from './intrastructure/adapter/output/dao/DefaultQuestion.Dao';
+import { DefaultQuestionHelper } from './application/helper/DefaultQuestion.Helper';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { DefaultQuestionDao } from './intrastructure/adapter/output/dao/DefaultQ
     Invitor,
     StatusCollector,
     DefaultQuestionCollector,
+    DefaultQuestionHelper,
     {
       provide: 'INFORMATION_HANDLERS',
       useFactory: (
@@ -100,6 +102,12 @@ import { DefaultQuestionDao } from './intrastructure/adapter/output/dao/DefaultQ
     },
   ],
   controllers: [InformationController, QuestionController, InviteController],
-  exports: [ChallengeHelper, ChallengeDayHelper, QuestionHelper, ChallengeVerifyService],
+  exports: [
+    ChallengeHelper,
+    ChallengeDayHelper,
+    QuestionHelper,
+    DefaultQuestionHelper,
+    ChallengeVerifyService,
+  ],
 })
 export class ChallengeModule {}

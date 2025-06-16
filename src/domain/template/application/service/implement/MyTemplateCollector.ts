@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TemplateOperation } from '../types/Operation';
 import { UserTemplate } from '../../../domain/entity/UserTemplate';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
-import { sortCompanyPublicArray } from '../../../util/data';
+import { sortCompanyPublicArray, sortCompanyPublicArrayForObject } from '../../../util/data';
 import { DataMapperService } from '../../../domain/service/DataMappper.Service';
 import { TemplateInformation } from '../../../dto/response/TemplateInformation';
 import { UserVerifyService } from 'src/global/exception/user/UserVerify.Service';
@@ -55,21 +55,28 @@ export class MyTemplateCollector
           );
     return userTemplateData.length === 0
       ? []
-      : this.proccessTemplateData(userTemplateData, affiliationData);
+      : this.proccessTemplateData(userTemplateData, affiliationData, challenge.getStatus());
   }
 
   protected async proccessTemplateData(
     userTemplateData: UserTemplate[],
     affiliationData: Affiliation,
+    status: ChallengeStatusEnum,
   ) {
-    const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData);
-    const questionData = await this.challengeApi.requestQuestionById(questionIds);
-    const mergedForManyTemplates = super.mergeTemplates(
-      affiliationData,
-      userTemplateData,
-      questionData,
-    );
-    const sortedCompanyData = sortCompanyPublicArray(mergedForManyTemplates);
+    const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData, status);
+    const questionData =
+      status === ChallengeStatusEnum.WRITON
+        ? await this.challengeApi.requestDefaultQuestion()
+        : await this.challengeApi.requestQuestionById(questionIds);
+
+    const mergedForManyTemplates =
+      status === ChallengeStatusEnum.WRITON
+        ? super.mergeTemplatesForMongoData(affiliationData, userTemplateData, questionData)
+        : super.mergeTemplates(affiliationData, userTemplateData, questionData);
+    const sortedCompanyData =
+      status === ChallengeStatusEnum.WRITON
+        ? sortCompanyPublicArrayForObject(mergedForManyTemplates)
+        : sortCompanyPublicArray(mergedForManyTemplates);
     return TemplateInformation.of(undefined, sortedCompanyData);
   }
 

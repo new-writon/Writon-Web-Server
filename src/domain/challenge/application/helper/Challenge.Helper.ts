@@ -3,6 +3,7 @@ import { ChallengeRepository } from '../port/output/Challenge.Repository';
 import { Challenge } from '../../domain/entity/Challenge';
 import { ChallengeInformation } from '../../dto/values/ChallengeInformation';
 import { ChallengeAllInformation } from '../../dto/values/ChallengeAllInformation';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 @Injectable()
 export class ChallengeHelper {
@@ -10,6 +11,10 @@ export class ChallengeHelper {
     @Inject('challengeImpl')
     private readonly challengeRepository: ChallengeRepository,
   ) {}
+
+  public async giveByStatus(status: ChallengeStatusEnum, date: string) {
+    return this.challengeRepository.findByStatus(status, date);
+  }
 
   public async giveOverlapPeriod(challengeId: number): Promise<number> {
     return this.challengeRepository.findOverlapPeriod(challengeId);

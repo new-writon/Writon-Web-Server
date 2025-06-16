@@ -37,7 +37,7 @@ export class AffiliationHelper {
     userId: number,
     organizationId: number,
     affiliationStartDto: AffiliationStart,
-  ): Promise<void> {
+  ): Promise<Affiliation> {
     return this.affiliationRepository.insertAffiliation(
       userId,
       organizationId,
