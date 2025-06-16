@@ -49,4 +49,5 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
   ): Promise<UserChallenge>;
   findUserChallengeByChallengeId(challengeId: number): Promise<UserChallenge[]>;
   updateUserChallengeDeposit(challengeDeposit: ChallengeDeposit[]): Promise<void>;
+  findUserChallengeById(userChallengeId: number): Promise<UserChallenge>;
 }

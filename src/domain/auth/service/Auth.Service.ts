@@ -48,7 +48,6 @@ export class AuthService {
       [refreshToken],
       30 * 24 * 60 * 60,
     );
-
     // 디비 토큰 추가 함수
     const authToken = await this.userApi.requestAuthTokenByUserIdAndToken(
       checkedUserData.getId(),
@@ -57,18 +56,38 @@ export class AuthService {
     const checkFlag = checkData(authToken);
     await this.addAuthToken(checkFlag, checkedUserData.getId(), refreshToken);
     // eslint-disable-next-line prefer-const
-    let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
+    let [
+      { affiliatedConfirmation, checkAffiliation },
+      challengedConfirmation,
+      {
+        affiliatedConfirmation: writonAffiliatedConfirmation,
+        checkAffiliation: checkWritonAffiliation,
+      },
+    ] = await Promise.all([
       this.checkAffiliationStatus(organization, checkedUserData.getId()),
       this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId),
+      this.checkAffiliationStatus('라이톤', checkedUserData.getId()),
     ]);
     affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
+    await this.checkWritonChallenge(writonAffiliatedConfirmation, checkWritonAffiliation);
+    // 조건 달성 시 로직 실행
     return LoginResponse.of(
       accessToken,
       refreshToken,
       checkedUserData.getRole(),
       affiliatedConfirmation,
       challengedConfirmation,
+      writonAffiliatedConfirmation,
     );
+  }
+
+  async checkWritonChallenge(
+    writonAffiliatedConfirmation: boolean,
+    affiliation: Affiliation,
+  ): Promise<void> {
+    if (writonAffiliatedConfirmation) {
+      await this.userApi.executeInsertWritonerChallenge(affiliation);
+    }
   }
 
   public async localLogin(loginLocal: LocalLogin): Promise<LoginResponse> {
@@ -93,24 +112,35 @@ export class AuthService {
     const checkFlag = checkData(authToken);
     await this.addAuthToken(checkFlag, userData.getId(), refreshToken);
     // eslint-disable-next-line prefer-const
-    let [affiliatedConfirmation, challengedConfirmation] = await Promise.all([
+    let [
+      { affiliatedConfirmation, checkAffiliation },
+      challengedConfirmation,
+      {
+        affiliatedConfirmation: writonAffiliatedConfirmation,
+        checkAffiliation: checkWritonAffiliation,
+      },
+    ] = await Promise.all([
       this.checkAffiliationStatus(loginLocal.getOrganization(), userData.getId()),
       this.checkOngoingChallenge(
         loginLocal.getOrganization(),
         userData.getId(),
         loginLocal.getChallengeId(),
       ),
+      this.checkAffiliationStatus('라이톤', userData.getId()),
     ]);
+    console.log(writonAffiliatedConfirmation, checkWritonAffiliation);
     affiliatedConfirmation = this.checkOrganization(
       loginLocal.getOrganization(),
       affiliatedConfirmation,
     );
+    await this.checkWritonChallenge(writonAffiliatedConfirmation, checkWritonAffiliation);
     return LoginResponse.of(
       accessToken,
       refreshToken,
       userData.getRole(),
       affiliatedConfirmation,
       challengedConfirmation,
+      writonAffiliatedConfirmation,
     );
   }
 
@@ -151,11 +181,14 @@ export class AuthService {
   public async checkAffiliationStatus(
     organization: string,
     userId: number,
-  ): Promise<boolean | null> {
+  ): Promise<{
+    affiliatedConfirmation: boolean;
+    checkAffiliation: Affiliation;
+  }> {
     const checkAffiliation: Affiliation =
       await this.userApi.requestAffiliationByUserIdAndOrganization(userId, organization);
     const affiliatedConfirmation: boolean = checkData(checkAffiliation);
-    return affiliatedConfirmation;
+    return { affiliatedConfirmation, checkAffiliation };
   }
 
   private async checkOngoingChallenge(

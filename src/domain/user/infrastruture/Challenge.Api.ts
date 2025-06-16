@@ -3,6 +3,7 @@ import { ChallengeDay } from '../../../domain/challenge/domain/entity/ChallengeD
 import { ChallengeHelper } from 'src/domain/challenge/application/helper/Challenge.Helper';
 import { ChallengeDayHelper } from 'src/domain/challenge/application/helper/ChallengeDay.Helper';
 import { ChallengeAllInformation } from 'src/domain/challenge/dto/values/ChallengeAllInformation';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 @Injectable()
 export class ChallengeApi {
@@ -38,5 +39,9 @@ export class ChallengeApi {
 
   public async requestChallengesByIds(challengeIds: number[]) {
     return this.challengeHelper.giveChallengesByIds(challengeIds);
+  }
+
+  public async requestChallengeByStatus(status: ChallengeStatusEnum, date: string) {
+    return this.challengeHelper.giveByStatus(status, date);
   }
 }

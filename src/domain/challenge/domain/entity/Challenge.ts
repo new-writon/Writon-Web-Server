@@ -16,6 +16,7 @@ import { Satisfaction } from '../../../satisfaction/domain/entity/Satisfaction';
 import { UserChallenge } from '../../../user/domain/entity/UserChallenge';
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 import { Organization } from '../../../../domain/user/domain/entity/Organization';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 @Index('challenges_organizations_fkey', ['organizationId'], {})
 @Entity('challenges', { schema: 'nest' })
@@ -46,6 +47,19 @@ export class Challenge extends BaseEntity {
 
   @Column('tinyint', { name: 'restart', nullable: true })
   restart: number | null;
+
+  @Column({
+    type: 'enum',
+    enum: ChallengeStatusEnum,
+    name: 'status',
+  })
+  status: ChallengeStatusEnum;
+
+  // @Column({
+  //   type: 'varchar',
+  //   name: 'key',
+  // })
+  // key: string | null;
 
   @OneToMany(() => ChallengeDay, (challengeDay) => challengeDay.challenge)
   challengeDays: Relation<ChallengeDay>[];
@@ -105,5 +119,9 @@ export class Challenge extends BaseEntity {
 
   public getOrganizationId() {
     return this.organizationId;
+  }
+
+  public getStatus() {
+    return this.status;
   }
 }

@@ -6,6 +6,7 @@ export class LoginResponse {
   private role: string;
   private affiliatedConfirmation: boolean | null;
   private challengedConfirmation: boolean | null;
+  private writonAffiliatedConfirmation: boolean | null;
 
   constructor(
     accessToken: string,
@@ -13,12 +14,14 @@ export class LoginResponse {
     role: string,
     affiliatedConfirmation: boolean | null,
     challengedConfirmation: boolean | null,
+    writonAffiliatedConfirmation: boolean | null,
   ) {
     this.setAccessToken(accessToken),
       this.setRefreshToken(refreshToken),
       this.setRole(role),
       this.setAffiliatedConfirmation(affiliatedConfirmation),
       this.setChallengedConfirmation(challengedConfirmation);
+    this.setWritonAffiliatedConfirmation(writonAffiliatedConfirmation);
   }
 
   public static of(
@@ -27,6 +30,7 @@ export class LoginResponse {
     role: string,
     affiliatedConfirmation: boolean | null,
     challengedConfirmation: boolean | null,
+    writonAffiliatedConfirmation: boolean | null,
   ): LoginResponse {
     return new LoginResponse(
       accessToken,
@@ -34,6 +38,7 @@ export class LoginResponse {
       role,
       affiliatedConfirmation,
       challengedConfirmation,
+      writonAffiliatedConfirmation,
     );
   }
 
@@ -64,5 +69,8 @@ export class LoginResponse {
 
   private setChallengedConfirmation(challengedConfirmation: boolean): void {
     this.challengedConfirmation = challengedConfirmation;
+  }
+  private setWritonAffiliatedConfirmation(writonAffiliatedConfirmation: boolean): void {
+    this.writonAffiliatedConfirmation = writonAffiliatedConfirmation;
   }
 }
