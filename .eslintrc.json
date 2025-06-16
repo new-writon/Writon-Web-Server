@@ -22,6 +22,7 @@
     "no-console": "warn",
     "no-debugger": "error",
     "eqeqeq": "error",
-    "curly": "error"
+    "curly": "error",
+    "prefer-const": "off"
   }
 }

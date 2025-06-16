@@ -17,6 +17,18 @@ export class DefaultQuestionDao implements DefaultQuestionRepository {
     return this.defaultQuestionModel.find();
   }
 
+  async findDefaultBasicQuestion() {
+    return this.defaultQuestionModel.find({
+      type: 'basic',
+    });
+  }
+
+  async findDefaultSpecialQuestion() {
+    return this.defaultQuestionModel.find({
+      type: 'special',
+    });
+  }
+
   async insertDefaultQuestion() {
     const data: CreateDefaultQuestionDto = {
       content: '오늘 하루를 돌아보며 가장 기억에 남는 일은 무엇인가요?',

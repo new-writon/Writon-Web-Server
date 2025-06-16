@@ -12,7 +12,7 @@ export class DefaultQuestion {
   type: 'basic' | 'special';
 
   @Prop()
-  keyword?: string[];
+  keyword?: string;
 }
 
 export const DefaultQuestionSchema = SchemaFactory.createForClass(DefaultQuestion);

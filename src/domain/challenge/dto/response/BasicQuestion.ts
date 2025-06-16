@@ -1,21 +1,27 @@
 import { InternalServerErrorException } from '@nestjs/common';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 export class BasicQuestion {
-  private questionId: number;
+  private questionId: number | string;
   private question: string;
+  private content?: string;
+  private _id?: string;
+  private status: ChallengeStatusEnum;
 
-  constructor(questionId: number, question: string) {
+  constructor(questionId: number | string, question: string) {
     this.setQuestionId(questionId);
     this.setQuestion(question);
   }
 
-  public static of(specialQuestion: BasicQuestion[]): BasicQuestion[] {
+  public static of(specialQuestion: BasicQuestion[], status: ChallengeStatusEnum): BasicQuestion[] {
     return specialQuestion.map((sq) => {
-      return new BasicQuestion(sq.questionId, sq.question);
+      return status === ChallengeStatusEnum.WRITON
+        ? new BasicQuestion(sq._id, sq.content)
+        : new BasicQuestion(sq.questionId, sq.question);
     });
   }
 
-  private setQuestionId(questionId: number) {
+  private setQuestionId(questionId: number | string) {
     if (questionId === null) {
       throw new InternalServerErrorException(`${__dirname} : questionId값이 존재하지 않습니다.`);
     }
