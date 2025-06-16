@@ -44,6 +44,8 @@ import { TemplateController } from './infrastructure/adapter/input/controller/Te
 import { CommentController } from './infrastructure/adapter/input/controller/Comment.Controller';
 import { LikeController } from './infrastructure/adapter/input/controller/Like.Controller';
 import { UserApi } from './application/apis/User.Api';
+import { DefaultQuestionContentHelper } from './application/helper/DefaultQuestionContent.Helper';
+import { DefaultQuestionContentDao } from './infrastructure/adapter/output/dao/DefaultQuestionContent.Dao';
 
 @Module({
   imports: [
@@ -56,6 +58,8 @@ import { UserApi } from './application/apis/User.Api';
     { provide: 'questionContentImpl', useClass: QuestionContentDao },
     { provide: 'commentImpl', useClass: CommentDao },
     { provide: 'likeImpl', useClass: LikeDao },
+    { provide: 'defaultquestionContentImpl', useClass: DefaultQuestionContentDao },
+    DefaultQuestionContentHelper,
     UserTemplateHelper,
     LikeHelper,
     QuestionContentHelper,

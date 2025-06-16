@@ -14,6 +14,7 @@ import { QuestionContent } from './QuestionContent';
 import { UserChallenge } from '../../../user/domain/entity/UserChallenge';
 import { BaseEntity } from '../../../../global/entity/base.entitiy';
 import { InternalServerErrorException } from '@nestjs/common';
+import { DefaultQuestionContent } from './DefaultQuestionContent';
 
 @Index('user_templates_user_challenges_fkey', ['userChallengeId'], {})
 @Entity('user_templates')
@@ -45,6 +46,12 @@ export class UserTemplate extends BaseEntity {
 
   @OneToMany(() => QuestionContent, (questionContent) => questionContent.userTemplate)
   questionContents: Relation<QuestionContent>[];
+
+  @OneToMany(
+    () => DefaultQuestionContent,
+    (defaultQuestionContent) => defaultQuestionContent.userTemplate,
+  )
+  defaultQuestionContents: Relation<QuestionContent>[];
 
   @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.userTemplates, {
     onDelete: 'CASCADE',

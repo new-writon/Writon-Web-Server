@@ -11,6 +11,8 @@ import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api
 import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 import { Transactional } from 'typeorm-transactional';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
+import { DefaultQuestionContentHelper } from '../../helper/DefaultQuestionContent.Helper';
 
 @Injectable()
 export class TemplateRegistrant
@@ -27,6 +29,7 @@ export class TemplateRegistrant
     private readonly userTemplateHelper: UserTemplateHelper,
     private readonly templateVerifyService: TemplateVerifyService,
     private readonly userVerifyService: UserVerifyService,
+    private readonly defaultQuestionContentHelper: DefaultQuestionContentHelper,
   ) {
     super();
   }
@@ -34,28 +37,21 @@ export class TemplateRegistrant
   @Transactional()
   async handle(request: [TemplateWrite, number]): Promise<void> {
     const [templateWrite, userId] = request;
-    const [
-      userChallengeData,
-      userTemplateComplete,
-      // questionDatas
-    ] = await Promise.all([
+    const [userChallengeData, userTemplateComplete, challenge] = await Promise.all([
       this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
         templateWrite.getChallengeId(),
         userId,
         templateWrite.getOrganization(),
       ),
       this.signUserChallengeComplete(templateWrite.getChallengeId(), templateWrite.getDate()),
-      // this.challengeApi.requestQuestionsByChallengeId(templateWrite.getChallengeId()),
+      this.challengeApi.requestChallengeById(templateWrite.getChallengeId()),
     ]);
-
     this.userVerifyService.verifyUserChallenge(userChallengeData);
-
     const existingUserTemplateData =
       await this.userTemplateHelper.giveUserTemplateByUserChallengeIdAndDate(
         userChallengeData.getId(),
         templateWrite.getDate(),
       );
-
     this.templateVerifyService.verifyExistUserTemplate(existingUserTemplateData);
 
     const userTemplateData = await this.userTemplateHelper.exexuteInsertUserTemplate(
@@ -67,7 +63,9 @@ export class TemplateRegistrant
       templateWrite.getTemplateContent(),
       userTemplateData.getId(),
     );
-    await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
+    challenge.getStatus() === ChallengeStatusEnum.WRITON
+      ? await this.defaultQuestionContentHelper.executeInsertDefaultQuestionContent(changedTemplate)
+      : await this.questionContentHelper.executeInsertQuestionContent(changedTemplate);
   }
 
   private async signUserChallengeComplete(challengeId: number, date: string) {

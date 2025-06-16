@@ -97,6 +97,22 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
       .getMany();
   }
 
+  findUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeId(
+    userChallengeId: number,
+  ): Promise<UserTemplate[]> {
+    return this.dataSource
+      .createQueryBuilder(UserTemplate, 'ut')
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .innerJoinAndSelect(
+        'ut.defaultQuestionContents',
+        'dqc',
+        'dqc.user_template_id = ut.user_template_id',
+      )
+      .where('ut.user_challenge_id = :userChallengeId', { userChallengeId })
+      .getMany();
+  }
+
   async findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(
     userTemplateId: number,
     visibility: boolean,
@@ -111,6 +127,26 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         'ut.questionContents',
         'qc',
         'qc.user_template_id = ut.user_template_id AND (qc.visibility = 1 OR qc.visibility = :visibility)',
+        { visibility },
+      )
+      .where('ut.user_template_id = :userTemplateId', { userTemplateId })
+      .getOne();
+  }
+
+  async findUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserTemplateIdWithVisibility(
+    userTemplateId: number,
+    visibility: boolean,
+  ): Promise<UserTemplate> {
+    return this.dataSource
+      .createQueryBuilder()
+      .select('ut')
+      .from(UserTemplate, 'ut')
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .innerJoinAndSelect(
+        'ut.defaultQuestionContents',
+        'dqc',
+        'dqc.user_template_id = ut.user_template_id AND (qc.visibility = 1 OR qc.visibility = :visibility)',
         { visibility },
       )
       .where('ut.user_template_id = :userTemplateId', { userTemplateId })

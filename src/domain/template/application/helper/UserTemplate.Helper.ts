@@ -51,11 +51,29 @@ export class UserTemplateHelper {
     );
   }
 
+  public async giveUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeId(
+    userChallengeId: number,
+  ): Promise<UserTemplate[]> {
+    return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeId(
+      userChallengeId,
+    );
+  }
+
   public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(
     userTemplateId: number,
     visibility: boolean,
   ): Promise<UserTemplate> {
     return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(
+      userTemplateId,
+      visibility,
+    );
+  }
+
+  public async giveUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserTemplateIdWithVisibility(
+    userTemplateId: number,
+    visibility: boolean,
+  ): Promise<UserTemplate> {
+    return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserTemplateIdWithVisibility(
       userTemplateId,
       visibility,
     );

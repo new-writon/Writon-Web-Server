@@ -21,8 +21,8 @@ export class DefaultQuestionContent extends BaseEntity {
     this.setUserTemplateId(userTemplateId);
   }
 
-  @PrimaryGeneratedColumn({ type: 'int', name: 'question_content_id' })
-  questionContentId: number;
+  @PrimaryGeneratedColumn({ type: 'int', name: 'default_question_content_id' })
+  defaultQuestionContentId: number;
 
   @Column('int', { name: 'question_id' })
   questionId: number;
@@ -44,7 +44,7 @@ export class DefaultQuestionContent extends BaseEntity {
   userTemplate: Relation<UserTemplate>;
 
   public getId() {
-    return this.questionContentId;
+    return this.defaultQuestionContentId;
   }
 
   public getQuestionId() {

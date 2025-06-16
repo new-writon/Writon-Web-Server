@@ -38,6 +38,7 @@ import { FirebaseTokenDao } from './domain/repository/dao/FirebaseToken.Dao';
 import { FirebaseToken } from './domain/entity/FirebaseToken';
 import { Position } from './domain/entity/Position';
 import { AuthTokenDao } from './domain/repository/dao/AuthToken.Dao';
+import { Writoner } from './util/Writoner';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { AuthTokenDao } from './domain/repository/dao/AuthToken.Dao';
     CheeringPhraseService,
     CacheImpl,
     UserVerifyService,
+    Writoner,
   ],
 
   controllers: [
@@ -93,6 +95,7 @@ import { AuthTokenDao } from './domain/repository/dao/AuthToken.Dao';
     UserHelper,
     OrganizationHelper,
     UserVerifyService,
+    Writoner,
   ],
 })
 export class UserModule {}

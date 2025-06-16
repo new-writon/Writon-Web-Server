@@ -12,6 +12,7 @@ import { UserApi } from 'src/domain/template/application/apis/User.Api';
 import { UserTemplateHelper } from 'src/domain/template/application/helper/UserTemplate.Helper';
 import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 @Injectable()
 export class TemplateFetcher
@@ -28,12 +29,19 @@ export class TemplateFetcher
 
   async handle(request: [number, string, boolean, number]): Promise<TemplateContent[]> {
     const [userTemplateId, organization, visibility, userId] = request;
+    const challenge = await this.challengeApi.requestChallengeById(userTemplateId);
+    const isWriton = challenge.getStatus() === ChallengeStatusEnum.WRITON;
     const [affiliationData, userTemplateData] = await Promise.all([
       this.userApi.requestAffiliationAndUserByUserIdAndOrganization(userId, organization),
-      this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(
-        userTemplateId,
-        visibility,
-      ),
+      isWriton
+        ? this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserTemplateIdWithVisibility(
+            userTemplateId,
+            visibility,
+          )
+        : this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserTemplateIdWithVisibility(
+            userTemplateId,
+            visibility,
+          ),
     ]);
     return userTemplateData === null
       ? []

@@ -12,6 +12,7 @@ import { UserTemplateHelper } from 'src/domain/template/application/helper/UserT
 import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api';
 import { UserApi } from 'src/domain/template/application/apis/User.Api';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
 
 @Injectable()
 export class MyTemplateCollector
@@ -41,10 +42,17 @@ export class MyTemplateCollector
       challengeId,
     );
     this.userVerifyService.verifyUserChallenge(userChallengeData);
+    const challenge = await this.challengeApi.requestChallengeById(
+      userChallengeData.getChallengeId(),
+    );
     const userTemplateData =
-      await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(
-        userChallengeData.getId(),
-      );
+      challenge.getStatus() === ChallengeStatusEnum.WRITON
+        ? await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeId(
+            userChallengeData.getId(),
+          )
+        : await this.userTemplateHelper.giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeId(
+            userChallengeData.getId(),
+          );
     return userTemplateData.length === 0
       ? []
       : this.proccessTemplateData(userTemplateData, affiliationData);
