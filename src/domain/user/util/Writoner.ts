@@ -15,6 +15,7 @@ export class Writoner {
   ) {}
   async execute(affiliation: Affiliation) {
     // status가 WRITON인 데이터를 가져옴.
+    console.log(affiliation, getKoreanYYYYMM());
     const challenge = await this.challengeApi.requestChallengeByStatus(
       ChallengeStatusEnum.WRITON,
       getKoreanYYYYMM(),
