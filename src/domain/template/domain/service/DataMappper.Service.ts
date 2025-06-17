@@ -26,7 +26,7 @@ export class DataMapperService {
   }
 
   public extractQuestionId(userTemplate: UserTemplate) {
-    return userTemplate.getQuestionContents().map((data) => data.getQuestionId());
+    return userTemplate.getQuestionContents()?.map((data) => data.getQuestionId());
   }
 
   public extractQuestionIds(userTemplates: UserTemplate[], status?: ChallengeStatusEnum) {

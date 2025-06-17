@@ -146,7 +146,7 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
       .innerJoinAndSelect(
         'ut.defaultQuestionContents',
         'dqc',
-        'dqc.user_template_id = ut.user_template_id AND (qc.visibility = 1 OR qc.visibility = :visibility)',
+        'dqc.user_template_id = ut.user_template_id AND (dqc.visibility = 1 OR dqc.visibility = :visibility)',
         { visibility },
       )
       .where('ut.user_template_id = :userTemplateId', { userTemplateId })

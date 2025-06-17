@@ -53,19 +53,20 @@ export class TemplateController {
     return SuccessResponseDto.of(result);
   }
 
-  @Get('/:organization/:userTemplateId/visibility/:visibility')
+  @Get('/:organization/challengeId/:challengeId/:userTemplateId/visibility/:visibility')
   @HttpCode(200)
   @UseGuards(JWTAuthGuard)
   public async bringTemplateContent(
     @Param('organization') organization: string,
     @Param('userTemplateId') userTemplateId: number,
     @Param('visibility') visibility: boolean,
+    @Param('challengeId') challengeId: number,
     @CurrentUser() user: User,
   ): Promise<SuccessResponseDto<TemplateContent[]>> {
     const result = await this.templateService.execute<
-      [number, string, boolean, number],
+      [number, string, boolean, number, number],
       TemplateContent[]
-    >('SELECT_SINGLE_TEMPLATE', userTemplateId, organization, visibility, user.userId);
+    >('SELECT_SINGLE_TEMPLATE', userTemplateId, organization, visibility, challengeId, user.userId);
     this.logger.log('템플릿 하나 조회 완료');
     return SuccessResponseDto.of(result);
   }

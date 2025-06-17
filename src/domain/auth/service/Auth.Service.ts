@@ -128,7 +128,6 @@ export class AuthService {
       ),
       this.checkAffiliationStatus('라이톤', userData.getId()),
     ]);
-    console.log(writonAffiliatedConfirmation, checkWritonAffiliation);
     affiliatedConfirmation = this.checkOrganization(
       loginLocal.getOrganization(),
       affiliatedConfirmation,
