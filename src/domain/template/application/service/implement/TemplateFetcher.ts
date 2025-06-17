@@ -29,6 +29,7 @@ export class TemplateFetcher
 
   async handle(request: [number, string, boolean, number, number]): Promise<TemplateContent[]> {
     const [userTemplateId, organization, visibility, challengeId, userId] = request;
+
     const challenge = await this.challengeApi.requestChallengeById(challengeId);
 
     const isWriton = challenge.getStatus() === ChallengeStatusEnum.WRITON;
@@ -121,35 +122,43 @@ export class TemplateFetcher
     mongoQuestionDatas: any[],
     userChallengeData?: UserChallenge,
   ) {
-    return mongoQuestionDatas.map((questionData) => {
-      const questionContent = userTemplateData
-        .getDefaultQuestionContents()
-        .find((content) => content.getQuestionId() === questionData._id.toString());
-      const myLikeSign = userTemplateData.likes.some(
-        (like) => like.getAffiliationId() === affiliationData.getId(),
-      )
-        ? '1'
-        : '0';
-      const userChallengeAfiliation = userChallengeData.getAffiliation();
-      return {
-        position: userChallengeAfiliation.getPosition(),
-        nickname: userChallengeAfiliation.getNickname(),
-        company: userChallengeAfiliation.getCompany(),
-        companyPublic: userChallengeAfiliation.getCompanyPublic(),
-        profile: userChallengeAfiliation.getUser().getProfileImage(),
-        questionId: questionData._id,
-        userTemplateId: userTemplateData.getId(),
-        questionContentId: questionContent!.getId(),
-        content: questionContent!.getContent(),
-        createdAt: formatDate(userTemplateData.getCreatedAt().toString()),
-        visibility: questionContent.getVisibility(),
-        category: questionData.type,
-        question: questionData.content,
-        affiliationId: userChallengeAfiliation.getId(),
-        likeCount: userTemplateData.getLikes().length.toString(),
-        commentCount: userTemplateData.getComments().length.toString(),
-        myLikeSign: myLikeSign,
-      };
-    });
+    return mongoQuestionDatas
+      .map((questionData) => {
+        const questionContent = userTemplateData
+          .getDefaultQuestionContents()
+          .find((content) => content.getQuestionId() === questionData._id.toString());
+        if (!questionContent) {
+          return null;
+        }
+        if (!questionContent) {
+          return null;
+        }
+        const myLikeSign = userTemplateData.likes.some(
+          (like) => like.getAffiliationId() === affiliationData.getId(),
+        )
+          ? '1'
+          : '0';
+        const userChallengeAfiliation = userChallengeData.getAffiliation();
+        return {
+          position: userChallengeAfiliation.getPosition(),
+          nickname: userChallengeAfiliation.getNickname(),
+          company: userChallengeAfiliation.getCompany(),
+          companyPublic: userChallengeAfiliation.getCompanyPublic(),
+          profile: userChallengeAfiliation.getUser().getProfileImage(),
+          questionId: questionData._id,
+          userTemplateId: userTemplateData.getId(),
+          questionContentId: questionContent.getId(),
+          content: questionContent.getContent(),
+          createdAt: formatDate(userTemplateData.getCreatedAt().toString()),
+          visibility: questionContent.getVisibility(),
+          category: questionData.type,
+          question: questionData.content,
+          affiliationId: userChallengeAfiliation.getId(),
+          likeCount: userTemplateData.getLikes().length.toString(),
+          commentCount: userTemplateData.getComments().length.toString(),
+          myLikeSign: myLikeSign,
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null);
   }
 }

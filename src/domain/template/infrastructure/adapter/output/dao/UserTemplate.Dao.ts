@@ -137,6 +137,7 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
     userTemplateId: number,
     visibility: boolean,
   ): Promise<UserTemplate> {
+    const visibilityNumber = visibility ? 1 : 0;
     return this.dataSource
       .createQueryBuilder()
       .select('ut')
@@ -147,7 +148,7 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
         'ut.defaultQuestionContents',
         'dqc',
         'dqc.user_template_id = ut.user_template_id AND (dqc.visibility = 1 OR dqc.visibility = :visibility)',
-        { visibility },
+        { visibility: visibilityNumber },
       )
       .where('ut.user_template_id = :userTemplateId', { userTemplateId })
       .getOne();
