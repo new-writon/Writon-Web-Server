@@ -19,13 +19,13 @@ export class DefaultQuestionDao implements DefaultQuestionRepository {
 
   async findDefaultBasicQuestion() {
     return this.defaultQuestionModel.find({
-      type: 'basic',
+      type: '베이직 질문',
     });
   }
 
   async findDefaultSpecialQuestion() {
     return this.defaultQuestionModel.find({
-      type: 'special',
+      type: '스페셜 질문',
     });
   }
 
