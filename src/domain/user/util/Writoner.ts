@@ -19,6 +19,7 @@ export class Writoner {
       ChallengeStatusEnum.WRITON,
       getKoreanYYYYMM(),
     );
+    console.log(challenge);
     //  유저 챌린가 있는지 확인
     const userChallenge =
       await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(
