@@ -7,6 +7,8 @@ export class LoginResponse {
   private affiliatedConfirmation: boolean | null;
   private challengedConfirmation: boolean | null;
   private writonAffiliatedConfirmation: boolean | null;
+  private organization: string;
+  private challengeId: number;
 
   constructor(
     accessToken: string,
@@ -15,6 +17,8 @@ export class LoginResponse {
     affiliatedConfirmation: boolean | null,
     challengedConfirmation: boolean | null,
     writonAffiliatedConfirmation: boolean | null,
+    organization: string,
+    challengeId: number,
   ) {
     this.setAccessToken(accessToken),
       this.setRefreshToken(refreshToken),
@@ -22,6 +26,8 @@ export class LoginResponse {
       this.setAffiliatedConfirmation(affiliatedConfirmation),
       this.setChallengedConfirmation(challengedConfirmation);
     this.setWritonAffiliatedConfirmation(writonAffiliatedConfirmation);
+    this.setOrganization(organization);
+    this.setChallengeId(challengeId);
   }
 
   public static of(
@@ -31,6 +37,8 @@ export class LoginResponse {
     affiliatedConfirmation: boolean | null,
     challengedConfirmation: boolean | null,
     writonAffiliatedConfirmation: boolean | null,
+    organization: string,
+    challengeId: number,
   ): LoginResponse {
     return new LoginResponse(
       accessToken,
@@ -39,6 +47,8 @@ export class LoginResponse {
       affiliatedConfirmation,
       challengedConfirmation,
       writonAffiliatedConfirmation,
+      organization,
+      challengeId,
     );
   }
 
@@ -72,5 +82,11 @@ export class LoginResponse {
   }
   private setWritonAffiliatedConfirmation(writonAffiliatedConfirmation: boolean): void {
     this.writonAffiliatedConfirmation = writonAffiliatedConfirmation;
+  }
+  private setOrganization(organization: string): void {
+    this.organization = organization;
+  }
+  private setChallengeId(challengeId: number): void {
+    this.challengeId = challengeId;
   }
 }

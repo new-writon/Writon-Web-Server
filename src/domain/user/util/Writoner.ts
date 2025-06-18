@@ -14,14 +14,10 @@ export class Writoner {
     private readonly userChallengeHelper: UserChallengeHelper,
   ) {}
   async execute(affiliation: Affiliation) {
-    // status가 WRITON인 데이터를 가져옴.
-    console.log(affiliation, getKoreanYYYYMM());
     const challenge = await this.challengeApi.requestChallengeByStatus(
       ChallengeStatusEnum.WRITON,
       getKoreanYYYYMM(),
     );
-    console.log(challenge);
-    //  유저 챌린가 있는지 확인
     const userChallenge =
       await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(
         affiliation.getId(),

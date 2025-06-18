@@ -17,9 +17,11 @@ import { CacheImpl } from 'src/global/util/CacheImpl';
 import { LoginTokenManager } from './util/LoginTokenManager';
 import { AuthVerifyService } from '../../global/exception/auth/AuthVerify.Service';
 import { AuthValidateService } from '../../global/exception/auth/AuthValidate.Service';
+import { ChallengeModule } from '../challenge/challenge.module';
+import { ChallengeApi } from './intrastructure/Challenge.Api';
 
 @Module({
-  imports: [forwardRef(() => UserModule)],
+  imports: [forwardRef(() => UserModule), ChallengeModule],
   providers: [
     JwtStrategy,
     AuthService,
@@ -31,6 +33,7 @@ import { AuthValidateService } from '../../global/exception/auth/AuthValidate.Se
     DuplicationCheckService,
     VerificationService,
     UserApi,
+    ChallengeApi,
     CacheImpl,
     AuthVerifyService,
     AuthValidateService,
@@ -41,6 +44,6 @@ import { AuthValidateService } from '../../global/exception/auth/AuthValidate.Se
     VerificationController,
     DuplicationCheckController,
   ],
-  exports: [SocialLogin, JwtManager, AuthVerifyService, AuthValidateService],
+  exports: [SocialLogin, JwtManager, AuthVerifyService, AuthValidateService, ChallengeApi],
 })
 export class AuthModule {}

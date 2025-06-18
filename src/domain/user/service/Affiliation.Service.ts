@@ -35,7 +35,7 @@ export class AffiliationService {
       organizationData.getId(),
       affiliationStartDto,
     );
-    return this.writoner.execute(affiliation);
+    return organizationData.getName() === '라이톤' && this.writoner.execute(affiliation);
   }
 
   public async bringUserProfile(userId: number, organization: string): Promise<UserProfile> {

@@ -13,6 +13,9 @@ import { LoginTokenManager } from '../util/LoginTokenManager';
 import { LocalLogin } from '../dto/request/LocalLogin';
 import { Transactional } from '../../../global/decorator/transaction';
 import { DataSource } from 'typeorm';
+import { getKoreanYYYYMM } from 'src/global/util/date';
+import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
+import { ChallengeApi } from '../intrastructure/Challenge.Api';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +26,7 @@ export class AuthService {
     private readonly userApi: UserApi,
     private readonly authVerifyService: AuthVerifyService,
     private readonly dataSource: DataSource,
+    private readonly challengeApi: ChallengeApi,
   ) {}
 
   public async kakaoLogin(
@@ -63,11 +67,14 @@ export class AuthService {
         affiliatedConfirmation: writonAffiliatedConfirmation,
         checkAffiliation: checkWritonAffiliation,
       },
+      challenge,
     ] = await Promise.all([
       this.checkAffiliationStatus(organization, checkedUserData.getId()),
       this.checkOngoingChallenge(organization, checkedUserData.getId(), challengeId),
       this.checkAffiliationStatus('라이톤', checkedUserData.getId()),
+      this.challengeApi.requestChallengeByStatus(ChallengeStatusEnum.WRITON, getKoreanYYYYMM()),
     ]);
+
     affiliatedConfirmation = this.checkOrganization(organization, affiliatedConfirmation);
     await this.checkWritonChallenge(writonAffiliatedConfirmation, checkWritonAffiliation);
     // 조건 달성 시 로직 실행
@@ -78,6 +85,8 @@ export class AuthService {
       affiliatedConfirmation,
       challengedConfirmation,
       writonAffiliatedConfirmation,
+      '라이톤',
+      challenge.getId(),
     );
   }
 
@@ -119,6 +128,7 @@ export class AuthService {
         affiliatedConfirmation: writonAffiliatedConfirmation,
         checkAffiliation: checkWritonAffiliation,
       },
+      challenge,
     ] = await Promise.all([
       this.checkAffiliationStatus(loginLocal.getOrganization(), userData.getId()),
       this.checkOngoingChallenge(
@@ -127,6 +137,7 @@ export class AuthService {
         loginLocal.getChallengeId(),
       ),
       this.checkAffiliationStatus('라이톤', userData.getId()),
+      this.challengeApi.requestChallengeByStatus(ChallengeStatusEnum.WRITON, getKoreanYYYYMM()),
     ]);
     affiliatedConfirmation = this.checkOrganization(
       loginLocal.getOrganization(),
@@ -140,6 +151,8 @@ export class AuthService {
       affiliatedConfirmation,
       challengedConfirmation,
       writonAffiliatedConfirmation,
+      '라이톤',
+      challenge.getId(),
     );
   }
 
