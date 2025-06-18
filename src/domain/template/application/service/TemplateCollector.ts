@@ -5,6 +5,7 @@ import { UserTemplate } from '../../domain/entity/UserTemplate';
 import { TemplateContent } from '../../dto/response/TemplateContent';
 import { formatDate } from '../../util/date';
 import { QuestionContent } from '../../domain/entity/QuestionContent';
+import { DefaultQuestionContent } from '../../domain/entity/DefaultQuestionContent';
 
 export abstract class TemplateCollector {
   protected abstract getAffiliation(
@@ -13,7 +14,12 @@ export abstract class TemplateCollector {
   ): Affiliation;
 
   protected abstract getAdditionalCondition(
-    questionContent: QuestionContent | undefined,
+    questionContent: QuestionContent | DefaultQuestionContent | undefined,
+    userChallengeData?: UserChallenge,
+  ): boolean;
+
+  protected abstract getAdditionalConditions(
+    questionContent: QuestionContent | DefaultQuestionContent | undefined,
     userChallengeData?: UserChallenge,
   ): boolean;
 
@@ -69,6 +75,7 @@ export abstract class TemplateCollector {
         const questionContent = userTemplate
           .getDefaultQuestionContents()
           .find((content) => content.getQuestionId() === questionId);
+
         const userChallengeData = userChallengeDatas?.find(
           (challenge) => challenge.getId() === userTemplate.getUserChallengeId(),
         );
@@ -77,7 +84,7 @@ export abstract class TemplateCollector {
         )
           ? '1'
           : '0';
-        if (this.getAdditionalCondition(questionContent, userChallengeData)) {
+        if (this.getAdditionalConditions(questionContent, userChallengeData)) {
           const affiliation = this.getAffiliation(affiliationData, userChallengeData);
           acc.push({
             position: affiliation.getPosition(),

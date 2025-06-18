@@ -33,6 +33,16 @@ export class UserTemplateHelper {
     );
   }
 
+  public async giveUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeIdAndDate(
+    userChallengeId: number[],
+    date: Date,
+  ): Promise<UserTemplate[]> {
+    return this.userTemplateRepository.findUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeIdAndDate(
+      userChallengeId,
+      date,
+    );
+  }
+
   public async giveUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(
     userChallengeId: number[],
     date: Date,

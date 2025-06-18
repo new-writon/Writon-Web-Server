@@ -65,6 +65,26 @@ export class UserTemplateDao extends Repository<UserTemplate> implements UserTem
       .getMany();
   }
 
+  async findUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeIdAndDate(
+    userChallengeId: number[],
+    date: Date,
+  ): Promise<UserTemplate[]> {
+    return this.dataSource
+      .createQueryBuilder(UserTemplate, 'ut')
+      .leftJoinAndSelect('ut.comments', 'c', 'c.user_template_id = ut.user_template_id')
+      .leftJoinAndSelect('ut.likes', 'l', 'l.user_template_id = ut.user_template_id')
+      .innerJoinAndSelect(
+        'ut.defaultQuestionContents',
+        'dqc',
+        'dqc.user_template_id = ut.user_template_id AND dqc.visibility = 1',
+      )
+      .where('ut.user_challenge_id IN (:...userChallengeId)', {
+        userChallengeId,
+      })
+      .andWhere('ut.template_date = :date', { date })
+      .getMany();
+  }
+
   async findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(
     userChallengeId: number[],
     date: Date,

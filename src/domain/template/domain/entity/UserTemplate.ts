@@ -51,7 +51,7 @@ export class UserTemplate extends BaseEntity {
     () => DefaultQuestionContent,
     (defaultQuestionContent) => defaultQuestionContent.userTemplate,
   )
-  defaultQuestionContents: Relation<QuestionContent>[];
+  defaultQuestionContents: Relation<DefaultQuestionContent>[];
 
   @ManyToOne(() => UserChallenge, (userChallenge) => userChallenge.userTemplates, {
     onDelete: 'CASCADE',

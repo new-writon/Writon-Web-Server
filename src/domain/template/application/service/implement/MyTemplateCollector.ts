@@ -13,6 +13,7 @@ import { ChallengeApi } from 'src/domain/template/application/apis/Challenge.Api
 import { UserApi } from 'src/domain/template/application/apis/User.Api';
 import { TemplateUseCase } from '../../port/input/TemplateUseCase';
 import { ChallengeStatusEnum } from 'src/global/enum/ChallengeStatus';
+import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
 
 @Injectable()
 export class MyTemplateCollector
@@ -85,6 +86,13 @@ export class MyTemplateCollector
   }
 
   protected getAdditionalCondition(questionContent: QuestionContent | undefined): boolean {
+    return !!questionContent;
+  }
+
+  protected getAdditionalConditions(
+    questionContent: QuestionContent | undefined,
+    userChallengeData?: UserChallenge,
+  ): boolean {
     return !!questionContent;
   }
 }

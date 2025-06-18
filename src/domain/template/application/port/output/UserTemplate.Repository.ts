@@ -8,6 +8,10 @@ export interface UserTemplateRepository extends Repository<UserTemplate> {
   findUserTemplateAndCommentAndLikeByUserChallengeId(
     userChallengeId: number,
   ): Promise<UserTemplate[]>;
+  findUserTemplateAndCommentAndLikeAndDefaultQeustionContentByUserChallengeIdAndDate(
+    userChallengeId: number[],
+    date: Date,
+  ): Promise<UserTemplate[]>;
   findUserTemplateAndCommentAndLikeAndQeustionContentByUserChallengeIdAndDate(
     userChallengeId: number[],
     date: Date,
