@@ -18,11 +18,6 @@ export abstract class TemplateCollector {
     userChallengeData?: UserChallenge,
   ): boolean;
 
-  protected abstract getAdditionalConditions(
-    questionContent: QuestionContent | DefaultQuestionContent | undefined,
-    userChallengeData?: UserChallenge,
-  ): boolean;
-
   public mergeTemplates(
     affiliationData: Affiliation,
     userTemplateDatas: UserTemplate[],
@@ -84,7 +79,7 @@ export abstract class TemplateCollector {
         )
           ? '1'
           : '0';
-        if (this.getAdditionalConditions(questionContent, userChallengeData)) {
+        if (this.getAdditionalCondition(questionContent, userChallengeData)) {
           const affiliation = this.getAffiliation(affiliationData, userChallengeData);
           acc.push({
             position: affiliation.getPosition(),
