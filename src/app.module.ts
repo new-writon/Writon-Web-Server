@@ -21,9 +21,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MetricsModule } from './global/monitor/metrics.module';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
+import { ChallengeScheduler } from './global/util/schedule';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -92,5 +95,6 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
     HttpModule,
   ],
   controllers: [HealthController],
+  providers: [ChallengeScheduler],
 })
 export class AppModule {}

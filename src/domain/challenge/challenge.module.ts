@@ -34,6 +34,8 @@ import { DefaultQuestion, DefaultQuestionSchema } from './domain/entity/mongo/De
 import { DefaultQuestionCollector } from './application/service/implements/DefaultQuestionCollector';
 import { DefaultQuestionDao } from './intrastructure/adapter/output/dao/DefaultQuestion.Dao';
 import { DefaultQuestionHelper } from './application/helper/DefaultQuestion.Helper';
+import { ChallengeRegistrant } from './application/service/implements/ChallengeRegistrant';
+import { ChallengeDayRegistrant } from './application/service/implements/ChallengeDayRegistrant';
 
 @Module({
   imports: [
@@ -71,6 +73,8 @@ import { DefaultQuestionHelper } from './application/helper/DefaultQuestion.Help
     StatusCollector,
     DefaultQuestionCollector,
     DefaultQuestionHelper,
+    ChallengeRegistrant,
+    ChallengeDayRegistrant,
     {
       provide: 'INFORMATION_HANDLERS',
       useFactory: (
@@ -108,6 +112,8 @@ import { DefaultQuestionHelper } from './application/helper/DefaultQuestion.Help
     QuestionHelper,
     DefaultQuestionHelper,
     ChallengeVerifyService,
+    ChallengeDayRegistrant,
+    ChallengeRegistrant,
   ],
 })
 export class ChallengeModule {}

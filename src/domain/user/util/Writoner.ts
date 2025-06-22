@@ -18,6 +18,7 @@ export class Writoner {
       ChallengeStatusEnum.WRITON,
       getKoreanYYYYMM(),
     );
+
     const userChallenge =
       await this.userChallengeHelper.giveUserChallengeByAffiliationIdAndChallengeId(
         affiliation.getId(),

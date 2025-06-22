@@ -263,4 +263,11 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
       .andWhere('o.name = :organization', { organization: organization })
       .getOne();
   }
+
+  async findAffiliationByOrganization(organization: string): Promise<Affiliation[]> {
+    return this.createQueryBuilder('a')
+      .leftJoinAndSelect('a.organization', 'o')
+      .andWhere('o.name = :name', { name: organization })
+      .getMany();
+  }
 }

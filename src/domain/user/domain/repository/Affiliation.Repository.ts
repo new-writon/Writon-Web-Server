@@ -49,4 +49,5 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     userId: number,
     organization: string,
   ): Promise<Affiliation>;
+  findAffiliationByOrganization(organization: string): Promise<Affiliation[]>;
 }

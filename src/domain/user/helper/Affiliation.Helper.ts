@@ -123,4 +123,8 @@ export class AffiliationHelper {
       organization,
     );
   }
+
+  public async giveAffiliationByOrganization(organization: string) {
+    return this.affiliationRepository.findAffiliationByOrganization(organization);
+  }
 }
