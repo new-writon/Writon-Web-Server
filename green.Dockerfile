@@ -11,7 +11,8 @@ COPY ./ ./
 
 # Production stage (Stage 2)
 FROM node:18-alpine
-RUN apk add --no-cache tzdata
+# RUN apk add --no-cache tzdata
+RUN apk add --no-cache tzdata libc6-compat
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /app
