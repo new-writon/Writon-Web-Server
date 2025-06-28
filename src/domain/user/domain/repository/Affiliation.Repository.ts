@@ -50,4 +50,7 @@ export interface AffiliationRepository extends Repository<Affiliation> {
     organization: string,
   ): Promise<Affiliation>;
   findAffiliationByOrganization(organization: string): Promise<Affiliation[]>;
+  findAffiliationAndUserAndFirebaseTokenByAffiliationId(
+    affiliationId: number,
+  ): Promise<Affiliation>;
 }

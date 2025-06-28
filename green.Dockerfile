@@ -1,6 +1,6 @@
 
 # Build stage (Stage 1)
-FROM node:18-alpine as green
+FROM node:23-alpine as green
 
 
 WORKDIR /app
@@ -10,7 +10,7 @@ RUN npm install
 COPY ./ ./
 
 # Production stage (Stage 2)
-FROM node:18-alpine
+FROM node:23-alpine
 # RUN apk add --no-cache tzdata
 RUN apk add --no-cache tzdata libc6-compat
 ENV TZ=Asia/Seoul

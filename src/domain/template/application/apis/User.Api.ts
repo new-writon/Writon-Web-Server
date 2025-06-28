@@ -132,4 +132,10 @@ export class UserApi {
   public async requestUserChallengeById(userTemplateId: number) {
     return this.userChallengeHelper.giveUserChallengeById(userTemplateId);
   }
+
+  public async requestAffiliationAndUserAndFirebaseTokenByAffiliationId(affiliationId: number) {
+    return this.affiliationHelper.giveAffiliationAndUserAndFirebaseTokenByAffiliationId(
+      affiliationId,
+    );
+  }
 }

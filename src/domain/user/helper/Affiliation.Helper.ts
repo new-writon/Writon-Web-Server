@@ -127,4 +127,10 @@ export class AffiliationHelper {
   public async giveAffiliationByOrganization(organization: string) {
     return this.affiliationRepository.findAffiliationByOrganization(organization);
   }
+
+  public async giveAffiliationAndUserAndFirebaseTokenByAffiliationId(affiliationId: number) {
+    return this.affiliationRepository.findAffiliationAndUserAndFirebaseTokenByAffiliationId(
+      affiliationId,
+    );
+  }
 }

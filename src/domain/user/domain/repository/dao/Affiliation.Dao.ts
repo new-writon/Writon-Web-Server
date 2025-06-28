@@ -270,4 +270,14 @@ export class AffiliationDao extends Repository<Affiliation> implements Affiliati
       .andWhere('o.name = :name', { name: organization })
       .getMany();
   }
+
+  async findAffiliationAndUserAndFirebaseTokenByAffiliationId(
+    affiliationId: number,
+  ): Promise<Affiliation> {
+    return this.createQueryBuilder('a')
+      .leftJoinAndSelect('a.user', 'u')
+      .leftJoinAndSelect('u.firebaseTokens', 'firebasetoken')
+      .where('a.affiliationId = :affiliationId', { affiliationId })
+      .getOne();
+  }
 }

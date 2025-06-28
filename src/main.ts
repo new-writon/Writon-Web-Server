@@ -9,8 +9,8 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { BaseAPIDocument } from './swagger.documment';
 import { MetricsInterceptor } from './global/monitor/MetricsInterceptor';
 import { initializeTransactionalContext } from 'typeorm-transactional';
-import * as crypto from 'crypto';
-(globalThis as any).crypto = crypto;
+// import * as crypto from 'crypto';
+// (globalThis as any).crypto = crypto;
 async function bootstrap() {
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);

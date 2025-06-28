@@ -21,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # 또는 프로젝트에 맞는 Node.js 버전
+          node-version: '23' # 또는 프로젝트에 맞는 Node.js 버전
 
       # NPM 종속성 설치
       - name: Install dependencies
