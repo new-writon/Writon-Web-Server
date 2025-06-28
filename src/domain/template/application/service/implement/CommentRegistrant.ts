@@ -107,10 +107,7 @@ export class CommentRegistrant
           .filter((id) => id !== myAffiliationId && id !== templateOwnerAffiliationId),
       ),
     ];
-
-    console.log(targetAffiliationIds);
     for (const affiliationId of targetAffiliationIds) {
-      console.log(affiliationId);
       const targetAffiliation =
         await this.userApi.requestAffiliationAndUserAndFirebaseTokenByAffiliationId(affiliationId);
       const firebaseTokens = targetAffiliation
