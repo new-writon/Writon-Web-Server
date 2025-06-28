@@ -109,6 +109,7 @@ export class CommentRegistrant
     ];
 
     for (const affiliationId of targetAffiliationIds) {
+      console.log(affiliationId);
       const targetAffiliation =
         await this.userApi.requestAffiliationAndUserAndFirebaseTokenByAffiliationId(affiliationId);
       const firebaseTokens = targetAffiliation
