@@ -108,6 +108,7 @@ export class CommentRegistrant
       ),
     ];
 
+    console.log(targetAffiliationIds);
     for (const affiliationId of targetAffiliationIds) {
       console.log(affiliationId);
       const targetAffiliation =
