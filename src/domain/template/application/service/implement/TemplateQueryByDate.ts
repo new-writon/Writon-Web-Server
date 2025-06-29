@@ -64,7 +64,6 @@ export class TemplateQueryByDate
     userChallengeDatas: UserChallenge[],
     status: ChallengeStatusEnum,
   ) {
-    console.log(userChallengeDatas);
     const questionIds = this.dataMapperService.extractQuestionIds(userTemplateData, status);
     const questionData =
       status === ChallengeStatusEnum.WRITON
