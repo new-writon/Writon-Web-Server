@@ -18,6 +18,10 @@ export class CreateChallenge {
   @IsNumber()
   organizationId: number;
 
+  @IsNotEmpty()
+  @IsNumber()
+  deposit: number;
+
   @IsEnum(ChallengeStatusEnum)
   status: ChallengeStatusEnum;
 
@@ -26,6 +30,7 @@ export class CreateChallenge {
     startAt: Date;
     endAt: Date;
     organizationId: number;
+    deposit: number;
     status?: ChallengeStatusEnum;
   }): CreateChallenge {
     const challenge = new CreateChallenge();
@@ -33,6 +38,7 @@ export class CreateChallenge {
     challenge.startAt = data.startAt;
     challenge.finishAt = data.endAt;
     challenge.organizationId = data.organizationId;
+    challenge.deposit = data.deposit;
     challenge.status = data.status;
     return challenge;
   }

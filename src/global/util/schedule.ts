@@ -37,6 +37,7 @@ export class ChallengeScheduler {
         startAt: startAt,
         endAt: endAt,
         organizationId: 5,
+        deposit: 0,
         status: ChallengeStatusEnum.WRITON,
       });
       const result = await this.challengeRegistrant.handle(challenge);
