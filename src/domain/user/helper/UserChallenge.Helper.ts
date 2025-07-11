@@ -185,4 +185,10 @@ export class UserChallengeHelper {
   async executeInsertWritonerChallenge(affiliation: Affiliation) {
     return this.writoner.execute(affiliation);
   }
+
+  async giveUserChallengeAndAffiliationAndUserAndFirebaseTokenByChallengeId(challengeId: number) {
+    return this.userChallengeRepository.findUserChallengeAndAffiliationAndUserAndFirebaseTokenByChallengeId(
+      challengeId,
+    );
+  }
 }

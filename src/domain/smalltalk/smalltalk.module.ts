@@ -13,9 +13,12 @@ import { SmallTalkDao } from './domain/repository/dao/SmallTalk.Dao';
 import { SmallTalkCommentDao } from './domain/repository/dao/SmallTalkComment.Dao';
 import { UserApi } from './infrastructure/User.Api';
 import { SmallTalkVerifyService } from 'src/global/exception/smalltalk/SmallTalkVerify.Service';
+import { AlarmService } from 'src/global/alarm/Alarm.Service';
+import { ChallengeApi } from './infrastructure/Challenge.Api';
+import { ChallengeModule } from '../challenge/challenge.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SmallTalk, SmallTalkComment]), UserModule],
+  imports: [TypeOrmModule.forFeature([SmallTalk, SmallTalkComment]), UserModule, ChallengeModule],
   providers: [
     { provide: 'smallTalkImpl', useClass: SmallTalkDao },
     { provide: 'smallTalkCommentImpl', useClass: SmallTalkCommentDao },
@@ -24,7 +27,9 @@ import { SmallTalkVerifyService } from 'src/global/exception/smalltalk/SmallTalk
     SmallTalkHelper,
     SmallTalkCommentHelper,
     UserApi,
+    ChallengeApi,
     SmallTalkVerifyService,
+    AlarmService,
   ],
   controllers: [SmallTalkController, SmallTalkCommentController],
   exports: [SmallTalkHelper, SmallTalkCommentHelper],

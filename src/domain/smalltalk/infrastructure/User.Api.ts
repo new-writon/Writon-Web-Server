@@ -93,4 +93,12 @@ export class UserApi {
     // 검증 x
     return this.affiliationHelper.giveAffiliationAndUserById(affiliationId);
   }
+
+  public async requestUserChallengeAndAffiliationAndUserAndFirebaseTokenByChallengeId(
+    challengeId: number,
+  ) {
+    return this.userChallengeHelper.giveUserChallengeAndAffiliationAndUserAndFirebaseTokenByChallengeId(
+      challengeId,
+    );
+  }
 }

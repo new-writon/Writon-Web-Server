@@ -50,4 +50,7 @@ export interface UserChallengeRepository extends Repository<UserChallenge> {
   findUserChallengeByChallengeId(challengeId: number): Promise<UserChallenge[]>;
   updateUserChallengeDeposit(challengeDeposit: ChallengeDeposit[]): Promise<void>;
   findUserChallengeById(userChallengeId: number): Promise<UserChallenge>;
+  findUserChallengeAndAffiliationAndUserAndFirebaseTokenByChallengeId(
+    challengeId: number,
+  ): Promise<UserChallenge[]>;
 }

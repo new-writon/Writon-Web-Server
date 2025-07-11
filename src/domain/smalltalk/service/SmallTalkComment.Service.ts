@@ -27,6 +27,10 @@ export class SmallTalkCommentService {
       affiliationData.getId(),
       agoraComment,
     );
+    // smallTalkId를 통해 challengeId를 구함.
+
+    // challengeId를 통해 userChallenge -> affliliation -> user -> firebaseToken을 가져온다.
+    //  생성한 자신을 제외한, 같은 소속의 유저들에게 알림을 보냄 -> 템플릿 댓글과 같은 로직 수행
   }
 
   public async bringSmallTalkCommentRead(

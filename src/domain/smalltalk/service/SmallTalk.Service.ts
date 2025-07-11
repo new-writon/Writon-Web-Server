@@ -10,12 +10,16 @@ import { SmallTalkErrorCode } from '../../../global/exception/smalltalk/SmallTal
 import { getTodayDateString } from '../util/date';
 import { SmallTalk } from '../domain/entity/SmallTalk';
 import { MutexAlgorithm } from '../../../global/decorator/mutex';
+import { AlarmService } from 'src/global/alarm/Alarm.Service';
+import { ChallengeApi } from '../infrastructure/Challenge.Api';
 
 @Injectable()
 export class SmallTalkService {
   constructor(
     private readonly smallTalkHelper: SmallTalkHelper,
     private readonly userApi: UserApi,
+    private readonly challengeApi: ChallengeApi,
+    private readonly alarmService: AlarmService,
   ) {}
 
   public async checkSmallTalk(challengeId: number, date: string): Promise<SmallTalkResult> {
@@ -33,16 +37,45 @@ export class SmallTalkService {
     question: string,
   ): Promise<void> {
     await this.validateSmallTalkCount(challengeId, getTodayDateString());
-    const userChallengeData =
-      await this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
+    const [userChallengeData, challenge] = await Promise.all([
+      this.userApi.requestUserChallengeAndAffiliationByChallengeIdWithUserIdAndOrganization(
         challengeId,
         userId,
         organization,
-      );
+      ),
+      this.challengeApi.requestChallengeById(challengeId),
+    ]);
     await this.smallTalkHelper.executeInsertSmallTalk(
       challengeId,
       userChallengeData.getId(),
       question,
+    );
+    const userChallenges =
+      await this.userApi.requestUserChallengeAndAffiliationAndUserAndFirebaseTokenByChallengeId(
+        challengeId,
+      );
+    const userFirebaseTokenGroups = userChallenges
+      .filter((userChallenge) => userChallenge.getId() !== userChallengeData.getId())
+      .map((userChallenge) => {
+        const user = userChallenge.affiliation.user;
+        return {
+          userId: user.userId,
+          nickName: userChallenge.affiliation.getNickname(),
+          firebaseTokens: user.firebaseTokens ?? [],
+        };
+      })
+      .filter((entry) => entry.firebaseTokens.length > 0);
+    await Promise.all(
+      userFirebaseTokenGroups.map((group) => {
+        const engineValues = group.firebaseTokens.map((token) => token.engineValue);
+        return this.alarmService.sendPushAlarm(
+          group.userId,
+          engineValues,
+          `🚨${organization} ${challenge.getName()}챌린지 스몰톡 생성🚨$`,
+          `${userChallengeData.getAffiliation().getNickname()}님이 스몰톡을 생성했습니다. 확인해보세요😃`,
+          'https://your-url.com',
+        );
+      }),
     );
   }
 
