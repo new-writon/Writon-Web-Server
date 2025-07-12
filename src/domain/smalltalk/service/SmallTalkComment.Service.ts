@@ -60,7 +60,7 @@ export class SmallTalkCommentService {
   ) {
     const userFirebaseTokenGroups = userChallenges
       .map((userChallenge) => userChallenge.affiliation)
-      .filter((affiliation) => affiliation !== creator)
+      .filter((affiliation) => affiliation.getAffiliationId() !== creator.getAffiliationId())
       .map((affiliation) => ({
         userId: affiliation.user.userId,
         nickName: affiliation.getNickname(),
