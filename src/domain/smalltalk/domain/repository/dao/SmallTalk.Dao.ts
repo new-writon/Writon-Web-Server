@@ -70,4 +70,11 @@ export class SmallTalkDao extends Repository<SmallTalk> implements SmallTalkRepo
         .getMany()
     );
   }
+
+  async findSmallTalkById(smallTalkId: number): Promise<SmallTalk | null> {
+    return this.dataSource
+      .createQueryBuilder(SmallTalk, 'smallTalk')
+      .where('smallTalk.smallTalkId = :smallTalkId', { smallTalkId })
+      .getOne();
+  }
 }

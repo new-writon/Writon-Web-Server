@@ -33,4 +33,8 @@ export class SmallTalkHelper {
   ): Promise<SmallTalk[]> {
     return this.smallTalkRepository.findSmallTalkByChallengeIdAndDate(challengeId, date);
   }
+
+  public async giveSmallTalkById(smallTalkId: number) {
+    return this.smallTalkRepository.findSmallTalkById(smallTalkId);
+  }
 }

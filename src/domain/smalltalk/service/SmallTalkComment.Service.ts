@@ -4,12 +4,20 @@ import { UserApi } from '../infrastructure/User.Api';
 import { SmallTalkCommentRead } from '../dto/response/SmallTalkCommentRead';
 import { ParticularSmallTalkCommentData } from '../dto/values/ParticularSmallTalkCommentData';
 import { Affiliation } from 'src/domain/user/domain/entity/Affiliation';
+import { SmallTalkHelper } from '../helper/SmallTalk.Helper';
+import { AlarmService } from 'src/global/alarm/Alarm.Service';
+import { UserChallenge } from 'src/domain/user/domain/entity/UserChallenge';
+import { Challenge } from 'src/domain/challenge/domain/entity/Challenge';
+import { ChallengeApi } from '../infrastructure/Challenge.Api';
 
 @Injectable()
 export class SmallTalkCommentService {
   constructor(
     private readonly smallTalkCommentHelper: SmallTalkCommentHelper,
+    private readonly smallTalkHelper: SmallTalkHelper,
     private readonly userApi: UserApi,
+    private readonly alarmService: AlarmService,
+    private readonly challengeApi: ChallengeApi,
   ) {}
 
   public async penetrateSmallTalkComment(
@@ -27,10 +35,50 @@ export class SmallTalkCommentService {
       affiliationData.getId(),
       agoraComment,
     );
-    // smallTalkId를 통해 challengeId를 구함.
+    const smallTalk = await this.smallTalkHelper.giveSmallTalkById(smallTalkId);
+    const [userChallenges, challenge] = await Promise.all([
+      this.userApi.requestUserChallengeAndAffiliationAndUserAndFirebaseTokenByChallengeId(
+        smallTalk.getChallengeId(),
+      ),
+      this.challengeApi.requestChallengeById(smallTalk.getChallengeId()),
+    ]);
+    this.sendSmallTalkNotification(
+      userChallenges,
+      affiliationData,
+      challenge,
+      organization,
+      agoraComment,
+    );
+  }
 
-    // challengeId를 통해 userChallenge -> affliliation -> user -> firebaseToken을 가져온다.
-    //  생성한 자신을 제외한, 같은 소속의 유저들에게 알림을 보냄 -> 템플릿 댓글과 같은 로직 수행
+  public async sendSmallTalkNotification(
+    userChallenges: UserChallenge[],
+    creator: Affiliation,
+    challenge: Challenge,
+    organization: string,
+    comment: string,
+  ) {
+    const userFirebaseTokenGroups = userChallenges
+      .map((userChallenge) => userChallenge.affiliation)
+      .filter((affiliation) => affiliation !== creator)
+      .map((affiliation) => ({
+        userId: affiliation.user.userId,
+        nickName: affiliation.getNickname(),
+        firebaseTokens: affiliation.user.firebaseTokens ?? [],
+      }))
+      .filter((entry) => entry.firebaseTokens.length > 0);
+    await Promise.all(
+      userFirebaseTokenGroups.map((group) => {
+        const engineValues = group.firebaseTokens.map((token) => token.engineValue);
+        return this.alarmService.sendPushAlarm(
+          group.userId,
+          engineValues,
+          `🚨${organization} ${challenge.getName()}챌린지 스몰톡 댓글 알림🚨$`,
+          `${creator.getNickname()}님이 '${comment}' 라고 댓글을 남기셨습니다. `,
+          'https://your-url.com',
+        );
+      }),
+    );
   }
 
   public async bringSmallTalkCommentRead(

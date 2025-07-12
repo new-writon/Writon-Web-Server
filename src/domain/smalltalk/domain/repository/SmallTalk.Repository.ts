@@ -9,4 +9,5 @@ export interface SmallTalkRepository extends Repository<SmallTalk> {
   ): Promise<ParticularSmallTalkData[]>;
   insertSmallTalk(challengeId: number, userChallengeId: number, question: string): Promise<void>;
   findSmallTalkByChallengeIdAndDate(challengeId: number, date: string): Promise<SmallTalk[]>;
+  findSmallTalkById(smallTalkId: number): Promise<SmallTalk>;
 }

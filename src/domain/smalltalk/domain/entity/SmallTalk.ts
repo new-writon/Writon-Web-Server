@@ -80,4 +80,8 @@ export class SmallTalk extends BaseEntity {
     }
     this.userChallengeId = userChallengeId;
   }
+
+  public getChallengeId() {
+    return this.challengeId;
+  }
 }

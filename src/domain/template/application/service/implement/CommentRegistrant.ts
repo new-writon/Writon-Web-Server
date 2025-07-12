@@ -48,7 +48,12 @@ export class CommentRegistrant
     const challengeData = await this.challengeApi.requestChallengeById(
       userChallengeData.getChallengeId(),
     );
-
+    const commentData = await this.commentHelper.executeInsertComment(
+      affiliationData.getAffiliationId(),
+      commentInsert.getContent(),
+      commentInsert.getUserTemplateId(),
+      commentInsert.getCommentGroup(),
+    );
     await this.sendNotification({
       comments,
       affiliationData,
@@ -56,14 +61,6 @@ export class CommentRegistrant
       challengeData,
       userTemplateData,
     });
-
-    const commentData = await this.commentHelper.executeInsertComment(
-      affiliationData.getAffiliationId(),
-      commentInsert.getContent(),
-      commentInsert.getUserTemplateId(),
-      commentInsert.getCommentGroup(),
-    );
-
     return CommentId.of(commentData.getId());
   }
 
